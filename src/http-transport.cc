@@ -20,10 +20,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include <curl/curl.h>
-#include <nlohmann/json.hpp>
+#include <stdexcept>
 #include <string>
 
-#include "ipfs-api.h"
+#include <ipfs/http-transport.h>
 
 namespace ipfs {
 
@@ -42,9 +42,6 @@ CurlGlobal::~CurlGlobal() { curl_global_cleanup(); }
 // This does not work with DLLs on Windows, see https://github.com/curl/curl/issues/586
 static const CurlGlobal curl_global;
 
-Ipfs::Ipfs(const std::string& host, long port, Protocol)
-    : host_("http://" + host + "/api/v0"), port_(port) {}
-
 static size_t curl_cb(char* ptr, size_t size, size_t nmemb,
                       void* response_void) {
   std::string* response = static_cast<std::string*>(response_void);
@@ -56,60 +53,83 @@ static size_t curl_cb(char* ptr, size_t size, size_t nmemb,
   return n;
 }
 
-void Ipfs::Id(Json* response) {
+HttpTransport::HttpTransport() : curl_is_setup_(false) {
   if (curl_global.result != CURLE_OK) {
     throw std::runtime_error("curl_global_init() failed");
   }
+  static_assert(sizeof(curl_error_) >= CURL_ERROR_SIZE,
+                "The size of curl_error_ is too small");
+}
 
-  CURL *curl = curl_easy_init();
-  if (curl == NULL) {
+HttpTransport::~HttpTransport() { CurlDestroy(); }
+
+void HttpTransport::CurlSetup() {
+  if (curl_is_setup_) {
+    return;
+  }
+
+  CURL** curl = static_cast<CURL**>(&curl_);
+
+  *curl = curl_easy_init();
+  if (*curl == NULL) {
     throw std::runtime_error("curl_easy_init() failed");
   }
 
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
-  curl_easy_setopt(curl, CURLOPT_URL, (host_ + "/id?encoding=json").c_str());
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_PORT.html */
-  curl_easy_setopt(curl, CURLOPT_PORT, port_);
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_ERRORBUFFER.html */
+  curl_easy_setopt(*curl, CURLOPT_ERRORBUFFER, curl_error_);
 
   /* Enable TCP keepalive.
   https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPALIVE.html */
-  curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE, 1);
+  curl_easy_setopt(*curl, CURLOPT_TCP_KEEPALIVE, 1);
 
   /* Seconds to wait before sending keep-alive packets.
   https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPIDLE.html */
-  curl_easy_setopt(curl, CURLOPT_TCP_KEEPIDLE, 30);
+  curl_easy_setopt(*curl, CURLOPT_TCP_KEEPIDLE, 30);
 
   /* Seconds between keep-alive probes.
   https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPINTVL.html */
-  curl_easy_setopt(curl, CURLOPT_TCP_KEEPINTVL, 10);
+  curl_easy_setopt(*curl, CURLOPT_TCP_KEEPINTVL, 10);
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_POST.html */
-  curl_easy_setopt(curl, CURLOPT_POST, 1);
+  curl_easy_setopt(*curl, CURLOPT_POST, 1);
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_USERAGENT.html */
-  curl_easy_setopt(curl, CURLOPT_USERAGENT, "cpp-ipfs-api");
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_ERRORBUFFER.html */
-  char error_buf[CURL_ERROR_SIZE];
-  curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, error_buf);
+  curl_easy_setopt(*curl, CURLOPT_USERAGENT, "cpp-ipfs-api");
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
-  curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_cb);
+  curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb);
 
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
-  std::string response_str;
-  curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_str);
+  curl_is_setup_ = true;
+}
 
-  CURLcode res = curl_easy_perform(curl);
-  if (res != CURLE_OK) {
-    curl_easy_cleanup(curl);
-    throw std::runtime_error(curl_easy_strerror(res) + std::string(": ") +
-                             error_buf);
+void HttpTransport::CurlDestroy() {
+  if (!curl_is_setup_) {
+    return;
   }
 
-  curl_easy_cleanup(curl);
+  curl_is_setup_ = false;
 
-  *response = Json::parse(response_str);
+  CURL** curl = static_cast<CURL**>(&curl_);
+
+  curl_easy_cleanup(*curl);
+}
+
+void HttpTransport::Fetch(const std::string& url, HttpResponse* response) {
+  CurlSetup();
+
+  CURL** curl = static_cast<CURL**>(&curl_);
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
+  curl_easy_setopt(*curl, CURLOPT_URL, url.c_str());
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
+  curl_easy_setopt(*curl, CURLOPT_WRITEDATA, &response->body);
+
+  const CURLcode res = curl_easy_perform(*curl);
+  if (res != CURLE_OK) {
+    const std::string generic_error(curl_easy_strerror(res));
+    CurlDestroy();
+    throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
+  }
 }
 }

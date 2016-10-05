@@ -22,23 +22,22 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <nlohmann/json.hpp>
 #include <string>
 
+#include <ipfs/api.h>
+
 namespace ipfs {
 
-/// Output from some methods, aliased for convenience.
-using Json = nlohmann::json;
+Ipfs::Ipfs(const std::string& host, long port, Protocol)
+    : host_("http://" + host + ":" + std::to_string(port) + "/api/v0"),
+      port_(port) {}
 
-enum class Protocol {
-  kHttp,
-};
+void Ipfs::Id(Json* response) {
 
-class Ipfs {
- public:
-  Ipfs(const std::string& host, long port, Protocol);
+  HttpResponse http_response;
 
-  void Id(Json* response);
+  const std::string url = host_ + "/id?stream-channels=true";
 
- private:
-  std::string host_;
-  long port_;
-};
+  http_.Fetch(url, &http_response);
+
+  *response = Json::parse(http_response.body);
+}
 }

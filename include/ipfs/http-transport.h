@@ -19,31 +19,38 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <iostream>
+#ifndef IPFS_HTTP_TRANSPORT_H
+#define IPFS_HTTP_TRANSPORT_H
 
-#include <ipfs/api.h>
+#include <string>
 
-int main(int, char**) {
-  try {
-    ipfs::Ipfs ipfs = ipfs::Ipfs("localhost", 5001, ipfs::Protocol::kHttp);
+namespace ipfs {
 
-    ipfs::Json response;
+struct HttpResponse {
+  std::string body;
+  int status_code;
+};
 
-    ipfs.Id(&response);
+class HttpTransport {
+ public:
+  HttpTransport();
+  ~HttpTransport();
 
-    for (const char* property : {"Addresses", "ID", "PublicKey"}) {
-      if (response.find(property) == response.end()) {
-        std::cerr << "The property \"" << property
-                  << "\" was not found in the response: " << std::endl
-                  << response.dump(2);
-        return 1;
-      }
-    }
+  void Fetch(const std::string& url, HttpResponse* response);
 
-  } catch (const std::exception& e) {
-    std::cerr << e.what() << "\n";
-    return 1;
-  }
+ private:
+  void CurlSetup();
+  void CurlDestroy();
 
-  return 0;
+  void* curl_;
+  bool curl_is_setup_;
+
+  /** The CURL error buffer. CURL_ERROR_SIZE from curl/curl.h is 256. We do not
+   * want to include that header here to avoid imposing that requirement on the
+   * users of this library. We have a static_assert in http-transport.cc to
+   * ensure that this is big enough. */
+  char curl_error_[256];
+};
 }
+
+#endif /* IPFS_HTTP_TRANSPORT_H */

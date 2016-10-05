@@ -19,31 +19,36 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <iostream>
+#ifndef IPFS_API_H
+#define IPFS_API_H
 
-#include <ipfs/api.h>
+#include <nlohmann/json.hpp>
+#include <string>
 
-int main(int, char**) {
-  try {
-    ipfs::Ipfs ipfs = ipfs::Ipfs("localhost", 5001, ipfs::Protocol::kHttp);
+#include <ipfs/http-transport.h>
 
-    ipfs::Json response;
+namespace ipfs {
 
-    ipfs.Id(&response);
+/// Output from some methods, aliased for convenience.
+using Json = nlohmann::json;
 
-    for (const char* property : {"Addresses", "ID", "PublicKey"}) {
-      if (response.find(property) == response.end()) {
-        std::cerr << "The property \"" << property
-                  << "\" was not found in the response: " << std::endl
-                  << response.dump(2);
-        return 1;
-      }
-    }
+enum class Protocol {
+  kHttp,
+};
 
-  } catch (const std::exception& e) {
-    std::cerr << e.what() << "\n";
-    return 1;
-  }
+class Ipfs {
+ public:
+  Ipfs(const std::string& host, long port, Protocol);
 
-  return 0;
+  void Id(Json* response);
+
+  void Version(Json* response);
+
+ private:
+  std::string host_;
+  long port_;
+  HttpTransport http_;
+};
 }
+
+#endif /* IPFS_API_H */

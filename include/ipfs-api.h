@@ -19,9 +19,13 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <nlohmann/json.hpp>
 #include <string>
 
 namespace ipfs {
+
+/// Output from some methods, aliased for convenience.
+using Json = nlohmann::json;
 
 enum class Protocol {
   kHttp,
@@ -31,7 +35,7 @@ class Ipfs {
  public:
   Ipfs(const std::string& host, long port, Protocol);
 
-  bool Id(std::string* response, std::string* err);
+  void Id(Json* response);
 
  private:
   std::string host_;

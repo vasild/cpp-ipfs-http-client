@@ -20,6 +20,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include <curl/curl.h>
+#include <nlohmann/json.hpp>
+#include <string>
 
 #include "ipfs-api.h"
 
@@ -48,25 +50,20 @@ static size_t curl_cb(char* ptr, size_t size, size_t nmemb,
   std::string* response = static_cast<std::string*>(response_void);
 
   const size_t n = size * nmemb;
-  try {
-    response->append(ptr, n);
-  } catch (...) {
-    return 0;
-  }
+
+  response->append(ptr, n);
 
   return n;
 }
 
-bool Ipfs::Id(std::string* response, std::string* err) {
+void Ipfs::Id(Json* response) {
   if (curl_global.result != CURLE_OK) {
-    *err = "curl_global_init() failed";
-    return false;
+    throw std::runtime_error("curl_global_init() failed");
   }
 
   CURL *curl = curl_easy_init();
   if (curl == NULL) {
-    *err = "curl_easy_init() failed";
-    return false;
+    throw std::runtime_error("curl_easy_init() failed");
   }
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
@@ -101,20 +98,18 @@ bool Ipfs::Id(std::string* response, std::string* err) {
   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_cb);
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
-  std::string response_;
-  curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_);
+  std::string response_str;
+  curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_str);
 
   CURLcode res = curl_easy_perform(curl);
   if (res != CURLE_OK) {
-    *err = curl_easy_strerror(res) + std::string(": ") + error_buf;
     curl_easy_cleanup(curl);
-    return false;
+    throw std::runtime_error(curl_easy_strerror(res) + std::string(": ") +
+                             error_buf);
   }
-
-  *response = response_;
 
   curl_easy_cleanup(curl);
 
-  return true;
+  *response = Json::parse(response_str);
 }
 }

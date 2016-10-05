@@ -19,6 +19,14 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIRS})
 
+# Find "JSON for Modern C++" (nlohmann/json.hpp)
+find_path(JSON_FOR_MODERN_CXX_INCLUDE_DIR NAMES nlohmann/json.hpp)
+mark_as_advanced(JSON_FOR_MODERN_CXX_INCLUDE_DIR)
+if(NOT JSON_FOR_MODERN_CXX_INCLUDE_DIR)
+  message(FATAL_ERROR "JSON for Modern C++ (nlohmann/json.hpp) not found")
+endif()
+include_directories(${JSON_FOR_MODERN_CXX_INCLUDE_DIR})
+
 include_directories("include")
 
 # Targets
@@ -31,7 +39,7 @@ target_link_libraries(${IPFS_API_LIBNAME} ${CURL_LIBRARIES})
 install(TARGETS ${IPFS_API_LIBNAME} DESTINATION lib)
 install(FILES include/ipfs-api.h DESTINATION include)
 
-# Tests
+# Tests, use "CTEST_OUTPUT_ON_FAILURE=1 make test" to see output from failed tests
 
 # https://cmake.org/cmake/help/v3.0/module/CTest.html
 include(CTest)

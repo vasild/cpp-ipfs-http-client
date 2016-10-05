@@ -24,17 +24,25 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "ipfs-api.h"
 
 int main(int, char**) {
-  ipfs::Ipfs api = ipfs::Ipfs("localhost", 5001, ipfs::Protocol::kHttp);
+  try {
+    ipfs::Ipfs api = ipfs::Ipfs("localhost", 5001, ipfs::Protocol::kHttp);
 
-  std::string response;
-  std::string err;
+    ipfs::Json response;
 
-  bool ok = api.Id(&response, &err);
+    api.Id(&response);
 
-  if (!ok) {
-    std::cout << err << "\n";
-  } else {
-    std::cout << response << "\n";
+    for (const char* property : {"Addresses", "ID", "PublicKey"}) {
+      if (response.find(property) == response.end()) {
+        std::cerr << "The property \"" << property
+                  << "\" was not found in the response: " << std::endl
+                  << response.dump(2);
+        return 1;
+      }
+    }
+
+  } catch (const std::exception& e) {
+    std::cerr << e.what() << "\n";
+    return 1;
   }
 
   return 0;

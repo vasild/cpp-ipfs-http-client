@@ -45,7 +45,7 @@ class Ipfs {
 
   void Version(Json* response);
 
-  void Get(const std::string& hash, std::ostream* response);
+  void Get(const std::string& path, std::ostream* response);
 
  private:
   void FetchJson(const std::string& url, Json* response);

@@ -53,11 +53,11 @@ void Ipfs::Version(Json* response) {
   FetchJson(url_prefix_ + "/version?stream-channels=true", response);
 }
 
-void Ipfs::Get(const std::string& hash, std::ostream* response) {
+void Ipfs::Get(const std::string& path, std::ostream* response) {
   HttpResponseStream http_response;
   http_response.body = response;
 
-  const std::string url = url_prefix_ + "/cat?stream-channels=true&arg=" + hash;
+  const std::string url = url_prefix_ + "/cat?stream-channels=true&arg=" + path;
 
   http_.Stream(url, &http_response);
 }

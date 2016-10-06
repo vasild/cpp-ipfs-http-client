@@ -21,6 +21,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <nlohmann/json.hpp>
 #include <ostream>
+#include <stdexcept>
 #include <string>
 
 #include <ipfs/api.h>
@@ -31,24 +32,25 @@ Ipfs::Ipfs(const std::string& host, long port, Protocol)
     : url_prefix_("http://" + host + ":" + std::to_string(port) + "/api/v0"),
       port_(port) {}
 
-void Ipfs::Id(Json* response) {
+void Ipfs::FetchJson(const std::string& url, Json* response) {
   HttpResponseString http_response;
-
-  const std::string url = url_prefix_ + "/id?stream-channels=true";
 
   http_.Fetch(url, &http_response);
 
-  *response = Json::parse(http_response.body);
+  try {
+    *response = Json::parse(http_response.body);
+  } catch (const std::exception& e) {
+    throw std::runtime_error(std::string(e.what()) + "\nresponse body:\n" +
+                             http_response.body);
+  }
+}
+
+void Ipfs::Id(Json* response) {
+  FetchJson(url_prefix_ + "/id?stream-channels=true", response);
 }
 
 void Ipfs::Version(Json* response) {
-  HttpResponseString http_response;
-
-  const std::string url = url_prefix_ + "/version?stream-channels=true";
-
-  http_.Fetch(url, &http_response);
-
-  *response = Json::parse(http_response.body);
+  FetchJson(url_prefix_ + "/version?stream-channels=true", response);
 }
 
 void Ipfs::Get(const std::string& hash, std::ostream* response) {

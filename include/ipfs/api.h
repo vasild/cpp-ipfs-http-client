@@ -48,6 +48,8 @@ class Ipfs {
   void Get(const std::string& hash, std::ostream* response);
 
  private:
+  void FetchJson(const std::string& url, Json* response);
+
   std::string url_prefix_;
   long port_;
   HttpTransport http_;

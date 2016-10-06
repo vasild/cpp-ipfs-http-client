@@ -28,13 +28,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 namespace ipfs {
 
 Ipfs::Ipfs(const std::string& host, long port, Protocol)
-    : host_("http://" + host + ":" + std::to_string(port) + "/api/v0"),
+    : url_prefix_("http://" + host + ":" + std::to_string(port) + "/api/v0"),
       port_(port) {}
 
 void Ipfs::Id(Json* response) {
   HttpResponseString http_response;
 
-  const std::string url = host_ + "/id?stream-channels=true";
+  const std::string url = url_prefix_ + "/id?stream-channels=true";
 
   http_.Fetch(url, &http_response);
 
@@ -44,7 +44,7 @@ void Ipfs::Id(Json* response) {
 void Ipfs::Version(Json* response) {
   HttpResponseString http_response;
 
-  const std::string url = host_ + "/version?stream-channels=true";
+  const std::string url = url_prefix_ + "/version?stream-channels=true";
 
   http_.Fetch(url, &http_response);
 
@@ -55,7 +55,7 @@ void Ipfs::Get(const std::string& hash, std::ostream* response) {
   HttpResponseStream http_response;
   http_response.body = response;
 
-  const std::string url = host_ + "/cat?stream-channels=true&arg=" + hash;
+  const std::string url = url_prefix_ + "/cat?stream-channels=true&arg=" + hash;
 
   http_.Stream(url, &http_response);
 }

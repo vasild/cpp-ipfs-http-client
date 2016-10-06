@@ -48,7 +48,7 @@ class Ipfs {
   void Get(const std::string& hash, std::ostream* response);
 
  private:
-  std::string host_;
+  std::string url_prefix_;
   long port_;
   HttpTransport http_;
 };

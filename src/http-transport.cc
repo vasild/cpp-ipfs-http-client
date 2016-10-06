@@ -20,6 +20,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include <curl/curl.h>
+#include <ostream>
 #include <stdexcept>
 #include <string>
 
@@ -42,13 +43,24 @@ CurlGlobal::~CurlGlobal() { curl_global_cleanup(); }
 // This does not work with DLLs on Windows, see https://github.com/curl/curl/issues/586
 static const CurlGlobal curl_global;
 
-static size_t curl_cb(char* ptr, size_t size, size_t nmemb,
-                      void* response_void) {
+static size_t curl_cb_string(char* ptr, size_t size, size_t nmemb,
+                             void* response_void) {
   std::string* response = static_cast<std::string*>(response_void);
 
   const size_t n = size * nmemb;
 
   response->append(ptr, n);
+
+  return n;
+}
+
+static size_t curl_cb_stream(char* ptr, size_t size, size_t nmemb,
+                              void* response_void) {
+  std::ostream* response = static_cast<std::ostream*>(response_void);
+
+  const size_t n = size * nmemb;
+
+  response->write(ptr, n);
 
   return n;
 }
@@ -96,9 +108,6 @@ void HttpTransport::CurlSetup() {
   /* https://curl.haxx.se/libcurl/c/CURLOPT_USERAGENT.html */
   curl_easy_setopt(*curl, CURLOPT_USERAGENT, "cpp-ipfs-api");
 
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
-  curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb);
-
   curl_is_setup_ = true;
 }
 
@@ -114,7 +123,8 @@ void HttpTransport::CurlDestroy() {
   curl_easy_cleanup(*curl);
 }
 
-void HttpTransport::Fetch(const std::string& url, HttpResponse* response) {
+void HttpTransport::Fetch(const std::string& url,
+                          HttpResponseString* response) {
   CurlSetup();
 
   CURL** curl = static_cast<CURL**>(&curl_);
@@ -122,8 +132,34 @@ void HttpTransport::Fetch(const std::string& url, HttpResponse* response) {
   /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
   curl_easy_setopt(*curl, CURLOPT_URL, url.c_str());
 
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
+  curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb_string);
+
   /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
   curl_easy_setopt(*curl, CURLOPT_WRITEDATA, &response->body);
+
+  const CURLcode res = curl_easy_perform(*curl);
+  if (res != CURLE_OK) {
+    const std::string generic_error(curl_easy_strerror(res));
+    CurlDestroy();
+    throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
+  }
+}
+
+void HttpTransport::Stream(const std::string& url,
+                           HttpResponseStream* response) {
+  CurlSetup();
+
+  CURL** curl = static_cast<CURL**>(&curl_);
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
+  curl_easy_setopt(*curl, CURLOPT_URL, url.c_str());
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
+  curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb_stream);
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
+  curl_easy_setopt(*curl, CURLOPT_WRITEDATA, response->body);
 
   const CURLcode res = curl_easy_perform(*curl);
   if (res != CURLE_OK) {

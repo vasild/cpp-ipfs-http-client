@@ -22,13 +22,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef IPFS_HTTP_TRANSPORT_H
 #define IPFS_HTTP_TRANSPORT_H
 
+#include <ostream>
 #include <string>
 
 namespace ipfs {
 
-struct HttpResponse {
-  std::string body;
+struct HttpResponseString {
   int status_code;
+  std::string body;
+};
+
+struct HttpResponseStream {
+  int status_code;
+  std::ostream* body;
 };
 
 class HttpTransport {
@@ -36,7 +42,9 @@ class HttpTransport {
   HttpTransport();
   ~HttpTransport();
 
-  void Fetch(const std::string& url, HttpResponse* response);
+  void Fetch(const std::string& url, HttpResponseString* response);
+
+  void Stream(const std::string& url, HttpResponseStream* response);
 
  private:
   void CurlSetup();

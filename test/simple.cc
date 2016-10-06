@@ -20,28 +20,56 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include <iostream>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 #include <ipfs/api.h>
+
+static inline void check_if_properties_exist(
+    const std::string& label, const ipfs::Json& j,
+    const std::vector<const char*>& properties) {
+  for (const char* property : properties) {
+    if (j.find(property) == j.end()) {
+      throw std::runtime_error(label + ": the property \"" + property +
+                               "\" was not found in the response:\n" +
+                               j.dump(2));
+    }
+  }
+}
+
+static inline void check_if_string_contains(const std::string& label,
+                                            const std::string& big,
+                                            const std::string& needle) {
+  if (big.find(needle) == big.npos) {
+    throw std::runtime_error(label + ": \"" + needle +
+                             "\" was not found in the response:\n" + big);
+  }
+}
 
 int main(int, char**) {
   try {
     ipfs::Ipfs ipfs = ipfs::Ipfs("localhost", 5001, ipfs::Protocol::kHttp);
 
-    ipfs::Json response;
+    ipfs::Json response_json;
 
-    ipfs.Id(&response);
+    ipfs.Id(&response_json);
+    check_if_properties_exist("ipfs.Id()", response_json,
+                              {"Addresses", "ID", "PublicKey"});
 
-    for (const char* property : {"Addresses", "ID", "PublicKey"}) {
-      if (response.find(property) == response.end()) {
-        std::cerr << "The property \"" << property
-                  << "\" was not found in the response: " << std::endl
-                  << response.dump(2);
-        return 1;
-      }
-    }
+    ipfs.Version(&response_json);
+    check_if_properties_exist("ipfs.Version()", response_json,
+                              {"Repo", "System", "Version"});
+
+    std::stringstream response_stream;
+    ipfs.Get("/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme",
+             &response_stream);
+    check_if_string_contains("ipfs.Get()", response_stream.str(),
+                             "Hello and Welcome to IPFS!");
 
   } catch (const std::exception& e) {
-    std::cerr << e.what() << "\n";
+    std::cerr << e.what() << std::endl;
     return 1;
   }
 

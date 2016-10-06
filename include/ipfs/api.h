@@ -23,6 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define IPFS_API_H
 
 #include <nlohmann/json.hpp>
+#include <ostream>
 #include <string>
 
 #include <ipfs/http-transport.h>
@@ -43,6 +44,8 @@ class Ipfs {
   void Id(Json* response);
 
   void Version(Json* response);
+
+  void Get(const std::string& hash, std::ostream* response);
 
  private:
   std::string host_;

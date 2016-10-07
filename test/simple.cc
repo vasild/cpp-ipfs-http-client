@@ -50,7 +50,7 @@ static inline void check_if_string_contains(const std::string& label,
 
 int main(int, char**) {
   try {
-    ipfs::Ipfs ipfs = ipfs::Ipfs("localhost", 5001, ipfs::Protocol::kHttp);
+    ipfs::Ipfs ipfs = ipfs::Ipfs("localhost", 5001);
 
     ipfs::Json response_json;
 

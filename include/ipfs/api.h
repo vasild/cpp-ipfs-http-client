@@ -30,16 +30,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace ipfs {
 
-/// Output from some methods, aliased for convenience.
+/// Type of the output of some methods, aliased for convenience.
 using Json = nlohmann::json;
-
-enum class Protocol {
-  kHttp,
-};
 
 class Ipfs {
  public:
-  Ipfs(const std::string& host, long port, Protocol);
+  Ipfs(const std::string& host, long port);
 
   void Id(Json* response);
 

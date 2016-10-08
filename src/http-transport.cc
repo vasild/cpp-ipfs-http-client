@@ -84,13 +84,13 @@ static size_t curl_cb_stream(
     size_t size,
     /** [in] Number of chunks in the result. */
     size_t nmemb,
-    /** [out] Response (a pointer to `std::ostream`). */
+    /** [out] Response (a pointer to a pointer to `std::ostream`). */
     void* response_void) {
-  std::ostream* response = static_cast<std::ostream*>(response_void);
+  std::ostream** response = static_cast<std::ostream**>(response_void);
 
   const size_t n = size * nmemb;
 
-  response->write(ptr, n);
+  (*response)->write(ptr, n);
 
   return n;
 }
@@ -106,49 +106,13 @@ HttpTransport::HttpTransport() : curl_is_setup_(false) {
 HttpTransport::~HttpTransport() { CurlDestroy(); }
 
 void HttpTransport::Fetch(const std::string& url,
-                          HttpResponseString* response) {
-  CurlSetup();
-
-  CURL** curl = static_cast<CURL**>(&curl_);
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
-  curl_easy_setopt(*curl, CURLOPT_URL, url.c_str());
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
-  curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb_string);
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
-  curl_easy_setopt(*curl, CURLOPT_WRITEDATA, &response->body);
-
-  const CURLcode res = curl_easy_perform(*curl);
-  if (res != CURLE_OK) {
-    const std::string generic_error(curl_easy_strerror(res));
-    CurlDestroy();
-    throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
-  }
+                          HttpResponse<std::string>* response) {
+  CurlPerform(url, curl_cb_string, response);
 }
 
 void HttpTransport::Stream(const std::string& url,
-                           HttpResponseStream* response) {
-  CurlSetup();
-
-  CURL** curl = static_cast<CURL**>(&curl_);
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
-  curl_easy_setopt(*curl, CURLOPT_URL, url.c_str());
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
-  curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb_stream);
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
-  curl_easy_setopt(*curl, CURLOPT_WRITEDATA, response->body);
-
-  const CURLcode res = curl_easy_perform(*curl);
-  if (res != CURLE_OK) {
-    const std::string generic_error(curl_easy_strerror(res));
-    CurlDestroy();
-    throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
-  }
+                           HttpResponse<std::ostream*>* response) {
+  CurlPerform(url, curl_cb_stream, response);
 }
 
 void HttpTransport::CurlSetup() {
@@ -185,6 +149,44 @@ void HttpTransport::CurlSetup() {
   curl_easy_setopt(*curl, CURLOPT_USERAGENT, "cpp-ipfs-api");
 
   curl_is_setup_ = true;
+}
+
+template <typename Body>
+void HttpTransport::CurlPerform(const std::string& url,
+                                size_t (*curl_cb)(char* ptr, size_t size,
+                                                  size_t nmemb, void* userdata),
+                                HttpResponse<Body>* response) {
+  CurlSetup();
+
+  CURL** curl = static_cast<CURL**>(&curl_);
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
+  curl_easy_setopt(*curl, CURLOPT_URL, url.c_str());
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
+  curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb);
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
+  curl_easy_setopt(*curl, CURLOPT_WRITEDATA, &response->body_);
+
+  CURLcode res = curl_easy_perform(*curl);
+  if (res != CURLE_OK) {
+    const std::string generic_error(curl_easy_strerror(res));
+    CurlDestroy();
+    throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
+  }
+
+  static_assert(sizeof(long) == sizeof(response->http_status_.code_),
+                "Unexpected size of HTTP status code");
+
+  res = curl_easy_getinfo(*curl, CURLINFO_RESPONSE_CODE,
+                          &response->http_status_.code_);
+  if (res != CURLE_OK) {
+    CurlDestroy();
+    throw std::runtime_error(
+        std::string("Can't get the HTTP status code from CURL: ") +
+        curl_easy_strerror(res));
+  }
 }
 
 void HttpTransport::CurlDestroy() {

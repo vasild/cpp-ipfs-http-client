@@ -40,32 +40,23 @@ class HttpStatus {
   inline bool IsSuccess();
 
   /** The HTTP status code. */
-  int code_;
+  long code_;
 };
 
 /**
- * HTTP response as a string. The whole body of the response is saved into
- * the `body` member. Suitable for fetching small objects.
+ * HTTP response. The body of the response is either streamed into the `body_`
+ * member as it arrives (`std::ostream*`) or appended to it (`std::string`).
+ * @tparam Body Desired type in which to return the body of the HTTP response.
+ * Either `std::string` or `std::ostream*`.
  */
-struct HttpResponseString {
+template <typename Body>
+class HttpResponse {
+ public:
   /** HTTP status code. */
   HttpStatus http_status_;
 
-  /** Body of the HTTP response. */
-  std::string body;
-};
-
-/**
- * HTTP response streamed. The body of the response is streamed into the `body`
- * member as it arrives. Suitable for fetching large objects to disk without
- * having the entire response in the main memory.
- */
-struct HttpResponseStream {
-  /** HTTP status code. */
-  HttpStatus http_status_;
-
-  /** Body of the HTTP response. */
-  std::ostream* body;
+  /** Body of the HTTP response. Either `std::string` or `std::ostream*`. */
+  Body body_;
 };
 
 /** Convenience class for talking basic HTTP. */
@@ -82,26 +73,39 @@ class HttpTransport {
       /** [in] URL to fetch. */
       const std::string& url,
       /** [out] Response, as a string. */
-      HttpResponseString* response);
+      HttpResponse<std::string>* response);
 
   /** Stream the contents of a given URL into the provided stream. */
   void Stream(
-      /** [in] URL to fetch. */
+      /** [in] URL to stream. */
       const std::string& url,
       /** [out] Stream to write the response to. */
-      HttpResponseStream* response);
+      HttpResponse<std::ostream*>* response);
 
  private:
-  /** Setup CURL objects. */
+  /** Setup the CURL handle `curl_`. */
   void CurlSetup();
 
-  /** Destroy CURL objects. */
+  /** CURL perform and check the HTTP status code. */
+  template <typename Body>
+  void CurlPerform(
+      /** [in] URL to retrieve. */
+      const std::string& url,
+      /** [in,out] CURL callback function to write to `response`. */
+      size_t (*curl_cb)(char* ptr, size_t size, size_t nmemb, void* userdata),
+      /**
+       * [in,out] Response from the web server. The body is either a
+       * `std::string` or `std::ostream*`.
+       */
+      HttpResponse<Body>* response);
+
+  /** Destroy the CURL handle `curl_`. */
   void CurlDestroy();
 
   /** CURL handle. */
   void* curl_;
 
-  /** Designates whether the CURL objects have been set up. */
+  /** Designates whether the CURL handle `curl_` has been set up. */
   bool curl_is_setup_;
 
   /**

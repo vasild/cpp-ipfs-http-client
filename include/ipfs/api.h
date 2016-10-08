@@ -28,26 +28,94 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <ipfs/http-transport.h>
 
+/** IPFS namespace. Everything IPFS related goes inside it. */
 namespace ipfs {
 
-/// Type of the output of some methods, aliased for convenience.
+/** Type of the output of some methods, aliased for convenience. */
 using Json = nlohmann::json;
 
+/**
+ * IPFS client.
+ * It implements the interface described in
+ * https://github.com/ipfs/interface-ipfs-core.
+ * The methods of this class may throw some variant of `std::exception` if a
+ * connectivity error occurs or if the response cannot be parsed. Be prepared!
+ * @since version 1.0.0
+ */
 class Ipfs {
  public:
-  Ipfs(const std::string& host, long port);
+  /**
+   * Constructor.
+   * @since version 1.0.0
+   */
+  Ipfs(
+      /** [in] Hostname or IP address of the server to connect to. */
+      const std::string& host,
+      /** [in] Port to connect to. */
+      long port);
 
-  void Id(Json* response);
+  /**
+   * Returns the identity of the peer.
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic#id.
+   * @since version 1.0.0
+   */
+  void Id(
+      /**
+       * [out] The identity of the peer.
+       * It contains at least the properties "Addresses", "ID", "PublicKey".
+       */
+      Json* id);
 
-  void Version(Json* response);
+  /**
+   * Returns the implementation version of the peer.
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic#version.
+   * @since version 1.0.0
+   */
+  void Version(
+      /**
+       * [out] The peer's implementation version.
+       * It contains at least the properties "Repo", "System", "Version".
+       */
+      Json* version);
 
-  void Get(const std::string& path, std::ostream* response);
+  /**
+   * Get a file from IPFS.
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/files#get.
+   * @since version 1.0.0
+   */
+  void Get(
+      /**
+       * [in] Path of the file in IPFS. For example:
+       * `"/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme"`
+       */
+      const std::string& path,
+      /**
+       * [out] The file's contents is written to this stream as it is retrieved
+       * from IPFS.
+       */
+      std::ostream* response);
 
  private:
-  void FetchJson(const std::string& url, Json* response);
+  /** Fetch any URL that returns JSON and parse it into `response`. */
+  void FetchJson(
+      /**
+       * [in] URL to fetch. For example:
+       * `"http://localhost:5001/api/v0/version"` but can be anything.
+       */
+      const std::string& url,
+      /** [out] Parsed JSON response. */
+      Json* response);
 
+  /**
+   * The URL prefix of our peer. Crafted from `host` and `port` constructor's
+   * arguments. For example: `"http://localhost:5001/api/v0"`.
+   */
   std::string url_prefix_;
-  long port_;
+
+  /** The underlying transport object. */
   HttpTransport http_;
 };
 }

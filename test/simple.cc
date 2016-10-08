@@ -27,8 +27,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <ipfs/api.h>
 
+/** Check if a given set of properties exist in a JSON. */
 static inline void check_if_properties_exist(
-    const std::string& label, const ipfs::Json& j,
+    /** [in] Label to use when throwing an exception if a failure occurs. */
+    const std::string& label,
+    /** [in] JSON to check for the properties. */
+    const ipfs::Json& j,
+    /** [in] List of properties. */
     const std::vector<const char*>& properties) {
   for (const char* property : properties) {
     if (j.find(property) == j.end()) {
@@ -39,9 +44,17 @@ static inline void check_if_properties_exist(
   }
 }
 
-static inline void check_if_string_contains(const std::string& label,
-                                            const std::string& big,
-                                            const std::string& needle) {
+/**
+ * Check if a string contains another string and throw an exception if it does
+ * not.
+ */
+static inline void check_if_string_contains(
+    /** [in] Label to use when throwing an exception if a failure occurs. */
+    const std::string& label,
+    /** [in] String to search into. */
+    const std::string& big,
+    /** [in] String to search for. */
+    const std::string& needle) {
   if (big.find(needle) == big.npos) {
     throw std::runtime_error(label + ": \"" + needle +
                              "\" was not found in the response:\n" + big);

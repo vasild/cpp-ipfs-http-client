@@ -28,23 +28,45 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace ipfs {
 
+/**
+ * CURL global initialization.
+ * `curl_global_init()` needs to be called before any other threads have
+ * started executing because it is not thread safe and may call other
+ * non-thread safe functions. Thus we use a global variable and call
+ * `curl_global_init()` in its constructor.
+ */
 class CurlGlobal {
  public:
+  /** Constructor that calls curl_global_init(). */
   CurlGlobal();
+
+  /** Destructor that calls curl_global_cleanup(). */
   ~CurlGlobal();
 
-  CURLcode result;
+  /** The result from curl_global_init() for checking the outcome later. */
+  CURLcode result_;
 };
 
-CurlGlobal::CurlGlobal() { result = curl_global_init(CURL_GLOBAL_ALL); }
+CurlGlobal::CurlGlobal() { result_ = curl_global_init(CURL_GLOBAL_ALL); }
 CurlGlobal::~CurlGlobal() { curl_global_cleanup(); }
 
-// Call curl_global_init() before any other threads have started executing.
-// This does not work with DLLs on Windows, see https://github.com/curl/curl/issues/586
+/**
+ * Call curl_global_init() before any other threads have started executing.
+ * This does not work with DLLs on Windows,
+ * @see https://github.com/curl/curl/issues/586.
+ */
 static const CurlGlobal curl_global;
 
-static size_t curl_cb_string(char* ptr, size_t size, size_t nmemb,
-                             void* response_void) {
+/** CURL callback for saving the result as a string. */
+static size_t curl_cb_string(
+    /** [in] Pointer to the result. */
+    char* ptr,
+    /** [in] Size each chunk of the result. */
+    size_t size,
+    /** [in] Number of chunks in the result. */
+    size_t nmemb,
+    /** [out] Response (a pointer to `std::string`). */
+    void* response_void) {
   std::string* response = static_cast<std::string*>(response_void);
 
   const size_t n = size * nmemb;
@@ -54,8 +76,16 @@ static size_t curl_cb_string(char* ptr, size_t size, size_t nmemb,
   return n;
 }
 
-static size_t curl_cb_stream(char* ptr, size_t size, size_t nmemb,
-                              void* response_void) {
+/** CURL callback for writing the result to a stream. */
+static size_t curl_cb_stream(
+    /** [in] Pointer to the result. */
+    char* ptr,
+    /** [in] Size each chunk of the result. */
+    size_t size,
+    /** [in] Number of chunks in the result. */
+    size_t nmemb,
+    /** [out] Response (a pointer to `std::ostream`). */
+    void* response_void) {
   std::ostream* response = static_cast<std::ostream*>(response_void);
 
   const size_t n = size * nmemb;
@@ -66,7 +96,7 @@ static size_t curl_cb_stream(char* ptr, size_t size, size_t nmemb,
 }
 
 HttpTransport::HttpTransport() : curl_is_setup_(false) {
-  if (curl_global.result != CURLE_OK) {
+  if (curl_global.result_ != CURLE_OK) {
     throw std::runtime_error("curl_global_init() failed");
   }
   static_assert(sizeof(curl_error_) >= CURL_ERROR_SIZE,
@@ -74,6 +104,52 @@ HttpTransport::HttpTransport() : curl_is_setup_(false) {
 }
 
 HttpTransport::~HttpTransport() { CurlDestroy(); }
+
+void HttpTransport::Fetch(const std::string& url,
+                          HttpResponseString* response) {
+  CurlSetup();
+
+  CURL** curl = static_cast<CURL**>(&curl_);
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
+  curl_easy_setopt(*curl, CURLOPT_URL, url.c_str());
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
+  curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb_string);
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
+  curl_easy_setopt(*curl, CURLOPT_WRITEDATA, &response->body);
+
+  const CURLcode res = curl_easy_perform(*curl);
+  if (res != CURLE_OK) {
+    const std::string generic_error(curl_easy_strerror(res));
+    CurlDestroy();
+    throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
+  }
+}
+
+void HttpTransport::Stream(const std::string& url,
+                           HttpResponseStream* response) {
+  CurlSetup();
+
+  CURL** curl = static_cast<CURL**>(&curl_);
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
+  curl_easy_setopt(*curl, CURLOPT_URL, url.c_str());
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
+  curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb_stream);
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
+  curl_easy_setopt(*curl, CURLOPT_WRITEDATA, response->body);
+
+  const CURLcode res = curl_easy_perform(*curl);
+  if (res != CURLE_OK) {
+    const std::string generic_error(curl_easy_strerror(res));
+    CurlDestroy();
+    throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
+  }
+}
 
 void HttpTransport::CurlSetup() {
   if (curl_is_setup_) {
@@ -121,51 +197,5 @@ void HttpTransport::CurlDestroy() {
   CURL** curl = static_cast<CURL**>(&curl_);
 
   curl_easy_cleanup(*curl);
-}
-
-void HttpTransport::Fetch(const std::string& url,
-                          HttpResponseString* response) {
-  CurlSetup();
-
-  CURL** curl = static_cast<CURL**>(&curl_);
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
-  curl_easy_setopt(*curl, CURLOPT_URL, url.c_str());
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
-  curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb_string);
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
-  curl_easy_setopt(*curl, CURLOPT_WRITEDATA, &response->body);
-
-  const CURLcode res = curl_easy_perform(*curl);
-  if (res != CURLE_OK) {
-    const std::string generic_error(curl_easy_strerror(res));
-    CurlDestroy();
-    throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
-  }
-}
-
-void HttpTransport::Stream(const std::string& url,
-                           HttpResponseStream* response) {
-  CurlSetup();
-
-  CURL** curl = static_cast<CURL**>(&curl_);
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
-  curl_easy_setopt(*curl, CURLOPT_URL, url.c_str());
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
-  curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb_stream);
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
-  curl_easy_setopt(*curl, CURLOPT_WRITEDATA, response->body);
-
-  const CURLcode res = curl_easy_perform(*curl);
-  if (res != CURLE_OK) {
-    const std::string generic_error(curl_easy_strerror(res));
-    CurlDestroy();
-    throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
-  }
 }
 }

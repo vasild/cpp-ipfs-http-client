@@ -24,7 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdexcept>
 #include <string>
 
-#include <ipfs/http-transport.h>
+#include <ipfs/http-transport-curl.h>
 
 namespace ipfs {
 
@@ -76,7 +76,7 @@ static size_t curl_cb_stream(
   return n;
 }
 
-HttpTransport::HttpTransport() : curl_is_setup_(false) {
+HttpTransportCurl::HttpTransportCurl() : curl_is_setup_(false) {
   if (curl_global.result_ != CURLE_OK) {
     throw std::runtime_error("curl_global_init() failed");
   }
@@ -84,13 +84,13 @@ HttpTransport::HttpTransport() : curl_is_setup_(false) {
                 "The size of curl_error_ is too small");
 }
 
-HttpTransport::~HttpTransport() { CurlDestroy(); }
+HttpTransportCurl::~HttpTransportCurl() { CurlDestroy(); }
 
-void HttpTransport::Get(const std::string& url, HttpResponse* response) {
-  CurlPerform(url, curl_cb_stream, response);
+void HttpTransportCurl::Get(const std::string& url, HttpResponse* response) {
+  Perform(url, curl_cb_stream, response);
 }
 
-void HttpTransport::CurlSetup() {
+void HttpTransportCurl::CurlSetup() {
   if (curl_is_setup_) {
     return;
   }
@@ -126,7 +126,7 @@ void HttpTransport::CurlSetup() {
   curl_is_setup_ = true;
 }
 
-void HttpTransport::CurlPerform(const std::string& url,
+void HttpTransportCurl::Perform(const std::string& url,
                                 size_t (*curl_cb)(char* ptr, size_t size,
                                                   size_t nmemb, void* userdata),
                                 HttpResponse* response) {
@@ -163,7 +163,7 @@ void HttpTransport::CurlPerform(const std::string& url,
   }
 }
 
-void HttpTransport::CurlDestroy() {
+void HttpTransportCurl::CurlDestroy() {
   if (!curl_is_setup_) {
     return;
   }

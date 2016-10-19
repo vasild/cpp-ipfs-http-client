@@ -26,11 +26,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 
 #include <ipfs/api.h>
+#include <ipfs/http-transport-curl.h>
 
 namespace ipfs {
 
 Ipfs::Ipfs(const std::string& host, long port)
-    : url_prefix_("http://" + host + ":" + std::to_string(port) + "/api/v0") {}
+    : url_prefix_("http://" + host + ":" + std::to_string(port) + "/api/v0") {
+  http_ = new HttpTransportCurl();
+}
+
+Ipfs::~Ipfs() { delete http_; }
 
 void Ipfs::Id(Json* id) {
   FetchJson(url_prefix_ + "/id?stream-channels=true", id);
@@ -46,7 +51,7 @@ void Ipfs::Get(const std::string& path, std::ostream* response) {
 
   const std::string url = url_prefix_ + "/cat?stream-channels=true&arg=" + path;
 
-  http_.Get(url, &http_response);
+  http_->Get(url, &http_response);
 }
 
 void Ipfs::FetchJson(const std::string& url, Json* response) {
@@ -55,7 +60,7 @@ void Ipfs::FetchJson(const std::string& url, Json* response) {
 
   http_response.body_ = &body_stream;
 
-  http_.Get(url, &http_response);
+  http_->Get(url, &http_response);
 
   const std::string& body_string = body_stream.str();
 

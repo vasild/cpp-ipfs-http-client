@@ -55,6 +55,12 @@ class Ipfs {
       long port);
 
   /**
+   * Destructor.
+   * @since version 1.0.0
+   */
+  ~Ipfs();
+
+  /**
    * Returns the identity of the peer.
    * Implements
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic#id.
@@ -116,7 +122,7 @@ class Ipfs {
   std::string url_prefix_;
 
   /** The underlying transport. */
-  HttpTransport http_;
+  HttpTransport* http_;
 };
 }
 

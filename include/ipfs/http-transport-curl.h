@@ -19,62 +19,67 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef IPFS_HTTP_TRANSPORT_H
-#define IPFS_HTTP_TRANSPORT_H
+#ifndef IPFS_HTTP_TRANSPORT_CURL_H
+#define IPFS_HTTP_TRANSPORT_CURL_H
 
 #include <ostream>
 #include <string>
 
+#include <ipfs/http-transport.h>
+
 namespace ipfs {
 
-/**
- * HTTP status code.
- * @see https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
- */
-class HttpStatus {
+/** Convenience class for talking basic HTTP, implemented using CURL. */
+class HttpTransportCurl : public HttpTransport {
  public:
-  /**
-   * Check if the status code is 2xx Success.
-   * @return true if 2xx
-   */
-  inline bool IsSuccess();
+  /** Constructor. */
+  HttpTransportCurl();
 
-  /** The HTTP status code. */
-  long code_;
-};
-
-/**
- * HTTP response. The body of the response is streamed into the `body_`
- * member as it arrives.
- */
-class HttpResponse {
- public:
-  /** HTTP status code. */
-  HttpStatus status_;
-
-  /** Body of the HTTP response. */
-  std::ostream* body_;
-};
-
-/** Convenience interface for talking basic HTTP. */
-class HttpTransport {
- public:
   /** Destructor. */
-  virtual inline ~HttpTransport();
+  ~HttpTransportCurl();
 
   /**
    * Fetch the contents of a given URL using the HTTP GET method and stream it
    * into `response.body_`.
    */
-  virtual void Get(
+  void Get(
       /** [in] URL to get. */
       const std::string& url,
       /** [out] Output to save the response body and status code to. */
-      HttpResponse* response) = 0;
+      HttpResponse* response) override;
+
+ private:
+  /** Setup the CURL handle `curl_`. */
+  void CurlSetup();
+
+  /**
+   * Fetch the data using CURL and save the HTTP status code to
+   * `response->status_`.
+   */
+  void Perform(
+      /** [in] URL to retrieve. */
+      const std::string& url,
+      /** [in,out] CURL callback function to write to `response`. */
+      size_t (*curl_cb)(char* ptr, size_t size, size_t nmemb, void* userdata),
+      /** [in,out] Response from the web server. */
+      HttpResponse* response);
+
+  /** Destroy the CURL handle `curl_`. */
+  void CurlDestroy();
+
+  /** CURL handle. */
+  void* curl_;
+
+  /** Designates whether the CURL handle `curl_` has been set up. */
+  bool curl_is_setup_;
+
+  /**
+   * The CURL error buffer. CURL_ERROR_SIZE from curl/curl.h is 256. We do not
+   * want to include that header here to avoid imposing that requirement on the
+   * users of this library. We have a static_assert in http-transport.cc to
+   * ensure that this is big enough.
+   */
+  char curl_error_[256];
 };
-
-inline bool HttpStatus::IsSuccess() { return code_ >= 200 && code_ <= 299; }
-
-inline HttpTransport::~HttpTransport() {}
 }
-#endif /* IPFS_HTTP_TRANSPORT_H */
+#endif /* IPFS_HTTP_TRANSPORT_CURL_H */

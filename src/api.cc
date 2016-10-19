@@ -21,6 +21,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <nlohmann/json.hpp>
 #include <ostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 
@@ -40,30 +41,35 @@ void Ipfs::Version(Json* version) {
 }
 
 void Ipfs::Get(const std::string& path, std::ostream* response) {
-  HttpResponse<std::ostream*> http_response;
+  HttpResponse http_response;
   http_response.body_ = response;
 
   const std::string url = url_prefix_ + "/cat?stream-channels=true&arg=" + path;
 
-  http_.Stream(url, &http_response);
+  http_.Get(url, &http_response);
 }
 
 void Ipfs::FetchJson(const std::string& url, Json* response) {
-  HttpResponse<std::string> http_response;
+  std::stringstream body_stream;
+  HttpResponse http_response;
 
-  http_.Fetch(url, &http_response);
+  http_response.body_ = &body_stream;
 
-  if (!http_response.http_status_.IsSuccess()) {
+  http_.Get(url, &http_response);
+
+  const std::string& body_string = body_stream.str();
+
+  if (!http_response.status_.IsSuccess()) {
     throw std::runtime_error("HTTP request failed with status code " +
-                             std::to_string(http_response.http_status_.code_) +
-                             ". Response body:\n" + http_response.body_);
+                             std::to_string(http_response.status_.code_) +
+                             ". Response body:\n" + body_string);
   }
 
   try {
-    *response = Json::parse(http_response.body_);
+    *response = Json::parse(body_string);
   } catch (const std::exception& e) {
     throw std::runtime_error(std::string(e.what()) + "\nresponse body:\n" +
-                             http_response.body_);
+                             body_string);
   }
 }
 }

@@ -57,25 +57,6 @@ CurlGlobal::~CurlGlobal() { curl_global_cleanup(); }
  */
 static const CurlGlobal curl_global;
 
-/** CURL callback for saving the result as a string. */
-static size_t curl_cb_string(
-    /** [in] Pointer to the result. */
-    char* ptr,
-    /** [in] Size each chunk of the result. */
-    size_t size,
-    /** [in] Number of chunks in the result. */
-    size_t nmemb,
-    /** [out] Response (a pointer to `std::string`). */
-    void* response_void) {
-  std::string* response = static_cast<std::string*>(response_void);
-
-  const size_t n = size * nmemb;
-
-  response->append(ptr, n);
-
-  return n;
-}
-
 /** CURL callback for writing the result to a stream. */
 static size_t curl_cb_stream(
     /** [in] Pointer to the result. */
@@ -84,13 +65,13 @@ static size_t curl_cb_stream(
     size_t size,
     /** [in] Number of chunks in the result. */
     size_t nmemb,
-    /** [out] Response (a pointer to a pointer to `std::ostream`). */
+    /** [out] Response (a pointer to `std::ostream`). */
     void* response_void) {
-  std::ostream** response = static_cast<std::ostream**>(response_void);
+  std::ostream* response = static_cast<std::ostream*>(response_void);
 
   const size_t n = size * nmemb;
 
-  (*response)->write(ptr, n);
+  response->write(ptr, n);
 
   return n;
 }
@@ -105,13 +86,7 @@ HttpTransport::HttpTransport() : curl_is_setup_(false) {
 
 HttpTransport::~HttpTransport() { CurlDestroy(); }
 
-void HttpTransport::Fetch(const std::string& url,
-                          HttpResponse<std::string>* response) {
-  CurlPerform(url, curl_cb_string, response);
-}
-
-void HttpTransport::Stream(const std::string& url,
-                           HttpResponse<std::ostream*>* response) {
+void HttpTransport::Get(const std::string& url, HttpResponse* response) {
   CurlPerform(url, curl_cb_stream, response);
 }
 
@@ -151,11 +126,10 @@ void HttpTransport::CurlSetup() {
   curl_is_setup_ = true;
 }
 
-template <typename Body>
 void HttpTransport::CurlPerform(const std::string& url,
                                 size_t (*curl_cb)(char* ptr, size_t size,
                                                   size_t nmemb, void* userdata),
-                                HttpResponse<Body>* response) {
+                                HttpResponse* response) {
   CurlSetup();
 
   CURL** curl = static_cast<CURL**>(&curl_);
@@ -167,7 +141,7 @@ void HttpTransport::CurlPerform(const std::string& url,
   curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb);
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
-  curl_easy_setopt(*curl, CURLOPT_WRITEDATA, &response->body_);
+  curl_easy_setopt(*curl, CURLOPT_WRITEDATA, response->body_);
 
   CURLcode res = curl_easy_perform(*curl);
   if (res != CURLE_OK) {
@@ -176,11 +150,11 @@ void HttpTransport::CurlPerform(const std::string& url,
     throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
   }
 
-  static_assert(sizeof(long) == sizeof(response->http_status_.code_),
+  static_assert(sizeof(long) == sizeof(response->status_.code_),
                 "Unexpected size of HTTP status code");
 
   res = curl_easy_getinfo(*curl, CURLINFO_RESPONSE_CODE,
-                          &response->http_status_.code_);
+                          &response->status_.code_);
   if (res != CURLE_OK) {
     CurlDestroy();
     throw std::runtime_error(

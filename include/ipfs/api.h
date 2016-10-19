@@ -115,7 +115,7 @@ class Ipfs {
    */
   std::string url_prefix_;
 
-  /** The underlying transport object. */
+  /** The underlying transport. */
   HttpTransport http_;
 };
 }

@@ -46,6 +46,10 @@ class Client {
  public:
   /**
    * Constructor.
+   *
+   * An example usage:
+   * @snippet simple.cc ipfs::Client::Client
+   *
    * @since version 1.0.0
    */
   Client(
@@ -62,8 +66,13 @@ class Client {
 
   /**
    * Returns the identity of the peer.
+   *
    * Implements
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic#id.
+   *
+   * An example usage:
+   * @snippet simple.cc ipfs::Client::Id
+   *
    * @since version 1.0.0
    */
   void Id(
@@ -75,8 +84,13 @@ class Client {
 
   /**
    * Returns the implementation version of the peer.
+   *
    * Implements
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic#version.
+   *
+   * An example usage:
+   * @snippet simple.cc ipfs::Client::Version
+   *
    * @since version 1.0.0
    */
   void Version(
@@ -88,8 +102,13 @@ class Client {
 
   /**
    * Get a file from IPFS.
+   *
    * Implements
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/files#get.
+   *
+   * An example usage:
+   * @snippet simple.cc ipfs::Client::Get
+   *
    * @since version 1.0.0
    */
   void Get(

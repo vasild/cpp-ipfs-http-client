@@ -63,22 +63,34 @@ static inline void check_if_string_contains(
 
 int main(int, char**) {
   try {
+    /** [ipfs::Client::Client] */
     ipfs::Client client("localhost", 5001);
+    /** [ipfs::Client::Client] */
 
-    ipfs::Json response_json;
-
-    client.Id(&response_json);
-    check_if_properties_exist("ipfs.Id()", response_json,
+    /** [ipfs::Client::Id] */
+    ipfs::Json id;
+    client.Id(&id);
+    std::cout << "Peer's public key: " << id["PublicKey"] << std::endl;
+    /** [ipfs::Client::Id] */
+    check_if_properties_exist("ipfs.Id()", id,
                               {"Addresses", "ID", "PublicKey"});
 
-    client.Version(&response_json);
-    check_if_properties_exist("ipfs.Version()", response_json,
+    /** [ipfs::Client::Version] */
+    ipfs::Json version;
+    client.Version(&version);
+    std::cout << "Peer's version: " << version << std::endl;
+    /** [ipfs::Client::Version] */
+    check_if_properties_exist("ipfs.Version()", version,
                               {"Repo", "System", "Version"});
 
-    std::stringstream response_stream;
+    /** [ipfs::Client::Get] */
+    std::stringstream contents;
     client.Get("/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme",
-               &response_stream);
-    check_if_string_contains("ipfs.Get()", response_stream.str(),
+               &contents);
+    std::cout << "Retrieved contents: " << contents.str().substr(0, 8) << "..."
+              << std::endl;
+    /** [ipfs::Client::Get] */
+    check_if_string_contains("ipfs.Get()", contents.str(),
                              "Hello and Welcome to IPFS!");
 
   } catch (const std::exception& e) {

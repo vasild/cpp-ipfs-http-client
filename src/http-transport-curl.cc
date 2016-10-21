@@ -90,6 +90,22 @@ void HttpTransportCurl::Get(const std::string& url, HttpResponse* response) {
   Perform(url, curl_cb_stream, response);
 }
 
+void HttpTransportCurl::UrlEncode(const std::string& raw,
+                                  std::string* encoded) {
+  CurlSetup();
+
+  CURL** curl = static_cast<CURL**>(&curl_);
+
+  char* encoded_c = curl_easy_escape(*curl, raw.c_str(), 0);
+  if (encoded_c == NULL) {
+    throw std::runtime_error("curl_easy_escape() failed on \"" + raw + "\"");
+  }
+
+  encoded->assign(encoded_c);
+
+  curl_free(encoded_c);
+}
+
 void HttpTransportCurl::CurlSetup() {
   if (curl_is_setup_) {
     return;

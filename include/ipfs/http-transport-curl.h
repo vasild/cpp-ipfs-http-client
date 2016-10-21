@@ -48,6 +48,13 @@ class HttpTransportCurl : public HttpTransport {
       /** [out] Output to save the response body and status code to. */
       HttpResponse* response) override;
 
+  /** URL encode a string. */
+  void UrlEncode(
+      /** [in] Input string to encode. */
+      const std::string& raw,
+      /** [out] URL encoded result. */
+      std::string* encoded) override;
+
  private:
   /** Setup the CURL handle `curl_`. */
   void CurlSetup();

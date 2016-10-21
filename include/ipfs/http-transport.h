@@ -71,6 +71,13 @@ class HttpTransport {
       const std::string& url,
       /** [out] Output to save the response body and status code to. */
       HttpResponse* response) = 0;
+
+  /** URL encode a string. */
+  virtual void UrlEncode(
+      /** [in] Input string to encode. */
+      const std::string& raw,
+      /** [out] URL encoded result. */
+      std::string* encoded) = 0;
 };
 
 inline bool HttpStatus::IsSuccess() { return code_ >= 200 && code_ <= 299; }

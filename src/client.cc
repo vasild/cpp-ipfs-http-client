@@ -49,7 +49,11 @@ void Client::Get(const std::string& path, std::ostream* response) {
   HttpResponse http_response;
   http_response.body_ = response;
 
-  const std::string url = url_prefix_ + "/cat?stream-channels=true&arg=" + path;
+  std::string path_url_encoded;
+  http_->UrlEncode(path, &path_url_encoded);
+
+  const std::string url =
+      url_prefix_ + "/cat?stream-channels=true&arg=" + path_url_encoded;
 
   http_->Get(url, &http_response);
 }

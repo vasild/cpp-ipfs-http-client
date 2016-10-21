@@ -25,7 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 #include <vector>
 
-#include <ipfs/api.h>
+#include <ipfs/client.h>
 
 /** Check if a given set of properties exist in a JSON. */
 static inline void check_if_properties_exist(
@@ -63,21 +63,21 @@ static inline void check_if_string_contains(
 
 int main(int, char**) {
   try {
-    ipfs::Ipfs ipfs = ipfs::Ipfs("localhost", 5001);
+    ipfs::Client client("localhost", 5001);
 
     ipfs::Json response_json;
 
-    ipfs.Id(&response_json);
+    client.Id(&response_json);
     check_if_properties_exist("ipfs.Id()", response_json,
                               {"Addresses", "ID", "PublicKey"});
 
-    ipfs.Version(&response_json);
+    client.Version(&response_json);
     check_if_properties_exist("ipfs.Version()", response_json,
                               {"Repo", "System", "Version"});
 
     std::stringstream response_stream;
-    ipfs.Get("/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme",
-             &response_stream);
+    client.Get("/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme",
+               &response_stream);
     check_if_string_contains("ipfs.Get()", response_stream.str(),
                              "Hello and Welcome to IPFS!");
 

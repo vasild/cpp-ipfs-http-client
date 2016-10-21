@@ -25,27 +25,27 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdexcept>
 #include <string>
 
-#include <ipfs/api.h>
+#include <ipfs/client.h>
 #include <ipfs/http-transport-curl.h>
 
 namespace ipfs {
 
-Ipfs::Ipfs(const std::string& host, long port)
+Client::Client(const std::string& host, long port)
     : url_prefix_("http://" + host + ":" + std::to_string(port) + "/api/v0") {
   http_ = new HttpTransportCurl();
 }
 
-Ipfs::~Ipfs() { delete http_; }
+Client::~Client() { delete http_; }
 
-void Ipfs::Id(Json* id) {
+void Client::Id(Json* id) {
   FetchJson(url_prefix_ + "/id?stream-channels=true", id);
 }
 
-void Ipfs::Version(Json* version) {
+void Client::Version(Json* version) {
   FetchJson(url_prefix_ + "/version?stream-channels=true", version);
 }
 
-void Ipfs::Get(const std::string& path, std::ostream* response) {
+void Client::Get(const std::string& path, std::ostream* response) {
   HttpResponse http_response;
   http_response.body_ = response;
 
@@ -54,7 +54,7 @@ void Ipfs::Get(const std::string& path, std::ostream* response) {
   http_->Get(url, &http_response);
 }
 
-void Ipfs::FetchJson(const std::string& url, Json* response) {
+void Client::FetchJson(const std::string& url, Json* response) {
   std::stringstream body_stream;
   HttpResponse http_response;
 

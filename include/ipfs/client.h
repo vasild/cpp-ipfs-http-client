@@ -19,8 +19,8 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef IPFS_API_H
-#define IPFS_API_H
+#ifndef IPFS_CLIENT_H
+#define IPFS_CLIENT_H
 
 #include <nlohmann/json.hpp>
 #include <ostream>
@@ -42,13 +42,13 @@ using Json = nlohmann::json;
  * connectivity error occurs or if the response cannot be parsed. Be prepared!
  * @since version 1.0.0
  */
-class Ipfs {
+class Client {
  public:
   /**
    * Constructor.
    * @since version 1.0.0
    */
-  Ipfs(
+  Client(
       /** [in] Hostname or IP address of the server to connect to. */
       const std::string& host,
       /** [in] Port to connect to. */
@@ -58,7 +58,7 @@ class Ipfs {
    * Destructor.
    * @since version 1.0.0
    */
-  ~Ipfs();
+  ~Client();
 
   /**
    * Returns the identity of the peer.
@@ -126,4 +126,4 @@ class Ipfs {
 };
 }
 
-#endif /* IPFS_API_H */
+#endif /* IPFS_CLIENT_H */

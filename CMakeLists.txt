@@ -34,13 +34,13 @@ include_directories("include")
 set(IPFS_API_LIBNAME ipfs-api)
 
 add_library(${IPFS_API_LIBNAME}
-  src/api.cc
+  src/client.cc
   src/http-transport-curl.cc
 )
 target_link_libraries(${IPFS_API_LIBNAME} ${CURL_LIBRARIES})
 
 install(TARGETS ${IPFS_API_LIBNAME} DESTINATION lib)
-install(FILES include/ipfs/api.h DESTINATION include/ipfs)
+install(FILES include/ipfs/client.h DESTINATION include/ipfs)
 
 # Tests, use "CTEST_OUTPUT_ON_FAILURE=1 make test" to see output from failed tests
 

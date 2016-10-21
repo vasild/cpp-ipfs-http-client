@@ -94,9 +94,7 @@ void HttpTransportCurl::UrlEncode(const std::string& raw,
                                   std::string* encoded) {
   CurlSetup();
 
-  CURL** curl = static_cast<CURL**>(&curl_);
-
-  char* encoded_c = curl_easy_escape(*curl, raw.c_str(), 0);
+  char* encoded_c = curl_easy_escape(curl_, raw.c_str(), 0);
   if (encoded_c == NULL) {
     throw std::runtime_error("curl_easy_escape() failed on \"" + raw + "\"");
   }
@@ -111,33 +109,31 @@ void HttpTransportCurl::CurlSetup() {
     return;
   }
 
-  CURL** curl = static_cast<CURL**>(&curl_);
-
-  *curl = curl_easy_init();
-  if (*curl == NULL) {
+  curl_ = curl_easy_init();
+  if (curl_ == NULL) {
     throw std::runtime_error("curl_easy_init() failed");
   }
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_ERRORBUFFER.html */
-  curl_easy_setopt(*curl, CURLOPT_ERRORBUFFER, curl_error_);
+  curl_easy_setopt(curl_, CURLOPT_ERRORBUFFER, curl_error_);
 
   /* Enable TCP keepalive.
   https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPALIVE.html */
-  curl_easy_setopt(*curl, CURLOPT_TCP_KEEPALIVE, 1);
+  curl_easy_setopt(curl_, CURLOPT_TCP_KEEPALIVE, 1);
 
   /* Seconds to wait before sending keep-alive packets.
   https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPIDLE.html */
-  curl_easy_setopt(*curl, CURLOPT_TCP_KEEPIDLE, 30);
+  curl_easy_setopt(curl_, CURLOPT_TCP_KEEPIDLE, 30);
 
   /* Seconds between keep-alive probes.
   https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPINTVL.html */
-  curl_easy_setopt(*curl, CURLOPT_TCP_KEEPINTVL, 10);
+  curl_easy_setopt(curl_, CURLOPT_TCP_KEEPINTVL, 10);
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_POST.html */
-  curl_easy_setopt(*curl, CURLOPT_POST, 1);
+  curl_easy_setopt(curl_, CURLOPT_POST, 1);
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_USERAGENT.html */
-  curl_easy_setopt(*curl, CURLOPT_USERAGENT, "cpp-ipfs-api");
+  curl_easy_setopt(curl_, CURLOPT_USERAGENT, "cpp-ipfs-api");
 
   curl_is_setup_ = true;
 }
@@ -148,18 +144,16 @@ void HttpTransportCurl::Perform(const std::string& url,
                                 HttpResponse* response) {
   CurlSetup();
 
-  CURL** curl = static_cast<CURL**>(&curl_);
-
   /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
-  curl_easy_setopt(*curl, CURLOPT_URL, url.c_str());
+  curl_easy_setopt(curl_, CURLOPT_URL, url.c_str());
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
-  curl_easy_setopt(*curl, CURLOPT_WRITEFUNCTION, curl_cb);
+  curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curl_cb);
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
-  curl_easy_setopt(*curl, CURLOPT_WRITEDATA, response->body_);
+  curl_easy_setopt(curl_, CURLOPT_WRITEDATA, response->body_);
 
-  CURLcode res = curl_easy_perform(*curl);
+  CURLcode res = curl_easy_perform(curl_);
   if (res != CURLE_OK) {
     const std::string generic_error(curl_easy_strerror(res));
     CurlDestroy();
@@ -169,7 +163,7 @@ void HttpTransportCurl::Perform(const std::string& url,
   static_assert(sizeof(long) == sizeof(response->status_.code_),
                 "Unexpected size of HTTP status code");
 
-  res = curl_easy_getinfo(*curl, CURLINFO_RESPONSE_CODE,
+  res = curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE,
                           &response->status_.code_);
   if (res != CURLE_OK) {
     CurlDestroy();
@@ -186,8 +180,6 @@ void HttpTransportCurl::CurlDestroy() {
 
   curl_is_setup_ = false;
 
-  CURL** curl = static_cast<CURL**>(&curl_);
-
-  curl_easy_cleanup(*curl);
+  curl_easy_cleanup(curl_);
 }
 }

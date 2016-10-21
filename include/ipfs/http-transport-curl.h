@@ -22,6 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef IPFS_HTTP_TRANSPORT_CURL_H
 #define IPFS_HTTP_TRANSPORT_CURL_H
 
+#include <curl/curl.h>
 #include <ostream>
 #include <string>
 
@@ -75,7 +76,7 @@ class HttpTransportCurl : public HttpTransport {
   void CurlDestroy();
 
   /** CURL handle. */
-  void* curl_;
+  CURL* curl_;
 
   /** Designates whether the CURL handle `curl_` has been set up. */
   bool curl_is_setup_;

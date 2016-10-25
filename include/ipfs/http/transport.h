@@ -51,6 +51,11 @@ class Status {
  */
 class Response {
  public:
+  /** Constructor to prevent creating objects uninitialized `body_`. */
+  explicit Response(
+      /** [in] pointer to body with which to initialize the `body_` member. */
+      std::ostream* body);
+
   /** HTTP status code. */
   Status status_;
 
@@ -83,6 +88,8 @@ class Transport {
 };
 
 inline bool Status::IsSuccess() { return code_ >= 200 && code_ <= 299; }
+
+inline Response::Response(std::ostream* body) : body_(body) {}
 
 inline Transport::~Transport() {}
 

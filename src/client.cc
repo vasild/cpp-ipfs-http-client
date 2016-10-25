@@ -46,8 +46,7 @@ void Client::Version(Json* version) {
 }
 
 void Client::Get(const std::string& path, std::ostream* response) {
-  http::Response http_response;
-  http_response.body_ = response;
+  http::Response http_response(response);
 
   std::string path_url_encoded;
   http_->UrlEncode(path, &path_url_encoded);
@@ -60,9 +59,7 @@ void Client::Get(const std::string& path, std::ostream* response) {
 
 void Client::FetchJson(const std::string& url, Json* response) {
   std::stringstream body_stream;
-  http::Response http_response;
-
-  http_response.body_ = &body_stream;
+  http::Response http_response(&body_stream);
 
   http_->Get(url, &http_response);
 

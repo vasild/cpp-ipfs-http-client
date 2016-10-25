@@ -99,7 +99,7 @@ void TransportCurl::Get(const std::string& url, Response* response) {
   Perform(url, curl_cb_stream, response);
 
   if (!response->status_.IsSuccess()) {
-    std::streambuf* body_buf = response->body_->rdbuf();
+    std::streambuf* b = response->body_->rdbuf();
     throw std::runtime_error(
         "HTTP request failed with status code " +
         std::to_string(response->status_.code_) + ". Response body:\n" +
@@ -107,7 +107,7 @@ void TransportCurl::Get(const std::string& url, Response* response) {
         append it to this error message string. Usually the bodies of HTTP
         error responses represent a short HTML or JSON that describes the
         error. */
-        static_cast<std::stringstream&>(std::stringstream() << body_buf).str());
+        static_cast<const std::stringstream&>(std::stringstream() << b).str());
   }
 }
 

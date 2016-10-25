@@ -25,6 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <string>
+#include <vector>
 
 #include <ipfs/http/transport.h>
 
@@ -122,6 +123,30 @@ class Client {
        * from IPFS.
        */
       std::iostream* response);
+
+  /**
+   * Add files to IPFS.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/files#add.
+   *
+   * An example usage:
+   * @snippet simple.cc ipfs::Client::Add
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 1.0.0
+   */
+  void Add(
+      /**
+       * [in] List of files to add.
+       */
+      const std::vector<http::FileUpload>& files,
+      /**
+       * [out] List of results, one per file. For example:
+       * [{"path": "foo.txt", "hash": "Qm...", "size": 123}, {"path": ...}, ...]
+       */
+      Json* result);
 
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */

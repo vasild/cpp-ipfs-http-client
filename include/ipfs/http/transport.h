@@ -24,6 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 namespace ipfs {
 
@@ -63,6 +64,31 @@ class Response {
   std::iostream* body_;
 };
 
+/**
+ * HTTP file upload.
+ */
+struct FileUpload {
+  /** The type of the `data` member. */
+  enum class Type {
+    /** The file contents, put into a string by the caller. For small files. */
+    kFileContents,
+    /** File whose contents is streamed to the web server. For big files. */
+    kFileName,
+  };
+
+  /** File name to pretend to the web server. */
+  const std::string path;
+
+  /** The type of the `data` member. */
+  Type type;
+
+  /**
+   * The data to be added. Either a file name from which to read the data or
+   * the contents itself.
+   */
+  const std::string data;
+};
+
 /** Convenience interface for talking basic HTTP. */
 class Transport {
  public:
@@ -76,6 +102,18 @@ class Transport {
   virtual void Get(
       /** [in] URL to get. */
       const std::string& url,
+      /** [out] Output to save the response body and status code to. */
+      Response* response) = 0;
+
+  /**
+   * Submit a given content to a given URL using the HTTP POST method.
+   * Use "Content-Type: multipart/form-data".
+   */
+  virtual void Post(
+      /** [in] URL to post to. */
+      const std::string& url,
+      /** [in] List of files to upload. */
+      const std::vector<FileUpload>& files,
       /** [out] Output to save the response body and status code to. */
       Response* response) = 0;
 

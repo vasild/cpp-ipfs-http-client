@@ -93,6 +93,28 @@ int main(int, char**) {
     check_if_string_contains("ipfs.Get()", contents.str(),
                              "Hello and Welcome to IPFS!");
 
+    /** [ipfs::Client::Add] */
+    ipfs::Json add_result;
+    client.Add({{"foo.txt", ipfs::http::FileUpload::Type::kFileContents, "abcd"},
+                {"bar.txt", ipfs::http::FileUpload::Type::kFileName,
+                 "compile_commands.json"}},
+               &add_result);
+    std::cout << "Add() result:\n" << add_result.dump(2) << std::endl;
+    /* An example output:
+    [
+      {
+        "path": "foo.txt",
+        "hash": "QmWPyMW2u7J2Zyzut7TcBMT8pG6F2cB4hmZk1vBJFBt1nP",
+        "size": 4
+      }
+      {
+        "path": "bar.txt",
+        "hash": "QmVjQsMgtRsRKpNM8amTCDRuUPriY8tGswsTpo137jPWwL",
+        "size": 1176
+      },
+    ]
+    */
+    /** [ipfs::Client::Add] */
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

@@ -24,8 +24,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #include <ipfs/client.h>
+#include <ipfs/http/transport.h>
 #include <ipfs/http/transport-curl.h>
 
 namespace ipfs {
@@ -55,6 +57,75 @@ void Client::Get(const std::string& path, std::iostream* response) {
       url_prefix_ + "/cat?stream-channels=true&arg=" + path_url_encoded;
 
   http_->Get(url, &http_response);
+}
+
+void Client::Add(const std::vector<http::FileUpload>& files, Json* result) {
+  const std::string url =
+      url_prefix_ + "/add?stream-channels=true&progress=true";
+
+  std::stringstream body_stream;
+  http::Response http_response(&body_stream);
+
+  http_->Post(url, files, &http_response);
+
+  /* The reply consists of multiple lines, each one of which is a JSON, for
+  example:
+
+  {"Name":"foo.txt","Bytes":4}
+  {"Name":"foo.txt","Hash":"QmWPyMW2u7J2Zyzut7TcBMT8pG6F2cB4hmZk1vBJFBt1nP"}
+  {"Name":"bar.txt","Bytes":1176}
+  {"Name":"bar.txt","Hash":"QmVjQsMgtRsRKpNM8amTCDRuUPriY8tGswsTpo137jPWwL"}
+
+  we convert that into a single JSON like:
+
+  [
+    { "path": "foo.txt", "hash": "QmWP...", "size": 4 },
+    { "path": "bar.txt", "hash": "QmVj...", "size": 1176 }
+  ]
+
+  and return it to the caller. */
+
+  /* A temporary JSON object to facilitate creating the result in case the
+  reply lines are out of order. This one looks like:
+  {
+    "foo.txt": { "path": "foo.txt", "hash": "QmWP...", "size": 4 }
+    "bar.txt": { "path": "foo.txt", "hash": "QmVj...", "size": 1176 }
+  }
+  */
+  Json temp;
+
+  std::string line;
+  for (size_t i = 1; std::getline(body_stream, line); ++i) {
+    Json json_chunk;
+
+    ParseJson(line, &json_chunk);
+
+    static const char* name = "Name";
+
+    if (json_chunk.find(name) == json_chunk.end()) {
+      throw std::runtime_error(
+          std::string("Unexpected reply: valid JSON, but without the \"") +
+          name + "\" property on line " + std::to_string(i) + ":\n" +
+          body_stream.str());
+    }
+
+    const std::string& path = json_chunk[name];
+    temp[path]["path"] = path;
+
+    static const char* hash = "Hash";
+    if (json_chunk.find(hash) != json_chunk.end()) {
+      temp[path]["hash"] = json_chunk[hash];
+    }
+
+    static const char* bytes = "Bytes";
+    if (json_chunk.find(bytes) != json_chunk.end()) {
+      temp[path]["size"] = json_chunk[bytes];
+    }
+  }
+
+  for (Json::iterator it = temp.begin(); it != temp.end(); ++it) {
+    result->push_back(it.value());
+  }
 }
 
 void Client::FetchAndParseJson(const std::string& url, Json* response) {

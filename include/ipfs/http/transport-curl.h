@@ -24,6 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <curl/curl.h>
 #include <string>
+#include <vector>
 
 #include <ipfs/http/transport.h>
 
@@ -47,6 +48,18 @@ class TransportCurl : public Transport {
   void Get(
       /** [in] URL to get. */
       const std::string& url,
+      /** [out] Output to save the response body and status code to. */
+      Response* response) override;
+
+  /**
+   * Submit a given content to a given URL using the HTTP POST method.
+   * Use "Content-Type: multipart/form-data".
+   */
+  void Post(
+      /** [in] URL to post to. */
+      const std::string& url,
+      /** [in] List of files to upload. */
+      const std::vector<FileUpload>& files,
       /** [out] Output to save the response body and status code to. */
       Response* response) override;
 

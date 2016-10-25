@@ -24,6 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #include <ipfs/http/transport-curl.h>
 
@@ -90,6 +91,11 @@ TransportCurl::TransportCurl() : curl_is_setup_(false) {
 TransportCurl::~TransportCurl() { CurlDestroy(); }
 
 void TransportCurl::Get(const std::string& url, Response* response) {
+  CurlSetup();
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPGET.html */
+  curl_easy_setopt(curl_, CURLOPT_HTTPGET, 1);
+
   Perform(url, curl_cb_stream, response);
 
   if (!response->status_.IsSuccess()) {
@@ -103,6 +109,79 @@ void TransportCurl::Get(const std::string& url, Response* response) {
         error. */
         static_cast<std::stringstream&>(std::stringstream() << body_buf).str());
   }
+}
+
+void TransportCurl::Post(const std::string& url,
+                         const std::vector<FileUpload>& files,
+                         Response* response) {
+  CurlSetup();
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_POST.html */
+  curl_easy_setopt(curl_, CURLOPT_POST, 1);
+
+  curl_httppost* form_parts = NULL;
+  curl_httppost* form_parts_end = NULL;
+
+  /* https://curl.haxx.se/libcurl/c/curl_formadd.html */
+  for (size_t i = 0; i < files.size(); ++i) {
+    const FileUpload& file = files[i];
+    const std::string name("file" + std::to_string(i));
+    static const char* content_type = "application/octet-stream";
+
+    switch (file.type) {
+      case FileUpload::Type::kFileContents:
+        curl_formadd(&form_parts, &form_parts_end,
+                     /* name="..."; */
+                     CURLFORM_COPYNAME, name.c_str(),
+                     /* filename="..."; */
+                     CURLFORM_BUFFER, file.path.c_str(),
+                     /* File contents. */
+                     CURLFORM_BUFFERPTR, file.data.c_str(),
+                     /* File contents length. */
+                     CURLFORM_BUFFERLENGTH, file.data.length(),
+                     /* Content-Type: */
+                     CURLFORM_CONTENTTYPE, content_type, CURLFORM_END);
+        break;
+      case FileUpload::Type::kFileName:
+        curl_formadd(&form_parts, &form_parts_end,
+                     /* name="..."; */
+                     CURLFORM_COPYNAME, name.c_str(),
+                     /* filename="..."; */
+                     CURLFORM_FILENAME, file.path.c_str(),
+                     /* Read the data from this file. */
+                     CURLFORM_FILE, file.data.c_str(),
+                     /* Content-Type: */
+                     CURLFORM_CONTENTTYPE, content_type, CURLFORM_END);
+        break;
+    }
+  }
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPPOST.html */
+  curl_easy_setopt(curl_, CURLOPT_HTTPPOST, form_parts);
+
+  curl_slist* headers = NULL;
+  headers = curl_slist_append(headers, "Expect:");
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPHEADER.html */
+  curl_easy_setopt(curl_, CURLOPT_HTTPHEADER, headers);
+
+  try {
+    Perform(url, curl_cb_stream, response);
+  } catch (const std::exception& e) {
+    /* https://curl.haxx.se/libcurl/c/curl_slist_free_all.html */
+    curl_slist_free_all(headers);
+
+    /* https://curl.haxx.se/libcurl/c/curl_formfree.html */
+    curl_formfree(form_parts);
+
+    throw e;
+  }
+
+  /* https://curl.haxx.se/libcurl/c/curl_slist_free_all.html */
+  curl_slist_free_all(headers);
+
+  /* https://curl.haxx.se/libcurl/c/curl_formfree.html */
+  curl_formfree(form_parts);
 }
 
 void TransportCurl::UrlEncode(const std::string& raw, std::string* encoded) {
@@ -143,9 +222,6 @@ void TransportCurl::CurlSetup() {
   https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPINTVL.html */
   curl_easy_setopt(curl_, CURLOPT_TCP_KEEPINTVL, 10);
 
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_POST.html */
-  curl_easy_setopt(curl_, CURLOPT_POST, 1);
-
   /* https://curl.haxx.se/libcurl/c/CURLOPT_USERAGENT.html */
   curl_easy_setopt(curl_, CURLOPT_USERAGENT, "cpp-ipfs-api");
 
@@ -156,8 +232,6 @@ void TransportCurl::Perform(const std::string& url,
                             size_t (*curl_cb)(char* ptr, size_t size,
                                               size_t nmemb, void* userdata),
                             Response* response) {
-  CurlSetup();
-
   /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
   curl_easy_setopt(curl_, CURLOPT_URL, url.c_str());
 

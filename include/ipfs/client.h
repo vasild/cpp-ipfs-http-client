@@ -125,7 +125,7 @@ class Client {
 
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
-  void FetchJson(
+  void FetchAndParseJson(
       /**
        * [in] URL to fetch. For example:
        * `"http://localhost:5001/api/v0/version"` but can be anything.
@@ -133,6 +133,18 @@ class Client {
       const std::string& url,
       /** [out] Parsed JSON response. */
       Json* response);
+
+  /**
+   * Parse a string into a JSON. It just calls Json::parse() and appends the
+   * input to the error message in case of an error.
+   *
+   * @throw std::exception if any error occurs
+   */
+  static void ParseJson(
+      /** [in] String to parse. */
+      const std::string& input,
+      /** [out] Parse result. */
+      Json* result);
 
   /**
    * The URL prefix of our peer. Crafted from `host` and `port` constructor's

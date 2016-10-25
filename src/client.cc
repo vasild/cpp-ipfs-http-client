@@ -38,11 +38,11 @@ Client::Client(const std::string& host, long port)
 Client::~Client() { delete http_; }
 
 void Client::Id(Json* id) {
-  FetchJson(url_prefix_ + "/id?stream-channels=true", id);
+  FetchAndParseJson(url_prefix_ + "/id?stream-channels=true", id);
 }
 
 void Client::Version(Json* version) {
-  FetchJson(url_prefix_ + "/version?stream-channels=true", version);
+  FetchAndParseJson(url_prefix_ + "/version?stream-channels=true", version);
 }
 
 void Client::Get(const std::string& path, std::iostream* response) {
@@ -57,19 +57,20 @@ void Client::Get(const std::string& path, std::iostream* response) {
   http_->Get(url, &http_response);
 }
 
-void Client::FetchJson(const std::string& url, Json* response) {
+void Client::FetchAndParseJson(const std::string& url, Json* response) {
   std::stringstream body_stream;
   http::Response http_response(&body_stream);
 
   http_->Get(url, &http_response);
 
-  const std::string& body_string = body_stream.str();
+  ParseJson(body_stream.str(), response);
+}
 
+void Client::ParseJson(const std::string& input, Json* result) {
   try {
-    *response = Json::parse(body_string);
+    *result = Json::parse(input);
   } catch (const std::exception& e) {
-    throw std::runtime_error(std::string(e.what()) + "\nresponse body:\n" +
-                             body_string);
+    throw std::runtime_error(std::string(e.what()) + "\nInput JSON:\n" + input);
   }
 }
 }

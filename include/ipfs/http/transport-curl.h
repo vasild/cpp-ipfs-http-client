@@ -26,18 +26,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <ostream>
 #include <string>
 
-#include <ipfs/http-transport.h>
+#include <ipfs/http/transport.h>
 
 namespace ipfs {
 
+namespace http {
+
 /** Convenience class for talking basic HTTP, implemented using CURL. */
-class HttpTransportCurl : public HttpTransport {
+class TransportCurl : public Transport {
  public:
   /** Constructor. */
-  HttpTransportCurl();
+  TransportCurl();
 
   /** Destructor. */
-  ~HttpTransportCurl();
+  ~TransportCurl();
 
   /**
    * Fetch the contents of a given URL using the HTTP GET method and stream it
@@ -47,7 +49,7 @@ class HttpTransportCurl : public HttpTransport {
       /** [in] URL to get. */
       const std::string& url,
       /** [out] Output to save the response body and status code to. */
-      HttpResponse* response) override;
+      Response* response) override;
 
   /** URL encode a string. */
   void UrlEncode(
@@ -70,7 +72,7 @@ class HttpTransportCurl : public HttpTransport {
       /** [in,out] CURL callback function to write to `response`. */
       size_t (*curl_cb)(char* ptr, size_t size, size_t nmemb, void* userdata),
       /** [in,out] Response from the web server. */
-      HttpResponse* response);
+      Response* response);
 
   /** Destroy the CURL handle `curl_`. */
   void CurlDestroy();
@@ -84,10 +86,13 @@ class HttpTransportCurl : public HttpTransport {
   /**
    * The CURL error buffer. CURL_ERROR_SIZE from curl/curl.h is 256. We do not
    * want to include that header here to avoid imposing that requirement on the
-   * users of this library. We have a static_assert in http-transport.cc to
+   * users of this library. We have a static_assert in http/transport.cc to
    * ensure that this is big enough.
    */
   char curl_error_[256];
 };
-}
+
+} /* namespace http */
+} /* namespace ipfs */
+
 #endif /* IPFS_HTTP_TRANSPORT_CURL_H */

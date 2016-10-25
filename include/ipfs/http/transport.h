@@ -27,11 +27,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 namespace ipfs {
 
+namespace http {
+
 /**
  * HTTP status code.
  * @see https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
  */
-class HttpStatus {
+class Status {
  public:
   /**
    * Check if the status code is 2xx Success.
@@ -47,20 +49,20 @@ class HttpStatus {
  * HTTP response. The body of the response is streamed into the `body_`
  * member as it arrives.
  */
-class HttpResponse {
+class Response {
  public:
   /** HTTP status code. */
-  HttpStatus status_;
+  Status status_;
 
   /** Body of the HTTP response. */
   std::ostream* body_;
 };
 
 /** Convenience interface for talking basic HTTP. */
-class HttpTransport {
+class Transport {
  public:
   /** Destructor. */
-  virtual inline ~HttpTransport();
+  virtual inline ~Transport();
 
   /**
    * Fetch the contents of a given URL using the HTTP GET method and stream it
@@ -70,7 +72,7 @@ class HttpTransport {
       /** [in] URL to get. */
       const std::string& url,
       /** [out] Output to save the response body and status code to. */
-      HttpResponse* response) = 0;
+      Response* response) = 0;
 
   /** URL encode a string. */
   virtual void UrlEncode(
@@ -80,8 +82,11 @@ class HttpTransport {
       std::string* encoded) = 0;
 };
 
-inline bool HttpStatus::IsSuccess() { return code_ >= 200 && code_ <= 299; }
+inline bool Status::IsSuccess() { return code_ >= 200 && code_ <= 299; }
 
-inline HttpTransport::~HttpTransport() {}
-}
+inline Transport::~Transport() {}
+
+} /* namespace http */
+} /* namespace ipfs */
+
 #endif /* IPFS_HTTP_TRANSPORT_H */

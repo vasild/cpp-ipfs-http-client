@@ -24,9 +24,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdexcept>
 #include <string>
 
-#include <ipfs/http-transport-curl.h>
+#include <ipfs/http/transport-curl.h>
 
 namespace ipfs {
+
+namespace http {
 
 /**
  * CURL global initialization.
@@ -76,7 +78,7 @@ static size_t curl_cb_stream(
   return n;
 }
 
-HttpTransportCurl::HttpTransportCurl() : curl_is_setup_(false) {
+TransportCurl::TransportCurl() : curl_is_setup_(false) {
   if (curl_global.result_ != CURLE_OK) {
     throw std::runtime_error("curl_global_init() failed");
   }
@@ -84,14 +86,13 @@ HttpTransportCurl::HttpTransportCurl() : curl_is_setup_(false) {
                 "The size of curl_error_ is too small");
 }
 
-HttpTransportCurl::~HttpTransportCurl() { CurlDestroy(); }
+TransportCurl::~TransportCurl() { CurlDestroy(); }
 
-void HttpTransportCurl::Get(const std::string& url, HttpResponse* response) {
+void TransportCurl::Get(const std::string& url, Response* response) {
   Perform(url, curl_cb_stream, response);
 }
 
-void HttpTransportCurl::UrlEncode(const std::string& raw,
-                                  std::string* encoded) {
+void TransportCurl::UrlEncode(const std::string& raw, std::string* encoded) {
   CurlSetup();
 
   char* encoded_c = curl_easy_escape(curl_, raw.c_str(), 0);
@@ -104,7 +105,7 @@ void HttpTransportCurl::UrlEncode(const std::string& raw,
   curl_free(encoded_c);
 }
 
-void HttpTransportCurl::CurlSetup() {
+void TransportCurl::CurlSetup() {
   if (curl_is_setup_) {
     return;
   }
@@ -138,10 +139,10 @@ void HttpTransportCurl::CurlSetup() {
   curl_is_setup_ = true;
 }
 
-void HttpTransportCurl::Perform(const std::string& url,
-                                size_t (*curl_cb)(char* ptr, size_t size,
-                                                  size_t nmemb, void* userdata),
-                                HttpResponse* response) {
+void TransportCurl::Perform(const std::string& url,
+                            size_t (*curl_cb)(char* ptr, size_t size,
+                                              size_t nmemb, void* userdata),
+                            Response* response) {
   CurlSetup();
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
@@ -173,7 +174,7 @@ void HttpTransportCurl::Perform(const std::string& url,
   }
 }
 
-void HttpTransportCurl::CurlDestroy() {
+void TransportCurl::CurlDestroy() {
   if (!curl_is_setup_) {
     return;
   }
@@ -182,4 +183,6 @@ void HttpTransportCurl::CurlDestroy() {
 
   curl_easy_cleanup(curl_);
 }
-}
+
+} /* namespace http */
+} /* namespace ipfs */

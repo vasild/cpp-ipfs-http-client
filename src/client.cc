@@ -26,13 +26,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 
 #include <ipfs/client.h>
-#include <ipfs/http-transport-curl.h>
+#include <ipfs/http/transport-curl.h>
 
 namespace ipfs {
 
 Client::Client(const std::string& host, long port)
     : url_prefix_("http://" + host + ":" + std::to_string(port) + "/api/v0") {
-  http_ = new HttpTransportCurl();
+  http_ = new http::TransportCurl();
 }
 
 Client::~Client() { delete http_; }
@@ -46,7 +46,7 @@ void Client::Version(Json* version) {
 }
 
 void Client::Get(const std::string& path, std::ostream* response) {
-  HttpResponse http_response;
+  http::Response http_response;
   http_response.body_ = response;
 
   std::string path_url_encoded;
@@ -60,7 +60,7 @@ void Client::Get(const std::string& path, std::ostream* response) {
 
 void Client::FetchJson(const std::string& url, Json* response) {
   std::stringstream body_stream;
-  HttpResponse http_response;
+  http::Response http_response;
 
   http_response.body_ = &body_stream;
 

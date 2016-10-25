@@ -26,7 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <ostream>
 #include <string>
 
-#include <ipfs/http-transport.h>
+#include <ipfs/http/transport.h>
 
 /** IPFS namespace. Everything IPFS related goes inside it. */
 namespace ipfs {
@@ -141,7 +141,7 @@ class Client {
   std::string url_prefix_;
 
   /** The underlying transport. */
-  HttpTransport* http_;
+  http::Transport* http_;
 };
 }
 

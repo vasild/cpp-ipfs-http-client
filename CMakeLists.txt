@@ -35,7 +35,7 @@ set(IPFS_API_LIBNAME ipfs-api)
 
 add_library(${IPFS_API_LIBNAME}
   src/client.cc
-  src/http-transport-curl.cc
+  src/http/transport-curl.cc
 )
 target_link_libraries(${IPFS_API_LIBNAME} ${CURL_LIBRARIES})
 

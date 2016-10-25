@@ -22,8 +22,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef IPFS_CLIENT_H
 #define IPFS_CLIENT_H
 
+#include <iostream>
 #include <nlohmann/json.hpp>
-#include <ostream>
 #include <string>
 
 #include <ipfs/http/transport.h>
@@ -121,7 +121,7 @@ class Client {
        * [out] The file's contents is written to this stream as it is retrieved
        * from IPFS.
        */
-      std::ostream* response);
+      std::iostream* response);
 
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */

@@ -20,7 +20,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include <curl/curl.h>
-#include <ostream>
+#include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 
@@ -67,9 +68,9 @@ static size_t curl_cb_stream(
     size_t size,
     /** [in] Number of chunks in the result. */
     size_t nmemb,
-    /** [out] Response (a pointer to `std::ostream`). */
+    /** [out] Response (a pointer to `std::iostream`). */
     void* response_void) {
-  std::ostream* response = static_cast<std::ostream*>(response_void);
+  std::iostream* response = static_cast<std::iostream*>(response_void);
 
   const size_t n = size * nmemb;
 
@@ -90,6 +91,18 @@ TransportCurl::~TransportCurl() { CurlDestroy(); }
 
 void TransportCurl::Get(const std::string& url, Response* response) {
   Perform(url, curl_cb_stream, response);
+
+  if (!response->status_.IsSuccess()) {
+    std::streambuf* body_buf = response->body_->rdbuf();
+    throw std::runtime_error(
+        "HTTP request failed with status code " +
+        std::to_string(response->status_.code_) + ". Response body:\n" +
+        /* Read the whole body back from the stream where we wrote it and
+        append it to this error message string. Usually the bodies of HTTP
+        error responses represent a short HTML or JSON that describes the
+        error. */
+        static_cast<std::stringstream&>(std::stringstream() << body_buf).str());
+  }
 }
 
 void TransportCurl::UrlEncode(const std::string& raw, std::string* encoded) {

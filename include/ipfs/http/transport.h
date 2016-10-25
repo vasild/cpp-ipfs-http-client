@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef IPFS_HTTP_TRANSPORT_H
 #define IPFS_HTTP_TRANSPORT_H
 
-#include <ostream>
+#include <iostream>
 #include <string>
 
 namespace ipfs {
@@ -54,13 +54,13 @@ class Response {
   /** Constructor to prevent creating objects uninitialized `body_`. */
   explicit Response(
       /** [in] pointer to body with which to initialize the `body_` member. */
-      std::ostream* body);
+      std::iostream* body);
 
   /** HTTP status code. */
   Status status_;
 
   /** Body of the HTTP response. */
-  std::ostream* body_;
+  std::iostream* body_;
 };
 
 /** Convenience interface for talking basic HTTP. */
@@ -89,7 +89,7 @@ class Transport {
 
 inline bool Status::IsSuccess() { return code_ >= 200 && code_ <= 299; }
 
-inline Response::Response(std::ostream* body) : body_(body) {}
+inline Response::Response(std::iostream* body) : body_(body) {}
 
 inline Transport::~Transport() {}
 

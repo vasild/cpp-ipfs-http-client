@@ -19,8 +19,8 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <iostream>
 #include <nlohmann/json.hpp>
-#include <ostream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -45,7 +45,7 @@ void Client::Version(Json* version) {
   FetchJson(url_prefix_ + "/version?stream-channels=true", version);
 }
 
-void Client::Get(const std::string& path, std::ostream* response) {
+void Client::Get(const std::string& path, std::iostream* response) {
   http::Response http_response(response);
 
   std::string path_url_encoded;
@@ -64,12 +64,6 @@ void Client::FetchJson(const std::string& url, Json* response) {
   http_->Get(url, &http_response);
 
   const std::string& body_string = body_stream.str();
-
-  if (!http_response.status_.IsSuccess()) {
-    throw std::runtime_error("HTTP request failed with status code " +
-                             std::to_string(http_response.status_.code_) +
-                             ". Response body:\n" + body_string);
-  }
 
   try {
     *response = Json::parse(body_string);

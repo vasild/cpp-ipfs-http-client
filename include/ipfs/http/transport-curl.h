@@ -23,7 +23,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define IPFS_HTTP_TRANSPORT_CURL_H
 
 #include <curl/curl.h>
-#include <ostream>
 #include <string>
 
 #include <ipfs/http/transport.h>

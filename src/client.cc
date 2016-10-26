@@ -47,7 +47,7 @@ void Client::Version(Json* version) {
   FetchAndParseJson(url_prefix_ + "/version?stream-channels=true", version);
 }
 
-void Client::Get(const std::string& path, std::iostream* response) {
+void Client::FilesGet(const std::string& path, std::iostream* response) {
   http::Response http_response(response);
 
   std::string path_url_encoded;
@@ -59,7 +59,8 @@ void Client::Get(const std::string& path, std::iostream* response) {
   http_->Get(url, &http_response);
 }
 
-void Client::Add(const std::vector<http::FileUpload>& files, Json* result) {
+void Client::FilesAdd(const std::vector<http::FileUpload>& files,
+                      Json* result) {
   const std::string url =
       url_prefix_ + "/add?stream-channels=true&progress=true";
 

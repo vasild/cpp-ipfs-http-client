@@ -108,11 +108,11 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/files#get.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::Get
+   * @snippet simple.cc ipfs::Client::FilesGet
    *
    * @since version 1.0.0
    */
-  void Get(
+  void FilesGet(
       /**
        * [in] Path of the file in IPFS. For example:
        * `"/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme"`
@@ -131,13 +131,13 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/files#add.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::Add
+   * @snippet simple.cc ipfs::Client::FilesAdd
    *
    * @throw std::exception if any error occurs
    *
    * @since version 1.0.0
    */
-  void Add(
+  void FilesAdd(
       /**
        * [in] List of files to add.
        */

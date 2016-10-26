@@ -83,23 +83,25 @@ int main(int, char**) {
     check_if_properties_exist("ipfs.Version()", version,
                               {"Repo", "System", "Version"});
 
-    /** [ipfs::Client::Get] */
+    /** [ipfs::Client::FilesGet] */
     std::stringstream contents;
-    client.Get("/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme",
-               &contents);
+    client.FilesGet(
+        "/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme",
+        &contents);
     std::cout << "Retrieved contents: " << contents.str().substr(0, 8) << "..."
               << std::endl;
-    /** [ipfs::Client::Get] */
-    check_if_string_contains("ipfs.Get()", contents.str(),
+    /** [ipfs::Client::FilesGet] */
+    check_if_string_contains("client.FilesGet()", contents.str(),
                              "Hello and Welcome to IPFS!");
 
-    /** [ipfs::Client::Add] */
+    /** [ipfs::Client::FilesAdd] */
     ipfs::Json add_result;
-    client.Add({{"foo.txt", ipfs::http::FileUpload::Type::kFileContents, "abcd"},
-                {"bar.txt", ipfs::http::FileUpload::Type::kFileName,
-                 "compile_commands.json"}},
-               &add_result);
-    std::cout << "Add() result:\n" << add_result.dump(2) << std::endl;
+    client.FilesAdd(
+        {{"foo.txt", ipfs::http::FileUpload::Type::kFileContents, "abcd"},
+         {"bar.txt", ipfs::http::FileUpload::Type::kFileName,
+          "compile_commands.json"}},
+        &add_result);
+    std::cout << "FilesAdd() result:\n" << add_result.dump(2) << std::endl;
     /* An example output:
     [
       {
@@ -114,7 +116,7 @@ int main(int, char**) {
       },
     ]
     */
-    /** [ipfs::Client::Add] */
+    /** [ipfs::Client::FilesAdd] */
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

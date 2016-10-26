@@ -66,7 +66,7 @@ class TransportCurl : public Transport {
 
  private:
   /** Setup the CURL handle `curl_`. */
-  void CurlSetup();
+  void HandleSetup();
 
   /** Fetch the data using CURL and save the HTTP status code to
    * `response->status_`. */
@@ -79,7 +79,7 @@ class TransportCurl : public Transport {
       Response* response);
 
   /** Destroy the CURL handle `curl_`. */
-  void CurlDestroy();
+  void HandleDestroy();
 
   /** CURL handle. */
   CURL* curl_;

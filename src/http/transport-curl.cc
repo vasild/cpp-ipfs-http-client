@@ -81,10 +81,10 @@ TransportCurl::TransportCurl() : curl_is_setup_(false) {
                 "The size of curl_error_ is too small");
 }
 
-TransportCurl::~TransportCurl() { CurlDestroy(); }
+TransportCurl::~TransportCurl() { HandleDestroy(); }
 
 void TransportCurl::Get(const std::string& url, Response* response) {
-  CurlSetup();
+  HandleSetup();
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPGET.html */
   curl_easy_setopt(curl_, CURLOPT_HTTPGET, 1);
@@ -107,7 +107,7 @@ void TransportCurl::Get(const std::string& url, Response* response) {
 void TransportCurl::Post(const std::string& url,
                          const std::vector<FileUpload>& files,
                          Response* response) {
-  CurlSetup();
+  HandleSetup();
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_POST.html */
   curl_easy_setopt(curl_, CURLOPT_POST, 1);
@@ -178,7 +178,7 @@ void TransportCurl::Post(const std::string& url,
 }
 
 void TransportCurl::UrlEncode(const std::string& raw, std::string* encoded) {
-  CurlSetup();
+  HandleSetup();
 
   char* encoded_c = curl_easy_escape(curl_, raw.c_str(), 0);
   if (encoded_c == NULL) {
@@ -190,7 +190,7 @@ void TransportCurl::UrlEncode(const std::string& raw, std::string* encoded) {
   curl_free(encoded_c);
 }
 
-void TransportCurl::CurlSetup() {
+void TransportCurl::HandleSetup() {
   if (curl_is_setup_) {
     return;
   }
@@ -237,7 +237,6 @@ void TransportCurl::Perform(const std::string& url,
   CURLcode res = curl_easy_perform(curl_);
   if (res != CURLE_OK) {
     const std::string generic_error(curl_easy_strerror(res));
-    CurlDestroy();
     throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
   }
 
@@ -247,14 +246,13 @@ void TransportCurl::Perform(const std::string& url,
   res = curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE,
                           &response->status_.code_);
   if (res != CURLE_OK) {
-    CurlDestroy();
     throw std::runtime_error(
         std::string("Can't get the HTTP status code from CURL: ") +
         curl_easy_strerror(res));
   }
 }
 
-void TransportCurl::CurlDestroy() {
+void TransportCurl::HandleDestroy() {
   if (!curl_is_setup_) {
     return;
   }

@@ -1,5 +1,4 @@
-/*
-Copyright (c) 2016-2016, Vasil Dimov
+/* Copyright (c) 2016-2016, Vasil Dimov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -16,8 +15,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
 FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #ifndef IPFS_CLIENT_H
 #define IPFS_CLIENT_H
@@ -35,38 +33,33 @@ namespace ipfs {
 /** Type of the output of some methods, aliased for convenience. */
 using Json = nlohmann::json;
 
-/**
- * IPFS client.
+/** IPFS client.
+ *
  * It implements the interface described in
  * https://github.com/ipfs/interface-ipfs-core.
  * The methods of this class may throw some variant of `std::exception` if a
  * connectivity error occurs or if the response cannot be parsed. Be prepared!
- * @since version 1.0.0
- */
+ *
+ * @since version 1.0.0 */
 class Client {
  public:
-  /**
-   * Constructor.
+  /** Constructor.
    *
    * An example usage:
    * @snippet simple.cc ipfs::Client::Client
    *
-   * @since version 1.0.0
-   */
+   * @since version 1.0.0 */
   Client(
       /** [in] Hostname or IP address of the server to connect to. */
       const std::string& host,
       /** [in] Port to connect to. */
       long port);
 
-  /**
-   * Destructor.
-   * @since version 1.0.0
-   */
+  /** Destructor.
+   * @since version 1.0.0 */
   ~Client();
 
-  /**
-   * Returns the identity of the peer.
+  /** Return the identity of the peer.
    *
    * Implements
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic#id.
@@ -74,17 +67,13 @@ class Client {
    * An example usage:
    * @snippet simple.cc ipfs::Client::Id
    *
-   * @since version 1.0.0
-   */
+   * @since version 1.0.0 */
   void Id(
-      /**
-       * [out] The identity of the peer.
-       * It contains at least the properties "Addresses", "ID", "PublicKey".
-       */
+      /** [out] The identity of the peer. It contains at least the properties
+       * "Addresses", "ID", "PublicKey". */
       Json* id);
 
-  /**
-   * Returns the implementation version of the peer.
+  /** Return the implementation version of the peer.
    *
    * Implements
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic#version.
@@ -92,17 +81,13 @@ class Client {
    * An example usage:
    * @snippet simple.cc ipfs::Client::Version
    *
-   * @since version 1.0.0
-   */
+   * @since version 1.0.0 */
   void Version(
-      /**
-       * [out] The peer's implementation version.
-       * It contains at least the properties "Repo", "System", "Version".
-       */
+      /** [out] The peer's implementation version. It contains at least the
+       * properties "Repo", "System", "Version". */
       Json* version);
 
-  /**
-   * Get a file from IPFS.
+  /** Get a file from IPFS.
    *
    * Implements
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/files#get.
@@ -110,22 +95,16 @@ class Client {
    * An example usage:
    * @snippet simple.cc ipfs::Client::FilesGet
    *
-   * @since version 1.0.0
-   */
+   * @since version 1.0.0 */
   void FilesGet(
-      /**
-       * [in] Path of the file in IPFS. For example:
-       * `"/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme"`
-       */
+      /** [in] Path of the file in IPFS. For example:
+       * `"/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme"` */
       const std::string& path,
-      /**
-       * [out] The file's contents is written to this stream as it is retrieved
-       * from IPFS.
-       */
+      /** [out] The file's contents is written to this stream as it is retrieved
+       * from IPFS. */
       std::iostream* response);
 
-  /**
-   * Add files to IPFS.
+  /** Add files to IPFS.
    *
    * Implements
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/files#add.
@@ -135,15 +114,11 @@ class Client {
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 1.0.0
-   */
+   * @since version 1.0.0 */
   void FilesAdd(
-      /**
-       * [in] List of files to add.
-       */
+      /** [in] List of files to add. */
       const std::vector<http::FileUpload>& files,
-      /**
-       * [out] List of results, one per file. For example:
+      /** [out] List of results, one per file. For example:
        * [{"path": "foo.txt", "hash": "Qm...", "size": 123}, {"path": ...}, ...]
        */
       Json* result);
@@ -151,35 +126,29 @@ class Client {
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(
-      /**
-       * [in] URL to fetch. For example:
-       * `"http://localhost:5001/api/v0/version"` but can be anything.
-       */
+      /** [in] URL to fetch. For example:
+       * `"http://localhost:5001/api/v0/version"` but can be anything. */
       const std::string& url,
       /** [out] Parsed JSON response. */
       Json* response);
 
-  /**
-   * Parse a string into a JSON. It just calls Json::parse() and appends the
+  /** Parse a string into a JSON. It just calls Json::parse() and appends the
    * input to the error message in case of an error.
    *
-   * @throw std::exception if any error occurs
-   */
+   * @throw std::exception if any error occurs */
   static void ParseJson(
       /** [in] String to parse. */
       const std::string& input,
       /** [out] Parse result. */
       Json* result);
 
-  /**
-   * The URL prefix of our peer. Crafted from `host` and `port` constructor's
-   * arguments. For example: `"http://localhost:5001/api/v0"`.
-   */
+  /** The URL prefix of our peer. Crafted from `host` and `port` constructor's
+   * arguments. For example: `"http://localhost:5001/api/v0"`. */
   std::string url_prefix_;
 
   /** The underlying transport. */
   http::Transport* http_;
 };
-}
+} /* namespace ipfs */
 
 #endif /* IPFS_CLIENT_H */

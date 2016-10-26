@@ -1,5 +1,4 @@
-/*
-Copyright (c) 2016-2016, Vasil Dimov
+/* Copyright (c) 2016-2016, Vasil Dimov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -16,8 +15,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
 FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #ifndef IPFS_HTTP_TRANSPORT_H
 #define IPFS_HTTP_TRANSPORT_H
@@ -30,26 +28,20 @@ namespace ipfs {
 
 namespace http {
 
-/**
- * HTTP status code.
- * @see https://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
- */
+/** HTTP status code.
+ * @see https://en.wikipedia.org/wiki/List_of_HTTP_status_codes. */
 class Status {
  public:
-  /**
-   * Check if the status code is 2xx Success.
-   * @return true if 2xx
-   */
+  /** Check if the status code is 2xx Success.
+   * @return true if 2xx */
   inline bool IsSuccess();
 
   /** The HTTP status code. */
   long code_;
 };
 
-/**
- * HTTP response. The body of the response is streamed into the `body_`
- * member as it arrives.
- */
+/** HTTP response. The body of the response is streamed into the `body_`
+ * member as it arrives. */
 class Response {
  public:
   /** Constructor to prevent creating objects uninitialized `body_`. */
@@ -64,9 +56,7 @@ class Response {
   std::iostream* body_;
 };
 
-/**
- * HTTP file upload.
- */
+/** HTTP file upload. */
 struct FileUpload {
   /** The type of the `data` member. */
   enum class Type {
@@ -82,10 +72,8 @@ struct FileUpload {
   /** The type of the `data` member. */
   Type type;
 
-  /**
-   * The data to be added. Either a file name from which to read the data or
-   * the contents itself.
-   */
+  /** The data to be added. Either a file name from which to read the data or
+   * the contents itself. */
   const std::string data;
 };
 
@@ -95,20 +83,16 @@ class Transport {
   /** Destructor. */
   virtual inline ~Transport();
 
-  /**
-   * Fetch the contents of a given URL using the HTTP GET method and stream it
-   * into `response.body_`.
-   */
+  /** Fetch the contents of a given URL using the HTTP GET method and stream it
+   * into `response.body_`. */
   virtual void Get(
       /** [in] URL to get. */
       const std::string& url,
       /** [out] Output to save the response body and status code to. */
       Response* response) = 0;
 
-  /**
-   * Submit a given content to a given URL using the HTTP POST method.
-   * Use "Content-Type: multipart/form-data".
-   */
+  /** * Submit a given content to a given URL using the HTTP POST method.
+   * Use "Content-Type: multipart/form-data". */
   virtual void Post(
       /** [in] URL to post to. */
       const std::string& url,

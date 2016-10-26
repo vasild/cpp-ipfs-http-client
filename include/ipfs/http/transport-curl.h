@@ -1,5 +1,4 @@
-/*
-Copyright (c) 2016-2016, Vasil Dimov
+/* Copyright (c) 2016-2016, Vasil Dimov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -16,8 +15,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
 FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #ifndef IPFS_HTTP_TRANSPORT_CURL_H
 #define IPFS_HTTP_TRANSPORT_CURL_H
@@ -41,20 +39,16 @@ class TransportCurl : public Transport {
   /** Destructor. */
   ~TransportCurl();
 
-  /**
-   * Fetch the contents of a given URL using the HTTP GET method and stream it
-   * into `response.body_`.
-   */
+  /** Fetch the contents of a given URL using the HTTP GET method and stream it
+   * into `response.body_`. */
   void Get(
       /** [in] URL to get. */
       const std::string& url,
       /** [out] Output to save the response body and status code to. */
       Response* response) override;
 
-  /**
-   * Submit a given content to a given URL using the HTTP POST method.
-   * Use "Content-Type: multipart/form-data".
-   */
+  /** Submit a given content to a given URL using the HTTP POST method.
+   * Use "Content-Type: multipart/form-data". */
   void Post(
       /** [in] URL to post to. */
       const std::string& url,
@@ -74,10 +68,8 @@ class TransportCurl : public Transport {
   /** Setup the CURL handle `curl_`. */
   void CurlSetup();
 
-  /**
-   * Fetch the data using CURL and save the HTTP status code to
-   * `response->status_`.
-   */
+  /** Fetch the data using CURL and save the HTTP status code to
+   * `response->status_`. */
   void Perform(
       /** [in] URL to retrieve. */
       const std::string& url,
@@ -95,12 +87,10 @@ class TransportCurl : public Transport {
   /** Designates whether the CURL handle `curl_` has been set up. */
   bool curl_is_setup_;
 
-  /**
-   * The CURL error buffer. CURL_ERROR_SIZE from curl/curl.h is 256. We do not
+  /** The CURL error buffer. CURL_ERROR_SIZE from curl/curl.h is 256. We do not
    * want to include that header here to avoid imposing that requirement on the
    * users of this library. We have a static_assert in http/transport.cc to
-   * ensure that this is big enough.
-   */
+   * ensure that this is big enough. */
   char curl_error_[256];
 };
 

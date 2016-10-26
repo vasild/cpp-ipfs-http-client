@@ -1,5 +1,4 @@
-/*
-Copyright (c) 2016-2016, Vasil Dimov
+/* Copyright (c) 2016-2016, Vasil Dimov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -16,8 +15,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
 FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <curl/curl.h>
 #include <iostream>
@@ -32,13 +30,10 @@ namespace ipfs {
 
 namespace http {
 
-/**
- * CURL global initialization.
- * `curl_global_init()` needs to be called before any other threads have
- * started executing because it is not thread safe and may call other
- * non-thread safe functions. Thus we use a global variable and call
- * `curl_global_init()` in its constructor.
- */
+/** CURL global initialization. `curl_global_init()` needs to be called before
+ * any other threads have started executing because it is not thread safe and
+ * may call other non-thread safe functions. Thus we use a global variable and
+ * call `curl_global_init()` in its constructor. */
 class CurlGlobal {
  public:
   /** Constructor that calls curl_global_init(). */
@@ -54,11 +49,9 @@ class CurlGlobal {
 CurlGlobal::CurlGlobal() { result_ = curl_global_init(CURL_GLOBAL_ALL); }
 CurlGlobal::~CurlGlobal() { curl_global_cleanup(); }
 
-/**
- * Call curl_global_init() before any other threads have started executing.
+/** Call curl_global_init() before any other threads have started executing.
  * This does not work with DLLs on Windows,
- * @see https://github.com/curl/curl/issues/586.
- */
+ * @see https://github.com/curl/curl/issues/586. */
 static const CurlGlobal curl_global;
 
 /** CURL callback for writing the result to a stream. */
@@ -104,9 +97,9 @@ void TransportCurl::Get(const std::string& url, Response* response) {
         "HTTP request failed with status code " +
         std::to_string(response->status_.code_) + ". Response body:\n" +
         /* Read the whole body back from the stream where we wrote it and
-        append it to this error message string. Usually the bodies of HTTP
-        error responses represent a short HTML or JSON that describes the
-        error. */
+         * append it to this error message string. Usually the bodies of
+         * HTTP error responses represent a short HTML or JSON that
+         * describes the error. */
         static_cast<const std::stringstream&>(std::stringstream() << b).str());
   }
 }
@@ -211,15 +204,15 @@ void TransportCurl::CurlSetup() {
   curl_easy_setopt(curl_, CURLOPT_ERRORBUFFER, curl_error_);
 
   /* Enable TCP keepalive.
-  https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPALIVE.html */
+   * https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPALIVE.html */
   curl_easy_setopt(curl_, CURLOPT_TCP_KEEPALIVE, 1);
 
   /* Seconds to wait before sending keep-alive packets.
-  https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPIDLE.html */
+   * https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPIDLE.html */
   curl_easy_setopt(curl_, CURLOPT_TCP_KEEPIDLE, 30);
 
   /* Seconds between keep-alive probes.
-  https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPINTVL.html */
+   * https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPINTVL.html */
   curl_easy_setopt(curl_, CURLOPT_TCP_KEEPINTVL, 10);
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_USERAGENT.html */

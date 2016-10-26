@@ -1,5 +1,4 @@
-/*
-Copyright (c) 2016-2016, Vasil Dimov
+/* Copyright (c) 2016-2016, Vasil Dimov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -16,8 +15,7 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
 FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <iostream>
 #include <nlohmann/json.hpp>
@@ -27,8 +25,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <vector>
 
 #include <ipfs/client.h>
-#include <ipfs/http/transport.h>
 #include <ipfs/http/transport-curl.h>
+#include <ipfs/http/transport.h>
 
 namespace ipfs {
 
@@ -145,4 +143,4 @@ void Client::ParseJson(const std::string& input, Json* result) {
     throw std::runtime_error(std::string(e.what()) + "\nInput JSON:\n" + input);
   }
 }
-}
+} /* namespace ipfs */

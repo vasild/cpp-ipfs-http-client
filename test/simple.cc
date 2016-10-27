@@ -79,6 +79,9 @@ int main(int, char**) {
     ipfs::Json id;
     client.Id(&id);
     std::cout << "Peer's public key: " << id["PublicKey"] << std::endl;
+    /* An example output:
+    Peer's public key: "CAASpgIwggEiMA0GCSqGSIb3DQN/ImJDE/CN1eHE....gMBAAE="
+    */
     /** [ipfs::Client::Id] */
     check_if_properties_exist("client.Id()", id,
                               {"Addresses", "ID", "PublicKey"});
@@ -87,28 +90,48 @@ int main(int, char**) {
     ipfs::Json version;
     client.Version(&version);
     std::cout << "Peer's version: " << version << std::endl;
+    /* An example output:
+    Peer's version: {"Commit":"ee6dd5e","Golang":"go1.7.3","Repo":"4",
+    "System":"amd64/freebsd","Version":"0.4.3"}
+    */
     /** [ipfs::Client::Version] */
     check_if_properties_exist("client.Version()", version,
                               {"Repo", "System", "Version"});
 
-    /** [ipfs::Client::BlockGet] */
-    std::stringstream block;
-    client.BlockGet("QmWPyMW2u7J2Zyzut7TcBMT8pG6F2cB4hmZk1vBJFBt1nP", &block);
-    std::cout << "Block (hex): " << string_to_hex(block.str()) << std::endl;
+    /** [ipfs::Client::BlockPut] */
+    ipfs::Json block;
+    client.BlockPut(
+        {"" /* no file name */, ipfs::http::FileUpload::Type::kFileContents,
+         "Block put test."},
+        &block);
+    std::cout << "Stored block key: " << block["Key"] << std::endl;
     /* An example output:
-    Block (hex): 0a0a08021204616263641804
+    Stored block key: "QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo"
+    */
+    /** [ipfs::Client::BlockPut] */
+    check_if_properties_exist("client.BlockPut()", block, {"Key", "Size"});
+
+    /** [ipfs::Client::BlockGet] */
+    std::stringstream block_contents;
+    /* E.g. block["Key"] is "QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo". */
+    client.BlockGet(block["Key"], &block_contents);
+    std::cout << "Block (hex): " << string_to_hex(block_contents.str())
+              << std::endl;
+    /* An example output:
+    Block (hex): 426c6f636b2070757420746573742e
     */
     /** [ipfs::Client::BlockGet] */
 
     /** [ipfs::Client::BlockStat] */
-    ipfs::Json stat;
-    client.BlockStat("QmWPyMW2u7J2Zyzut7TcBMT8pG6F2cB4hmZk1vBJFBt1nP", &stat);
-    std::cout << "Block info: " << stat << std::endl;
+    ipfs::Json stat_result;
+    client.BlockStat(block["Key"], &stat_result);
+    std::cout << "Stat: " << stat_result << std::endl;
     /* An example output:
-    {"Key":"QmWPyMW2u7J2Zyzut7TcBMT8pG6F2cB4hmZk1vBJFBt1nP","Size":12}
+    Stat: {"Key":"QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo","Size":15}
     */
     /** [ipfs::Client::BlockStat] */
-    check_if_properties_exist("client.BlockStat()", stat, {"Key", "Size"});
+    check_if_properties_exist("client.BlockStat()", stat_result,
+                              {"Key", "Size"});
 
     /** [ipfs::Client::FilesGet] */
     std::stringstream contents;
@@ -117,6 +140,9 @@ int main(int, char**) {
         &contents);
     std::cout << "Retrieved contents: " << contents.str().substr(0, 8) << "..."
               << std::endl;
+    /* An example output:
+    Retrieved contents: Hello an...
+    */
     /** [ipfs::Client::FilesGet] */
     check_if_string_contains("client.FilesGet()", contents.str(),
                              "Hello and Welcome to IPFS!");

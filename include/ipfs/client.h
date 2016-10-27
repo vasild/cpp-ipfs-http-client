@@ -67,6 +67,8 @@ class Client {
    * An example usage:
    * @snippet simple.cc ipfs::Client::Id
    *
+   * @throw std::exception if any error occurs
+   *
    * @since version 1.0.0 */
   void Id(
       /** [out] The identity of the peer. It contains at least the properties
@@ -81,6 +83,8 @@ class Client {
    * An example usage:
    * @snippet simple.cc ipfs::Client::Version
    *
+   * @throw std::exception if any error occurs
+   *
    * @since version 1.0.0 */
   void Version(
       /** [out] The peer's implementation version. It contains at least the
@@ -90,10 +94,12 @@ class Client {
   /** Get a raw IPFS block.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/block#get
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/block#get.
    *
    * An example usage:
    * @snippet simple.cc ipfs::Client::BlockGet
+   *
+   * @throw std::exception if any error occurs
    *
    * @since version 1.0.0 */
   void BlockGet(
@@ -103,13 +109,32 @@ class Client {
        * retrieved. */
       std::iostream* block);
 
+  /** Store a raw block in IPFS.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/block#put.
+   *
+   * An example usage:
+   * @snippet simple.cc ipfs::Client::BlockPut
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 1.0.0 */
+  void BlockPut(
+      /** [in] Raw contents of the block to store. */
+      const http::FileUpload& block,
+      /** [out] Information about the stored block. */
+      Json* stat);
+
   /** Get information for a raw IPFS block.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/block#stat
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/block#stat.
    *
    * An example usage:
    * @snippet simple.cc ipfs::Client::BlockStat
+   *
+   * @throw std::exception if any error occurs
    *
    * @since version 1.0.0 */
   void BlockStat(
@@ -125,6 +150,8 @@ class Client {
    *
    * An example usage:
    * @snippet simple.cc ipfs::Client::FilesGet
+   *
+   * @throw std::exception if any error occurs
    *
    * @since version 1.0.0 */
   void FilesGet(

@@ -51,6 +51,14 @@ void Client::BlockGet(const std::string& block_id, std::iostream* block) {
       block);
 }
 
+void Client::BlockPut(const http::FileUpload& block, Json* stat) {
+  std::stringstream body;
+
+  http_->Fetch(url_prefix_ + "/block/put?stream-channels=true", {block}, &body);
+
+  ParseJson(body.str(), stat);
+}
+
 void Client::BlockStat(const std::string& block_id, Json* stat) {
   FetchAndParseJson(
       url_prefix_ + "/block/stat?arg=" + block_id + "&stream-channels=true",

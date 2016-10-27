@@ -69,7 +69,8 @@ class TransportCurl : public Transport {
   void HandleSetup();
 
   /** Do the actual HTTP request. The CURL handle must have been configured when
-   * this method is called. */
+   * this method is called. The method will also check for successful HTTP status
+   * code and throw an exception if something goes wrong. */
   void Perform(
       /** [in] URL to retrieve. */
       const std::string& url,

@@ -55,6 +55,10 @@ CurlGlobal::~CurlGlobal() { curl_global_cleanup(); }
  * @see https://github.com/curl/curl/issues/586. */
 static const CurlGlobal curl_global;
 
+/** Check if a HTTP status code is 2xx Success.
+ * @return true if 2xx */
+inline bool status_is_success(long code) { return code >= 200 && code <= 299; }
+
 /** CURL callback for writing the result to a stream. */
 static size_t curl_cb_stream(
     /** [in] Pointer to the result. */
@@ -91,18 +95,6 @@ void TransportCurl::Get(const std::string& url, Response* response) {
   curl_easy_setopt(curl_, CURLOPT_HTTPGET, 1);
 
   Perform(url, response);
-
-  if (!response->status_.IsSuccess()) {
-    std::streambuf* b = response->body_->rdbuf();
-    throw std::runtime_error(
-        "HTTP request failed with status code " +
-        std::to_string(response->status_.code_) + ". Response body:\n" +
-        /* Read the whole body back from the stream where we wrote it and
-         * append it to this error message string. Usually the bodies of
-         * HTTP error responses represent a short HTML or JSON that
-         * describes the error. */
-        static_cast<const std::stringstream&>(std::stringstream() << b).str());
-  }
 }
 
 void TransportCurl::Post(const std::string& url,
@@ -230,7 +222,7 @@ void TransportCurl::Perform(const std::string& url, Response* response) {
   curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curl_cb_stream);
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
-  curl_easy_setopt(curl_, CURLOPT_WRITEDATA, response->body_);
+  curl_easy_setopt(curl_, CURLOPT_WRITEDATA, response);
 
   CURLcode res = curl_easy_perform(curl_);
   if (res != CURLE_OK) {
@@ -238,15 +230,25 @@ void TransportCurl::Perform(const std::string& url, Response* response) {
     throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
   }
 
-  static_assert(sizeof(long) == sizeof(response->status_.code_),
-                "Unexpected size of HTTP status code");
+  long status_code;
 
-  res = curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE,
-                          &response->status_.code_);
+  res = curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &status_code);
   if (res != CURLE_OK) {
     throw std::runtime_error(
         std::string("Can't get the HTTP status code from CURL: ") +
         curl_easy_strerror(res));
+  }
+
+  if (!status_is_success(status_code)) {
+    std::streambuf* b = response->rdbuf();
+    throw std::runtime_error(
+        "HTTP request failed with status code " +
+        std::to_string(status_code) + ". Response body:\n" +
+        /* Read the whole body back from the stream where we wrote it and
+         * append it to this error message string. Usually the bodies of
+         * HTTP error responses represent a short HTML or JSON that
+         * describes the error. */
+        static_cast<const std::stringstream&>(std::stringstream() << b).str());
   }
 }
 

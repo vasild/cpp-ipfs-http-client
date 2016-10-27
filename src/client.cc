@@ -46,15 +46,13 @@ void Client::Version(Json* version) {
 }
 
 void Client::FilesGet(const std::string& path, std::iostream* response) {
-  http::Response http_response(response);
-
   std::string path_url_encoded;
   http_->UrlEncode(path, &path_url_encoded);
 
   const std::string url =
       url_prefix_ + "/cat?stream-channels=true&arg=" + path_url_encoded;
 
-  http_->Get(url, &http_response);
+  http_->Get(url, response);
 }
 
 void Client::FilesAdd(const std::vector<http::FileUpload>& files,
@@ -62,10 +60,9 @@ void Client::FilesAdd(const std::vector<http::FileUpload>& files,
   const std::string url =
       url_prefix_ + "/add?stream-channels=true&progress=true";
 
-  std::stringstream body_stream;
-  http::Response http_response(&body_stream);
+  std::stringstream body;
 
-  http_->Post(url, files, &http_response);
+  http_->Post(url, files, &body);
 
   /* The reply consists of multiple lines, each one of which is a JSON, for
   example:
@@ -94,7 +91,7 @@ void Client::FilesAdd(const std::vector<http::FileUpload>& files,
   Json temp;
 
   std::string line;
-  for (size_t i = 1; std::getline(body_stream, line); ++i) {
+  for (size_t i = 1; std::getline(body, line); ++i) {
     Json json_chunk;
 
     ParseJson(line, &json_chunk);
@@ -105,7 +102,7 @@ void Client::FilesAdd(const std::vector<http::FileUpload>& files,
       throw std::runtime_error(
           std::string("Unexpected reply: valid JSON, but without the \"") +
           name + "\" property on line " + std::to_string(i) + ":\n" +
-          body_stream.str());
+          body.str());
     }
 
     const std::string& path = json_chunk[name];
@@ -128,12 +125,11 @@ void Client::FilesAdd(const std::vector<http::FileUpload>& files,
 }
 
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
-  std::stringstream body_stream;
-  http::Response http_response(&body_stream);
+  std::stringstream body;
 
-  http_->Get(url, &http_response);
+  http_->Get(url, &body);
 
-  ParseJson(body_stream.str(), response);
+  ParseJson(body.str(), response);
 }
 
 void Client::ParseJson(const std::string& input, Json* result) {

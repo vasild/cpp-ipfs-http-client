@@ -28,33 +28,8 @@ namespace ipfs {
 
 namespace http {
 
-/** HTTP status code.
- * @see https://en.wikipedia.org/wiki/List_of_HTTP_status_codes. */
-class Status {
- public:
-  /** Check if the status code is 2xx Success.
-   * @return true if 2xx */
-  inline bool IsSuccess();
-
-  /** The HTTP status code. */
-  long code_;
-};
-
-/** HTTP response. The body of the response is streamed into the `body_`
- * member as it arrives. */
-class Response {
- public:
-  /** Constructor to prevent creating objects uninitialized `body_`. */
-  explicit Response(
-      /** [in] pointer to body with which to initialize the `body_` member. */
-      std::iostream* body);
-
-  /** HTTP status code. */
-  Status status_;
-
-  /** Body of the HTTP response. */
-  std::iostream* body_;
-};
+/** HTTP response. The body of the response is streamed into this. */
+typedef std::iostream Response;
 
 /** HTTP file upload. */
 struct FileUpload {
@@ -84,11 +59,11 @@ class Transport {
   virtual inline ~Transport();
 
   /** Fetch the contents of a given URL using the HTTP GET method and stream it
-   * into `response.body_`. */
+   * into `response`. */
   virtual void Get(
       /** [in] URL to get. */
       const std::string& url,
-      /** [out] Output to save the response body and status code to. */
+      /** [out] Output to save the response body to. */
       Response* response) = 0;
 
   /** * Submit a given content to a given URL using the HTTP POST method.
@@ -98,7 +73,7 @@ class Transport {
       const std::string& url,
       /** [in] List of files to upload. */
       const std::vector<FileUpload>& files,
-      /** [out] Output to save the response body and status code to. */
+      /** [out] Output to save the response body to. */
       Response* response) = 0;
 
   /** URL encode a string. */
@@ -108,10 +83,6 @@ class Transport {
       /** [out] URL encoded result. */
       std::string* encoded) = 0;
 };
-
-inline bool Status::IsSuccess() { return code_ >= 200 && code_ <= 299; }
-
-inline Response::Response(std::iostream* body) : body_(body) {}
 
 inline Transport::~Transport() {}
 

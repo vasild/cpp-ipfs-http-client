@@ -45,6 +45,40 @@ void Client::Version(Json* version) {
   FetchAndParseJson(url_prefix_ + "/version?stream-channels=true", version);
 }
 
+void Client::ConfigGet(const std::string& key, Json* config) {
+  std::string url;
+
+  if (key.empty()) {
+    url = url_prefix_ + "/config/show?stream-channels=true";
+  } else {
+    std::string key_url_encoded;
+    http_->UrlEncode(key, &key_url_encoded);
+    url = url_prefix_ + "/config?arg=" + key_url_encoded + "&stream-channels=true";
+  }
+
+  FetchAndParseJson(url, config);
+
+  if (!key.empty()) {
+    static const char* value = "Value";
+    if (config->find(value) == config->end()) {
+      throw std::runtime_error(
+          std::string("Unexpected reply: valid JSON, but without the \"") +
+          value + "\" property");
+    }
+    /* Convert
+    {
+      "Key": "Datastore",
+      "Value": { "BloomFilterSize": 0, "GCPeriod": "1h", ... }
+    }
+
+    to
+
+    { "BloomFilterSize": 0, "GCPeriod": "1h", ... }
+    */
+    *config = (*config)[value];
+  }
+}
+
 void Client::BlockGet(const std::string& block_id, std::iostream* block) {
   http_->Fetch(
       url_prefix_ + "/block/get?arg=" + block_id + "&stream-channels=true", {},

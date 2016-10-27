@@ -98,6 +98,34 @@ int main(int, char**) {
     check_if_properties_exist("client.Version()", version,
                               {"Repo", "System", "Version"});
 
+    /** [ipfs::Client::ConfigGet] */
+    ipfs::Json config;
+    client.ConfigGet("Datastore", &config);
+    std::cout << R"(Config "Datastore":)" << std::endl
+              << config.dump(2) << std::endl;
+    /* An example output:
+    Config "Datastore":
+    {
+      "BloomFilterSize": 0,
+      "GCPeriod": "1h",
+      "HashOnRead": false,
+      "NoSync": false,
+      "Params": null,
+      "Path": "/home/vd/.ipfs/datastore",
+      "StorageGCWatermark": 90,
+      "StorageMax": "10GB",
+      "Type": "leveldb"
+    }
+    */
+
+    client.ConfigGet("" /* fetch the whole config */, &config);
+    std::cout << "Config max storage: " << config["Datastore"]["StorageMax"]
+              << std::endl;
+    /* An example output:
+    Config max storage: "10GB"
+    */
+    /** [ipfs::Client::ConfigGet] */
+
     /** [ipfs::Client::BlockPut] */
     ipfs::Json block;
     client.BlockPut(

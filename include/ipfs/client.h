@@ -91,6 +91,24 @@ class Client {
        * properties "Repo", "System", "Version". */
       Json* version);
 
+  /** Query the current config of the peer.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/config#configget.
+   *
+   * An example usage:
+   * @snippet simple.cc ipfs::Client::ConfigGet
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 1.0.0 */
+  void ConfigGet(
+      /** [in] The key of the value to fetch from the config. If this is an
+       * empty string, then the whole config is fetched. */
+      const std::string& key,
+      /** [out] Fetched config. */
+      Json* config);
+
   /** Get a raw IPFS block.
    *
    * Implements

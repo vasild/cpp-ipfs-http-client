@@ -39,22 +39,17 @@ class TransportCurl : public Transport {
   /** Destructor. */
   ~TransportCurl();
 
-  /** Fetch the contents of a given URL using the HTTP GET method and stream it
-   * into `response.body_`. */
-  void Get(
+  /** Fetch the contents of a given URL. If any files are provided in `files`,
+   * they are submitted using "Content-Type: multipart/form-data".
+   *
+   * @throw std::exception if any error occurs including erroneous HTTP status
+   * code */
+  void Fetch(
       /** [in] URL to get. */
-      const std::string& url,
-      /** [out] Output to save the response body and status code to. */
-      Response* response) override;
-
-  /** Submit a given content to a given URL using the HTTP POST method.
-   * Use "Content-Type: multipart/form-data". */
-  void Post(
-      /** [in] URL to post to. */
       const std::string& url,
       /** [in] List of files to upload. */
       const std::vector<FileUpload>& files,
-      /** [out] Output to save the response body and status code to. */
+      /** [out] Output to save the response body to. */
       Response* response) override;
 
   /** URL encode a string. */

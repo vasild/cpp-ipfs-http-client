@@ -58,18 +58,13 @@ class Transport {
   /** Destructor. */
   virtual inline ~Transport();
 
-  /** Fetch the contents of a given URL using the HTTP GET method and stream it
-   * into `response`. */
-  virtual void Get(
+  /** Fetch the contents of a given URL. If any files are provided in `files`,
+   * they are submitted using "Content-Type: multipart/form-data".
+   *
+   * @throw std::exception if any error occurs including erroneous HTTP status
+   * code */
+  virtual void Fetch(
       /** [in] URL to get. */
-      const std::string& url,
-      /** [out] Output to save the response body to. */
-      Response* response) = 0;
-
-  /** * Submit a given content to a given URL using the HTTP POST method.
-   * Use "Content-Type: multipart/form-data". */
-  virtual void Post(
-      /** [in] URL to post to. */
       const std::string& url,
       /** [in] List of files to upload. */
       const std::vector<FileUpload>& files,

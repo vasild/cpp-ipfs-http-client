@@ -52,7 +52,7 @@ void Client::FilesGet(const std::string& path, std::iostream* response) {
   const std::string url =
       url_prefix_ + "/cat?stream-channels=true&arg=" + path_url_encoded;
 
-  http_->Get(url, response);
+  http_->Fetch(url, {}, response);
 }
 
 void Client::FilesAdd(const std::vector<http::FileUpload>& files,
@@ -62,7 +62,7 @@ void Client::FilesAdd(const std::vector<http::FileUpload>& files,
 
   std::stringstream body;
 
-  http_->Post(url, files, &body);
+  http_->Fetch(url, files, &body);
 
   /* The reply consists of multiple lines, each one of which is a JSON, for
   example:
@@ -127,7 +127,7 @@ void Client::FilesAdd(const std::vector<http::FileUpload>& files,
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   std::stringstream body;
 
-  http_->Get(url, &body);
+  http_->Fetch(url, {}, &body);
 
   ParseJson(body.str(), response);
 }

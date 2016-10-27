@@ -88,18 +88,9 @@ TransportCurl::TransportCurl() : curl_is_setup_(false) {
 
 TransportCurl::~TransportCurl() { HandleDestroy(); }
 
-void TransportCurl::Get(const std::string& url, Response* response) {
-  HandleSetup();
-
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPGET.html */
-  curl_easy_setopt(curl_, CURLOPT_HTTPGET, 1);
-
-  Perform(url, response);
-}
-
-void TransportCurl::Post(const std::string& url,
-                         const std::vector<FileUpload>& files,
-                         Response* response) {
+void TransportCurl::Fetch(const std::string& url,
+                          const std::vector<FileUpload>& files,
+                          Response* response) {
   HandleSetup();
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_POST.html */

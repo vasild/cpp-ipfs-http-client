@@ -89,7 +89,7 @@ void TransportCurl::Get(const std::string& url, Response* response) {
   /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPGET.html */
   curl_easy_setopt(curl_, CURLOPT_HTTPGET, 1);
 
-  Perform(url, curl_cb_stream, response);
+  Perform(url, response);
 
   if (!response->status_.IsSuccess()) {
     std::streambuf* b = response->body_->rdbuf();
@@ -159,7 +159,7 @@ void TransportCurl::Post(const std::string& url,
   curl_easy_setopt(curl_, CURLOPT_HTTPHEADER, headers);
 
   try {
-    Perform(url, curl_cb_stream, response);
+    Perform(url, response);
   } catch (const std::exception& e) {
     /* https://curl.haxx.se/libcurl/c/curl_slist_free_all.html */
     curl_slist_free_all(headers);
@@ -221,15 +221,12 @@ void TransportCurl::HandleSetup() {
   curl_is_setup_ = true;
 }
 
-void TransportCurl::Perform(const std::string& url,
-                            size_t (*curl_cb)(char* ptr, size_t size,
-                                              size_t nmemb, void* userdata),
-                            Response* response) {
+void TransportCurl::Perform(const std::string& url, Response* response) {
   /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
   curl_easy_setopt(curl_, CURLOPT_URL, url.c_str());
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
-  curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curl_cb);
+  curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curl_cb_stream);
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
   curl_easy_setopt(curl_, CURLOPT_WRITEDATA, response->body_);

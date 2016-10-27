@@ -68,13 +68,11 @@ class TransportCurl : public Transport {
   /** Setup the CURL handle `curl_`. */
   void HandleSetup();
 
-  /** Fetch the data using CURL and save the HTTP status code to
-   * `response->status_`. */
+  /** Do the actual HTTP request. The CURL handle must have been configured when
+   * this method is called. */
   void Perform(
       /** [in] URL to retrieve. */
       const std::string& url,
-      /** [in,out] CURL callback function to write to `response`. */
-      size_t (*curl_cb)(char* ptr, size_t size, size_t nmemb, void* userdata),
       /** [in,out] Response from the web server. */
       Response* response);
 

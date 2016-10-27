@@ -57,6 +57,18 @@ static inline void check_if_string_contains(
   }
 }
 
+/** Convert a string to hex. For example: "abcd" -> "61626364". */
+static inline std::string string_to_hex(
+    /** [in] String to convert. */
+    const std::string& input) {
+  std::stringstream ss;
+  ss << std::hex;
+  for (size_t i = 0; i < input.length(); ++i) {
+    ss << std::setw(2) << std::setfill('0') << (int)input[i];
+  }
+  return ss.str();
+}
+
 int main(int, char**) {
   try {
     /** [ipfs::Client::Client] */
@@ -78,6 +90,15 @@ int main(int, char**) {
     /** [ipfs::Client::Version] */
     check_if_properties_exist("ipfs.Version()", version,
                               {"Repo", "System", "Version"});
+
+    /** [ipfs::Client::BlockGet] */
+    std::stringstream block;
+    client.BlockGet("QmWPyMW2u7J2Zyzut7TcBMT8pG6F2cB4hmZk1vBJFBt1nP", &block);
+    std::cout << "Block (hex): " << string_to_hex(block.str()) << std::endl;
+    /* An example output:
+    Block (hex): 0a0a08021204616263641804
+    */
+    /** [ipfs::Client::BlockGet] */
 
     /** [ipfs::Client::BlockStat] */
     ipfs::Json stat;

@@ -45,6 +45,12 @@ void Client::Version(Json* version) {
   FetchAndParseJson(url_prefix_ + "/version?stream-channels=true", version);
 }
 
+void Client::BlockGet(const std::string& block_id, std::iostream* block) {
+  http_->Fetch(
+      url_prefix_ + "/block/get?arg=" + block_id + "&stream-channels=true", {},
+      block);
+}
+
 void Client::BlockStat(const std::string& block_id, Json* stat) {
   FetchAndParseJson(
       url_prefix_ + "/block/stat?arg=" + block_id + "&stream-channels=true",

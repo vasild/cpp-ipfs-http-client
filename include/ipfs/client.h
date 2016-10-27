@@ -87,6 +87,22 @@ class Client {
        * properties "Repo", "System", "Version". */
       Json* version);
 
+  /** Get a raw IPFS block.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/block#get
+   *
+   * An example usage:
+   * @snippet simple.cc ipfs::Client::BlockGet
+   *
+   * @since version 1.0.0 */
+  void BlockGet(
+      /** [in] Id of the block (multihash). */
+      const std::string& block_id,
+      /** [out] Raw contents of the block is written to this stream as it is
+       * retrieved. */
+      std::iostream* block);
+
   /** Get information for a raw IPFS block.
    *
    * Implements

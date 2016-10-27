@@ -79,6 +79,16 @@ int main(int, char**) {
     check_if_properties_exist("ipfs.Version()", version,
                               {"Repo", "System", "Version"});
 
+    /** [ipfs::Client::BlockStat] */
+    ipfs::Json stat;
+    client.BlockStat("QmWPyMW2u7J2Zyzut7TcBMT8pG6F2cB4hmZk1vBJFBt1nP", &stat);
+    std::cout << "Block info: " << stat << std::endl;
+    /* An example output:
+    {"Key":"QmWPyMW2u7J2Zyzut7TcBMT8pG6F2cB4hmZk1vBJFBt1nP","Size":12}
+    */
+    /** [ipfs::Client::BlockStat] */
+    check_if_properties_exist("client.BlockStat()", stat, {"Key", "Size"});
+
     /** [ipfs::Client::FilesGet] */
     std::stringstream contents;
     client.FilesGet(

@@ -45,6 +45,12 @@ void Client::Version(Json* version) {
   FetchAndParseJson(url_prefix_ + "/version?stream-channels=true", version);
 }
 
+void Client::BlockStat(const std::string& block_id, Json* stat) {
+  FetchAndParseJson(
+      url_prefix_ + "/block/stat?arg=" + block_id + "&stream-channels=true",
+      stat);
+}
+
 void Client::FilesGet(const std::string& path, std::iostream* response) {
   std::string path_url_encoded;
   http_->UrlEncode(path, &path_url_encoded);

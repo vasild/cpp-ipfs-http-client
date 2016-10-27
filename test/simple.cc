@@ -154,7 +154,8 @@ int main(int, char**) {
          {"bar.txt", ipfs::http::FileUpload::Type::kFileName,
           "compile_commands.json"}},
         &add_result);
-    std::cout << "FilesAdd() result:\n" << add_result.dump(2) << std::endl;
+    std::cout << "FilesAdd() result:" << std::endl
+              << add_result.dump(2) << std::endl;
     /* An example output:
     [
       {

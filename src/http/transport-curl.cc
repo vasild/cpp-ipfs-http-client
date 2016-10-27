@@ -19,6 +19,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <curl/curl.h>
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -115,7 +116,6 @@ void TransportCurl::Post(const std::string& url,
   curl_httppost* form_parts = NULL;
   curl_httppost* form_parts_end = NULL;
 
-  /* https://curl.haxx.se/libcurl/c/curl_formadd.html */
   for (size_t i = 0; i < files.size(); ++i) {
     const FileUpload& file = files[i];
     const std::string name("file" + std::to_string(i));
@@ -123,6 +123,7 @@ void TransportCurl::Post(const std::string& url,
 
     switch (file.type) {
       case FileUpload::Type::kFileContents:
+        /* https://curl.haxx.se/libcurl/c/curl_formadd.html */
         curl_formadd(&form_parts, &form_parts_end,
                      /* name="..."; */
                      CURLFORM_COPYNAME, name.c_str(),
@@ -136,6 +137,7 @@ void TransportCurl::Post(const std::string& url,
                      CURLFORM_CONTENTTYPE, content_type, CURLFORM_END);
         break;
       case FileUpload::Type::kFileName:
+        /* https://curl.haxx.se/libcurl/c/curl_formadd.html */
         curl_formadd(&form_parts, &form_parts_end,
                      /* name="..."; */
                      CURLFORM_COPYNAME, name.c_str(),
@@ -149,32 +151,31 @@ void TransportCurl::Post(const std::string& url,
     }
   }
 
+  /* Auto free the resources occupied by `form_parts`. */
+  std::unique_ptr<curl_httppost, void (*)(curl_httppost*)> form_parts_deleter(
+      form_parts, [](curl_httppost* d) {
+        /* https://curl.haxx.se/libcurl/c/curl_formfree.html */
+        curl_formfree(d);
+      });
+
   /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPPOST.html */
   curl_easy_setopt(curl_, CURLOPT_HTTPPOST, form_parts);
 
   curl_slist* headers = NULL;
+  /* https://curl.haxx.se/libcurl/c/curl_slist_append.html */
   headers = curl_slist_append(headers, "Expect:");
+
+  /* Auto free the resources occupied by `headers`. */
+  std::unique_ptr<curl_slist, void (*)(curl_slist*)> headers_deleter(
+      headers, [](curl_slist* d) {
+        /* https://curl.haxx.se/libcurl/c/curl_slist_free_all.html */
+        curl_slist_free_all(d);
+      });
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPHEADER.html */
   curl_easy_setopt(curl_, CURLOPT_HTTPHEADER, headers);
 
-  try {
-    Perform(url, response);
-  } catch (const std::exception& e) {
-    /* https://curl.haxx.se/libcurl/c/curl_slist_free_all.html */
-    curl_slist_free_all(headers);
-
-    /* https://curl.haxx.se/libcurl/c/curl_formfree.html */
-    curl_formfree(form_parts);
-
-    throw e;
-  }
-
-  /* https://curl.haxx.se/libcurl/c/curl_slist_free_all.html */
-  curl_slist_free_all(headers);
-
-  /* https://curl.haxx.se/libcurl/c/curl_formfree.html */
-  curl_formfree(form_parts);
+  Perform(url, response);
 }
 
 void TransportCurl::UrlEncode(const std::string& raw, std::string* encoded) {

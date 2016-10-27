@@ -80,7 +80,7 @@ int main(int, char**) {
     client.Id(&id);
     std::cout << "Peer's public key: " << id["PublicKey"] << std::endl;
     /** [ipfs::Client::Id] */
-    check_if_properties_exist("ipfs.Id()", id,
+    check_if_properties_exist("client.Id()", id,
                               {"Addresses", "ID", "PublicKey"});
 
     /** [ipfs::Client::Version] */
@@ -88,7 +88,7 @@ int main(int, char**) {
     client.Version(&version);
     std::cout << "Peer's version: " << version << std::endl;
     /** [ipfs::Client::Version] */
-    check_if_properties_exist("ipfs.Version()", version,
+    check_if_properties_exist("client.Version()", version,
                               {"Repo", "System", "Version"});
 
     /** [ipfs::Client::BlockGet] */

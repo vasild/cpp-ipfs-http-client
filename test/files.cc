@@ -20,8 +20,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <string>
-#include <vector>
 
 #include <ipfs/client.h>
 #include "utils.h"

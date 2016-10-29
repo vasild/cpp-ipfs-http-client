@@ -1,8 +1,8 @@
 set(TESTS
   block
   config
+  files
   generic
-  simple
 )
 
 foreach (T ${TESTS})

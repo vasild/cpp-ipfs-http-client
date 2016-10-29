@@ -200,7 +200,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/files#get.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::FilesGet
+   * @snippet files.cc ipfs::Client::FilesGet
    *
    * @throw std::exception if any error occurs
    *
@@ -219,7 +219,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/files#add.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::FilesAdd
+   * @snippet files.cc ipfs::Client::FilesAdd
    *
    * @throw std::exception if any error occurs
    *

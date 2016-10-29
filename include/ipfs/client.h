@@ -47,7 +47,7 @@ class Client {
   /** Constructor.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::Client
+   * @snippet generic.cc ipfs::Client::Client
    *
    * @since version 1.0.0 */
   Client(
@@ -66,7 +66,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic#id.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::Id
+   * @snippet generic.cc ipfs::Client::Id
    *
    * @throw std::exception if any error occurs
    *
@@ -82,7 +82,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic#version.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::Version
+   * @snippet generic.cc ipfs::Client::Version
    *
    * @throw std::exception if any error occurs
    *

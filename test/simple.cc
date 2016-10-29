@@ -24,50 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <vector>
 
 #include <ipfs/client.h>
-
-/** Check if a given set of properties exist in a JSON. */
-static inline void check_if_properties_exist(
-    /** [in] Label to use when throwing an exception if a failure occurs. */
-    const std::string& label,
-    /** [in] JSON to check for the properties. */
-    const ipfs::Json& j,
-    /** [in] List of properties. */
-    const std::vector<const char*>& properties) {
-  for (const char* property : properties) {
-    if (j.find(property) == j.end()) {
-      throw std::runtime_error(label + ": the property \"" + property +
-                               "\" was not found in the response:\n" +
-                               j.dump(2));
-    }
-  }
-}
-
-/** Check if a string contains another string and throw an exception if it does
- * not. */
-static inline void check_if_string_contains(
-    /** [in] Label to use when throwing an exception if a failure occurs. */
-    const std::string& label,
-    /** [in] String to search into. */
-    const std::string& big,
-    /** [in] String to search for. */
-    const std::string& needle) {
-  if (big.find(needle) == big.npos) {
-    throw std::runtime_error(label + ": \"" + needle +
-                             "\" was not found in the response:\n" + big);
-  }
-}
-
-/** Convert a string to hex. For example: "abcd" -> "61626364". */
-static inline std::string string_to_hex(
-    /** [in] String to convert. */
-    const std::string& input) {
-  std::stringstream ss;
-  ss << std::hex;
-  for (size_t i = 0; i < input.length(); ++i) {
-    ss << std::setw(2) << std::setfill('0') << (int)input[i];
-  }
-  return ss.str();
-}
+#include "utils.h"
 
 int main(int, char**) {
   try {

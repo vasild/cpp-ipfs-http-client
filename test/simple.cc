@@ -131,13 +131,20 @@ int main(int, char**) {
     }
     */
 
-    client.ConfigGet("" /* fetch the whole config */, &config);
+    client.ConfigGet("" /* fetch the entire config */, &config);
     std::cout << "Config max storage: " << config["Datastore"]["StorageMax"]
               << std::endl;
     /* An example output:
     Config max storage: "10GB"
     */
     /** [ipfs::Client::ConfigGet] */
+
+    /** [ipfs::Client::ConfigReplace] */
+    ipfs::Json entire_config;
+    client.ConfigGet("" /* fetch the entire config */, &entire_config);
+
+    client.ConfigReplace(entire_config);
+    /** [ipfs::Client::ConfigReplace] */
 
     /** [ipfs::Client::BlockPut] */
     ipfs::Json block;

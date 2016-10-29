@@ -127,6 +127,21 @@ class Client {
       /** [in] The value to set for the key. */
       const Json& value);
 
+  /** Replace the entire config at the peer.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/config#configreplace.
+   *
+   * An example usage:
+   * @snippet simple.cc ipfs::Client::ConfigReplace
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 1.0.0 */
+  void ConfigReplace(
+      /** [in] The entire config to set/replace. */
+      const Json& config);
+
   /** Get a raw IPFS block.
    *
    * Implements

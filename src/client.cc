@@ -93,6 +93,15 @@ void Client::ConfigSet(const std::string& key, const Json& value) {
   FetchAndParseJson(url, &unused);
 }
 
+void Client::ConfigReplace(const Json& config) {
+  std::stringstream unused;
+  http_->Fetch(
+      url_prefix_ + "/config/replace?encoding=json&stream-channels=true",
+      {{"new_config.json", http::FileUpload::Type::kFileContents,
+        config.dump()}},
+      &unused);
+}
+
 void Client::BlockGet(const std::string& block_id, std::iostream* block) {
   http_->Fetch(
       url_prefix_ + "/block/get?arg=" + block_id + "&stream-channels=true", {},

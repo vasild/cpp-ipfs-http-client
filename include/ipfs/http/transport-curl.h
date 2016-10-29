@@ -21,6 +21,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #define IPFS_HTTP_TRANSPORT_CURL_H
 
 #include <curl/curl.h>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -50,7 +51,7 @@ class TransportCurl : public Transport {
       /** [in] List of files to upload. */
       const std::vector<FileUpload>& files,
       /** [out] Output to save the response body to. */
-      Response* response) override;
+      std::iostream* response) override;
 
   /** URL encode a string. */
   void UrlEncode(
@@ -70,7 +71,7 @@ class TransportCurl : public Transport {
       /** [in] URL to retrieve. */
       const std::string& url,
       /** [in,out] Response from the web server. */
-      Response* response);
+      std::iostream* response);
 
   /** Destroy the CURL handle `curl_`. */
   void HandleDestroy();

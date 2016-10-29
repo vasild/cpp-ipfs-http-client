@@ -90,7 +90,7 @@ TransportCurl::~TransportCurl() { HandleDestroy(); }
 
 void TransportCurl::Fetch(const std::string& url,
                           const std::vector<FileUpload>& files,
-                          Response* response) {
+                          std::iostream* response) {
   HandleSetup();
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_POST.html */
@@ -205,7 +205,7 @@ void TransportCurl::HandleSetup() {
   curl_is_setup_ = true;
 }
 
-void TransportCurl::Perform(const std::string& url, Response* response) {
+void TransportCurl::Perform(const std::string& url, std::iostream* response) {
   /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
   curl_easy_setopt(curl_, CURLOPT_URL, url.c_str());
 

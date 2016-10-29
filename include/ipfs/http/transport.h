@@ -28,9 +28,6 @@ namespace ipfs {
 
 namespace http {
 
-/** HTTP response. The body of the response is streamed into this. */
-typedef std::iostream Response;
-
 /** HTTP file upload. */
 struct FileUpload {
   /** The type of the `data` member. */
@@ -69,7 +66,7 @@ class Transport {
       /** [in] List of files to upload. */
       const std::vector<FileUpload>& files,
       /** [out] Output to save the response body to. */
-      Response* response) = 0;
+      std::iostream* response) = 0;
 
   /** URL encode a string. */
   virtual void UrlEncode(

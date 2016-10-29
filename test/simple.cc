@@ -98,6 +98,19 @@ int main(int, char**) {
     check_if_properties_exist("client.Version()", version,
                               {"Repo", "System", "Version"});
 
+    /** [ipfs::Client::ConfigSet] */
+    client.ConfigSet("Datastore.StorageMax", "20GB");
+
+    client.ConfigSet("Datastore.StorageGCWatermark", 80);
+
+    client.ConfigSet("Mounts",
+                     R"({
+                          "FuseAllowOther": false,
+                          "IPFS": "/ipfs",
+                          "IPNS": "/ipns"
+                        })"_json);
+    /** [ipfs::Client::ConfigSet] */
+
     /** [ipfs::Client::ConfigGet] */
     ipfs::Json config;
     client.ConfigGet("Datastore", &config);

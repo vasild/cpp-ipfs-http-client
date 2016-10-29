@@ -79,6 +79,20 @@ void Client::ConfigGet(const std::string& key, Json* config) {
   }
 }
 
+void Client::ConfigSet(const std::string& key, const Json& value) {
+  std::string key_url_encoded;
+  http_->UrlEncode(key, &key_url_encoded);
+
+  std::string value_url_encoded;
+  http_->UrlEncode(value.dump(), &value_url_encoded);
+
+  std::string url = url_prefix_ + "/config?json=true&arg=" + key_url_encoded +
+                    "&arg=" + value_url_encoded + "&stream-channels=true";
+
+  Json unused;
+  FetchAndParseJson(url, &unused);
+}
+
 void Client::BlockGet(const std::string& block_id, std::iostream* block) {
   http_->Fetch(
       url_prefix_ + "/block/get?arg=" + block_id + "&stream-channels=true", {},

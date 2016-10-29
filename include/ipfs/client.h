@@ -110,6 +110,23 @@ class Client {
       /** [out] Fetched config. */
       Json* config);
 
+  /** Add or replace a config knob at the peer.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/config#configset.
+   *
+   * An example usage:
+   * @snippet simple.cc ipfs::Client::ConfigSet
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 1.0.0 */
+  void ConfigSet(
+      /** [in] The key of the config knob to set. */
+      const std::string& key,
+      /** [in] The value to set for the key. */
+      const Json& value);
+
   /** Get a raw IPFS block.
    *
    * Implements

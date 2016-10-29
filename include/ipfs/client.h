@@ -30,7 +30,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 /** IPFS namespace. Everything IPFS related goes inside it. */
 namespace ipfs {
 
-/** Type of the output of some methods, aliased for convenience. */
+/** Type of the output of some methods, aliased for convenience.
+ * @see https://github.com/nlohmann/json */
 using Json = nlohmann::json;
 
 /** IPFS client.

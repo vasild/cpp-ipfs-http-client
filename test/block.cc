@@ -20,8 +20,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <string>
-#include <vector>
 
 #include <ipfs/client.h>
 #include "utils.h"
@@ -30,44 +28,40 @@ int main(int, char**) {
   try {
     ipfs::Client client("localhost", 5001);
 
-    /** [ipfs::Client::FilesGet] */
-    std::stringstream contents;
-    client.FilesGet(
-        "/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme",
-        &contents);
-    std::cout << "Retrieved contents: " << contents.str().substr(0, 8) << "..."
+    /** [ipfs::Client::BlockPut] */
+    ipfs::Json block;
+    client.BlockPut(
+        {"" /* no file name */, ipfs::http::FileUpload::Type::kFileContents,
+         "Block put test."},
+        &block);
+    std::cout << "Stored block key: " << block["Key"] << std::endl;
+    /* An example output:
+    Stored block key: "QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo"
+    */
+    /** [ipfs::Client::BlockPut] */
+    check_if_properties_exist("client.BlockPut()", block, {"Key", "Size"});
+
+    /** [ipfs::Client::BlockGet] */
+    std::stringstream block_contents;
+    /* E.g. block["Key"] is "QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo". */
+    client.BlockGet(block["Key"], &block_contents);
+    std::cout << "Block (hex): " << string_to_hex(block_contents.str())
               << std::endl;
     /* An example output:
-    Retrieved contents: Hello an...
+    Block (hex): 426c6f636b2070757420746573742e
     */
-    /** [ipfs::Client::FilesGet] */
-    check_if_string_contains("client.FilesGet()", contents.str(),
-                             "Hello and Welcome to IPFS!");
+    /** [ipfs::Client::BlockGet] */
 
-    /** [ipfs::Client::FilesAdd] */
-    ipfs::Json add_result;
-    client.FilesAdd(
-        {{"foo.txt", ipfs::http::FileUpload::Type::kFileContents, "abcd"},
-         {"bar.txt", ipfs::http::FileUpload::Type::kFileName,
-          "../compile_commands.json"}},
-        &add_result);
-    std::cout << "FilesAdd() result:" << std::endl
-              << add_result.dump(2) << std::endl;
+    /** [ipfs::Client::BlockStat] */
+    ipfs::Json stat_result;
+    client.BlockStat(block["Key"], &stat_result);
+    std::cout << "Stat: " << stat_result << std::endl;
     /* An example output:
-    [
-      {
-        "path": "foo.txt",
-        "hash": "QmWPyMW2u7J2Zyzut7TcBMT8pG6F2cB4hmZk1vBJFBt1nP",
-        "size": 4
-      }
-      {
-        "path": "bar.txt",
-        "hash": "QmVjQsMgtRsRKpNM8amTCDRuUPriY8tGswsTpo137jPWwL",
-        "size": 1176
-      },
-    ]
+    Stat: {"Key":"QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo","Size":15}
     */
-    /** [ipfs::Client::FilesAdd] */
+    /** [ipfs::Client::BlockStat] */
+    check_if_properties_exist("client.BlockStat()", stat_result,
+                              {"Key", "Size"});
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

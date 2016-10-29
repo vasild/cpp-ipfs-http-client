@@ -148,7 +148,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/block#get.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::BlockGet
+   * @snippet block.cc ipfs::Client::BlockGet
    *
    * @throw std::exception if any error occurs
    *
@@ -166,7 +166,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/block#put.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::BlockPut
+   * @snippet block.cc ipfs::Client::BlockPut
    *
    * @throw std::exception if any error occurs
    *
@@ -183,7 +183,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/block#stat.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::BlockStat
+   * @snippet block.cc ipfs::Client::BlockStat
    *
    * @throw std::exception if any error occurs
    *

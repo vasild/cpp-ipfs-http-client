@@ -1,4 +1,5 @@
 set(TESTS
+  block
   config
   generic
   simple

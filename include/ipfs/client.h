@@ -98,7 +98,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/config#configget.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::ConfigGet
+   * @snippet config.cc ipfs::Client::ConfigGet
    *
    * @throw std::exception if any error occurs
    *
@@ -116,7 +116,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/config#configset.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::ConfigSet
+   * @snippet config.cc ipfs::Client::ConfigSet
    *
    * @throw std::exception if any error occurs
    *
@@ -133,7 +133,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/config#configreplace.
    *
    * An example usage:
-   * @snippet simple.cc ipfs::Client::ConfigReplace
+   * @snippet config.cc ipfs::Client::ConfigReplace
    *
    * @throw std::exception if any error occurs
    *

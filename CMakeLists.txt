@@ -49,6 +49,4 @@ include(CTest)
 
 if(BUILD_TESTING)
   add_subdirectory(test)
-  add_test(NAME generic COMMAND test/generic)
-  add_test(NAME simpleTest COMMAND test/simple)
 endif()

@@ -30,54 +30,6 @@ int main(int, char**) {
   try {
     ipfs::Client client("localhost", 5001);
 
-    /** [ipfs::Client::ConfigSet] */
-    client.ConfigSet("Datastore.StorageMax", "20GB");
-
-    client.ConfigSet("Datastore.StorageGCWatermark", 80);
-
-    client.ConfigSet("Mounts",
-                     R"({
-                          "FuseAllowOther": false,
-                          "IPFS": "/ipfs",
-                          "IPNS": "/ipns"
-                        })"_json);
-    /** [ipfs::Client::ConfigSet] */
-
-    /** [ipfs::Client::ConfigGet] */
-    ipfs::Json config;
-    client.ConfigGet("Datastore", &config);
-    std::cout << R"(Config "Datastore":)" << std::endl
-              << config.dump(2) << std::endl;
-    /* An example output:
-    Config "Datastore":
-    {
-      "BloomFilterSize": 0,
-      "GCPeriod": "1h",
-      "HashOnRead": false,
-      "NoSync": false,
-      "Params": null,
-      "Path": "/home/vd/.ipfs/datastore",
-      "StorageGCWatermark": 90,
-      "StorageMax": "10GB",
-      "Type": "leveldb"
-    }
-    */
-
-    client.ConfigGet("" /* fetch the entire config */, &config);
-    std::cout << "Config max storage: " << config["Datastore"]["StorageMax"]
-              << std::endl;
-    /* An example output:
-    Config max storage: "10GB"
-    */
-    /** [ipfs::Client::ConfigGet] */
-
-    /** [ipfs::Client::ConfigReplace] */
-    ipfs::Json entire_config;
-    client.ConfigGet("" /* fetch the entire config */, &entire_config);
-
-    client.ConfigReplace(entire_config);
-    /** [ipfs::Client::ConfigReplace] */
-
     /** [ipfs::Client::BlockPut] */
     ipfs::Json block;
     client.BlockPut(
@@ -132,7 +84,7 @@ int main(int, char**) {
     client.FilesAdd(
         {{"foo.txt", ipfs::http::FileUpload::Type::kFileContents, "abcd"},
          {"bar.txt", ipfs::http::FileUpload::Type::kFileName,
-          "compile_commands.json"}},
+          "../compile_commands.json"}},
         &add_result);
     std::cout << "FilesAdd() result:" << std::endl
               << add_result.dump(2) << std::endl;

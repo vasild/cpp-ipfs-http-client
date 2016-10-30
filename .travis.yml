@@ -1,0 +1,52 @@
+language: cpp
+
+dist: trusty
+sudo: required
+
+before_install:
+  - sudo apt-get update -qq
+
+matrix:
+  include:
+    - compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.8
+          packages:
+            - clang-3.8
+      env: CXX=clang++-3.8
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      env: CXX=g++-4.9
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env: CXX=g++-5
+    - compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+      env: CXX=g++-6
+
+script:
+  - uname -a
+  - ${CXX} --version
+  - pwd
+  - SRC=`pwd`
+  - mkdir ../build
+  - cd ../build
+  - cmake -DBUILD_SHARED_LIBS:BOOL=ON ${SRC}

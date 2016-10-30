@@ -7,10 +7,11 @@ before_install:
   - sudo apt-get update -qq
 
 install:
-  - JSON_INSTALL_DIR="${TRAVIS_BUILD_DIR}/j/include/nlohmann"
+  # TRAVIS_BUILD_DIR is set to where the source code is checked
+  # out (ie it assumes in-source build)
+  - JSON_INSTALL_DIR="${TRAVIS_BUILD_DIR}/../include/nlohmann"
   - mkdir -p "${JSON_INSTALL_DIR}"
-  - cd "${JSON_INSTALL_DIR}"
-  - travis_retry wget --quiet https://raw.githubusercontent.com/nlohmann/json/v2.0.6/src/json.hpp
+  - travis_retry wget --quiet -O "${JSON_INSTALL_DIR}/json.hpp" https://raw.githubusercontent.com/nlohmann/json/v2.0.6/src/json.hpp
 
 matrix:
   include:
@@ -50,12 +51,12 @@ matrix:
 
 script:
   - echo Starting build.
-  - echo ${TRAVIS_BUILD_DIR}
   - uname -a
   - cmake --version
   - ${CXX_} --version
-  - pwd
-  - SRC=`pwd`
-  - mkdir ../build
-  - cd ../build
-  - cmake -DCMAKE_CXX_COMPILER="${CXX_}" -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/j/include" -DBUILD_SHARED_LIBS:BOOL=ON ${SRC}
+  - SOURCE_DIR="${TRAVIS_BUILD_DIR}"
+  - BUILD_DIR="${TRAVIS_BUILD_DIR}/../build"
+  - mkdir "${BUILD_DIR}"
+  - cd "${BUILD_DIR}"
+  - cmake -DCMAKE_CXX_COMPILER="${CXX_}" -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
+  - make

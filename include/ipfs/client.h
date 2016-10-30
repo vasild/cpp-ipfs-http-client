@@ -41,7 +41,7 @@ using Json = nlohmann::json;
  * The methods of this class may throw some variant of `std::exception` if a
  * connectivity error occurs or if the response cannot be parsed. Be prepared!
  *
- * @since version 1.0.0 */
+ * @since version 0.1.0 */
 class Client {
  public:
   /** Constructor.
@@ -49,7 +49,7 @@ class Client {
    * An example usage:
    * @snippet generic.cc ipfs::Client::Client
    *
-   * @since version 1.0.0 */
+   * @since version 0.1.0 */
   Client(
       /** [in] Hostname or IP address of the server to connect to. */
       const std::string& host,
@@ -57,7 +57,7 @@ class Client {
       long port);
 
   /** Destructor.
-   * @since version 1.0.0 */
+   * @since version 0.1.0 */
   ~Client();
 
   /** Return the identity of the peer.
@@ -70,7 +70,7 @@ class Client {
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 1.0.0 */
+   * @since version 0.1.0 */
   void Id(
       /** [out] The identity of the peer. It contains at least the properties
        * "Addresses", "ID", "PublicKey". */
@@ -86,7 +86,7 @@ class Client {
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 1.0.0 */
+   * @since version 0.1.0 */
   void Version(
       /** [out] The peer's implementation version. It contains at least the
        * properties "Repo", "System", "Version". */
@@ -102,7 +102,7 @@ class Client {
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 1.0.0 */
+   * @since version 0.1.0 */
   void ConfigGet(
       /** [in] The key of the value to fetch from the config. If this is an
        * empty string, then the whole config is fetched. */
@@ -120,7 +120,7 @@ class Client {
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 1.0.0 */
+   * @since version 0.1.0 */
   void ConfigSet(
       /** [in] The key of the config knob to set. */
       const std::string& key,
@@ -137,7 +137,7 @@ class Client {
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 1.0.0 */
+   * @since version 0.1.0 */
   void ConfigReplace(
       /** [in] The entire config to set/replace. */
       const Json& config);
@@ -152,7 +152,7 @@ class Client {
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 1.0.0 */
+   * @since version 0.1.0 */
   void BlockGet(
       /** [in] Id of the block (multihash). */
       const std::string& block_id,
@@ -170,7 +170,7 @@ class Client {
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 1.0.0 */
+   * @since version 0.1.0 */
   void BlockPut(
       /** [in] Raw contents of the block to store. */
       const http::FileUpload& block,
@@ -187,7 +187,7 @@ class Client {
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 1.0.0 */
+   * @since version 0.1.0 */
   void BlockStat(
       /** [in] Id of the block (multihash). */
       const std::string& block_id,
@@ -204,7 +204,7 @@ class Client {
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 1.0.0 */
+   * @since version 0.1.0 */
   void FilesGet(
       /** [in] Path of the file in IPFS. For example:
        * `"/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme"` */
@@ -223,7 +223,7 @@ class Client {
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 1.0.0 */
+   * @since version 0.1.0 */
   void FilesAdd(
       /** [in] List of files to add. */
       const std::vector<http::FileUpload>& files,

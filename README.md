@@ -58,6 +58,8 @@ Report vulnerabilities publicly, similar to other non-security issues.
 
 The project adheres to the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html). Use [clang-format](http://clang.llvm.org/docs/ClangFormat.html) to properly format the code when you submit patches.
 
+Write tests for new code. Changes should not cause the code coverage to go down.
+
 # License
 
 Copyright &copy; 2016-2016 Vasil Dimov. The code is distributed under the [MIT License](http://opensource.org/licenses/MIT).

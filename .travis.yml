@@ -6,33 +6,39 @@ sudo: required
 before_install:
   - sudo apt-get update -qq
 
+install:
+  - JSON_INSTALL_DIR="${TRAVIS_BUILD_DIR}/j/include/nlohmann"
+  - mkdir -p "${JSON_INSTALL_DIR}"
+  - cd "${JSON_INSTALL_DIR}"
+  - travis_retry wget --quiet https://raw.githubusercontent.com/nlohmann/json/v2.0.6/src/json.hpp
+
 matrix:
   include:
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.8
-          packages:
-            - clang-3.8
-      env: CXX=clang++-3.8
-    - compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.9
-      env: CXX=g++-4.9
-    - compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env: CXX=g++-5
+#    - compiler: clang
+#      addons:
+#        apt:
+#          sources:
+#            - ubuntu-toolchain-r-test
+#            - llvm-toolchain-precise-3.8
+#          packages:
+#            - clang-3.8
+#      env: CXX=clang++-3.8
+#    - compiler: gcc
+#      addons:
+#        apt:
+#          sources:
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - g++-4.9
+#      env: CXX=g++-4.9
+#    - compiler: gcc
+#      addons:
+#        apt:
+#          sources:
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - g++-5
+#      env: CXX=g++-5
     - compiler: gcc
       addons:
         apt:
@@ -40,13 +46,16 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-6
-      env: CXX=g++-6
+      env: CXX_=g++-6
 
 script:
+  - echo Starting build.
+  - echo ${TRAVIS_BUILD_DIR}
   - uname -a
-  - ${CXX} --version
+  - cmake --version
+  - ${CXX_} --version
   - pwd
   - SRC=`pwd`
   - mkdir ../build
   - cd ../build
-  - cmake -DBUILD_SHARED_LIBS:BOOL=ON ${SRC}
+  - cmake -DCMAKE_CXX_COMPILER="${CXX_}" -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/j/include" -DBUILD_SHARED_LIBS:BOOL=ON ${SRC}

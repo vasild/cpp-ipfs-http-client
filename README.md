@@ -54,6 +54,7 @@ c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-api myprog.cc -o myprog
 # Contribute
 
 Feel free to [open issues](https://github.com/vasild/cpp-ipfs-api/issues/new) and [pull requests](https://github.com/vasild/cpp-ipfs-api/compare).
+Report vulnerabilities publicly, similar to other non-security issues.
 
 The project adheres to the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html). Use [clang-format](http://clang.llvm.org/docs/ClangFormat.html) to properly format the code when you submit patches.
 

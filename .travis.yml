@@ -15,7 +15,8 @@ install:
 
 matrix:
   include:
-    - compiler: clang
+    - os: linux
+      compiler: clang
       addons:
         apt:
           sources:
@@ -24,7 +25,8 @@ matrix:
           packages:
             - clang-3.7
       env: CXX_=clang++-3.7
-    - compiler: clang
+    - os: linux
+      compiler: clang
       addons:
         apt:
           sources:
@@ -33,7 +35,8 @@ matrix:
           packages:
             - clang-3.8
       env: CXX_=clang++-3.8
-    - compiler: gcc
+    - os: linux
+      compiler: gcc
       addons:
         apt:
           sources:
@@ -41,7 +44,8 @@ matrix:
           packages:
             - g++-4.9
       env: CXX_=g++-4.9
-    - compiler: gcc
+    - os: linux
+      compiler: gcc
       addons:
         apt:
           sources:
@@ -49,7 +53,8 @@ matrix:
           packages:
             - g++-5
       env: CXX_=g++-5
-    - compiler: gcc
+    - os: linux
+      compiler: gcc
       addons:
         apt:
           sources:
@@ -57,6 +62,8 @@ matrix:
           packages:
             - g++-6
       env: CXX_=g++-6
+    - os: osx
+      osx_image: xcode8
 
 script:
   - cmake --version

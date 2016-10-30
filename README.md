@@ -16,7 +16,7 @@ make install
 
 ## Dependencies
 
-- C++11 compiler
+- [C++11 compiler](https://github.com/nlohmann/json#supported-compilers)
 - [CMake](http://cmake.org)
 - [libcurl](https://curl.haxx.se/libcurl)
 - [JSON for Modern C++](https://github.com/nlohmann/json)

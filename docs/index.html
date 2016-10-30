@@ -63,19 +63,15 @@ $(function() {
 <div class="title">IPFS C++ API client library </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This library allows C++ applications to communicate with <a href="https://ipfs.io">IPFS</a>. It implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API">IPFS API bindings</a> for C++. See <a href="https://vasild.github.io/cpp-ipfs-api">the documentation</a> or <a href="https://github.com/vasild/cpp-ipfs-api">the source code</a>.</p>
-<p>See also <a href="https://github.com/ipfs">IPFS on GitHub</a>.</p>
+<div class="textblock"><p>The main class the library exports is <a class="el" href="classipfs_1_1Client.html">ipfs::Client</a>. The rest is only interesting to developers of this library.</p>
 <h1>Install</h1>
-<div class="fragment"><div class="line">cmake /path/to/cpp-ipfs-api</div><div class="line">make</div><div class="line">make install</div></div><!-- fragment --><h2>Dependencies</h2>
+<div class="fragment"><div class="line">cmake \</div><div class="line">  -DCMAKE_INSTALL_PREFIX:PATH=/home/joe.smith/cpp-ipfs-api-install \</div><div class="line">  -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH=/usr/local/include \</div><div class="line">  -DCMAKE_BUILD_TYPE=Debug \</div><div class="line">  -DBUILD_SHARED_LIBS:BOOL=ON \</div><div class="line">  /home/joe.smith/cpp-ipfs-api</div><div class="line">make -j742 install</div></div><!-- fragment --><h2>Dependencies</h2>
 <ul>
-<li>C++11 compiler</li>
-<li><a href="http://cmake.org">CMake</a></li>
-<li><a href="https://curl.haxx.se/libcurl">libcurl</a></li>
-<li><a href="https://github.com/nlohmann/json">JSON for Modern C++</a></li>
+<li><a href="https://github.com/nlohmann/json#supported-compilers">C++11 compiler</a></li>
+<li><a href="http://cmake.org">CMake</a>, version 3.1.0 or higher</li>
+<li><a href="https://curl.haxx.se/libcurl">libcurl</a>, version 7.25.0 or higher</li>
+<li><a href="https://github.com/nlohmann/json">JSON for Modern C++</a>, version 2.x.x</li>
 </ul>
-<h1>Usage</h1>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;sstream&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;ipfs/client.h&gt;</span></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span>, <span class="keywordtype">char</span>**) {</div><div class="line">  std::stringstream contents;</div><div class="line"></div><div class="line">  <a class="code" href="classipfs_1_1Client.html">ipfs::Client</a> client(<span class="stringliteral">&quot;localhost&quot;</span>, 5001);</div><div class="line"></div><div class="line">  client.FilesGet(<span class="stringliteral">&quot;/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme&quot;</span>, &amp;contents);</div><div class="line"></div><div class="line">  std::cout &lt;&lt; contents.str() &lt;&lt; std::endl;</div><div class="line"></div><div class="line">  <span class="keywordflow">return</span> 0;</div><div class="line">}</div></div><!-- fragment --><div class="fragment"><div class="line">c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-api myprog.cc -o myprog</div></div><!-- fragment --><h1>Contribute</h1>
-<p>Feel free to open issues and pull requests.</p>
 <h1>License</h1>
 <p>Copyright &copy; 2016-2016 Vasil Dimov. The code is distributed under the <a href="http://opensource.org/licenses/MIT">MIT License</a>. </p>
 </div></div><!-- contents -->

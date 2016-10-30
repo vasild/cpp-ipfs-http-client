@@ -33,15 +33,6 @@ matrix:
           packages:
             - clang-3.8
       env: CXX_=clang++-3.8
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.9
-          packages:
-            - clang-3.9
-      env: CXX_=clang++-3.9
     - compiler: gcc
       addons:
         apt:

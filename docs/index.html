@@ -74,8 +74,7 @@ $(function() {
 <li><a href="https://github.com/nlohmann/json">JSON for Modern C++</a></li>
 </ul>
 <h1>Usage</h1>
-<p>The main class the library exports is <a class="el" href="classipfs_1_1Client.html">ipfs::Client</a>. The rest is only interesting to developers of this library.</p>
-<h1>Contribute</h1>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;sstream&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;ipfs/client.h&gt;</span></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span>, <span class="keywordtype">char</span>**) {</div><div class="line">  std::stringstream contents;</div><div class="line"></div><div class="line">  <a class="code" href="classipfs_1_1Client.html">ipfs::Client</a> client(<span class="stringliteral">&quot;localhost&quot;</span>, 5001);</div><div class="line"></div><div class="line">  client.FilesGet(<span class="stringliteral">&quot;/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme&quot;</span>, &amp;contents);</div><div class="line"></div><div class="line">  std::cout &lt;&lt; contents.str() &lt;&lt; std::endl;</div><div class="line"></div><div class="line">  <span class="keywordflow">return</span> 0;</div><div class="line">}</div></div><!-- fragment --><div class="fragment"><div class="line">c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-api myprog.cc -o myprog</div></div><!-- fragment --><h1>Contribute</h1>
 <p>Feel free to open issues and pull requests.</p>
 <h1>License</h1>
 <p>Copyright &copy; 2016-2016 Vasil Dimov. The code is distributed under the <a href="http://opensource.org/licenses/MIT">MIT License</a>. </p>

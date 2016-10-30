@@ -23,7 +23,28 @@ make install
 
 # Usage
 
-The main class the library exports is @link ipfs::Client @endlink. The rest is only interesting to developers of this library.
+```cpp
+#include <iostream>
+#include <sstream>
+
+#include <ipfs/client.h>
+
+int main(int, char**) {
+  std::stringstream contents;
+
+  ipfs::Client client("localhost", 5001);
+
+  client.FilesGet("/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme", &contents);
+
+  std::cout << contents.str() << std::endl;
+
+  return 0;
+}
+```
+
+```sh
+c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-api myprog.cc -o myprog
+```
 
 # Contribute
 

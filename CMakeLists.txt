@@ -34,14 +34,20 @@ include_directories("include")
 
 set(IPFS_API_LIBNAME ipfs-api)
 
+# To build and install a shared library: "cmake -DBUILD_SHARED_LIBS:BOOL=ON ..."
 add_library(${IPFS_API_LIBNAME}
   src/client.cc
   src/http/transport-curl.cc
+)
+set_target_properties(${IPFS_API_LIBNAME} PROPERTIES
+  SOVERSION ${PROJECT_VERSION_MAJOR}
+  VERSION ${PROJECT_VERSION}
 )
 target_link_libraries(${IPFS_API_LIBNAME} ${CURL_LIBRARIES})
 
 install(TARGETS ${IPFS_API_LIBNAME} DESTINATION lib)
 install(FILES include/ipfs/client.h DESTINATION include/ipfs)
+install(FILES include/ipfs/http/transport.h DESTINATION include/ipfs/http)
 
 # Tests, use "CTEST_OUTPUT_ON_FAILURE=1 make test" to see output from failed tests
 

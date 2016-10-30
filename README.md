@@ -3,6 +3,7 @@
 [![Build Status](https://api.travis-ci.org/vasild/cpp-ipfs-api.svg?branch=master)](https://travis-ci.org/vasild/cpp-ipfs-api)
 [![Documentation](https://img.shields.io/badge/docs-doxygen-blue.svg)](https://vasild.github.io/cpp-ipfs-api)
 [![GitHub Issues](https://img.shields.io/github/issues/vasild/cpp-ipfs-api.svg)](http://github.com/vasild/cpp-ipfs-api/issues)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/465/badge)](https://bestpractices.coreinfrastructure.org/projects/465)
 
 This library allows C++ applications to communicate with [IPFS](https://ipfs.io).
 It implements [IPFS API bindings](https://github.com/ipfs/interface-ipfs-core/tree/master/API) for C++.

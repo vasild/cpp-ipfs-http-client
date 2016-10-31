@@ -5,11 +5,27 @@
 [![GitHub Issues](https://img.shields.io/github/issues/vasild/cpp-ipfs-api.svg)](http://github.com/vasild/cpp-ipfs-api/issues)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/465/badge)](https://bestpractices.coreinfrastructure.org/projects/465)
 
-This library allows C++ applications to communicate with [IPFS](https://ipfs.io).
+Allows C++ applications to communicate with [IPFS](https://ipfs.io).
 It implements [IPFS API bindings](https://github.com/ipfs/interface-ipfs-core/tree/master/API) for C++.
 See [the documentation](https://vasild.github.io/cpp-ipfs-api) or [the source code](https://github.com/vasild/cpp-ipfs-api).
 
 See also [IPFS on GitHub](https://github.com/ipfs).
+
+This library is in an early stage of development. Some methods are not implemented yet.
+
+Currently implemented methods:
+
+- [block](https://github.com/ipfs/interface-ipfs-core/tree/master/API/block): get(), put(), stat()
+- [config](https://github.com/ipfs/interface-ipfs-core/tree/master/API/config): get(), set(), replace()
+- [files](https://github.com/ipfs/interface-ipfs-core/tree/master/API/files): get(), add()
+- [generic](https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic): id(), version()
+
+Not implemented yet:
+
+- [dag](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dag): get(), put()
+- [object](https://github.com/ipfs/interface-ipfs-core/tree/master/API/object): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()
+- [pin](https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin): add(), ls(), rm()
+- [swarm](https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm): addrs(), connect(), disconnect(), peers()
 
 # Install
 

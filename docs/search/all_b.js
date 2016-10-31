@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['version',['Version',['../classipfs_1_1Client.html#adaabe1a027399cbcabe291f3471e87f4',1,'ipfs::Client']]]
+  ['urlencode',['UrlEncode',['../classipfs_1_1http_1_1TransportCurl.html#ac53142bf9e4604695bd7414eda516bc6',1,'ipfs::http::TransportCurl::UrlEncode()'],['../classipfs_1_1http_1_1Transport.html#ab06599853f7f2b11ad323a3d67df4cad',1,'ipfs::http::Transport::UrlEncode()']]]
 ];

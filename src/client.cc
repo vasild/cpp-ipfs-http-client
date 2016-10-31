@@ -201,6 +201,13 @@ void Client::FilesAdd(const std::vector<http::FileUpload>& files,
   }
 }
 
+void Client::ObjectStat(const std::string& object_id, Json* stat) {
+  FetchAndParseJson(url_prefix_ +
+                        "/object/stat?encoding=json&stream-channels=true&arg=" +
+                        object_id,
+                    stat);
+}
+
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   std::stringstream body;
 

@@ -232,6 +232,25 @@ class Client {
        */
       Json* result);
 
+  /** Get stats about a DAG object.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectstat.
+   *
+   * An example usage:
+   * @snippet object.cc ipfs::Client::ObjectStat
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void ObjectStat(
+      /** [in] Id of the object to query (multihash). */
+      const std::string& object_id,
+      /** [out] Stats about the object. For example:
+       * {"NumLinks": 0, "BlockSize": 10, "LinksSize": 2, ...}
+       */
+      Json* stat);
+
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(

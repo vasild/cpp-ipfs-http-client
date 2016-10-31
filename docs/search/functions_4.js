@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['transportcurl',['TransportCurl',['../classipfs_1_1http_1_1TransportCurl.html#a7d67d5f7b58564a15005c4cd774d6fea',1,'ipfs::http::TransportCurl']]]
+  ['objectstat',['ObjectStat',['../classipfs_1_1Client.html#a2fcb017f9de04c221b78e47cf062039d',1,'ipfs::Client']]]
 ];

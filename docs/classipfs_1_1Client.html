@@ -114,6 +114,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abe2e1d9f5479fa5007f93a0dee053d12"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#abe2e1d9f5479fa5007f93a0dee053d12">FilesAdd</a> (const std::vector&lt; <a class="el" href="structipfs_1_1http_1_1FileUpload.html">http::FileUpload</a> &gt; &amp;files, <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *result)</td></tr>
 <tr class="memdesc:abe2e1d9f5479fa5007f93a0dee053d12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add files to IPFS.  <a href="#abe2e1d9f5479fa5007f93a0dee053d12">More...</a><br /></td></tr>
 <tr class="separator:abe2e1d9f5479fa5007f93a0dee053d12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fcb017f9de04c221b78e47cf062039d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a2fcb017f9de04c221b78e47cf062039d">ObjectStat</a> (const std::string &amp;object_id, <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *stat)</td></tr>
+<tr class="memdesc:a2fcb017f9de04c221b78e47cf062039d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get stats about a DAG object.  <a href="#a2fcb017f9de04c221b78e47cf062039d">More...</a><br /></td></tr>
+<tr class="separator:a2fcb017f9de04c221b78e47cf062039d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IPFS client. </p>
@@ -556,6 +559,51 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">id</td><td>The identity of the peer. It contains at least the properties "Addresses", "ID", "PublicKey". </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2fcb017f9de04c221b78e47cf062039d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fcb017f9de04c221b78e47cf062039d">&sect;&nbsp;</a></span>ObjectStat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::ObjectStat </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>object_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *&#160;</td>
+          <td class="paramname"><em>stat</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get stats about a DAG object. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectstat">https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectstat</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> stat;</div><div class="line">    client.ObjectStat(</div><div class="line">        <span class="stringliteral">&quot;QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG&quot;</span>,</div><div class="line">        &amp;stat);</div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Object data size: &quot;</span> &lt;&lt; stat[<span class="stringliteral">&quot;DataSize&quot;</span>] &lt;&lt; std::endl;</div><div class="line">    <span class="comment">/* An example output:</span></div><div class="line"><span class="comment">    Object data size: 2</span></div><div class="line"><span class="comment">    */</span></div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">object_id</td><td>Id of the object to query (multihash). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">stat</td><td>Stats about the object. For example: {"NumLinks": 0, "BlockSize": 10, "LinksSize": 2, ...} </td></tr>
   </table>
   </dd>
 </dl>

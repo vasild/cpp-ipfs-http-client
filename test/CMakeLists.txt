@@ -3,6 +3,7 @@ set(TESTS
   config
   files
   generic
+  object
 )
 
 foreach (T ${TESTS})

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['path',['path',['../structipfs_1_1http_1_1FileUpload.html#a778df02055fa7791c1c240dd6d27b3da',1,'ipfs::http::FileUpload']]]
+  ['objectstat',['ObjectStat',['../classipfs_1_1Client.html#a2fcb017f9de04c221b78e47cf062039d',1,'ipfs::Client']]]
 ];

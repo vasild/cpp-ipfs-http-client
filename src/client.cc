@@ -37,23 +37,19 @@ Client::Client(const std::string& host, long port)
 
 Client::~Client() { delete http_; }
 
-void Client::Id(Json* id) {
-  FetchAndParseJson(url_prefix_ + "/id?stream-channels=true", id);
-}
+void Client::Id(Json* id) { FetchAndParseJson(MakeUrl("id", {}), id); }
 
 void Client::Version(Json* version) {
-  FetchAndParseJson(url_prefix_ + "/version?stream-channels=true", version);
+  FetchAndParseJson(MakeUrl("version"), version);
 }
 
 void Client::ConfigGet(const std::string& key, Json* config) {
   std::string url;
 
   if (key.empty()) {
-    url = url_prefix_ + "/config/show?stream-channels=true";
+    url = MakeUrl("config/show");
   } else {
-    std::string key_url_encoded;
-    http_->UrlEncode(key, &key_url_encoded);
-    url = url_prefix_ + "/config?arg=" + key_url_encoded + "&stream-channels=true";
+    url = MakeUrl("config", {{"arg", key}});
   }
 
   FetchAndParseJson(url, config);
@@ -80,66 +76,44 @@ void Client::ConfigGet(const std::string& key, Json* config) {
 }
 
 void Client::ConfigSet(const std::string& key, const Json& value) {
-  std::string key_url_encoded;
-  http_->UrlEncode(key, &key_url_encoded);
-
-  std::string value_url_encoded;
-  http_->UrlEncode(value.dump(), &value_url_encoded);
-
-  std::string url = url_prefix_ + "/config?json=true&arg=" + key_url_encoded +
-                    "&arg=" + value_url_encoded + "&stream-channels=true";
-
   Json unused;
-  FetchAndParseJson(url, &unused);
+  FetchAndParseJson(MakeUrl("config", {{"arg", key}, {"arg", value.dump()}}),
+                    &unused);
 }
 
 void Client::ConfigReplace(const Json& config) {
   std::stringstream unused;
-  http_->Fetch(
-      url_prefix_ + "/config/replace?encoding=json&stream-channels=true",
-      {{"new_config.json", http::FileUpload::Type::kFileContents,
-        config.dump()}},
-      &unused);
+  http_->Fetch(MakeUrl("config/replace"),
+               {{"new_config.json", http::FileUpload::Type::kFileContents,
+                 config.dump()}},
+               &unused);
 }
 
 void Client::BlockGet(const std::string& block_id, std::iostream* block) {
-  http_->Fetch(
-      url_prefix_ + "/block/get?arg=" + block_id + "&stream-channels=true", {},
-      block);
+  http_->Fetch(MakeUrl("block/get", {{"arg", block_id}}), {}, block);
 }
 
 void Client::BlockPut(const http::FileUpload& block, Json* stat) {
   std::stringstream body;
 
-  http_->Fetch(url_prefix_ + "/block/put?stream-channels=true", {block}, &body);
+  http_->Fetch(MakeUrl("block/put"), {block}, &body);
 
   ParseJson(body.str(), stat);
 }
 
 void Client::BlockStat(const std::string& block_id, Json* stat) {
-  FetchAndParseJson(
-      url_prefix_ + "/block/stat?arg=" + block_id + "&stream-channels=true",
-      stat);
+  FetchAndParseJson(MakeUrl("block/stat", {{"arg", block_id}}), stat);
 }
 
 void Client::FilesGet(const std::string& path, std::iostream* response) {
-  std::string path_url_encoded;
-  http_->UrlEncode(path, &path_url_encoded);
-
-  const std::string url =
-      url_prefix_ + "/cat?stream-channels=true&arg=" + path_url_encoded;
-
-  http_->Fetch(url, {}, response);
+  http_->Fetch(MakeUrl("cat", {{"arg", path}}), {}, response);
 }
 
 void Client::FilesAdd(const std::vector<http::FileUpload>& files,
                       Json* result) {
-  const std::string url =
-      url_prefix_ + "/add?stream-channels=true&progress=true";
-
   std::stringstream body;
 
-  http_->Fetch(url, files, &body);
+  http_->Fetch(MakeUrl("add", {{"progress", "true"}}), files, &body);
 
   /* The reply consists of multiple lines, each one of which is a JSON, for
   example:
@@ -202,10 +176,7 @@ void Client::FilesAdd(const std::vector<http::FileUpload>& files,
 }
 
 void Client::ObjectStat(const std::string& object_id, Json* stat) {
-  FetchAndParseJson(url_prefix_ +
-                        "/object/stat?encoding=json&stream-channels=true&arg=" +
-                        object_id,
-                    stat);
+  FetchAndParseJson(MakeUrl("object/stat", {{"arg", object_id}}), stat);
 }
 
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
@@ -222,5 +193,24 @@ void Client::ParseJson(const std::string& input, Json* result) {
   } catch (const std::exception& e) {
     throw std::runtime_error(std::string(e.what()) + "\nInput JSON:\n" + input);
   }
+}
+
+std::string Client::MakeUrl(
+    const std::string& path,
+    const std::vector<std::pair<std::string, std::string>>& parameters) {
+  std::string url = url_prefix_ + "/" + path +
+                    "?stream-channels=true&json=true&encoding=json";
+
+  for (auto& parameter : parameters) {
+    std::string name_url_encoded;
+    http_->UrlEncode(parameter.first, &name_url_encoded);
+
+    std::string value_url_encoded;
+    http_->UrlEncode(parameter.second, &value_url_encoded);
+
+    url += "&" + name_url_encoded + "=" + value_url_encoded;
+  }
+
+  return url;
 }
 } /* namespace ipfs */

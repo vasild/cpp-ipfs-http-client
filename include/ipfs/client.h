@@ -24,6 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include <ipfs/http/transport.h>
 
@@ -269,6 +270,19 @@ class Client {
       const std::string& input,
       /** [out] Parse result. */
       Json* result);
+
+  /** Construct a full URL. The URL is constructed from url_prefix_, path and
+   * the provided parameters (if any). For example:
+   * http://l:5001/api/v0 / block/get ?stream-channels=true& foo = bar &...
+   * ^ `url_prefix_`        ^ `path`                         ^ [1] ^ [2]
+   * [1] parameters[0].first
+   * [2] parameters[0].second.
+   * @return The full URL. */
+  std::string MakeUrl(
+      /** Path to use after `url_prefix_`. For example "block/get". */
+      const std::string& path,
+      /** List of parameters. In the form of (name, value) for each. */
+      const std::vector<std::pair<std::string, std::string>>& parameters = {});
 
   /** The URL prefix of our peer. Crafted from `host` and `port` constructor's
    * arguments. For example: `"http://localhost:5001/api/v0"`. */

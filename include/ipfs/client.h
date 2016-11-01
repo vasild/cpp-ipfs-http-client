@@ -233,7 +233,22 @@ class Client {
        */
       Json* result);
 
-  /** Get stats about a DAG object.
+  /** Create a new MerkleDAG node.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectnew.
+   *
+   * An example usage:
+   * @snippet object.cc ipfs::Client::ObjectNew
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void ObjectNew(
+      /** [out] Id of the newly created object (multihash). */
+      std::string* object_id);
+
+  /** Get stats about a MerkleDAG node.
    *
    * Implements
    * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectstat.

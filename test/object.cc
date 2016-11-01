@@ -19,6 +19,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 #include <ipfs/client.h>
 #include "utils.h"
@@ -26,6 +27,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 int main(int, char**) {
   try {
     ipfs::Client client("localhost", 5001);
+
+    /** [ipfs::Client::ObjectNew] */
+    std::string object_id;
+    client.ObjectNew(&object_id);
+    std::cout << "New object id: " << object_id << std::endl;
+    /* An example output:
+    New object id: QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n
+    */
+    /** [ipfs::Client::ObjectNew] */
 
     /** [ipfs::Client::ObjectStat] */
     ipfs::Json stat;

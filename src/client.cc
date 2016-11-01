@@ -179,6 +179,22 @@ void Client::ObjectStat(const std::string& object_id, Json* stat) {
   FetchAndParseJson(MakeUrl("object/stat", {{"arg", object_id}}), stat);
 }
 
+void Client::ObjectNew(std::string* object_id) {
+  Json response;
+
+  FetchAndParseJson(MakeUrl("object/new"), &response);
+
+  static const char* hash = "Hash";
+
+  if (response.find(hash) == response.end()) {
+    throw std::runtime_error(
+        std::string("Unexpected reply: valid JSON, but without the \"") + hash +
+        "\" property:\n" + response.dump());
+  }
+
+  *object_id = response[hash];
+}
+
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   std::stringstream body;
 

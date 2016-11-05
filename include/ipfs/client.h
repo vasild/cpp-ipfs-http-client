@@ -263,8 +263,7 @@ class Client {
       /** [in] Id of the object to query (multihash). */
       const std::string& object_id,
       /** [out] Stats about the object. For example:
-       * {"NumLinks": 0, "BlockSize": 10, "LinksSize": 2, ...}
-       */
+       * {"NumLinks": 0, "BlockSize": 10, "LinksSize": 2, ...} */
       Json* stat);
 
  private:

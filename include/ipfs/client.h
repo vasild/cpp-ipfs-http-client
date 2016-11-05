@@ -294,6 +294,16 @@ class Client {
       /** [out] Parsed JSON response. */
       Json* response);
 
+  /** Submit some files to an URL that returns JSON and parse it into
+   * `response`. */
+  void FetchAndParseJson(
+      /** [in] URL to submit the files to. */
+      const std::string& url,
+      /** [in] List of files to submit. */
+      const std::vector<http::FileUpload>& files,
+      /** [out] Parsed JSON response. */
+      Json* response);
+
   /** Parse a string into a JSON. It just calls Json::parse() and appends the
    * input to the error message in case of an error.
    *

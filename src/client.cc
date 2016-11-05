@@ -94,11 +94,7 @@ void Client::BlockGet(const std::string& block_id, std::iostream* block) {
 }
 
 void Client::BlockPut(const http::FileUpload& block, Json* stat) {
-  std::stringstream body;
-
-  http_->Fetch(MakeUrl("block/put"), {block}, &body);
-
-  ParseJson(body.str(), stat);
+  FetchAndParseJson(MakeUrl("block/put"), {block}, stat);
 }
 
 void Client::BlockStat(const std::string& block_id, Json* stat) {
@@ -200,9 +196,15 @@ void Client::ObjectStat(const std::string& object_id, Json* stat) {
 }
 
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
+  FetchAndParseJson(url, {}, response);
+}
+
+void Client::FetchAndParseJson(const std::string& url,
+                               const std::vector<http::FileUpload>& files,
+                               Json* response) {
   std::stringstream body;
 
-  http_->Fetch(url, {}, &body);
+  http_->Fetch(url, files, &body);
 
   ParseJson(body.str(), response);
 }

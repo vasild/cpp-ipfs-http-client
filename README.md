@@ -36,6 +36,8 @@ make
 make install
 ```
 
+See the [documentation for details](https://vasild.github.io/cpp-ipfs-api).
+
 ## Dependencies
 
 - [C++11 compiler](https://github.com/nlohmann/json#supported-compilers)

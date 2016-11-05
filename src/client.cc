@@ -37,7 +37,7 @@ Client::Client(const std::string& host, long port)
 
 Client::~Client() { delete http_; }
 
-void Client::Id(Json* id) { FetchAndParseJson(MakeUrl("id", {}), id); }
+void Client::Id(Json* id) { FetchAndParseJson(MakeUrl("id"), id); }
 
 void Client::Version(Json* version) {
   FetchAndParseJson(MakeUrl("version"), version);

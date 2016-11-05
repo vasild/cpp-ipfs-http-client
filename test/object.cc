@@ -37,6 +37,51 @@ int main(int, char**) {
     */
     /** [ipfs::Client::ObjectNew] */
 
+    /** [ipfs::Client::ObjectPut] */
+    ipfs::Json object_to_store = R"(
+      {
+          "Data": "another",
+          "Links": [ {
+              "Name": "some link",
+              "Hash": "QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V",
+              "Size": 8
+          } ]
+      }
+    )"_json;
+    ipfs::Json object_stored;
+    client.ObjectPut(object_to_store, &object_stored);
+    std::cout << "Object to store:" << std::endl
+              << object_to_store.dump(2) << std::endl;
+    std::cout << "Stored object:" << std::endl
+              << object_stored.dump(2) << std::endl;
+    /* An example output:
+    Object to store:
+    {
+      "Data": "another",
+      "Links": [
+        {
+          "Hash": "QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V",
+          "Name": "some link",
+          "Size": 8
+        }
+      ]
+    }
+    Stored object:
+    {
+      "Hash": "QmZZmY4KCu9r3e7M2Pcn46Fc5qbn6NpzaAGaYb22kbfTqm",
+      "Links": [
+        {
+          "Hash": "QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V",
+          "Name": "some link",
+          "Size": 8
+        }
+      ]
+    }
+    */
+    /** [ipfs::Client::ObjectPut] */
+    check_if_properties_exist("client.ObjectPut()", object_stored,
+                              {"Hash", "Links"});
+
     /** [ipfs::Client::ObjectGet] */
     ipfs::Json object;
     client.ObjectGet("QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n", &object);

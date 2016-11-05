@@ -248,6 +248,24 @@ class Client {
       /** [out] Id of the newly created object (multihash). */
       std::string* object_id);
 
+  /** Store a MerkleDAG node.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectput.
+   *
+   * An example usage:
+   * @snippet object.cc ipfs::Client::ObjectPut
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void ObjectPut(
+      /** [in] Node to store. */
+      const Json& object,
+      /** [out] Stored node. Should be the same as the provided `object` plus
+       * the stored object's multihash id. */
+      Json* object_stored);
+
   /** Get a MerkleDAG node.
    *
    * Implements

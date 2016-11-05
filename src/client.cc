@@ -187,6 +187,13 @@ void Client::ObjectNew(std::string* object_id) {
   *object_id = response[hash];
 }
 
+void Client::ObjectPut(const Json& object, Json* object_stored) {
+  FetchAndParseJson(
+      MakeUrl("object/put", {{"inputenc", "json"}}),
+      {{"node.json", http::FileUpload::Type::kFileContents, object.dump()}},
+      object_stored);
+}
+
 void Client::ObjectGet(const std::string& object_id, Json* object) {
   FetchAndParseJson(MakeUrl("object/get", {{"arg", object_id}}), object);
 }

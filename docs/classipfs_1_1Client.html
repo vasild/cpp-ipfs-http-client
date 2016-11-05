@@ -117,6 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a65d8e5b1ac53f2f54bc9860dea015c6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a65d8e5b1ac53f2f54bc9860dea015c6d">ObjectNew</a> (std::string *object_id)</td></tr>
 <tr class="memdesc:a65d8e5b1ac53f2f54bc9860dea015c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new MerkleDAG node.  <a href="#a65d8e5b1ac53f2f54bc9860dea015c6d">More...</a><br /></td></tr>
 <tr class="separator:a65d8e5b1ac53f2f54bc9860dea015c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a783ddccb9559315599b07343b153ffc2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a783ddccb9559315599b07343b153ffc2">ObjectPut</a> (const <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> &amp;object, <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *object_stored)</td></tr>
+<tr class="memdesc:a783ddccb9559315599b07343b153ffc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store a MerkleDAG node.  <a href="#a783ddccb9559315599b07343b153ffc2">More...</a><br /></td></tr>
+<tr class="separator:a783ddccb9559315599b07343b153ffc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc9556daecb92afeea9b2adfde034a7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#abc9556daecb92afeea9b2adfde034a7f">ObjectGet</a> (const std::string &amp;object_id, <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *object)</td></tr>
 <tr class="memdesc:abc9556daecb92afeea9b2adfde034a7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a MerkleDAG node.  <a href="#abc9556daecb92afeea9b2adfde034a7f">More...</a><br /></td></tr>
 <tr class="separator:abc9556daecb92afeea9b2adfde034a7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -644,6 +647,51 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">object_id</td><td>Id of the newly created object (multihash). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a783ddccb9559315599b07343b153ffc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a783ddccb9559315599b07343b153ffc2">&sect;&nbsp;</a></span>ObjectPut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::ObjectPut </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> &amp;&#160;</td>
+          <td class="paramname"><em>object</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *&#160;</td>
+          <td class="paramname"><em>object_stored</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Store a MerkleDAG node. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectput">https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectput</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> object_to_store = R<span class="stringliteral">&quot;(</span></div><div class="line"><span class="stringliteral">      {</span></div><div class="line"><span class="stringliteral">          &quot;Data&quot;: &quot;another&quot;,</span></div><div class="line"><span class="stringliteral">          &quot;Links&quot;: [ {</span></div><div class="line"><span class="stringliteral">              &quot;Name&quot;: &quot;some link&quot;,</span></div><div class="line"><span class="stringliteral">              &quot;Hash&quot;: &quot;QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V&quot;,</span></div><div class="line"><span class="stringliteral">              &quot;Size&quot;: 8</span></div><div class="line"><span class="stringliteral">          } ]</span></div><div class="line"><span class="stringliteral">      }</span></div><div class="line"><span class="stringliteral">    )&quot;_json;</span></div><div class="line"><span class="stringliteral">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> object_stored;</span></div><div class="line"><span class="stringliteral">    client.ObjectPut(object_to_store, &amp;object_stored);</span></div><div class="line"><span class="stringliteral">    std::cout &lt;&lt; </span><span class="stringliteral">&quot;Object to store:&quot;</span> &lt;&lt; std::endl</div><div class="line">              &lt;&lt; object_to_store.dump(2) &lt;&lt; std::endl;</div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Stored object:&quot;</span> &lt;&lt; std::endl</div><div class="line">              &lt;&lt; object_stored.dump(2) &lt;&lt; std::endl;</div><div class="line">    <span class="comment">/* An example output:</span></div><div class="line"><span class="comment">    Object to store:</span></div><div class="line"><span class="comment">    {</span></div><div class="line"><span class="comment">      &quot;Data&quot;: &quot;another&quot;,</span></div><div class="line"><span class="comment">      &quot;Links&quot;: [</span></div><div class="line"><span class="comment">        {</span></div><div class="line"><span class="comment">          &quot;Hash&quot;: &quot;QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V&quot;,</span></div><div class="line"><span class="comment">          &quot;Name&quot;: &quot;some link&quot;,</span></div><div class="line"><span class="comment">          &quot;Size&quot;: 8</span></div><div class="line"><span class="comment">        }</span></div><div class="line"><span class="comment">      ]</span></div><div class="line"><span class="comment">    }</span></div><div class="line"><span class="comment">    Stored object:</span></div><div class="line"><span class="comment">    {</span></div><div class="line"><span class="comment">      &quot;Hash&quot;: &quot;QmZZmY4KCu9r3e7M2Pcn46Fc5qbn6NpzaAGaYb22kbfTqm&quot;,</span></div><div class="line"><span class="comment">      &quot;Links&quot;: [</span></div><div class="line"><span class="comment">        {</span></div><div class="line"><span class="comment">          &quot;Hash&quot;: &quot;QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V&quot;,</span></div><div class="line"><span class="comment">          &quot;Name&quot;: &quot;some link&quot;,</span></div><div class="line"><span class="comment">          &quot;Size&quot;: 8</span></div><div class="line"><span class="comment">        }</span></div><div class="line"><span class="comment">      ]</span></div><div class="line"><span class="comment">    }</span></div><div class="line"><span class="comment">    */</span></div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">object</td><td>Node to store. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">object_stored</td><td>Stored node. Should be the same as the provided <code>object</code> plus the stored object's multihash id. </td></tr>
   </table>
   </dd>
 </dl>

@@ -248,6 +248,25 @@ class Client {
       /** [out] Id of the newly created object (multihash). */
       std::string* object_id);
 
+  /** Get a MerkleDAG node.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectget.
+   *
+   * An example usage:
+   * @snippet object.cc ipfs::Client::ObjectGet
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void ObjectGet(
+      /** [in] Id (multihash) of the MerkleDAG node to fetch. */
+      const std::string& object_id,
+      /** [out] Retrieved MerkleDAG node. For example:
+       * {"Data": "abc", "Links": [{"Name": "link1", "Hash": "...", "Size": 8}]}
+       */
+      Json* object);
+
   /** Get stats about a MerkleDAG node.
    *
    * Implements

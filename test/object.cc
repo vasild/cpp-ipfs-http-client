@@ -37,6 +37,23 @@ int main(int, char**) {
     */
     /** [ipfs::Client::ObjectNew] */
 
+    /** [ipfs::Client::ObjectGet] */
+    ipfs::Json object;
+    client.ObjectGet("QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n", &object);
+    std::cout << "Object: " << std::endl << object.dump(2) << std::endl;
+    /* An example output:
+    Object:
+    {
+      "Data": "another",
+      "Links": [ {
+        "Name": "some link",
+        "Hash": "QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V",
+        "Size": 8
+      } ]
+    }
+    */
+    /** [ipfs::Client::ObjectGet] */
+
     /** [ipfs::Client::ObjectStat] */
     ipfs::Json stat;
     client.ObjectStat(

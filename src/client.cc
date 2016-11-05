@@ -195,6 +195,10 @@ void Client::ObjectNew(std::string* object_id) {
   *object_id = response[hash];
 }
 
+void Client::ObjectGet(const std::string& object_id, Json* object) {
+  FetchAndParseJson(MakeUrl("object/get", {{"arg", object_id}}), object);
+}
+
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   std::stringstream body;
 

@@ -175,10 +175,6 @@ void Client::FilesAdd(const std::vector<http::FileUpload>& files,
   }
 }
 
-void Client::ObjectStat(const std::string& object_id, Json* stat) {
-  FetchAndParseJson(MakeUrl("object/stat", {{"arg", object_id}}), stat);
-}
-
 void Client::ObjectNew(std::string* object_id) {
   Json response;
 
@@ -197,6 +193,10 @@ void Client::ObjectNew(std::string* object_id) {
 
 void Client::ObjectGet(const std::string& object_id, Json* object) {
   FetchAndParseJson(MakeUrl("object/get", {{"arg", object_id}}), object);
+}
+
+void Client::ObjectStat(const std::string& object_id, Json* stat) {
+  FetchAndParseJson(MakeUrl("object/stat", {{"arg", object_id}}), stat);
 }
 
 void Client::FetchAndParseJson(const std::string& url, Json* response) {

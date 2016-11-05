@@ -6,5 +6,6 @@ var searchData=
   ['configreplace',['ConfigReplace',['../classipfs_1_1Client.html#aa6e2c0b4a19bacb58932e777be08d232',1,'ipfs::Client']]],
   ['configset',['ConfigSet',['../classipfs_1_1Client.html#ab50f9855e7c812542e153475e86645b9',1,'ipfs::Client']]],
   ['curlglobal',['CurlGlobal',['../classipfs_1_1http_1_1CurlGlobal.html',1,'ipfs::http']]],
-  ['curlglobal',['CurlGlobal',['../classipfs_1_1http_1_1CurlGlobal.html#ad0ddbec0a67e0068878703dec3799d08',1,'ipfs::http::CurlGlobal']]]
+  ['curlglobal',['CurlGlobal',['../classipfs_1_1http_1_1CurlGlobal.html#ad0ddbec0a67e0068878703dec3799d08',1,'ipfs::http::CurlGlobal']]],
+  ['change_20log',['Change Log',['../md_ChangeLog.html',1,'']]]
 ];

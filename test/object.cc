@@ -99,6 +99,15 @@ int main(int, char**) {
     */
     /** [ipfs::Client::ObjectGet] */
 
+    /** [ipfs::Client::ObjectData] */
+    std::string data;
+    client.ObjectData("QmZZmY4KCu9r3e7M2Pcn46Fc5qbn6NpzaAGaYb22kbfTqm", &data);
+    std::cout << "Object data: " << data << std::endl;
+    /* An example output:
+    Object data: another
+    */
+    /** [ipfs::Client::ObjectData] */
+
     /** [ipfs::Client::ObjectStat] */
     ipfs::Json stat;
     client.ObjectStat(

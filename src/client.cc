@@ -198,6 +198,14 @@ void Client::ObjectGet(const std::string& object_id, Json* object) {
   FetchAndParseJson(MakeUrl("object/get", {{"arg", object_id}}), object);
 }
 
+void Client::ObjectData(const std::string& object_id, std::string* data) {
+  std::stringstream body;
+
+  http_->Fetch(MakeUrl("object/data", {{"arg", object_id}}), {}, &body);
+
+  *data = body.str();
+}
+
 void Client::ObjectStat(const std::string& object_id, Json* stat) {
   FetchAndParseJson(MakeUrl("object/stat", {{"arg", object_id}}), stat);
 }

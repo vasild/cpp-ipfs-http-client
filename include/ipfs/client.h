@@ -285,6 +285,23 @@ class Client {
        */
       Json* object);
 
+  /** Get the data field of a MerkleDAG node.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectdata.
+   *
+   * An example usage:
+   * @snippet object.cc ipfs::Client::ObjectData
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void ObjectData(
+      /** [in] Id (multihash) of the MerkleDAG node whose data to fetch. */
+      const std::string& object_id,
+      /** [out] Raw data of the MerkleDAG node. */
+      std::string* data);
+
   /** Get stats about a MerkleDAG node.
    *
    * Implements

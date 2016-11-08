@@ -206,6 +206,22 @@ void Client::ObjectData(const std::string& object_id, std::string* data) {
   *data = body.str();
 }
 
+void Client::ObjectLinks(const std::string& object_id, Json* links) {
+  Json response;
+
+  FetchAndParseJson(MakeUrl("object/links", {{"arg", object_id}}), &response);
+
+  static const char* l = "Links";
+
+  if (response.find(l) == response.end()) {
+    throw std::runtime_error(
+        std::string("Unexpected reply: valid JSON, but without the \"") + l +
+        "\" property:\n" + response.dump());
+  }
+
+  *links = response[l];
+}
+
 void Client::ObjectStat(const std::string& object_id, Json* stat) {
   FetchAndParseJson(MakeUrl("object/stat", {{"arg", object_id}}), stat);
 }

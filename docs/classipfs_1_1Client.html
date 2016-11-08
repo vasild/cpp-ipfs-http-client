@@ -126,6 +126,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa8d6e75330c6a3d82130f0be4b66b13e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#aa8d6e75330c6a3d82130f0be4b66b13e">ObjectData</a> (const std::string &amp;object_id, std::string *data)</td></tr>
 <tr class="memdesc:aa8d6e75330c6a3d82130f0be4b66b13e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the data field of a MerkleDAG node.  <a href="#aa8d6e75330c6a3d82130f0be4b66b13e">More...</a><br /></td></tr>
 <tr class="separator:aa8d6e75330c6a3d82130f0be4b66b13e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90b1ecd4897794ea6ad5742a41f21525"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a90b1ecd4897794ea6ad5742a41f21525">ObjectLinks</a> (const std::string &amp;object_id, <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *links)</td></tr>
+<tr class="memdesc:a90b1ecd4897794ea6ad5742a41f21525"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get links of a MerkleDAG node.  <a href="#a90b1ecd4897794ea6ad5742a41f21525">More...</a><br /></td></tr>
+<tr class="separator:a90b1ecd4897794ea6ad5742a41f21525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fcb017f9de04c221b78e47cf062039d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a2fcb017f9de04c221b78e47cf062039d">ObjectStat</a> (const std::string &amp;object_id, <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *stat)</td></tr>
 <tr class="memdesc:a2fcb017f9de04c221b78e47cf062039d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get stats about a MerkleDAG node.  <a href="#a2fcb017f9de04c221b78e47cf062039d">More...</a><br /></td></tr>
 <tr class="separator:a2fcb017f9de04c221b78e47cf062039d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -661,6 +664,51 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">object_id</td><td>Id (multihash) of the MerkleDAG node to fetch. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">object</td><td>Retrieved MerkleDAG node. For example: {"Data": "abc", "Links": [{"Name": "link1", "Hash": "...", "Size": 8}]} </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a90b1ecd4897794ea6ad5742a41f21525"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90b1ecd4897794ea6ad5742a41f21525">&sect;&nbsp;</a></span>ObjectLinks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::ObjectLinks </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>object_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *&#160;</td>
+          <td class="paramname"><em>links</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get links of a MerkleDAG node. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectlinks">https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectlinks</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> links;</div><div class="line">    client.ObjectLinks(<span class="stringliteral">&quot;QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG&quot;</span>,</div><div class="line">                       &amp;links);</div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Object links:&quot;</span> &lt;&lt; std::endl &lt;&lt; links.dump(2) &lt;&lt; std::endl;</div><div class="line">    <span class="comment">/* An example output:</span></div><div class="line"><span class="comment">    [</span></div><div class="line"><span class="comment">      {</span></div><div class="line"><span class="comment">        &quot;Hash&quot;: &quot;QmZTR5bcpQD7cFgTorqxZDYaew1Wqgfbd2ud9QqGPAkK2V&quot;,</span></div><div class="line"><span class="comment">        &quot;Name&quot;: &quot;about&quot;,</span></div><div class="line"><span class="comment">        &quot;Size&quot;: 1688</span></div><div class="line"><span class="comment">      },</span></div><div class="line"><span class="comment">      {</span></div><div class="line"><span class="comment">        &quot;Hash&quot;: &quot;QmYCvbfNbCwFR45HiNP45rwJgvatpiW38D961L5qAhUM5Y&quot;,</span></div><div class="line"><span class="comment">        &quot;Name&quot;: &quot;contact&quot;,</span></div><div class="line"><span class="comment">        &quot;Size&quot;: 200</span></div><div class="line"><span class="comment">      },</span></div><div class="line"><span class="comment">      {</span></div><div class="line"><span class="comment">        &quot;Hash&quot;: &quot;QmY5heUM5qgRubMDD1og9fhCPA6QdkMp3QCwd4s7gJsyE7&quot;,</span></div><div class="line"><span class="comment">        &quot;Name&quot;: &quot;help&quot;,</span></div><div class="line"><span class="comment">        &quot;Size&quot;: 322</span></div><div class="line"><span class="comment">      },</span></div><div class="line"><span class="comment">      {</span></div><div class="line"><span class="comment">        &quot;Hash&quot;: &quot;QmdncfsVm2h5Kqq9hPmU7oAVX2zTSVP3L869tgTbPYnsha&quot;,</span></div><div class="line"><span class="comment">        &quot;Name&quot;: &quot;quick-start&quot;,</span></div><div class="line"><span class="comment">        &quot;Size&quot;: 1728</span></div><div class="line"><span class="comment">      },</span></div><div class="line"><span class="comment">      {</span></div><div class="line"><span class="comment">        &quot;Hash&quot;: &quot;QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB&quot;,</span></div><div class="line"><span class="comment">        &quot;Name&quot;: &quot;readme&quot;,</span></div><div class="line"><span class="comment">        &quot;Size&quot;: 1102</span></div><div class="line"><span class="comment">      },</span></div><div class="line"><span class="comment">      {</span></div><div class="line"><span class="comment">        &quot;Hash&quot;: &quot;QmTumTjvcYCAvRRwQ8sDRxh8ezmrcr88YFU7iYNroGGTBZ&quot;,</span></div><div class="line"><span class="comment">        &quot;Name&quot;: &quot;security-notes&quot;,</span></div><div class="line"><span class="comment">        &quot;Size&quot;: 1027</span></div><div class="line"><span class="comment">      }</span></div><div class="line"><span class="comment">    ]</span></div><div class="line"><span class="comment">    */</span></div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">object_id</td><td>Id of the object to query (multihash). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">links</td><td>Links of the object. For example: [{"Name": "...", "Hash": "...", "Size": 8}, ...] </td></tr>
   </table>
   </dd>
 </dl>

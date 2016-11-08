@@ -108,6 +108,47 @@ int main(int, char**) {
     */
     /** [ipfs::Client::ObjectData] */
 
+    /** [ipfs::Client::ObjectLinks] */
+    ipfs::Json links;
+    client.ObjectLinks("QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG",
+                       &links);
+    std::cout << "Object links:" << std::endl << links.dump(2) << std::endl;
+    /* An example output:
+    [
+      {
+        "Hash": "QmZTR5bcpQD7cFgTorqxZDYaew1Wqgfbd2ud9QqGPAkK2V",
+        "Name": "about",
+        "Size": 1688
+      },
+      {
+        "Hash": "QmYCvbfNbCwFR45HiNP45rwJgvatpiW38D961L5qAhUM5Y",
+        "Name": "contact",
+        "Size": 200
+      },
+      {
+        "Hash": "QmY5heUM5qgRubMDD1og9fhCPA6QdkMp3QCwd4s7gJsyE7",
+        "Name": "help",
+        "Size": 322
+      },
+      {
+        "Hash": "QmdncfsVm2h5Kqq9hPmU7oAVX2zTSVP3L869tgTbPYnsha",
+        "Name": "quick-start",
+        "Size": 1728
+      },
+      {
+        "Hash": "QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB",
+        "Name": "readme",
+        "Size": 1102
+      },
+      {
+        "Hash": "QmTumTjvcYCAvRRwQ8sDRxh8ezmrcr88YFU7iYNroGGTBZ",
+        "Name": "security-notes",
+        "Size": 1027
+      }
+    ]
+    */
+    /** [ipfs::Client::ObjectLinks] */
+
     /** [ipfs::Client::ObjectStat] */
     ipfs::Json stat;
     client.ObjectStat(

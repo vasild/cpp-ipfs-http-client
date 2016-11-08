@@ -302,6 +302,24 @@ class Client {
       /** [out] Raw data of the MerkleDAG node. */
       std::string* data);
 
+  /** Get links of a MerkleDAG node.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectlinks.
+   *
+   * An example usage:
+   * @snippet object.cc ipfs::Client::ObjectLinks
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void ObjectLinks(
+      /** [in] Id of the object to query (multihash). */
+      const std::string& object_id,
+      /** [out] Links of the object. For example:
+       * [{"Name": "...", "Hash": "...", "Size": 8}, ...] */
+      Json* links);
+
   /** Get stats about a MerkleDAG node.
    *
    * Implements

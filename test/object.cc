@@ -160,6 +160,73 @@ int main(int, char**) {
     check_if_properties_exist("client.ObjectStat()", stat,
                               {"BlockSize", "CumulativeSize", "DataSize",
                                "Hash", "LinksSize", "NumLinks"});
+
+    {
+      /** [ipfs::Client::ObjectPatchAddLink] */
+      /* Create a new node, upload two files and link them to the node. */
+
+      std::string orig_id;
+      client.ObjectNew(&orig_id);
+
+      ipfs::Json added_files;
+      client.FilesAdd(
+          {{"file1.txt", ipfs::http::FileUpload::Type::kFileContents, "f1f1"},
+           {"file2.txt", ipfs::http::FileUpload::Type::kFileContents, "f2f2"}},
+          &added_files);
+
+      std::string new_id;
+      client.ObjectPatchAddLink(orig_id, "link to file1.txt",
+                                added_files[0]["hash"], &new_id);
+
+      ipfs::Json new_object;
+      client.ObjectGet(new_id, &new_object);
+      std::cout << "Added a link to " << orig_id << "." << std::endl
+                << "New object " << new_id << ":" << std::endl
+                << new_object.dump(2) << std::endl;
+      /* An example output:
+      Added a link to QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n.
+      New object QmRgn5ZeLiPRwQHqSbMLUZ2gkyLbJiaxVEx3LrDCqqaCAb:
+      {
+        "Data": "",
+        "Links": [
+          {
+            "Hash": "QmNYaS23te5Rja36U94JoSTuMxJZmBEnHN8KEcjR6rGRGn",
+            "Name": "link to file1.txt",
+            "Size": 12
+          }
+        ]
+      }
+      */
+
+      orig_id = new_id;
+      client.ObjectPatchAddLink(orig_id, "link to file2.txt",
+                                added_files[1]["hash"], &new_id);
+
+      client.ObjectGet(new_id, &new_object);
+      std::cout << "Added another link to " << orig_id << "." << std::endl
+                << "New object " << new_id << ":" << std::endl
+                << new_object.dump(2) << std::endl;
+      /* An example output:
+      Added another link to QmRgn5ZeLiPRwQHqSbMLUZ2gkyLbJiaxVEx3LrDCqqaCAb.
+      New object QmTxf3cBwrzyRvCZgDQni5wkRkcpM81wiWFTK17okLtT21:
+      {
+        "Data": "",
+        "Links": [
+          {
+            "Hash": "QmNYaS23te5Rja36U94JoSTuMxJZmBEnHN8KEcjR6rGRGn",
+            "Name": "link to file1.txt",
+            "Size": 12
+          },
+          {
+            "Hash": "QmYuNVU4vwpXqX9RLv47HbmiveWwZvLBsXyYbUtEQMJYGQ",
+            "Name": "link to file2.txt",
+            "Size": 12
+          }
+        ]
+      }
+      */
+      /** [ipfs::Client::ObjectPatchAddLink] */
+    }
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

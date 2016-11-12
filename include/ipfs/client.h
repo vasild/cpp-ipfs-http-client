@@ -338,6 +338,27 @@ class Client {
        * {"NumLinks": 0, "BlockSize": 10, "LinksSize": 2, ...} */
       Json* stat);
 
+  /** Create a new object from an existing MerkleDAG node and add to its links.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectpatchaddlink.
+   *
+   * An example usage:
+   * @snippet object.cc ipfs::Client::ObjectPatchAddLink
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void ObjectPatchAddLink(
+      /** [in] Id of the object to clone (multihash). */
+      const std::string& source,
+      /** [in] Link name. */
+      const std::string& link_name,
+      /** [in] Id of the object that the link points to (multihash). */
+      const std::string& link_target,
+      /** [out] Id of the newly created (cloned) object (multihash). */
+      std::string* cloned);
+
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(

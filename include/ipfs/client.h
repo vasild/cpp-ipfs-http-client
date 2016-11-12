@@ -23,8 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include <ipfs/http/transport.h>
 

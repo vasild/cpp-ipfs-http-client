@@ -233,8 +233,8 @@ void TransportCurl::Perform(const std::string& url, std::iostream* response) {
   if (!status_is_success(status_code)) {
     std::streambuf* b = response->rdbuf();
     throw std::runtime_error(
-        "HTTP request failed with status code " +
-        std::to_string(status_code) + ". Response body:\n" +
+        "HTTP request failed with status code " + std::to_string(status_code) +
+        ". Response body:\n" +
         /* Read the whole body back from the stream where we wrote it and
          * append it to this error message string. Usually the bodies of
          * HTTP error responses represent a short HTML or JSON that

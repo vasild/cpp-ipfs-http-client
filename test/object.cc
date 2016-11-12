@@ -151,9 +151,7 @@ int main(int, char**) {
 
     /** [ipfs::Client::ObjectStat] */
     ipfs::Json stat;
-    client.ObjectStat(
-        "QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG",
-        &stat);
+    client.ObjectStat("QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG", &stat);
     std::cout << "Object data size: " << stat["DataSize"] << std::endl;
     /* An example output:
     Object data size: 2

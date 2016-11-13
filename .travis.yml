@@ -8,7 +8,7 @@ install:
   # out (ie it assumes in-source build)
   - JSON_INSTALL_DIR="${TRAVIS_BUILD_DIR}/../include/nlohmann"
   - mkdir -p "${JSON_INSTALL_DIR}"
-  - travis_retry wget --quiet -O "${JSON_INSTALL_DIR}/json.hpp" https://raw.githubusercontent.com/nlohmann/json/v2.0.6/src/json.hpp
+  - travis_retry wget --quiet -O "${JSON_INSTALL_DIR}/json.hpp" https://raw.githubusercontent.com/nlohmann/json/v2.0.7/src/json.hpp
 
 matrix:
   include:

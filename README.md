@@ -19,12 +19,11 @@ Currently implemented methods:
 - [config](https://github.com/ipfs/interface-ipfs-core/tree/master/API/config): get(), set(), replace()
 - [files](https://github.com/ipfs/interface-ipfs-core/tree/master/API/files): get(), add()
 - [generic](https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic): id(), version()
-- [object](https://github.com/ipfs/interface-ipfs-core/tree/master/API/object): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData()
+- [object](https://github.com/ipfs/interface-ipfs-core/tree/master/API/object): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()
 
 Not implemented yet:
 
 - [dag](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dag): get(), put()
-- [object](https://github.com/ipfs/interface-ipfs-core/tree/master/API/object): patch.setData()
 - [pin](https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin): add(), ls(), rm()
 - [swarm](https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm): addrs(), connect(), disconnect(), peers()
 

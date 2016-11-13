@@ -234,6 +234,17 @@ void Client::ObjectPatchAppendData(const std::string& source,
   GetProperty(response, "Hash", 0, cloned);
 }
 
+void Client::ObjectPatchSetData(const std::string& source,
+                                const http::FileUpload& data,
+                                std::string* cloned) {
+  Json response;
+
+  FetchAndParseJson(MakeUrl("object/patch/set-data", {{"arg", source}}), {data},
+                    &response);
+
+  GetProperty(response, "Hash", 0, cloned);
+}
+
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   FetchAndParseJson(url, {}, response);
 }

@@ -304,6 +304,42 @@ int main(int, char**) {
       }
       */
       /** [ipfs::Client::ObjectPatchAppendData] */
+
+      target_id = with_appended_data_id;
+      /** [ipfs::Client::ObjectPatchSetData] */
+      /* std::string target_id = "QmbDtmUVyiN8vFZr8cDTp...67bTj" for example. */
+      std::string with_new_data_id;
+
+      client.ObjectPatchSetData(
+          target_id,
+          {"", ipfs::http::FileUpload::Type::kFileContents, "new data"},
+          &with_new_data_id);
+
+      ipfs::Json with_new_data;
+      client.ObjectGet(with_new_data_id, &with_new_data);
+      std::cout << "Set the data of " << target_id << "." << std::endl
+                << "New object " << with_new_data_id << ":" << std::endl
+                << with_new_data.dump(2) << std::endl;
+      /* An example output:
+      Set the data of QmbDtmUVyiN8vFZr8cDTpuVtZwnVd3k6wqpEq3NvE67bTj.
+      New object QmZ19WxdWzPbLTyTkb1MYDvpdLi1pu1fRtECAiHzhLJAxz:
+      {
+        "Data": "new data",
+        "Links": [
+          {
+            "Hash": "QmNYaS23te5Rja36U94JoSTuMxJZmBEnHN8KEcjR6rGRGn",
+            "Name": "link to file1.txt",
+            "Size": 12
+          },
+          {
+            "Hash": "QmYuNVU4vwpXqX9RLv47HbmiveWwZvLBsXyYbUtEQMJYGQ",
+            "Name": "link to file2.txt",
+            "Size": 12
+          }
+        ]
+      }
+      */
+      /** [ipfs::Client::ObjectPatchSetData] */
     }
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;

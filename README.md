@@ -21,13 +21,12 @@ Currently implemented methods:
 - [generic](https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic): id(), version()
 - [object](https://github.com/ipfs/interface-ipfs-core/tree/master/API/object): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()
 - [pin](https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin): add(), ls(), rm()
-- [swarm](https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm): addrs(), connect(), disconnect()
+- [swarm](https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm): addrs(), connect(), disconnect(), peers()
 
 Not implemented yet:
 
 - [dag](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dag): get(), put()
 - [dht](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht): findpeer(), findprovs(), get(), put(), query()
-- [swarm](https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm): peers()
 
 # Install
 

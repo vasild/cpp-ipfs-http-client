@@ -87,6 +87,25 @@ int main(int, char**) {
      * for example */
     client.SwarmDisconnect(peer);
     /** [ipfs::Client::SwarmDisconnect] */
+
+    /** [ipfs::Client::SwarmPeers] */
+    ipfs::Json peers;
+
+    client.SwarmPeers(&peers);
+
+    std::cout << "Peers:" << std::endl << peers.dump(2) << std::endl;
+    /* An example output:
+    Peers:
+    {
+      "Strings": [
+        "/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+        "/ip4/104.131.144.16/tcp/4001/ipfs/QmNYXVn17mHCA1cdTh2DF5KmD9RJ72QkJQ6Eo7HyAuMYqG",
+        "/ip4/104.223.59.174/tcp/4001/ipfs/QmeWdgoZezpdHz1PX8Ly8AeDQahFkBNtHn6qKeNtWP1jB6",
+        ...
+      ]
+    }
+    */
+    /** [ipfs::Client::SwarmPeers] */
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

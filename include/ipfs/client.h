@@ -540,6 +540,21 @@ class Client {
        */
       const std::string& peer);
 
+  /** List the peers that we have connections with.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#peers.
+   *
+   * An example usage:
+   * @snippet swarm.cc ipfs::Client::SwarmPeers
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void SwarmPeers(
+      /** [out] The retrieved list. */
+      Json* peers);
+
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(

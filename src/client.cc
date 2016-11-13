@@ -297,6 +297,10 @@ void Client::SwarmDisconnect(const std::string& peer) {
   FetchAndParseJson(MakeUrl("swarm/disconnect", {{"arg", peer}}), &response);
 }
 
+void Client::SwarmPeers(Json* peers) {
+  FetchAndParseJson(MakeUrl("swarm/peers"), peers);
+}
+
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   FetchAndParseJson(url, {}, response);
 }

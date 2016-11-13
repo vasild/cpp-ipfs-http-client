@@ -174,6 +174,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afd550da40c4517c59750327784707923"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#afd550da40c4517c59750327784707923">SwarmDisconnect</a> (const std::string &amp;peer)</td></tr>
 <tr class="memdesc:afd550da40c4517c59750327784707923"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close a connection on a given address.  <a href="#afd550da40c4517c59750327784707923">More...</a><br /></td></tr>
 <tr class="separator:afd550da40c4517c59750327784707923"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c1f5392892d51152e45221ce1a026da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a3c1f5392892d51152e45221ce1a026da">SwarmPeers</a> (<a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *peers)</td></tr>
+<tr class="memdesc:a3c1f5392892d51152e45221ce1a026da"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the peers that we have connections with.  <a href="#a3c1f5392892d51152e45221ce1a026da">More...</a><br /></td></tr>
+<tr class="separator:a3c1f5392892d51152e45221ce1a026da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IPFS client. </p>
@@ -1347,7 +1350,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">peer</td><td>Peer to connect to. For example: <code>"/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"</code> </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">peer</td><td>Peer to connect to. For example: <code>"/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"</code> </td></tr>
   </table>
   </dd>
 </dl>
@@ -1381,7 +1384,41 @@ Public Member Functions</h2></td></tr>
 <dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">peer</td><td>Peer to disconnect from to. For example: <code>"/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"</code> </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">peer</td><td>Peer to disconnect from to. For example: <code>"/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"</code> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3c1f5392892d51152e45221ce1a026da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c1f5392892d51152e45221ce1a026da">&sect;&nbsp;</a></span>SwarmPeers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::SwarmPeers </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *&#160;</td>
+          <td class="paramname"><em>peers</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>List the peers that we have connections with. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#peers">https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#peers</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> peers;</div><div class="line"></div><div class="line">    client.SwarmPeers(&amp;peers);</div><div class="line"></div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Peers:&quot;</span> &lt;&lt; std::endl &lt;&lt; peers.dump(2) &lt;&lt; std::endl;</div><div class="line">    <span class="comment">/* An example output:</span></div><div class="line"><span class="comment">    Peers:</span></div><div class="line"><span class="comment">    {</span></div><div class="line"><span class="comment">      &quot;Strings&quot;: [</span></div><div class="line"><span class="comment">        &quot;/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ&quot;,</span></div><div class="line"><span class="comment">        &quot;/ip4/104.131.144.16/tcp/4001/ipfs/QmNYXVn17mHCA1cdTh2DF5KmD9RJ72QkJQ6Eo7HyAuMYqG&quot;,</span></div><div class="line"><span class="comment">        &quot;/ip4/104.223.59.174/tcp/4001/ipfs/QmeWdgoZezpdHz1PX8Ly8AeDQahFkBNtHn6qKeNtWP1jB6&quot;,</span></div><div class="line"><span class="comment">        ...</span></div><div class="line"><span class="comment">      ]</span></div><div class="line"><span class="comment">    }</span></div><div class="line"><span class="comment">    */</span></div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">peers</td><td>The retrieved list. </td></tr>
   </table>
   </dd>
 </dl>

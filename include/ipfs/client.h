@@ -432,6 +432,38 @@ class Client {
       /** [in] Id of the object to pin (multihash). */
       const std::string& object_id);
 
+  /** List all the objects pinned to local storage.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin#ls.
+   *
+   * An example usage:
+   * @snippet pin.cc ipfs::Client::PinLs__a
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void PinLs(
+      /** [out] List of pinned objects. */
+      Json* pinned);
+
+  /** List the objects pinned under a specific hash.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin#ls.
+   *
+   * An example usage:
+   * @snippet pin.cc ipfs::Client::PinLs__b
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void PinLs(
+      /** [in] Id of the object to list (multihash). */
+      const std::string& object_id,
+      /** [out] List of pinned objects. */
+      Json* pinned);
+
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(

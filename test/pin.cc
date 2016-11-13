@@ -40,6 +40,49 @@ int main(int, char**) {
     Pinned object: QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n
     */
     /** [ipfs::Client::PinAdd] */
+
+    /** [ipfs::Client::PinLs__a] */
+    ipfs::Json pinned;
+
+    client.PinLs(&pinned);
+
+    std::cout << "List of all pinned objects:" << std::endl
+              << pinned.dump(2) << std::endl;
+    /* An example output:
+    List of all pinned objects:
+    {
+      "Keys": {
+        "QmNYaS23te5Rja36U94JoSTuMxJZmBEnHN8KEcjR6rGRGn": {
+          "Type": "indirect"
+        },
+        "QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn": {
+          "Type": "recursive"
+        },
+        "Qmf5t6BgYbiT2usHRToVzLu5DNHfH39S4dq6JTxf69Npzt": {
+          "Type": "indirect"
+        }
+      }
+    }
+    */
+    /** [ipfs::Client::PinLs__a] */
+
+    /** [ipfs::Client::PinLs__b] */
+    /* std::string object_id = "QmdfTbBqBPQ7VNxZEYEj14V...1zR1n" for example. */
+    client.PinLs(object_id, &pinned);
+
+    std::cout << "List pinned objects under " << object_id << ":" << std::endl
+              << pinned.dump(2) << std::endl;
+    /* An example output:
+    List pinned objects under QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n:
+    {
+      "Keys": {
+        "QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n": {
+          "Type": "recursive"
+        }
+      }
+    }
+    */
+    /** [ipfs::Client::PinLs__b] */
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

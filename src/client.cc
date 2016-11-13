@@ -264,6 +264,18 @@ void Client::PinAdd(const std::string& object_id) {
       "\" got a result that does not contain it as pinned: " + response.dump());
 }
 
+void Client::PinLs(Json* pinned) {
+  Json response;
+
+  FetchAndParseJson(MakeUrl("pin/ls"), pinned);
+}
+
+void Client::PinLs(const std::string& object_id, Json* pinned) {
+  Json response;
+
+  FetchAndParseJson(MakeUrl("pin/ls", {{"arg", object_id}}), pinned);
+}
+
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   FetchAndParseJson(url, {}, response);
 }

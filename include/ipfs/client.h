@@ -491,6 +491,21 @@ class Client {
       /** [in] Unpin options. */
       PinRmOptions options);
 
+  /** List of known addresses of each peer connected.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#addrs.
+   *
+   * An example usage:
+   * @snippet swarm.cc ipfs::Client::SwarmAddrs
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void SwarmAddrs(
+      /** [out] The retrieved list. */
+      Json* addresses);
+
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(

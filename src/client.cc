@@ -283,6 +283,10 @@ void Client::PinRm(const std::string& object_id, PinRmOptions options) {
       &response);
 }
 
+void Client::SwarmAddrs(Json* addresses) {
+  FetchAndParseJson(MakeUrl("swarm/addrs"), addresses);
+}
+
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   FetchAndParseJson(url, {}, response);
 }

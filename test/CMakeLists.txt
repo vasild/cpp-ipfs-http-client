@@ -5,6 +5,7 @@ set(TESTS
   generic
   object
   pin
+  swarm
 )
 
 foreach (T ${TESTS})

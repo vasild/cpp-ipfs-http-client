@@ -165,6 +165,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1f5d4bfb19f0f739ce8f888c7cbbcc44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a1f5d4bfb19f0f739ce8f888c7cbbcc44">PinRm</a> (const std::string &amp;object_id, <a class="el" href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0">PinRmOptions</a> options)</td></tr>
 <tr class="memdesc:a1f5d4bfb19f0f739ce8f888c7cbbcc44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unpin an object.  <a href="#a1f5d4bfb19f0f739ce8f888c7cbbcc44">More...</a><br /></td></tr>
 <tr class="separator:a1f5d4bfb19f0f739ce8f888c7cbbcc44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa45a95118ec539863c12da953ab1988c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#aa45a95118ec539863c12da953ab1988c">SwarmAddrs</a> (<a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *addresses)</td></tr>
+<tr class="memdesc:aa45a95118ec539863c12da953ab1988c"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of known addresses of each peer connected.  <a href="#aa45a95118ec539863c12da953ab1988c">More...</a><br /></td></tr>
+<tr class="separator:aa45a95118ec539863c12da953ab1988c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IPFS client. </p>
@@ -1271,6 +1274,40 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">object_id</td><td>Id of the object to unpin (multihash). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">options</td><td>Unpin options. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa45a95118ec539863c12da953ab1988c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa45a95118ec539863c12da953ab1988c">&sect;&nbsp;</a></span>SwarmAddrs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::SwarmAddrs </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *&#160;</td>
+          <td class="paramname"><em>addresses</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>List of known addresses of each peer connected. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#addrs">https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#addrs</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> addresses;</div><div class="line"></div><div class="line">    client.SwarmAddrs(&amp;addresses);</div><div class="line"></div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Known addresses of each peer:&quot;</span> &lt;&lt; std::endl</div><div class="line">              &lt;&lt; addresses.dump(2) &lt;&lt; std::endl;</div><div class="line">    <span class="comment">/* An example output:</span></div><div class="line"><span class="comment">    Known addresses of each peer:</span></div><div class="line"><span class="comment">    {</span></div><div class="line"><span class="comment">      &quot;Addrs&quot;: {</span></div><div class="line"><span class="comment">        &quot;QmNRV7kyUxYaQ4KQxFXPYm8EfuzJbtGn1wSFenjXL6LD8y&quot;: [</span></div><div class="line"><span class="comment">          &quot;/ip4/127.0.0.1/tcp/4001&quot;,</span></div><div class="line"><span class="comment">          &quot;/ip4/172.17.0.2/tcp/4001&quot;,</span></div><div class="line"><span class="comment">          &quot;/ip4/5.9.33.222/tcp/1040&quot;,</span></div><div class="line"><span class="comment">          &quot;/ip4/5.9.33.222/tcp/4001&quot;,</span></div><div class="line"><span class="comment">          &quot;/ip6/::1/tcp/4001&quot;</span></div><div class="line"><span class="comment">        ],</span></div><div class="line"><span class="comment">        &quot;QmNYXVn17mHCA1cdTh2DF5KmD9RJ72QkJQ6Eo7HyAuMYqG&quot;: [</span></div><div class="line"><span class="comment">          &quot;/ip4/10.12.0.5/tcp/4001&quot;,</span></div><div class="line"><span class="comment">          &quot;/ip4/104.131.144.16/tcp/4001&quot;,</span></div><div class="line"><span class="comment">          &quot;/ip4/127.0.0.1/tcp/4001&quot;,</span></div><div class="line"><span class="comment">          &quot;/ip6/::1/tcp/4001&quot;</span></div><div class="line"><span class="comment">        ],</span></div><div class="line"><span class="comment">        ...</span></div><div class="line"><span class="comment">      }</span></div><div class="line"><span class="comment">    }</span></div><div class="line"><span class="comment">    */</span></div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">addresses</td><td>The retrieved list. </td></tr>
   </table>
   </dd>
 </dl>

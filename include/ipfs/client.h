@@ -518,7 +518,7 @@ class Client {
    *
    * @since version 0.1.0 */
   void SwarmConnect(
-      /** [out] Peer to connect to. For example:
+      /** [in] Peer to connect to. For example:
        * `"/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"`
        */
       const std::string& peer);
@@ -535,7 +535,7 @@ class Client {
    *
    * @since version 0.1.0 */
   void SwarmDisconnect(
-      /** [out] Peer to disconnect from to. For example:
+      /** [in] Peer to disconnect from to. For example:
        * `"/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"`
        */
       const std::string& peer);

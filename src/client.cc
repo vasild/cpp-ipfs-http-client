@@ -245,6 +245,25 @@ void Client::ObjectPatchSetData(const std::string& source,
   GetProperty(response, "Hash", 0, cloned);
 }
 
+void Client::PinAdd(const std::string& object_id) {
+  Json response;
+
+  FetchAndParseJson(MakeUrl("pin/add", {{"arg", object_id}}), &response);
+
+  Json pins_array;
+  GetProperty(response, "Pins", 0, &pins_array);
+
+  for (const std::string& pin : pins_array) {
+    if (pin == object_id) {
+      return;
+    }
+  }
+
+  throw std::runtime_error(
+      "Request to pin \"" + object_id +
+      "\" got a result that does not contain it as pinned: " + response.dump());
+}
+
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   FetchAndParseJson(url, {}, response);
 }

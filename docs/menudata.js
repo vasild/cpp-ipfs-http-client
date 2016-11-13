@@ -30,6 +30,7 @@ var menudata={children:[
 {text:'f',url:'functions_func.html#index_f'},
 {text:'i',url:'functions_func.html#index_i'},
 {text:'o',url:'functions_func.html#index_o'},
+{text:'p',url:'functions_func.html#index_p'},
 {text:'t',url:'functions_func.html#index_t'},
 {text:'u',url:'functions_func.html#index_u'},
 {text:'v',url:'functions_func.html#index_v'},

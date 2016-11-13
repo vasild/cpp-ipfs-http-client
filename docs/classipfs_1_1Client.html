@@ -144,6 +144,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a949a35293f16868980ab013606264b24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a949a35293f16868980ab013606264b24">ObjectPatchSetData</a> (const std::string &amp;source, const <a class="el" href="structipfs_1_1http_1_1FileUpload.html">http::FileUpload</a> &amp;data, std::string *cloned)</td></tr>
 <tr class="memdesc:a949a35293f16868980ab013606264b24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new object from an existing MerkleDAG node and set its data.  <a href="#a949a35293f16868980ab013606264b24">More...</a><br /></td></tr>
 <tr class="separator:a949a35293f16868980ab013606264b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18e6d6a299748d3ba3a681bac7c5bd5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a18e6d6a299748d3ba3a681bac7c5bd5d">PinAdd</a> (const std::string &amp;object_id)</td></tr>
+<tr class="memdesc:a18e6d6a299748d3ba3a681bac7c5bd5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pin a given IPFS object.  <a href="#a18e6d6a299748d3ba3a681bac7c5bd5d">More...</a><br /></td></tr>
+<tr class="separator:a18e6d6a299748d3ba3a681bac7c5bd5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IPFS client. </p>
@@ -1060,6 +1063,40 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">object_id</td><td>Id of the object to query (multihash). </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">stat</td><td>Stats about the object. For example: {"NumLinks": 0, "BlockSize": 10, "LinksSize": 2, ...} </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a18e6d6a299748d3ba3a681bac7c5bd5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18e6d6a299748d3ba3a681bac7c5bd5d">&sect;&nbsp;</a></span>PinAdd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::PinAdd </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>object_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pin a given IPFS object. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin#add">https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin#add</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* std::string object_id = &quot;QmdfTbBqBPQ7VNxZEYEj14V...1zR1n&quot; for example. */</span></div><div class="line">    client.PinAdd(object_id);</div><div class="line"></div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Pinned object: &quot;</span> &lt;&lt; object_id &lt;&lt; std::endl;</div><div class="line">    <span class="comment">/* An example output:</span></div><div class="line"><span class="comment">    Pinned object: QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n</span></div><div class="line"><span class="comment">    */</span></div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">object_id</td><td>Id of the object to pin (multihash). </td></tr>
   </table>
   </dd>
 </dl>

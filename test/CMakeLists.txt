@@ -4,6 +4,7 @@ set(TESTS
   files
   generic
   object
+  pin
 )
 
 foreach (T ${TESTS})

@@ -417,6 +417,21 @@ class Client {
       /** [out] Id of the newly created (cloned) object (multihash). */
       std::string* cloned);
 
+  /** Pin a given IPFS object.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin#add.
+   *
+   * An example usage:
+   * @snippet pin.cc ipfs::Client::PinAdd
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void PinAdd(
+      /** [in] Id of the object to pin (multihash). */
+      const std::string& object_id);
+
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(

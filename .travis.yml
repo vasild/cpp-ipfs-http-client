@@ -66,6 +66,7 @@ matrix:
         - CTEST_OUTPUT_ON_FAILURE=1 make test
         - ret=$?
         - killall ${GO_IPFS_CMD}
+        - echo ${ret}
         - exit ${ret}
     - os: linux
       before_install:

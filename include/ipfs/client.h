@@ -464,6 +464,33 @@ class Client {
       /** [out] List of pinned objects. */
       Json* pinned);
 
+  /** Options to control the `PinRm()` method. */
+  enum class PinRmOptions {
+    /** Just unpin the specified object. */
+    NON_RECURSIVE,
+    /** Recursively unpin the objects. */
+    RECURSIVE,
+  };
+
+  /** Unpin an object.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin#rm.
+   *
+   * An example usage:
+   * @snippet pin.cc ipfs::Client::PinRm
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @sa `PinRmOptions`
+   *
+   * @since version 0.1.0 */
+  void PinRm(
+      /** [in] Id of the object to unpin (multihash). */
+      const std::string& object_id,
+      /** [in] Unpin options. */
+      PinRmOptions options);
+
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(

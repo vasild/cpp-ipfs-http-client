@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['type',['Type',['../structipfs_1_1http_1_1FileUpload.html#a76d8546add495d01fd1dcd82ea8170ad',1,'ipfs::http::FileUpload']]]
+  ['pinrmoptions',['PinRmOptions',['../classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0',1,'ipfs::Client']]]
 ];

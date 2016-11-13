@@ -83,6 +83,26 @@ int main(int, char**) {
     }
     */
     /** [ipfs::Client::PinLs__b] */
+
+    /** [ipfs::Client::PinRm] */
+    /* std::string object_id = "QmdfTbBqBPQ7VNxZEYEj14V...1zR1n" for example. */
+
+    bool unpinned;
+    try {
+      client.PinRm(object_id, ipfs::Client::PinRmOptions::NON_RECURSIVE);
+      unpinned = true;
+    } catch (const std::exception&) {
+      unpinned = false;
+    }
+
+    if (unpinned) {
+      throw std::runtime_error(
+          "Unpinning " + object_id +
+          " non-recursively succeeded but should have failed.");
+    }
+
+    client.PinRm(object_id, ipfs::Client::PinRmOptions::RECURSIVE);
+    /** [ipfs::Client::PinRm] */
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

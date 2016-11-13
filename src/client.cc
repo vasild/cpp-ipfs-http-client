@@ -272,6 +272,17 @@ void Client::PinLs(const std::string& object_id, Json* pinned) {
   FetchAndParseJson(MakeUrl("pin/ls", {{"arg", object_id}}), pinned);
 }
 
+void Client::PinRm(const std::string& object_id, PinRmOptions options) {
+  Json response;
+
+  const std::string recursive =
+      options == PinRmOptions::RECURSIVE ? "true" : "false";
+
+  FetchAndParseJson(
+      MakeUrl("pin/rm", {{"arg", object_id}, {"recursive", recursive}}),
+      &response);
+}
+
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   FetchAndParseJson(url, {}, response);
 }

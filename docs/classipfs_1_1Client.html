@@ -64,6 +64,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classipfs_1_1Client-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -76,6 +77,14 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="client_8h_source.html">ipfs/client.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:adc5716aa4272ff2bedcae954339c77d0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0">PinRmOptions</a> { <a class="el" href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0a254f9369d66a06a09f3ac854e72f6825">PinRmOptions::NON_RECURSIVE</a>, 
+<a class="el" href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0a1c1aa83dfe54dfc3528f9e40131cf638">PinRmOptions::RECURSIVE</a>
+ }<tr class="memdesc:adc5716aa4272ff2bedcae954339c77d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options to control the <code><a class="el" href="classipfs_1_1Client.html#a1f5d4bfb19f0f739ce8f888c7cbbcc44" title="Unpin an object. ">PinRm()</a></code> method.  <a href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:adc5716aa4272ff2bedcae954339c77d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a52eafe00cfd5627cb0df384eb82c48a9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a52eafe00cfd5627cb0df384eb82c48a9">Client</a> (const std::string &amp;host, long port)</td></tr>
@@ -153,12 +162,46 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1d775b25a4d80ba95c040694e9c9d877"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a1d775b25a4d80ba95c040694e9c9d877">PinLs</a> (const std::string &amp;object_id, <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *pinned)</td></tr>
 <tr class="memdesc:a1d775b25a4d80ba95c040694e9c9d877"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the objects pinned under a specific hash.  <a href="#a1d775b25a4d80ba95c040694e9c9d877">More...</a><br /></td></tr>
 <tr class="separator:a1d775b25a4d80ba95c040694e9c9d877"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f5d4bfb19f0f739ce8f888c7cbbcc44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a1f5d4bfb19f0f739ce8f888c7cbbcc44">PinRm</a> (const std::string &amp;object_id, <a class="el" href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0">PinRmOptions</a> options)</td></tr>
+<tr class="memdesc:a1f5d4bfb19f0f739ce8f888c7cbbcc44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unpin an object.  <a href="#a1f5d4bfb19f0f739ce8f888c7cbbcc44">More...</a><br /></td></tr>
+<tr class="separator:a1f5d4bfb19f0f739ce8f888c7cbbcc44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IPFS client. </p>
 <p>It implements the interface described in <a href="https://github.com/ipfs/interface-ipfs-core">https://github.com/ipfs/interface-ipfs-core</a>. The methods of this class may throw some variant of <code>std::exception</code> if a connectivity error occurs or if the response cannot be parsed. Be prepared!</p>
 <dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="adc5716aa4272ff2bedcae954339c77d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc5716aa4272ff2bedcae954339c77d0">&sect;&nbsp;</a></span>PinRmOptions</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0">ipfs::Client::PinRmOptions</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Options to control the <code><a class="el" href="classipfs_1_1Client.html#a1f5d4bfb19f0f739ce8f888c7cbbcc44" title="Unpin an object. ">PinRm()</a></code> method. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="adc5716aa4272ff2bedcae954339c77d0a254f9369d66a06a09f3ac854e72f6825"></a>NON_RECURSIVE&#160;</td><td class="fielddoc"><p>Just unpin the specified object. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="adc5716aa4272ff2bedcae954339c77d0a1c1aa83dfe54dfc3528f9e40131cf638"></a>RECURSIVE&#160;</td><td class="fielddoc"><p>Recursively unpin the objects. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a52eafe00cfd5627cb0df384eb82c48a9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a52eafe00cfd5627cb0df384eb82c48a9">&sect;&nbsp;</a></span>Client()</h2>
 
@@ -1182,6 +1225,52 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">object_id</td><td>Id of the object to list (multihash). </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">pinned</td><td>List of pinned objects. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1f5d4bfb19f0f739ce8f888c7cbbcc44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f5d4bfb19f0f739ce8f888c7cbbcc44">&sect;&nbsp;</a></span>PinRm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::PinRm </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>object_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0">PinRmOptions</a>&#160;</td>
+          <td class="paramname"><em>options</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Unpin an object. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin#rm">https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin#rm</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* std::string object_id = &quot;QmdfTbBqBPQ7VNxZEYEj14V...1zR1n&quot; for example. */</span></div><div class="line"></div><div class="line">    <span class="keywordtype">bool</span> unpinned;</div><div class="line">    <span class="keywordflow">try</span> {</div><div class="line">      client.PinRm(object_id, <a class="code" href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0a254f9369d66a06a09f3ac854e72f6825">ipfs::Client::PinRmOptions::NON_RECURSIVE</a>);</div><div class="line">      unpinned = <span class="keyword">true</span>;</div><div class="line">    } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp;) {</div><div class="line">      unpinned = <span class="keyword">false</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keywordflow">if</span> (unpinned) {</div><div class="line">      <span class="keywordflow">throw</span> std::runtime_error(</div><div class="line">          <span class="stringliteral">&quot;Unpinning &quot;</span> + object_id +</div><div class="line">          <span class="stringliteral">&quot; non-recursively succeeded but should have failed.&quot;</span>);</div><div class="line">    }</div><div class="line"></div><div class="line">    client.PinRm(object_id, <a class="code" href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0a1c1aa83dfe54dfc3528f9e40131cf638">ipfs::Client::PinRmOptions::RECURSIVE</a>);</div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><code><a class="el" href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0" title="Options to control the PinRm() method. ">PinRmOptions</a></code></dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">object_id</td><td>Id of the object to unpin (multihash). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">options</td><td>Unpin options. </td></tr>
   </table>
   </dd>
 </dl>

@@ -63,11 +63,13 @@ matrix:
             echo "$(date) Waiting for ipfs daemon to start..."
             sleep 1
           done
-        - CTEST_OUTPUT_ON_FAILURE=1 make test
-        - ret=$?
-        - killall ${GO_IPFS_CMD}
-        - echo ${ret}
-        - exit ${ret}
+        - |
+          CTEST_OUTPUT_ON_FAILURE=1 make test && echo ok
+          ret=$?
+          echo ${ret}
+          killall ${GO_IPFS_CMD}
+          echo ${ret}
+          exit ${ret}
     - os: linux
       before_install:
         - sudo apt-get update -qq

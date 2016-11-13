@@ -10,6 +10,24 @@ install:
   - mkdir -p "${JSON_INSTALL_DIR}"
   - travis_retry wget --quiet -O "${JSON_INSTALL_DIR}/json.hpp" https://raw.githubusercontent.com/nlohmann/json/v2.0.7/src/json.hpp
 
+  - GO_IPFS_DIR="${TRAVIS_BUILD_DIR}/../go-ipfs"
+  - GO_IPFS_ARCHIVE_BASENAME="go-ipfs_v0.4.4_linux-amd64.tar.gz"
+  - GO_IPFS_ARCHIVE_FULLPATH="${GO_IPFS_DIR}/${GO_IPFS_ARCHIVE_BASENAME}"
+  - GO_IPFS_CMD="${GO_IPFS_DIR}/go-ipfs/ipfs"
+  - |
+    if [ ! -e "${GO_IPFS_ARCHIVE_FULLPATH}" ] ; then
+      mkdir -p "${GO_IPFS_DIR}"
+      travis_retry wget --quiet -O "${GO_IPFS_ARCHIVE_FULLPATH}" "https://ipfs.io/ipns/dist.ipfs.io/go-ipfs/v0.4.4/${GO_IPFS_ARCHIVE_BASENAME}"
+    fi
+  - |
+    if [ ! -x "${GO_IPFS_CMD}" ] ; then
+      tar -C "${GO_IPFS_DIR}" -vzxf "${GO_IPFS_ARCHIVE_FULLPATH}"
+    fi
+
+cache:
+  directories:
+    - ${TRAVIS_BUILD_DIR}/../go-ipfs
+
 matrix:
   include:
     - os: linux
@@ -36,6 +54,17 @@ matrix:
           packages:
             - clang-3.8
       env: CXX_=clang++-3.8
+      after_success:
+        - export IPFS_PATH="${TRAVIS_BUILD_DIR}/../ipfs-repository"
+        - ${GO_IPFS_CMD} init
+        - ${GO_IPFS_CMD} daemon > ipfs_daemon.out 2>&1 &
+        - |
+          while ! grep -i 'Daemon is ready' ipfs_daemon.out ; do
+            echo "$(date) Waiting for ipfs daemon to start..."
+            sleep 1
+          done
+        - make test
+        - killall ${GO_IPFS_CMD}
     - os: linux
       before_install:
         - sudo apt-get update -qq

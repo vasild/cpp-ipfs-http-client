@@ -135,6 +135,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5d239a25cd20cbc15c13c96c790abf46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a5d239a25cd20cbc15c13c96c790abf46">ObjectPatchAddLink</a> (const std::string &amp;source, const std::string &amp;link_name, const std::string &amp;link_target, std::string *cloned)</td></tr>
 <tr class="memdesc:a5d239a25cd20cbc15c13c96c790abf46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new object from an existing MerkleDAG node and add to its links.  <a href="#a5d239a25cd20cbc15c13c96c790abf46">More...</a><br /></td></tr>
 <tr class="separator:a5d239a25cd20cbc15c13c96c790abf46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a149b21207f70215ad0097764e6ae2e65"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a149b21207f70215ad0097764e6ae2e65">ObjectPatchRmLink</a> (const std::string &amp;source, const std::string &amp;link_name, std::string *cloned)</td></tr>
+<tr class="memdesc:a149b21207f70215ad0097764e6ae2e65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new object from an existing MerkleDAG node and remove one of its links.  <a href="#a149b21207f70215ad0097764e6ae2e65">More...</a><br /></td></tr>
+<tr class="separator:a149b21207f70215ad0097764e6ae2e65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IPFS client. </p>
@@ -804,6 +807,58 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>Id of the object to clone (multihash). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">link_name</td><td>Link name. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">link_target</td><td>Id of the object that the link points to (multihash). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">cloned</td><td>Id of the newly created (cloned) object (multihash). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a149b21207f70215ad0097764e6ae2e65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a149b21207f70215ad0097764e6ae2e65">&sect;&nbsp;</a></span>ObjectPatchRmLink()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::ObjectPatchRmLink </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>link_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string *&#160;</td>
+          <td class="paramname"><em>cloned</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a new object from an existing MerkleDAG node and remove one of its links. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectpatchrmlink">https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectpatchrmlink</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">      <span class="comment">/* std::string target_id = &quot;QmTxf3cBwrzyRvCZgDQni...LtT21&quot; for example. */</span></div><div class="line">      std::string without_link_id;</div><div class="line"></div><div class="line">      client.ObjectPatchRmLink(target_id, <span class="stringliteral">&quot;link to file1.txt&quot;</span>,</div><div class="line">                               &amp;without_link_id);</div><div class="line"></div><div class="line">      <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> without_link;</div><div class="line">      client.ObjectGet(without_link_id, &amp;without_link);</div><div class="line"></div><div class="line">      std::cout &lt;&lt; <span class="stringliteral">&quot;Removed a link from &quot;</span> &lt;&lt; target_id &lt;&lt; <span class="stringliteral">&quot;.&quot;</span> &lt;&lt; std::endl</div><div class="line">                &lt;&lt; <span class="stringliteral">&quot;New object &quot;</span> &lt;&lt; without_link_id &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; std::endl</div><div class="line">                &lt;&lt; without_link.dump(2) &lt;&lt; std::endl;</div><div class="line">      <span class="comment">/* An example output:</span></div><div class="line"><span class="comment">      Removed a link from QmTxf3cBwrzyRvCZgDQni5wkRkcpM81wiWFTK17okLtT21.</span></div><div class="line"><span class="comment">      New object QmVUXX6chMMT4cPosYsLq64FZ21ie94KPknSnWfG8YDJBB:</span></div><div class="line"><span class="comment">      {</span></div><div class="line"><span class="comment">        &quot;Data&quot;: &quot;&quot;,</span></div><div class="line"><span class="comment">        &quot;Links&quot;: [</span></div><div class="line"><span class="comment">          {</span></div><div class="line"><span class="comment">            &quot;Hash&quot;: &quot;QmYuNVU4vwpXqX9RLv47HbmiveWwZvLBsXyYbUtEQMJYGQ&quot;,</span></div><div class="line"><span class="comment">            &quot;Name&quot;: &quot;link to file2.txt&quot;,</span></div><div class="line"><span class="comment">            &quot;Size&quot;: 12</span></div><div class="line"><span class="comment">          }</span></div><div class="line"><span class="comment">        ]</span></div><div class="line"><span class="comment">      }</span></div><div class="line"><span class="comment">      */</span></div><div class="line"></div><div class="line">      <span class="keywordtype">bool</span> removal_ok;</div><div class="line">      <span class="keywordflow">try</span> {</div><div class="line">        client.ObjectPatchRmLink(target_id, <span class="stringliteral">&quot;nonexistent&quot;</span>, &amp;without_link_id);</div><div class="line">        removal_ok = <span class="keyword">true</span>;</div><div class="line">      } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp;) {</div><div class="line">        removal_ok = <span class="keyword">false</span>;</div><div class="line">      }</div><div class="line"></div><div class="line">      <span class="keywordflow">if</span> (removal_ok) {</div><div class="line">        <span class="keywordflow">throw</span> std::runtime_error(</div><div class="line">            <span class="stringliteral">&quot;Removal of nonexistent link succeeded but should have failed.&quot;</span>);</div><div class="line">      }</div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>Id of the object to remove the link from (multihash). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">link_name</td><td>Name of the link to remove. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">cloned</td><td>Id of the newly created (cloned) object (multihash). </td></tr>
   </table>
   </dd>

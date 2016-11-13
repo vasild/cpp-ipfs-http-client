@@ -359,6 +359,26 @@ class Client {
       /** [out] Id of the newly created (cloned) object (multihash). */
       std::string* cloned);
 
+  /** Create a new object from an existing MerkleDAG node and remove one of its
+   * links.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectpatchrmlink.
+   *
+   * An example usage:
+   * @snippet object.cc ipfs::Client::ObjectPatchRmLink
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void ObjectPatchRmLink(
+      /** [in] Id of the object to remove the link from (multihash). */
+      const std::string& source,
+      /** [in] Name of the link to remove. */
+      const std::string& link_name,
+      /** [out] Id of the newly created (cloned) object (multihash). */
+      std::string* cloned);
+
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(

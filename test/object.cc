@@ -226,6 +226,49 @@ int main(int, char**) {
       }
       */
       /** [ipfs::Client::ObjectPatchAddLink] */
+
+      std::string target_id = new_id;
+      /** [ipfs::Client::ObjectPatchRmLink] */
+      /* std::string target_id = "QmTxf3cBwrzyRvCZgDQni...LtT21" for example. */
+      std::string without_link_id;
+
+      client.ObjectPatchRmLink(target_id, "link to file1.txt",
+                               &without_link_id);
+
+      ipfs::Json without_link;
+      client.ObjectGet(without_link_id, &without_link);
+
+      std::cout << "Removed a link from " << target_id << "." << std::endl
+                << "New object " << without_link_id << ":" << std::endl
+                << without_link.dump(2) << std::endl;
+      /* An example output:
+      Removed a link from QmTxf3cBwrzyRvCZgDQni5wkRkcpM81wiWFTK17okLtT21.
+      New object QmVUXX6chMMT4cPosYsLq64FZ21ie94KPknSnWfG8YDJBB:
+      {
+        "Data": "",
+        "Links": [
+          {
+            "Hash": "QmYuNVU4vwpXqX9RLv47HbmiveWwZvLBsXyYbUtEQMJYGQ",
+            "Name": "link to file2.txt",
+            "Size": 12
+          }
+        ]
+      }
+      */
+
+      bool removal_ok;
+      try {
+        client.ObjectPatchRmLink(target_id, "nonexistent", &without_link_id);
+        removal_ok = true;
+      } catch (const std::exception&) {
+        removal_ok = false;
+      }
+
+      if (removal_ok) {
+        throw std::runtime_error(
+            "Removal of nonexistent link succeeded but should have failed.");
+      }
+      /** [ipfs::Client::ObjectPatchRmLink] */
     }
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;

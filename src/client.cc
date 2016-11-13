@@ -248,6 +248,26 @@ void Client::ObjectPatchAddLink(const std::string& source,
   *cloned = response[hash];
 }
 
+void Client::ObjectPatchRmLink(const std::string& source,
+                               const std::string& link_name,
+                               std::string* cloned) {
+  Json response;
+
+  FetchAndParseJson(
+      MakeUrl("object/patch/rm-link", {{"arg", source}, {"arg", link_name}}),
+      &response);
+
+  static const char* hash = "Hash";
+
+  if (response.find(hash) == response.end()) {
+    throw std::runtime_error(
+        std::string("Unexpected reply: valid JSON, but without the \"") + hash +
+        "\" property:\n" + response.dump());
+  }
+
+  *cloned = response[hash];
+}
+
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   FetchAndParseJson(url, {}, response);
 }

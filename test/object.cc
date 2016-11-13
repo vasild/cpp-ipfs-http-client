@@ -237,7 +237,6 @@ int main(int, char**) {
 
       ipfs::Json without_link;
       client.ObjectGet(without_link_id, &without_link);
-
       std::cout << "Removed a link from " << target_id << "." << std::endl
                 << "New object " << without_link_id << ":" << std::endl
                 << without_link.dump(2) << std::endl;
@@ -269,6 +268,42 @@ int main(int, char**) {
             "Removal of nonexistent link succeeded but should have failed.");
       }
       /** [ipfs::Client::ObjectPatchRmLink] */
+
+      std::string append_here_id = target_id;
+      /** [ipfs::Client::ObjectPatchAppendData] */
+      /* std::string target_id = "QmTxf3cBwrzyRvCZgDQni...LtT21" for example. */
+      std::string with_appended_data_id;
+
+      client.ObjectPatchAppendData(
+          target_id,
+          {"", ipfs::http::FileUpload::Type::kFileContents, "appended data"},
+          &with_appended_data_id);
+
+      ipfs::Json with_appended_data;
+      client.ObjectGet(with_appended_data_id, &with_appended_data);
+      std::cout << "Appended data to " << target_id << "." << std::endl
+                << "New object " << with_appended_data_id << ":" << std::endl
+                << with_appended_data.dump(2) << std::endl;
+      /* An example output:
+      Appended data to QmTxf3cBwrzyRvCZgDQni5wkRkcpM81wiWFTK17okLtT21.
+      New object QmbDtmUVyiN8vFZr8cDTpuVtZwnVd3k6wqpEq3NvE67bTj:
+      {
+        "Data": "appended data",
+        "Links": [
+          {
+            "Hash": "QmNYaS23te5Rja36U94JoSTuMxJZmBEnHN8KEcjR6rGRGn",
+            "Name": "link to file1.txt",
+            "Size": 12
+          },
+          {
+            "Hash": "QmYuNVU4vwpXqX9RLv47HbmiveWwZvLBsXyYbUtEQMJYGQ",
+            "Name": "link to file2.txt",
+            "Size": 12
+          }
+        ]
+      }
+      */
+      /** [ipfs::Client::ObjectPatchAppendData] */
     }
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;

@@ -379,6 +379,25 @@ class Client {
       /** [out] Id of the newly created (cloned) object (multihash). */
       std::string* cloned);
 
+  /** Create a new object from an existing MerkleDAG node and append data to it.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectpatchappenddata.
+   *
+   * An example usage:
+   * @snippet object.cc ipfs::Client::ObjectPatchAppendData
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void ObjectPatchAppendData(
+      /** [in] Id of the object to append data to (multihash). */
+      const std::string& source,
+      /** [in] Data to be appended. */
+      const http::FileUpload& data,
+      /** [out] Id of the newly created (cloned) object (multihash). */
+      std::string* cloned);
+
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(

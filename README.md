@@ -24,6 +24,7 @@ Currently implemented methods:
 Not implemented yet:
 
 - [dag](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dag): get(), put()
+- [dht](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht): findpeer(), findprovs(), get(), put(), query()
 - [pin](https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin): add(), ls(), rm()
 - [swarm](https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm): addrs(), connect(), disconnect(), peers()
 

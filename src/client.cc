@@ -265,14 +265,10 @@ void Client::PinAdd(const std::string& object_id) {
 }
 
 void Client::PinLs(Json* pinned) {
-  Json response;
-
   FetchAndParseJson(MakeUrl("pin/ls"), pinned);
 }
 
 void Client::PinLs(const std::string& object_id, Json* pinned) {
-  Json response;
-
   FetchAndParseJson(MakeUrl("pin/ls", {{"arg", object_id}}), pinned);
 }
 

@@ -168,6 +168,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa45a95118ec539863c12da953ab1988c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#aa45a95118ec539863c12da953ab1988c">SwarmAddrs</a> (<a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *addresses)</td></tr>
 <tr class="memdesc:aa45a95118ec539863c12da953ab1988c"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of known addresses of each peer connected.  <a href="#aa45a95118ec539863c12da953ab1988c">More...</a><br /></td></tr>
 <tr class="separator:aa45a95118ec539863c12da953ab1988c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dc1372e2c7505e541115c97c7b497a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a2dc1372e2c7505e541115c97c7b497a7">SwarmConnect</a> (const std::string &amp;peer)</td></tr>
+<tr class="memdesc:a2dc1372e2c7505e541115c97c7b497a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open a connection to a given address.  <a href="#a2dc1372e2c7505e541115c97c7b497a7">More...</a><br /></td></tr>
+<tr class="separator:a2dc1372e2c7505e541115c97c7b497a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IPFS client. </p>
@@ -1308,6 +1311,40 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">addresses</td><td>The retrieved list. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2dc1372e2c7505e541115c97c7b497a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2dc1372e2c7505e541115c97c7b497a7">&sect;&nbsp;</a></span>SwarmConnect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::SwarmConnect </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>peer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Open a connection to a given address. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#connect">https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#connect</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* std::string peer =</span></div><div class="line"><span class="comment">     * &quot;/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ&quot;</span></div><div class="line"><span class="comment">     * for example */</span></div><div class="line">    client.SwarmConnect(peer);</div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">peer</td><td>Peer to connect to. For example: <code>"/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"</code> </td></tr>
   </table>
   </dd>
 </dl>

@@ -287,6 +287,11 @@ void Client::SwarmAddrs(Json* addresses) {
   FetchAndParseJson(MakeUrl("swarm/addrs"), addresses);
 }
 
+void Client::SwarmConnect(const std::string& peer) {
+  Json response;
+  FetchAndParseJson(MakeUrl("swarm/connect", {{"arg", peer}}), &response);
+}
+
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   FetchAndParseJson(url, {}, response);
 }

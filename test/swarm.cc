@@ -56,6 +56,29 @@ int main(int, char**) {
     }
     */
     /** [ipfs::Client::SwarmAddrs] */
+
+    /* Craft a string like
+    /ip4/127.0.0.1/tcp/4001/ipfs/QmNRV7kyUxYaQ4KQxFXPYm8EfuzJbtGn1wSFenjXL6LD8y
+    from
+    {
+      "Addrs": {
+        "QmNRV7kyUxYaQ4KQxFXPYm8EfuzJbtGn1wSFenjXL6LD8y": [
+          "/ip4/127.0.0.1/tcp/4001",
+          ...
+        ]
+      }
+    }
+    */
+    ipfs::Json::iterator it = addresses["Addrs"].begin();
+    std::string peer = it.value()[0];
+    peer += "/ipfs/";
+    peer += it.key();
+    /** [ipfs::Client::SwarmConnect] */
+    /* std::string peer =
+     * "/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
+     * for example */
+    client.SwarmConnect(peer);
+    /** [ipfs::Client::SwarmConnect] */
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

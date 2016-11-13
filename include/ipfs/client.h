@@ -408,6 +408,21 @@ class Client {
       /** [out] Parse result. */
       Json* result);
 
+  /** Get a JSON property. Throw an exception with an elaborate explanation
+   * if the property does not exist in the JSON.
+   *
+   * @throw std::exception if any error occurs */
+  template <class PropertyType>
+  static void GetProperty(
+      /** [in] JSON whose property to fetch. */
+      const Json& input,
+      /** [in] Property name. */
+      const std::string& property_name,
+      /** [in] Line number to add to the error message. */
+      size_t line_number,
+      /** [out] Property value. */
+      PropertyType* property_value);
+
   /** Construct a full URL. The URL is constructed from url_prefix_, path and
    * the provided parameters (if any). For example:
    * http://l:5001/api/v0 / block/get ?stream-channels=true& foo = bar &...

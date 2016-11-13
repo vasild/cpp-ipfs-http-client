@@ -55,12 +55,6 @@ void Client::ConfigGet(const std::string& key, Json* config) {
   FetchAndParseJson(url, config);
 
   if (!key.empty()) {
-    static const char* value = "Value";
-    if (config->find(value) == config->end()) {
-      throw std::runtime_error(
-          std::string("Unexpected reply: valid JSON, but without the \"") +
-          value + "\" property");
-    }
     /* Convert
     {
       "Key": "Datastore",
@@ -71,7 +65,7 @@ void Client::ConfigGet(const std::string& key, Json* config) {
 
     { "BloomFilterSize": 0, "GCPeriod": "1h", ... }
     */
-    *config = (*config)[value];
+    GetProperty(*config, "Value", 0, config);
   }
 }
 
@@ -143,16 +137,9 @@ void Client::FilesAdd(const std::vector<http::FileUpload>& files,
 
     ParseJson(line, &json_chunk);
 
-    static const char* name = "Name";
+    std::string path;
+    GetProperty(json_chunk, "Name", i, &path);
 
-    if (json_chunk.find(name) == json_chunk.end()) {
-      throw std::runtime_error(
-          std::string("Unexpected reply: valid JSON, but without the \"") +
-          name + "\" property on line " + std::to_string(i) + ":\n" +
-          body.str());
-    }
-
-    const std::string& path = json_chunk[name];
     temp[path]["path"] = path;
 
     static const char* hash = "Hash";
@@ -176,15 +163,7 @@ void Client::ObjectNew(std::string* object_id) {
 
   FetchAndParseJson(MakeUrl("object/new"), &response);
 
-  static const char* hash = "Hash";
-
-  if (response.find(hash) == response.end()) {
-    throw std::runtime_error(
-        std::string("Unexpected reply: valid JSON, but without the \"") + hash +
-        "\" property:\n" + response.dump());
-  }
-
-  *object_id = response[hash];
+  GetProperty(response, "Hash", 0, object_id);
 }
 
 void Client::ObjectPut(const Json& object, Json* object_stored) {
@@ -211,15 +190,7 @@ void Client::ObjectLinks(const std::string& object_id, Json* links) {
 
   FetchAndParseJson(MakeUrl("object/links", {{"arg", object_id}}), &response);
 
-  static const char* l = "Links";
-
-  if (response.find(l) == response.end()) {
-    throw std::runtime_error(
-        std::string("Unexpected reply: valid JSON, but without the \"") + l +
-        "\" property:\n" + response.dump());
-  }
-
-  *links = response[l];
+  GetProperty(response, "Links", 0, links);
 }
 
 void Client::ObjectStat(const std::string& object_id, Json* stat) {
@@ -237,15 +208,7 @@ void Client::ObjectPatchAddLink(const std::string& source,
               {{"arg", source}, {"arg", link_name}, {"arg", link_target}}),
       &response);
 
-  static const char* hash = "Hash";
-
-  if (response.find(hash) == response.end()) {
-    throw std::runtime_error(
-        std::string("Unexpected reply: valid JSON, but without the \"") + hash +
-        "\" property:\n" + response.dump());
-  }
-
-  *cloned = response[hash];
+  GetProperty(response, "Hash", 0, cloned);
 }
 
 void Client::ObjectPatchRmLink(const std::string& source,
@@ -257,15 +220,7 @@ void Client::ObjectPatchRmLink(const std::string& source,
       MakeUrl("object/patch/rm-link", {{"arg", source}, {"arg", link_name}}),
       &response);
 
-  static const char* hash = "Hash";
-
-  if (response.find(hash) == response.end()) {
-    throw std::runtime_error(
-        std::string("Unexpected reply: valid JSON, but without the \"") + hash +
-        "\" property:\n" + response.dump());
-  }
-
-  *cloned = response[hash];
+  GetProperty(response, "Hash", 0, cloned);
 }
 
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
@@ -288,6 +243,19 @@ void Client::ParseJson(const std::string& input, Json* result) {
   } catch (const std::exception& e) {
     throw std::runtime_error(std::string(e.what()) + "\nInput JSON:\n" + input);
   }
+}
+
+template <class PropertyType>
+void Client::GetProperty(const Json& input, const std::string& property_name,
+                         size_t line_number, PropertyType* property_value) {
+  if (input.find(property_name) == input.end()) {
+    throw std::runtime_error(
+        std::string("Unexpected reply: valid JSON, but without the \"") +
+        property_name + "\" property on line " + std::to_string(line_number) +
+        ":\n" + input.dump());
+  }
+
+  *property_value = input[property_name];
 }
 
 std::string Client::MakeUrl(

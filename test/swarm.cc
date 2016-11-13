@@ -73,12 +73,20 @@ int main(int, char**) {
     std::string peer = it.value()[0];
     peer += "/ipfs/";
     peer += it.key();
+
     /** [ipfs::Client::SwarmConnect] */
     /* std::string peer =
      * "/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
      * for example */
     client.SwarmConnect(peer);
     /** [ipfs::Client::SwarmConnect] */
+
+    /** [ipfs::Client::SwarmDisconnect] */
+    /* std::string peer =
+     * "/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
+     * for example */
+    client.SwarmDisconnect(peer);
+    /** [ipfs::Client::SwarmDisconnect] */
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

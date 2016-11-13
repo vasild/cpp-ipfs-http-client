@@ -523,6 +523,23 @@ class Client {
        */
       const std::string& peer);
 
+  /** Close a connection on a given address.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#disconnect.
+   *
+   * An example usage:
+   * @snippet swarm.cc ipfs::Client::SwarmDisconnect
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void SwarmDisconnect(
+      /** [out] Peer to disconnect from to. For example:
+       * `"/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"`
+       */
+      const std::string& peer);
+
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(

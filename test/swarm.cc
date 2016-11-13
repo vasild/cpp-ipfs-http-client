@@ -68,11 +68,23 @@ int main(int, char**) {
         ]
       }
     }
+    and also pick up an IPv4 address because the environment where these tests
+    will be run may not support IPv6.
     */
-    ipfs::Json::iterator it = addresses["Addrs"].begin();
-    std::string peer = it.value()[0];
-    peer += "/ipfs/";
-    peer += it.key();
+    std::string peer;
+    for (ipfs::Json::iterator it = addresses["Addrs"].begin();
+         it != addresses["Addrs"].end(); ++it) {
+      const ipfs::Json& addresses = it.value();
+      for (const std::string& address :addresses) {
+        if (address.substr(0, 5) == "/ip4/") {
+          peer = address + "/ipfs/" + it.key();
+          break;
+        }
+      }
+    }
+    if (peer.empty()) {
+      throw std::runtime_error("Could not find a peer with IPv4 address.");
+    }
 
     /** [ipfs::Client::SwarmConnect] */
     /* std::string peer =
@@ -80,6 +92,7 @@ int main(int, char**) {
      * for example */
     client.SwarmConnect(peer);
     /** [ipfs::Client::SwarmConnect] */
+    std::cout << "Connected to " << peer << std::endl;
 
     /** [ipfs::Client::SwarmDisconnect] */
     /* std::string peer =
@@ -87,6 +100,7 @@ int main(int, char**) {
      * for example */
     client.SwarmDisconnect(peer);
     /** [ipfs::Client::SwarmDisconnect] */
+    std::cout << "Disconnected from " << peer << std::endl;
 
     /** [ipfs::Client::SwarmPeers] */
     ipfs::Json peers;

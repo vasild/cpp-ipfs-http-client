@@ -13,7 +13,8 @@ install:
   - GO_IPFS_DIR="${TRAVIS_BUILD_DIR}/../go-ipfs"
   - GO_IPFS_ARCHIVE_BASENAME="go-ipfs_v0.4.4_linux-amd64.tar.gz"
   - GO_IPFS_ARCHIVE_FULLPATH="${GO_IPFS_DIR}/${GO_IPFS_ARCHIVE_BASENAME}"
-  - GO_IPFS_CMD="${GO_IPFS_DIR}/go-ipfs/ipfs"
+  - GO_IPFS_CMD_BASENAME="ipfs"
+  - GO_IPFS_CMD="${GO_IPFS_DIR}/go-ipfs/${GO_IPFS_CMD_BASENAME}"
   - |
     if [ -e "${GO_IPFS_ARCHIVE_FULLPATH}" ] ; then
       echo "${GO_IPFS_ARCHIVE_FULLPATH} exists, not downloading"
@@ -29,19 +30,6 @@ install:
       echo "${GO_IPFS_CMD} is not present, extracting"
       tar -C "${GO_IPFS_DIR}" -vzxf "${GO_IPFS_ARCHIVE_FULLPATH}"
     fi
-  - |
-    cat > "${TRAVIS_BUILD_DIR}/ipfs_daemon_start.sh" <<EOF
-      #!/bin/sh
-      export IPFS_PATH="${TRAVIS_BUILD_DIR}/../ipfs-repository"
-      rm -fr ${IPFS_PATH}
-      ${GO_IPFS_CMD} init
-      ${GO_IPFS_CMD} daemon > ipfs_daemon.out 2>&1 &
-      while ! grep -i 'Daemon is ready' ipfs_daemon.out ; do
-        echo "$(date) Waiting for ipfs daemon to start..."
-        sleep 1
-      done
-    EOF
-    chmod 755 "${TRAVIS_BUILD_DIR}/ipfs_daemon_start.sh"
 
 cache:
   directories:
@@ -78,12 +66,12 @@ matrix:
         - TAG="compile with clang 3.8 and run tests"
         - CXX_=clang++-3.8
       after_success:
-        - "${TRAVIS_BUILD_DIR}/ipfs_daemon_start.sh"
-        - |
-          CTEST_OUTPUT_ON_FAILURE=1 make test
-          ret=$?
-          killall ${GO_IPFS_CMD}
-          exit ${ret}
+        - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_start.sh"
+        - OK="no"
+        - CTEST_OUTPUT_ON_FAILURE=1 make test && OK="yes"
+        - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_stop.sh"
+        - echo "${OK}"
+        - [ "${OK}" = "yes" ]
     - os: linux
       before_install:
         - sudo apt-get update -qq

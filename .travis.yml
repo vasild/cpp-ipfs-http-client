@@ -70,7 +70,6 @@ matrix:
         - OK="no"
         - CTEST_OUTPUT_ON_FAILURE=1 make test && OK="yes"
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_stop.sh"
-        - echo "OK: ${OK}"
         - |
           [ "${OK}" = "yes" ]
     - os: linux

@@ -3,6 +3,21 @@ language: cpp
 dist: trusty
 sudo: required
 
+env:
+  global:
+    - |
+      ipfs_daemon_start() {
+        export IPFS_PATH="${TRAVIS_BUILD_DIR}/../ipfs-repository"
+        rm -fr ${IPFS_PATH}
+        ${GO_IPFS_CMD} init
+        ${GO_IPFS_CMD} daemon > ipfs_daemon.out 2>&1 &
+        |
+        while ! grep -i 'Daemon is ready' ipfs_daemon.out ; do
+          echo "$(date) Waiting for ipfs daemon to start..."
+          sleep 1
+        done
+      }
+
 install:
   # TRAVIS_BUILD_DIR is set to where the source code is checked
   # out (ie it assumes in-source build)
@@ -15,12 +30,18 @@ install:
   - GO_IPFS_ARCHIVE_FULLPATH="${GO_IPFS_DIR}/${GO_IPFS_ARCHIVE_BASENAME}"
   - GO_IPFS_CMD="${GO_IPFS_DIR}/go-ipfs/ipfs"
   - |
-    if [ ! -e "${GO_IPFS_ARCHIVE_FULLPATH}" ] ; then
+    if [ -e "${GO_IPFS_ARCHIVE_FULLPATH}" ] ; then
+      echo "${GO_IPFS_ARCHIVE_FULLPATH} exists, not downloading"
+    else
+      echo "${GO_IPFS_ARCHIVE_FULLPATH} does not exist, downloading"
       mkdir -p "${GO_IPFS_DIR}"
       travis_retry wget --quiet -O "${GO_IPFS_ARCHIVE_FULLPATH}" "https://ipfs.io/ipns/dist.ipfs.io/go-ipfs/v0.4.4/${GO_IPFS_ARCHIVE_BASENAME}"
     fi
   - |
-    if [ ! -x "${GO_IPFS_CMD}" ] ; then
+    if [ -x "${GO_IPFS_CMD}" ] ; then
+      echo "${GO_IPFS_CMD} is present, not extracting"
+    else
+      echo "${GO_IPFS_CMD} is not present, extracting"
       tar -C "${GO_IPFS_DIR}" -vzxf "${GO_IPFS_ARCHIVE_FULLPATH}"
     fi
 
@@ -41,7 +62,9 @@ matrix:
             - llvm-toolchain-precise-3.7
           packages:
             - clang-3.7
-      env: CXX_=clang++-3.7
+      env:
+        - TAG="compile with clang 3.7"
+        - CXX_=clang++-3.7
     - os: linux
       before_install:
         - sudo apt-get update -qq
@@ -53,22 +76,15 @@ matrix:
             - llvm-toolchain-precise-3.8
           packages:
             - clang-3.8
-      env: CXX_=clang++-3.8
+      env:
+        - TAG="compile with clang 3.8 and run tests"
+        - CXX_=clang++-3.8
       after_success:
-        - export IPFS_PATH="${TRAVIS_BUILD_DIR}/../ipfs-repository"
-        - ${GO_IPFS_CMD} init
-        - ${GO_IPFS_CMD} daemon > ipfs_daemon.out 2>&1 &
+        - ipfs_daemon_start
         - |
-          while ! grep -i 'Daemon is ready' ipfs_daemon.out ; do
-            echo "$(date) Waiting for ipfs daemon to start..."
-            sleep 1
-          done
-        - |
-          CTEST_OUTPUT_ON_FAILURE=1 make test && echo ok
+          CTEST_OUTPUT_ON_FAILURE=1 make test
           ret=$?
-          echo ${ret}
           killall ${GO_IPFS_CMD}
-          echo ${ret}
           exit ${ret}
     - os: linux
       before_install:
@@ -80,7 +96,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-4.9
-      env: CXX_=g++-4.9
+      env:
+        - TAG="compile with gcc 4.9"
+        - CXX_=g++-4.9
     - os: linux
       before_install:
         - sudo apt-get update -qq
@@ -91,7 +109,9 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-5
-      env: CXX_=g++-5
+      env:
+        - TAG="compile with gcc 5.x"
+        - CXX_=g++-5
     - os: linux
       before_install:
         - sudo apt-get update -qq
@@ -102,9 +122,13 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-6
-      env: CXX_=g++-6
+      env:
+        - TAG="compile with gcc 6.x"
+        - CXX_=g++-6
     - os: osx
       osx_image: xcode8
+      env:
+        - TAG="OSX xcode 8"
 
 script:
   - cmake --version

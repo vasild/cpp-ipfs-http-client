@@ -6,17 +6,18 @@ sudo: required
 env:
   global:
     - |
-      ipfs_daemon_start() {
+      cat > "${TRAVIS_BUILD_DIR}/ipfs_daemon_start.sh" <<EOF
+        #!/bin/sh
         export IPFS_PATH="${TRAVIS_BUILD_DIR}/../ipfs-repository"
         rm -fr ${IPFS_PATH}
         ${GO_IPFS_CMD} init
         ${GO_IPFS_CMD} daemon > ipfs_daemon.out 2>&1 &
-        |
         while ! grep -i 'Daemon is ready' ipfs_daemon.out ; do
           echo "$(date) Waiting for ipfs daemon to start..."
           sleep 1
         done
-      }
+      EOF
+      chmod 755 "${TRAVIS_BUILD_DIR}/ipfs_daemon_start.sh"
 
 install:
   # TRAVIS_BUILD_DIR is set to where the source code is checked
@@ -80,7 +81,7 @@ matrix:
         - TAG="compile with clang 3.8 and run tests"
         - CXX_=clang++-3.8
       after_success:
-        - ipfs_daemon_start
+        - "${TRAVIS_BUILD_DIR}/ipfs_daemon_start.sh"
         - |
           CTEST_OUTPUT_ON_FAILURE=1 make test
           ret=$?

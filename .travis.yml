@@ -110,6 +110,35 @@ matrix:
       env:
         - TAG="compile with gcc 6.x"
         - CXX_=g++-6
+    - os: linux
+      before_install:
+        - sudo apt-get update -qq
+        - pip install --user cpp-coveralls
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+      env:
+        - TAG="compile with gcc 6.x and assess coverage"
+        - CXX_=g++-6
+        - CXXFLAGS="-g -O0 --coverage"
+        - LDFLAGS="-g -O0 --coverage"
+      after_success:
+        - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_start.sh"
+        - OK="no"
+        - CTEST_OUTPUT_ON_FAILURE=1 make test && OK="yes"
+        - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_stop.sh"
+        - |
+          if [ "${OK}" = "yes" ] ; then
+            echo "Tests passed, gathering coverage statistics"
+            coveralls --verbose --exclude test --gcov gcov-6 --gcov-options '\-lp' --repo-token xLcLgCuhpXGShuu6AfgsQvTrf4mtC95E0
+          else
+            echo "Tests failed, not gathering coverage statistics"
+          fi
+        - test "${OK}" = "yes"
     - os: osx
       osx_image: xcode8
       env:
@@ -123,5 +152,6 @@ script:
   - BUILD_DIR="${TRAVIS_BUILD_DIR}/../build"
   - mkdir "${BUILD_DIR}"
   - cd "${BUILD_DIR}"
+  - echo "CXXFLAGS='${CXXFLAGS}' LDFLAGS='${LDFLAGS}'"
   - cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
-  - make
+  - make VERBOSE=1

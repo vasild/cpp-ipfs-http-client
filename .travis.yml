@@ -126,7 +126,17 @@ matrix:
         - CXX_=g++-6
         - CXXFLAGS="-g -O0 --coverage"
         - LDFLAGS="-g -O0 --coverage"
-      after_success:
+      script:
+        - cmake --version
+        - CXX=${CXX_:-${CXX}}
+        - ${CXX} --version
+        - SOURCE_DIR="${TRAVIS_BUILD_DIR}"
+        - BUILD_DIR="${TRAVIS_BUILD_DIR}"
+        - mkdir -p "${BUILD_DIR}"
+        - cd "${BUILD_DIR}"
+        - echo "CXXFLAGS='${CXXFLAGS}' LDFLAGS='${LDFLAGS}'"
+        - cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
+        - make VERBOSE=1
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_start.sh"
         - OK="no"
         - CTEST_OUTPUT_ON_FAILURE=1 make test && OK="yes"
@@ -134,7 +144,7 @@ matrix:
         - |
           if [ "${OK}" = "yes" ] ; then
             echo "Tests passed, gathering coverage statistics"
-            coveralls --verbose --exclude test --gcov gcov-6 --gcov-options '\-lp' --repo-token xLcLgCuhpXGShuu6AfgsQvTrf4mtC95E0
+            coveralls --verbose --exclude CMakeCXXCompilerId.cpp --exclude feature_tests.cxx --exclude test --gcov gcov-6 --gcov-options '\-lp' --repo-token xLcLgCuhpXGShuu6AfgsQvTrf4mtC95E0
           else
             echo "Tests failed, not gathering coverage statistics"
           fi
@@ -150,7 +160,7 @@ script:
   - ${CXX} --version
   - SOURCE_DIR="${TRAVIS_BUILD_DIR}"
   - BUILD_DIR="${TRAVIS_BUILD_DIR}/../build"
-  - mkdir "${BUILD_DIR}"
+  - mkdir -p "${BUILD_DIR}"
   - cd "${BUILD_DIR}"
   - echo "CXXFLAGS='${CXXFLAGS}' LDFLAGS='${LDFLAGS}'"
   - cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"

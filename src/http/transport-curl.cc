@@ -55,6 +55,11 @@ CurlGlobal::~CurlGlobal() { curl_global_cleanup(); }
  * @see https://github.com/curl/curl/issues/586. */
 static const CurlGlobal curl_global;
 
+#ifndef NDEBUG
+/** Placeholder to inject a fake http response during testing. */
+std::string replace_body;
+#endif /* NDEBUG */
+
 /** Check if a HTTP status code is 2xx Success.
  * @return true if 2xx */
 inline bool status_is_success(long code) { return code >= 200 && code <= 299; }
@@ -157,6 +162,13 @@ void TransportCurl::Fetch(const std::string& url,
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPHEADER.html */
   curl_easy_setopt(curl_, CURLOPT_HTTPHEADER, headers);
+
+#ifndef NDEBUG
+  if (!replace_body.empty()) {
+    *response << replace_body;
+    return;
+  }
+#endif /* NDEBUG */
 
   Perform(url, response);
 }

@@ -135,7 +135,7 @@ matrix:
         - mkdir -p "${BUILD_DIR}"
         - cd "${BUILD_DIR}"
         - echo "CXXFLAGS='${CXXFLAGS}' LDFLAGS='${LDFLAGS}'"
-        - cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
+        - cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug "${SOURCE_DIR}"
         - make VERBOSE=1
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_start.sh"
         - OK="no"

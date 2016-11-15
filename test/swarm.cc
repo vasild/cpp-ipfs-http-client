@@ -33,7 +33,7 @@ int main(int, char**) {
     client.SwarmAddrs(&addresses);
 
     std::cout << "Known addresses of each peer:" << std::endl
-              << addresses.dump(2) << std::endl;
+              << addresses.dump(2).substr(0, 8192) << std::endl;
     /* An example output:
     Known addresses of each peer:
     {

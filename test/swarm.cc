@@ -85,6 +85,7 @@ int main(int, char**) {
     if (peer.empty()) {
       throw std::runtime_error("Could not find a peer with IPv4 address.");
     }
+    std::cout << "Connecting to " << peer << std::endl;
 
     /** [ipfs::Client::SwarmConnect] */
     /* std::string peer =

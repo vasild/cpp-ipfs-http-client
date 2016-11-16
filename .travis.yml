@@ -144,7 +144,7 @@ matrix:
         - |
           if [ "${OK}" = "yes" ] ; then
             echo "Tests passed, gathering coverage statistics"
-            coveralls --verbose --exclude CMakeCXXCompilerId.cpp --exclude feature_tests.cxx --exclude test --gcov gcov-6 --gcov-options '\-lp' --repo-token xLcLgCuhpXGShuu6AfgsQvTrf4mtC95E0
+            coveralls --verbose --exclude CMakeCXXCompilerId.cpp --exclude feature_tests.cxx --exclude test --exclude utils.h --gcov gcov-6 --gcov-options '\-lp' --repo-token xLcLgCuhpXGShuu6AfgsQvTrf4mtC95E0
           else
             echo "Tests failed, not gathering coverage statistics"
           fi

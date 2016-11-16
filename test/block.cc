@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <stdexcept>
 
 #include <ipfs/client.h>
-#include "utils.h"
+#include <ipfs/test/utils.h>
 
 int main(int, char**) {
   try {
@@ -39,14 +39,15 @@ int main(int, char**) {
     Stored block key: "QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo"
     */
     /** [ipfs::Client::BlockPut] */
-    check_if_properties_exist("client.BlockPut()", block, {"Key", "Size"});
+    ipfs::test::check_if_properties_exist("client.BlockPut()", block,
+                                          {"Key", "Size"});
 
     /** [ipfs::Client::BlockGet] */
     std::stringstream block_contents;
     /* E.g. block["Key"] is "QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo". */
     client.BlockGet(block["Key"], &block_contents);
-    std::cout << "Block (hex): " << string_to_hex(block_contents.str())
-              << std::endl;
+    std::cout << "Block (hex): "
+              << ipfs::test::string_to_hex(block_contents.str()) << std::endl;
     /* An example output:
     Block (hex): 426c6f636b2070757420746573742e
     */
@@ -60,8 +61,8 @@ int main(int, char**) {
     Stat: {"Key":"QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo","Size":15}
     */
     /** [ipfs::Client::BlockStat] */
-    check_if_properties_exist("client.BlockStat()", stat_result,
-                              {"Key", "Size"});
+    ipfs::test::check_if_properties_exist("client.BlockStat()", stat_result,
+                                          {"Key", "Size"});
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

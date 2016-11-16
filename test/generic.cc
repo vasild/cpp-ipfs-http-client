@@ -21,7 +21,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <stdexcept>
 
 #include <ipfs/client.h>
-#include "utils.h"
+#include <ipfs/test/utils.h>
 
 int main(int, char**) {
   try {
@@ -37,8 +37,8 @@ int main(int, char**) {
     Peer's public key: "CAASpgIwggEiMA0GCSqGSIb3DQN/ImJDE/CN1eHE....gMBAAE="
     */
     /** [ipfs::Client::Id] */
-    check_if_properties_exist("client.Id()", id,
-                              {"Addresses", "ID", "PublicKey"});
+    ipfs::test::check_if_properties_exist("client.Id()", id,
+                                          {"Addresses", "ID", "PublicKey"});
 
     /** [ipfs::Client::Version] */
     ipfs::Json version;
@@ -49,8 +49,8 @@ int main(int, char**) {
     "System":"amd64/freebsd","Version":"0.4.3"}
     */
     /** [ipfs::Client::Version] */
-    check_if_properties_exist("client.Version()", version,
-                              {"Repo", "System", "Version"});
+    ipfs::test::check_if_properties_exist("client.Version()", version,
+                                          {"Repo", "System", "Version"});
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

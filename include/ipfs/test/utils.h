@@ -17,6 +17,10 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#ifndef IPFS_TEST_UTILS_H
+#define IPFS_TEST_UTILS_H
+
+#include <functional>
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
@@ -24,6 +28,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <vector>
 
 #include <ipfs/client.h>
+
+namespace ipfs {
+
+namespace test {
 
 /** Check if a given set of properties exist in a JSON. */
 inline void check_if_properties_exist(
@@ -68,3 +76,29 @@ inline std::string string_to_hex(
   }
   return ss.str();
 }
+
+/** Execute a function and expect it to throw an exception. */
+inline void must_fail(
+    /** [in] Label to prefix in diagnostics. */
+    const std::string& label,
+    /** [in,out] Function to execute, must throw an exception. */
+    std::function<void()> f) {
+  bool succeeded;
+
+  try {
+    f();
+    succeeded = true;
+  } catch (const std::exception& e) {
+    std::cout << label + " failed as expected with error message: " << e.what()
+              << std::endl;
+    succeeded = false;
+  }
+
+  if (succeeded) {
+    throw std::runtime_error(label + " succeeded but should have failed.");
+  }
+}
+
+} /* namespace test */
+} /* namespace ipfs */
+#endif /* IPFS_TEST_UTILS_H */

@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <string>
 
 #include <ipfs/client.h>
-#include "utils.h"
+#include <ipfs/test/utils.h>
 
 int main(int, char**) {
   try {
@@ -79,8 +79,8 @@ int main(int, char**) {
     }
     */
     /** [ipfs::Client::ObjectPut] */
-    check_if_properties_exist("client.ObjectPut()", object_stored,
-                              {"Hash", "Links"});
+    ipfs::test::check_if_properties_exist("client.ObjectPut()", object_stored,
+                                          {"Hash", "Links"});
 
     /** [ipfs::Client::ObjectGet] */
     ipfs::Json object;
@@ -157,9 +157,9 @@ int main(int, char**) {
     Object data size: 2
     */
     /** [ipfs::Client::ObjectStat] */
-    check_if_properties_exist("client.ObjectStat()", stat,
-                              {"BlockSize", "CumulativeSize", "DataSize",
-                               "Hash", "LinksSize", "NumLinks"});
+    ipfs::test::check_if_properties_exist(
+        "client.ObjectStat()", stat, {"BlockSize", "CumulativeSize", "DataSize",
+                                      "Hash", "LinksSize", "NumLinks"});
 
     {
       /** [ipfs::Client::ObjectPatchAddLink] */

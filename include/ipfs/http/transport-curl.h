@@ -60,6 +60,10 @@ class TransportCurl : public Transport {
       /** [out] URL encoded result. */
       std::string* encoded) override;
 
+  /** Test the internals that are hard to execute from the public API, like
+   * error handling of some exceptional cases. */
+  void Test();
+
  private:
   /** Setup the CURL handle `curl_`. */
   void HandleSetup();
@@ -84,6 +88,15 @@ class TransportCurl : public Transport {
 
   /** The CURL error buffer. */
   char curl_error_[CURL_ERROR_SIZE];
+
+  /** Flag to cause `UrlEncode()` to fail miserably. */
+  bool url_encode_injected_failure = false;
+
+  /** Flag to cause `HandleSetup()` to fail miserably. */
+  bool handle_setup_injected_failure = false;
+
+  /** Flag to cause `Perform()` to fail miserably. */
+  bool perform_injected_failure = false;
 };
 
 } /* namespace http */

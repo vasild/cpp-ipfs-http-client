@@ -22,6 +22,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <string>
 
 #include <ipfs/client.h>
+#include <ipfs/http/transport-curl.h>
+#include <ipfs/test/utils.h>
 
 #ifdef NDEBUG
 #error This file only makes sense in debug mode, dont try to compile it in non-debug.
@@ -33,28 +35,11 @@ extern std::string replace_body;
 }
 }
 
-static void must_fail(const std::string& label, std::function<void()> f) {
-  bool succeeded;
-
-  try {
-    f();
-    succeeded = true;
-  } catch (const std::exception& e) {
-    std::cout << label + " failed as expected with error message: " << e.what()
-              << std::endl;
-    succeeded = false;
-  }
-
-  if (succeeded) {
-    throw std::runtime_error(label + " succeeded but should have failed.");
-  }
-}
-
 int main(int, char**) {
   try {
     ipfs::Client client_cant_connect("localhost", 57);
 
-    must_fail("client.Version()", [&client_cant_connect]() {
+    ipfs::test::must_fail("client.Version()", [&client_cant_connect]() {
       ipfs::Json version;
       client_cant_connect.Version(&version);
     });
@@ -64,21 +49,24 @@ int main(int, char**) {
     std::string object_id;
     client.ObjectNew(&object_id);
 
-    must_fail("client.PinAdd()", [&client, &object_id]() {
+    ipfs::test::must_fail("client.PinAdd()", [&client, &object_id]() {
       ipfs::http::replace_body = R"({"Pins": []})";
       client.PinAdd(object_id);
     });
 
-    must_fail("client.PinAdd()", [&client, &object_id]() {
+    ipfs::test::must_fail("client.PinAdd()", [&client, &object_id]() {
       ipfs::http::replace_body = R"({"no Pins property here": []})";
       client.PinAdd(object_id);
     });
 
-    must_fail("client.Id()", [&client]() {
+    ipfs::test::must_fail("client.Id()", [&client]() {
       ipfs::http::replace_body = R"(not a JSON ~!*(@&(~{] indeed)";
       ipfs::Json id;
       client.Id(&id);
     });
+
+    ipfs::http::TransportCurl transport_curl;
+    transport_curl.Test();
 
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;

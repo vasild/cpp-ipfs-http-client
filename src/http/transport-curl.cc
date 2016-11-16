@@ -26,6 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <vector>
 
 #include <ipfs/http/transport-curl.h>
+#include <ipfs/test/utils.h>
 
 namespace ipfs {
 
@@ -54,6 +55,9 @@ CurlGlobal::~CurlGlobal() { curl_global_cleanup(); }
  * This does not work with DLLs on Windows,
  * @see https://github.com/curl/curl/issues/586. */
 static const CurlGlobal curl_global;
+
+/** Flag to simulate a failure of curl_global_init(). */
+static bool curl_global_injected_failure = false;
 
 #ifndef NDEBUG
 /** Placeholder to inject a fake http response during testing. */
@@ -84,7 +88,7 @@ static size_t curl_cb_stream(
 }
 
 TransportCurl::TransportCurl() : curl_is_setup_(false) {
-  if (curl_global.result_ != CURLE_OK) {
+  if (curl_global.result_ != CURLE_OK || curl_global_injected_failure) {
     throw std::runtime_error("curl_global_init() failed");
   }
   static_assert(sizeof(curl_error_) >= CURL_ERROR_SIZE,
@@ -177,13 +181,13 @@ void TransportCurl::UrlEncode(const std::string& raw, std::string* encoded) {
   HandleSetup();
 
   char* encoded_c = curl_easy_escape(curl_, raw.c_str(), 0);
-  if (encoded_c == NULL) {
+  if (encoded_c == NULL || url_encode_injected_failure) {
     throw std::runtime_error("curl_easy_escape() failed on \"" + raw + "\"");
   }
+  std::unique_ptr<char, void (*)(char*)> encoded_c_deleter(
+      encoded_c, [](char* e) { curl_free(e); });
 
   encoded->assign(encoded_c);
-
-  curl_free(encoded_c);
 }
 
 void TransportCurl::HandleSetup() {
@@ -192,7 +196,7 @@ void TransportCurl::HandleSetup() {
   }
 
   curl_ = curl_easy_init();
-  if (curl_ == NULL) {
+  if (curl_ == NULL || handle_setup_injected_failure) {
     throw std::runtime_error("curl_easy_init() failed");
   }
 
@@ -236,7 +240,7 @@ void TransportCurl::Perform(const std::string& url, std::iostream* response) {
   long status_code;
 
   res = curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &status_code);
-  if (res != CURLE_OK) {
+  if (res != CURLE_OK || perform_injected_failure) {
     throw std::runtime_error(
         std::string("Can't get the HTTP status code from CURL: ") +
         curl_easy_strerror(res));
@@ -263,6 +267,38 @@ void TransportCurl::HandleDestroy() {
   curl_is_setup_ = false;
 
   curl_easy_cleanup(curl_);
+}
+
+void TransportCurl::Test() {
+  curl_global_injected_failure = true;
+  test::must_fail("TransportCurl::TransportCurl()",
+                  []() { TransportCurl transport_curl; });
+  curl_global_injected_failure = false;
+
+  test::must_fail("TransportCurl::UrlEncode()", []() {
+    TransportCurl c;
+    std::string encoded;
+    c.url_encode_injected_failure = true;
+    c.UrlEncode("nobody can encode me", &encoded);
+  });
+
+  test::must_fail("TransportCurl::HandleSetup()", []() {
+    TransportCurl c;
+    c.handle_setup_injected_failure = true;
+    c.Fetch("http://localhost:1234", {{}}, nullptr);
+  });
+
+  test::must_fail("TransportCurl::Perform()", []() {
+    TransportCurl c;
+    replace_body = "";
+    c.perform_injected_failure = true;
+    std::stringstream response;
+    c.Fetch("http://google.com", {{}}, &response);
+  });
+
+  TransportCurl c;
+  c.HandleSetup();
+  c.HandleSetup();
 }
 
 } /* namespace http */

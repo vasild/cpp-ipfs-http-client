@@ -285,7 +285,7 @@ void TransportCurl::Test() {
   test::must_fail("TransportCurl::HandleSetup()", []() {
     TransportCurl c;
     c.handle_setup_injected_failure = true;
-    c.Fetch("http://localhost:1234", {{}}, nullptr);
+    c.Fetch("http://localhost:1234", {}, nullptr);
   });
 
   test::must_fail("TransportCurl::Perform()", []() {
@@ -293,7 +293,7 @@ void TransportCurl::Test() {
     replace_body = "";
     c.perform_injected_failure = true;
     std::stringstream response;
-    c.Fetch("http://google.com", {{}}, &response);
+    c.Fetch("http://google.com", {}, &response);
   });
 
   TransportCurl c;

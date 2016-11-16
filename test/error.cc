@@ -52,6 +52,13 @@ static void must_fail(const std::string& label, std::function<void()> f) {
 
 int main(int, char**) {
   try {
+    ipfs::Client client_cant_connect("localhost", 57);
+
+    must_fail("client.Version()", [&client_cant_connect]() {
+      ipfs::Json version;
+      client_cant_connect.Version(&version);
+    });
+
     ipfs::Client client("localhost", 5001);
 
     std::string object_id;

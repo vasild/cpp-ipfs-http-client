@@ -82,11 +82,8 @@ class TransportCurl : public Transport {
   /** Designates whether the CURL handle `curl_` has been set up. */
   bool curl_is_setup_;
 
-  /** The CURL error buffer. CURL_ERROR_SIZE from curl/curl.h is 256. We do not
-   * want to include that header here to avoid imposing that requirement on the
-   * users of this library. We have a static_assert in http/transport.cc to
-   * ensure that this is big enough. */
-  char curl_error_[256];
+  /** The CURL error buffer. */
+  char curl_error_[CURL_ERROR_SIZE];
 };
 
 } /* namespace http */

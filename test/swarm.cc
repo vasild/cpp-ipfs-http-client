@@ -95,7 +95,12 @@ int main(int, char**) {
       client.SwarmConnect(peer);
       /** [ipfs::Client::SwarmConnect] */
       std::cout << "Connected to " << peer << std::endl;
+    } catch (const std::exception&) {
+      /* Connect and disconnect occasionally fail due to circumstances beyond
+       * the control of this test. */
+    }
 
+    try {
       /** [ipfs::Client::SwarmDisconnect] */
       /* std::string peer =
        * "/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['urlencode',['UrlEncode',['../classipfs_1_1http_1_1TransportCurl.html#ac53142bf9e4604695bd7414eda516bc6',1,'ipfs::http::TransportCurl::UrlEncode()'],['../classipfs_1_1http_1_1Transport.html#ab06599853f7f2b11ad323a3d67df4cad',1,'ipfs::http::Transport::UrlEncode()']]]
+  ['test',['Test',['../classipfs_1_1http_1_1TransportCurl.html#a7d2cdcea0358186ed520efce18dcf4ef',1,'ipfs::http::TransportCurl']]],
+  ['transportcurl',['TransportCurl',['../classipfs_1_1http_1_1TransportCurl.html#a7d67d5f7b58564a15005c4cd774d6fea',1,'ipfs::http::TransportCurl']]]
 ];

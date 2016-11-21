@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['id',['Id',['../classipfs_1_1Client.html#ae2ab8a0186ec89f1644a3b1d1a0d20fb',1,'ipfs::Client']]]
+  ['fetch',['Fetch',['../classipfs_1_1http_1_1TransportCurl.html#a81bbb85b1a3feda8c5aa44b9c1769a6d',1,'ipfs::http::TransportCurl::Fetch()'],['../classipfs_1_1http_1_1Transport.html#a1b9139c6d768df23da1893ff54a8d75a',1,'ipfs::http::Transport::Fetch()']]],
+  ['filesadd',['FilesAdd',['../classipfs_1_1Client.html#abe2e1d9f5479fa5007f93a0dee053d12',1,'ipfs::Client']]],
+  ['filesget',['FilesGet',['../classipfs_1_1Client.html#a7598eaecec5293f29f84e2fc7ca7bc5b',1,'ipfs::Client']]]
 ];

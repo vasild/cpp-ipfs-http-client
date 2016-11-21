@@ -143,6 +143,23 @@ class Client {
       /** [in] The entire config to set/replace. */
       const Json& config);
 
+  /** Retrieve the providers for a content that is addressed by a hash.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht#findprovs.
+   *
+   * An example usage:
+   * @snippet dht.cc ipfs::Client::DhtFindProvs
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void DhtFindProvs(
+      /** [in] Multihash whose providers to find. */
+      const std::string& hash,
+      /** [out] List of providers of `hash`. */
+      Json* providers);
+
   /** Get a raw IPFS block.
    *
    * Implements

@@ -108,6 +108,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa6e2c0b4a19bacb58932e777be08d232"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#aa6e2c0b4a19bacb58932e777be08d232">ConfigReplace</a> (const <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> &amp;config)</td></tr>
 <tr class="memdesc:aa6e2c0b4a19bacb58932e777be08d232"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replace the entire config at the peer.  <a href="#aa6e2c0b4a19bacb58932e777be08d232">More...</a><br /></td></tr>
 <tr class="separator:aa6e2c0b4a19bacb58932e777be08d232"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c93643d0567793925daea95ece432eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a9c93643d0567793925daea95ece432eb">DhtFindProvs</a> (const std::string &amp;hash, <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *providers)</td></tr>
+<tr class="memdesc:a9c93643d0567793925daea95ece432eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the providers for a content that is addressed by a hash.  <a href="#a9c93643d0567793925daea95ece432eb">More...</a><br /></td></tr>
+<tr class="separator:a9c93643d0567793925daea95ece432eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cd82e5d6223c2522c50e01047eb9d74"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a4cd82e5d6223c2522c50e01047eb9d74">BlockGet</a> (const std::string &amp;block_id, std::iostream *block)</td></tr>
 <tr class="memdesc:a4cd82e5d6223c2522c50e01047eb9d74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a raw IPFS block.  <a href="#a4cd82e5d6223c2522c50e01047eb9d74">More...</a><br /></td></tr>
 <tr class="separator:a4cd82e5d6223c2522c50e01047eb9d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -526,6 +529,51 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>The key of the config knob to set. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The value to set for the key. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9c93643d0567793925daea95ece432eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c93643d0567793925daea95ece432eb">&sect;&nbsp;</a></span>DhtFindProvs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::DhtFindProvs </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>hash</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *&#160;</td>
+          <td class="paramname"><em>providers</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the providers for a content that is addressed by a hash. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht#findprovs">https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht#findprovs</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* std::string hash = &quot;QmWPyMW2u7J2Zyzut7TcBMT8pG6F...Bt1nP&quot; for example. */</span></div><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> providers;</div><div class="line"></div><div class="line">    client.DhtFindProvs(hash, &amp;providers);</div><div class="line"></div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Providers for &quot;</span> &lt;&lt; hash &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; std::endl</div><div class="line">              &lt;&lt; providers.dump(2).substr(0, 512) &lt;&lt; <span class="stringliteral">&quot;...&quot;</span> &lt;&lt; std::endl;</div><div class="line">    <span class="comment">/* An example output:</span></div><div class="line"><span class="comment">    [</span></div><div class="line"><span class="comment">      {</span></div><div class="line"><span class="comment">        &quot;Extra&quot;: &quot;&quot;,</span></div><div class="line"><span class="comment">        &quot;ID&quot;: &quot;&quot;,</span></div><div class="line"><span class="comment">        &quot;Responses&quot;: [</span></div><div class="line"><span class="comment">          {</span></div><div class="line"><span class="comment">            &quot;Addrs&quot;: null,</span></div><div class="line"><span class="comment">            &quot;ID&quot;: &quot;QmZSb7SYajaEEbJU2FB4XJWWfxX9AjwmdreK5MDu9zuQvn&quot;</span></div><div class="line"><span class="comment">          }</span></div><div class="line"><span class="comment">        ],</span></div><div class="line"><span class="comment">        &quot;Type&quot;: 4</span></div><div class="line"><span class="comment">      },</span></div><div class="line"><span class="comment">      {</span></div><div class="line"><span class="comment">        &quot;Extra&quot;: &quot;&quot;,</span></div><div class="line"><span class="comment">        &quot;ID&quot;: &quot;QmYoQjsZeSyzeeX9yCu5jfETgKinR2Udeej385FzPprsGg&quot;,</span></div><div class="line"><span class="comment">        &quot;Responses&quot;: null,</span></div><div class="line"><span class="comment">        &quot;Type&quot;: 6</span></div><div class="line"><span class="comment">      },</span></div><div class="line"><span class="comment">      {</span></div><div class="line"><span class="comment">        &quot;Extra&quot;: &quot;&quot;,</span></div><div class="line"><span class="comment">        &quot;ID&quot;: &quot;QmdsoQ8xhfkaEpAYCLJ75LEiup9E4ybUdbqDkZZKggfWjS&quot;,</span></div><div class="line"><span class="comment">        &quot;Responses&quot;: null,</span></div><div class="line"><span class="comment">        &quot;Type&quot;: 6</span></div><div class="line"><span class="comment">      },...</span></div><div class="line"><span class="comment">    */</span></div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">hash</td><td>Multihash whose providers to find. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">providers</td><td>List of providers of <code>hash</code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1341,7 +1389,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Open a connection to a given address. </p>
 <p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#connect">https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#connect</a>.</p>
-<p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* std::string peer =</span></div><div class="line"><span class="comment">     * &quot;/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ&quot;</span></div><div class="line"><span class="comment">     * for example */</span></div><div class="line">    client.SwarmConnect(peer);</div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+<p>An example usage: </p><div class="fragment"><div class="line">      <span class="comment">/* std::string peer =</span></div><div class="line"><span class="comment">       * &quot;/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ&quot;</span></div><div class="line"><span class="comment">       * for example */</span></div><div class="line">      client.SwarmConnect(peer);</div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
   </table>
@@ -1375,7 +1423,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Close a connection on a given address. </p>
 <p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#disconnect">https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#disconnect</a>.</p>
-<p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* std::string peer =</span></div><div class="line"><span class="comment">     * &quot;/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ&quot;</span></div><div class="line"><span class="comment">     * for example */</span></div><div class="line">    client.SwarmDisconnect(peer);</div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+<p>An example usage: </p><div class="fragment"><div class="line">      <span class="comment">/* std::string peer =</span></div><div class="line"><span class="comment">       * &quot;/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ&quot;</span></div><div class="line"><span class="comment">       * for example */</span></div><div class="line">      client.SwarmDisconnect(peer);</div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
   </table>

@@ -1,6 +1,7 @@
 set(TESTS
   block
   config
+  dht
   files
   generic
   object

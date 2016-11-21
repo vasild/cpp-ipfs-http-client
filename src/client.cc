@@ -83,6 +83,37 @@ void Client::ConfigReplace(const Json& config) {
                &unused);
 }
 
+void Client::DhtFindProvs(const std::string& hash, Json* providers) {
+  std::stringstream body;
+
+  http_->Fetch(MakeUrl("dht/findprovs", {{"arg", hash}}), {}, &body);
+
+  /* The reply consists of multiple lines, each one of which is a JSON, for
+  example:
+
+  {"Extra":"","ID":"QmfPZcnVAEjXABiA7StETRUKkS8FzNt968Z8HynbJR7oci","Responses":null,"Type":6}
+  {"Extra":"","ID":"QmfSUo8FkKDTE8T3uhXfQUiyTz7JuMrkUFpTwLM7LLidXG","Responses":null,"Type":6}
+  {"Extra":"","ID":"QmWmJvCpjMuBZX4MYWupb9GB3qNYVa1igYCsAQfSHmFJde","Responses":null,"Type":0}
+
+  we convert that into a single JSON like:
+
+  [
+    {"Extra":"","ID":"QmfPZcnVAEjXABiA7StETRUKkS8FzNt968Z8HynbJR7oci","Responses":null,"Type":6},
+    {"Extra":"","ID":"QmfSUo8FkKDTE8T3uhXfQUiyTz7JuMrkUFpTwLM7LLidXG","Responses":null,"Type":6},
+    {"Extra":"","ID":"QmWmJvCpjMuBZX4MYWupb9GB3qNYVa1igYCsAQfSHmFJde","Responses":null,"Type":0}
+  ]
+  */
+
+  std::string line;
+  while (std::getline(body, line)) {
+    Json json_chunk;
+
+    ParseJson(line, &json_chunk);
+
+    providers->push_back(json_chunk);
+  }
+}
+
 void Client::BlockGet(const std::string& block_id, std::iostream* block) {
   http_->Fetch(MakeUrl("block/get", {{"arg", block_id}}), {}, block);
 }

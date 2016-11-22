@@ -83,6 +83,37 @@ void Client::ConfigReplace(const Json& config) {
                &unused);
 }
 
+void Client::DhtFindPeer(const std::string& peer_id, Json* addresses) {
+  std::stringstream body;
+
+  http_->Fetch(MakeUrl("dht/findpeer", {{"arg", peer_id}}), {}, &body);
+
+  /* Find the addresses of the requested peer in the response. It consists
+  of many lines like this:
+
+  {..., "Responses":[{"Addrs":["...","..."],"ID":"peer_id"}], ...}
+
+  */
+  std::string line;
+  while (std::getline(body, line)) {
+    Json json_chunk;
+
+    ParseJson(line, &json_chunk);
+
+    if (json_chunk["Responses"].is_array()) {
+      for (auto& r : json_chunk["Responses"]) {
+        if (r["ID"] == peer_id) {
+          *addresses = r["Addrs"];
+          return;
+        }
+      }
+    }
+  }
+
+  throw std::runtime_error("Could not find info for peer " + peer_id +
+                           " in response: " + body.str());
+}
+
 void Client::DhtFindProvs(const std::string& hash, Json* providers) {
   std::stringstream body;
 

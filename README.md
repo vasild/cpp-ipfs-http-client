@@ -18,7 +18,7 @@ Currently implemented methods:
 
 - [block](https://github.com/ipfs/interface-ipfs-core/tree/master/API/block): get(), put(), stat()
 - [config](https://github.com/ipfs/interface-ipfs-core/tree/master/API/config): get(), set(), replace()
-- [dht](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht): findprovs()
+- [dht](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht): findpeer(), findprovs()
 - [files](https://github.com/ipfs/interface-ipfs-core/tree/master/API/files): get(), add()
 - [generic](https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic): id(), version()
 - [object](https://github.com/ipfs/interface-ipfs-core/tree/master/API/object): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()
@@ -28,7 +28,7 @@ Currently implemented methods:
 Not implemented yet:
 
 - [dag](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dag): get(), put()
-- [dht](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht): findpeer(), get(), put(), query()
+- [dht](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht): get(), put(), query()
 
 # Install
 

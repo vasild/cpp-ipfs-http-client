@@ -108,6 +108,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa6e2c0b4a19bacb58932e777be08d232"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#aa6e2c0b4a19bacb58932e777be08d232">ConfigReplace</a> (const <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> &amp;config)</td></tr>
 <tr class="memdesc:aa6e2c0b4a19bacb58932e777be08d232"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replace the entire config at the peer.  <a href="#aa6e2c0b4a19bacb58932e777be08d232">More...</a><br /></td></tr>
 <tr class="separator:aa6e2c0b4a19bacb58932e777be08d232"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af34ac771242a66294ff60d820712a99d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#af34ac771242a66294ff60d820712a99d">DhtFindPeer</a> (const std::string &amp;peer_id, <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *addresses)</td></tr>
+<tr class="memdesc:af34ac771242a66294ff60d820712a99d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the peer info of a reachable node in the network.  <a href="#af34ac771242a66294ff60d820712a99d">More...</a><br /></td></tr>
+<tr class="separator:af34ac771242a66294ff60d820712a99d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c93643d0567793925daea95ece432eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a9c93643d0567793925daea95ece432eb">DhtFindProvs</a> (const std::string &amp;hash, <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *providers)</td></tr>
 <tr class="memdesc:a9c93643d0567793925daea95ece432eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the providers for a content that is addressed by a hash.  <a href="#a9c93643d0567793925daea95ece432eb">More...</a><br /></td></tr>
 <tr class="separator:a9c93643d0567793925daea95ece432eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -529,6 +532,51 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>The key of the config knob to set. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>The value to set for the key. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af34ac771242a66294ff60d820712a99d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af34ac771242a66294ff60d820712a99d">&sect;&nbsp;</a></span>DhtFindPeer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::DhtFindPeer </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>peer_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *&#160;</td>
+          <td class="paramname"><em>addresses</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the peer info of a reachable node in the network. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht#findpeer">https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht#findpeer</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* std::string peer_id = &quot;QmcZrBqWBYV3RGsPuhQX11Qzp...maDYF&quot; for example. */</span></div><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> peer_addresses;</div><div class="line"></div><div class="line">    client.DhtFindPeer(peer_id, &amp;peer_addresses);</div><div class="line"></div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Peer &quot;</span> &lt;&lt; peer_id &lt;&lt; <span class="stringliteral">&quot; info:&quot;</span> &lt;&lt; std::endl</div><div class="line">              &lt;&lt; peer_addresses.dump(2) &lt;&lt; std::endl;</div><div class="line">    <span class="comment">/* An example output:</span></div><div class="line"><span class="comment">    Peer QmcZrBqWBYV3RGsPuhQX11QzpKAQ8SYfMYL1dGXuPmaDYF info:</span></div><div class="line"><span class="comment">    [</span></div><div class="line"><span class="comment">      &quot;/ip6/::1/tcp/4001&quot;,</span></div><div class="line"><span class="comment">      &quot;/ip4/212.227.249.191/tcp/4001&quot;,</span></div><div class="line"><span class="comment">      &quot;/ip4/127.0.0.1/tcp/4001&quot;</span></div><div class="line"><span class="comment">    ]</span></div><div class="line"><span class="comment">    */</span></div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">peer_id</td><td>Id of the peer (multihash). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">addresses</td><td>List of the peer's addresses. </td></tr>
   </table>
   </dd>
 </dl>

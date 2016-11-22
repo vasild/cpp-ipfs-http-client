@@ -143,6 +143,23 @@ class Client {
       /** [in] The entire config to set/replace. */
       const Json& config);
 
+  /** Retrieve the peer info of a reachable node in the network.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht#findpeer.
+   *
+   * An example usage:
+   * @snippet dht.cc ipfs::Client::DhtFindPeer
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void DhtFindPeer(
+      /** [in] Id of the peer (multihash). */
+      const std::string& peer_id,
+      /** [out] List of the peer's addresses. */
+      Json* addresses);
+
   /** Retrieve the providers for a content that is addressed by a hash.
    *
    * Implements

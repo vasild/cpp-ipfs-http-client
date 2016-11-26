@@ -74,6 +74,27 @@ matrix:
     - os: linux
       before_install:
         - sudo apt-get update -qq
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.8
+          packages:
+            - clang-3.8
+      env:
+        - TAG="static analysis with scan-build 3.8"
+      script:
+        - cmake --version
+        - SOURCE_DIR="${TRAVIS_BUILD_DIR}"
+        - BUILD_DIR="${TRAVIS_BUILD_DIR}/../build"
+        - mkdir -p "${BUILD_DIR}"
+        - cd "${BUILD_DIR}"
+        - CCC_CXX=clang++-3.8 scan-build-3.8 --status-bugs cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
+        - CCC_CXX=clang++-3.8 scan-build-3.8 --status-bugs make VERBOSE=1
+    - os: linux
+      before_install:
+        - sudo apt-get update -qq
       compiler: gcc
       addons:
         apt:

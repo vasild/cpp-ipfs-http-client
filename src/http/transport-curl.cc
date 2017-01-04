@@ -288,6 +288,7 @@ void TransportCurl::Test() {
     c.Fetch("http://localhost:1234", {}, nullptr);
   });
 
+#ifndef NDEBUG
   test::must_fail("TransportCurl::Perform()", []() {
     TransportCurl c;
     replace_body = "";
@@ -295,6 +296,7 @@ void TransportCurl::Test() {
     std::stringstream response;
     c.Fetch("http://google.com", {}, &response);
   });
+#endif /* NDEBUG */
 
   TransportCurl c;
   c.HandleSetup();

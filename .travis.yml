@@ -63,6 +63,21 @@ matrix:
           packages:
             - clang-3.8
       env:
+        - TAG="compile with clang 3.8 in Release mode"
+        - CXX_=clang++-3.8
+        - CMAKE_EXTRA_ARGS_="-DCMAKE_BUILD_TYPE=Release"
+    - os: linux
+      before_install:
+        - sudo apt-get update -qq
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.8
+          packages:
+            - clang-3.8
+      env:
         - TAG="compile with clang 3.8 and run tests"
         - CXX_=clang++-3.8
       after_success:
@@ -184,5 +199,5 @@ script:
   - mkdir -p "${BUILD_DIR}"
   - cd "${BUILD_DIR}"
   - echo "CXXFLAGS='${CXXFLAGS}' LDFLAGS='${LDFLAGS}'"
-  - cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
+  - cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${CMAKE_EXTRA_ARGS_}" "${SOURCE_DIR}"
   - make VERBOSE=1

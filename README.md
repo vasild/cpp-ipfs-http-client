@@ -14,8 +14,6 @@ See [the documentation](https://vasild.github.io/cpp-ipfs-api) or [the source co
 
 See also [IPFS on GitHub](https://github.com/ipfs).
 
-This library is in an early stage of development. Some methods are not implemented yet.
-
 Currently implemented methods:
 
 - [block](https://github.com/ipfs/interface-ipfs-core/tree/master/API/block): get(), put(), stat()
@@ -31,6 +29,12 @@ Not implemented yet:
 
 - [dag](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dag): get(), put()
 - [dht](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht): get(), put(), query()
+
+# TODO
+
+- Implement the above methods
+- Compare with the latest [IPFS API bindings](https://github.com/ipfs/interface-ipfs-core/tree/master/API) and implement any new methods that have been defined
+- Contributors are welcome!
 
 # Install
 

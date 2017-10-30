@@ -43,6 +43,20 @@ void Client::Version(Json* version) {
   FetchAndParseJson(MakeUrl("version"), version);
 }
 
+void Client::Get(const std::string& arg,
+      std::iostream* contents,
+      const std::string& output,
+      bool archive,
+      bool compress,
+      int compression_level) {
+  http_->Fetch(MakeUrl("get", {{"arg", arg},
+        {"output", output},
+        {"archive", std::to_string(archive)},
+        {"compress", std::to_string(compress)},
+        {"compression-level", std::to_string(compression_level)}}), {},
+        contents);
+}
+
 void Client::ConfigGet(const std::string& key, Json* config) {
   std::string url;
 

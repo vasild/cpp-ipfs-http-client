@@ -93,6 +93,32 @@ class Client {
        * properties "Repo", "System", "Version". */
       Json* version);
 
+  /** Download an IPFS object
+   *
+   * Implements
+   * https://ipfs.io/docs/api/#api-v0-get
+   *
+   * An example usage:
+   * @snipper generic.cc ipfs::Client::Get
+   *
+   * @throw std::exception if any errors
+   *
+   * @since version 0.2.0 */
+  void Get(
+      /** [in] The path to the IPFS object */
+      const std::string& arg,
+      /** [out] The contents of the object read */
+      std::iostream* contents,
+      /** [in] The path where the output should be stored. If empty will be
+       * ignored */
+      const std::string& output = std::string(),
+      /** [in] Output a TAR archive. Default is false */
+      bool archive = false,
+      /** [in] Compress the output with GZIP compression. Default is false */
+      bool compress = false,
+      /** [in] Compression level (1-9). Default is -1. */
+      int compression_level = -1);
+
   /** Query the current config of the peer.
    *
    * Implements

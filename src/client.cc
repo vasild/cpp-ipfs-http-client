@@ -220,6 +220,10 @@ void Client::FilesAdd(const std::vector<http::FileUpload>& files,
   }
 }
 
+void Client::FilesLs(const std::string& path, Json* json) {
+  FetchAndParseJson(MakeUrl("file/ls", {{"arg", path}}), {}, json);
+}
+
 void Client::ObjectNew(std::string* object_id) {
   Json response;
 

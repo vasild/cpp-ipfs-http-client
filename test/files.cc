@@ -66,6 +66,16 @@ int main(int, char**) {
     ]
     */
     /** [ipfs::Client::FilesAdd] */
+
+    /** [ipfs::Client::FilesLs] */
+    ipfs::Json json;
+    client.FilesLs("/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG",
+        &json);
+    std::stringstream jsonResult;
+    jsonResult << json;
+    ipfs::test::check_if_string_contains("client.FilesLs()", contents.str(),
+                                         "readme");
+    /** [ipfs::Client::FilesLs] */
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

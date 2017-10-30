@@ -267,6 +267,26 @@ class Client {
        */
       Json* result);
 
+  /** List files for filesystem object
+   *
+   * Implements
+   * https://ipfs.io/docs/api/#api-v0-file-ls
+   *
+   * An example usage:
+   * @snippet files.cc ipfs::Client::FilesLs
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.2.0 */
+  void FilesLs(
+      /** [in] the path to an IPFS object */
+      const std::string& path,
+      /** [out] List of results for each object. For example:
+       * [{"Object": { "foo.txt: { "hash": "size": "type": "Links": [ { etc.. }
+       * }}}] 
+       */
+      Json* result);
+
   /** Create a new MerkleDAG node.
    *
    * Implements

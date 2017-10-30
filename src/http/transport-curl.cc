@@ -231,10 +231,14 @@ void TransportCurl::Perform(const std::string& url, std::iostream* response) {
   /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
   curl_easy_setopt(curl_, CURLOPT_WRITEDATA, response);
 
+  curl_error_[0] = '\0';
+
   CURLcode res = curl_easy_perform(curl_);
   if (res != CURLE_OK) {
     const std::string generic_error(curl_easy_strerror(res));
-    throw std::runtime_error(generic_error + std::string(": ") + curl_error_);
+    throw std::runtime_error(
+        generic_error +
+        (curl_error_[0] != '\0' ? std::string(": ") + curl_error_ : ""));
   }
 
   long status_code;

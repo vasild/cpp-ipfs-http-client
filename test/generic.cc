@@ -19,6 +19,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 
 #include <ipfs/client.h>
 #include <ipfs/test/utils.h>
@@ -51,6 +52,19 @@ int main(int, char**) {
     /** [ipfs::Client::Version] */
     ipfs::test::check_if_properties_exist("client.Version()", version,
                                           {"Repo", "System", "Version"});
+
+    /** [ipfs::Client::Get] */
+    std::stringstream contents;
+    client.Get(
+        "/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme",
+        &contents);
+    /* An example output:
+     * readme */
+    std::cout << contents.str().substr(0, 20) << std::endl;
+    /** [ipfs::Client::Get] */
+    ipfs::test::check_if_string_contains("client.get()", contents.str(),
+        "Hello and Welcome to IPFS!");
+
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

@@ -267,7 +267,7 @@ class Client {
        */
       Json* result);
 
-  /** List files for filesystem object
+  /** List directory contents for Unix filesystem objects.
    *
    * Implements
    * https://ipfs.io/docs/api/#api-v0-file-ls
@@ -279,12 +279,35 @@ class Client {
    *
    * @since version 0.2.0 */
   void FilesLs(
-      /** [in] the path to an IPFS object */
+      /** [in] The path to an IPFS object. */
       const std::string& path,
-      /** [out] List of results for each object. For example:
-       * [{"Object": { "foo.txt: { "hash": "size": "type": "Links": [ { etc.. }
-       * }}}] 
-       */
+      /** [out] List of results (files). For example:
+      { "Arguments": { ... },
+          "Objects": {
+              "QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG": {
+                  "Hash": "QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG",
+                  "Links": [
+                      {
+                          "Hash": "QmZTR5bcpQD7cFgTorqxZDYaew1Wqgf...",
+                          "Name": "about",
+                          "Size": 1677,
+                          "Type": "File"
+                      },
+                      ...
+                      {
+                          "Hash": "QmdncfsVm2h5Kqq9hPmU7oAVX2zTSVP...",
+                          "Name": "quick-start",
+                          "Size": 1717,
+                          "Type": "File"
+                      },
+                      ...
+                  ],
+                  "Size": 0,
+                  "Type": "Directory"
+              }
+          }
+      }
+      */
       Json* result);
 
   /** Create a new MerkleDAG node.

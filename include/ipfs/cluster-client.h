@@ -64,6 +64,9 @@ class Cluster {
        * properties "Repo", "System", "Version". */
       Json* version);
 
+  void Peers(
+      Json* peers);
+
 private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(

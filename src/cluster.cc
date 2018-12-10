@@ -25,6 +25,10 @@ void Cluster::Version(Json* version) {
   FetchAndParseJson(MakeUrl("version"), version);
 }
 
+void Cluster::Peers(Json* json) {
+  FetchAndParseJson(MakeUrl("peers"), json);
+}
+
 void Cluster::FetchAndParseJson(const std::string& url, Json* response) {
   std::stringstream body;
 

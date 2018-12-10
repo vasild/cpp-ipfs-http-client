@@ -33,6 +33,7 @@ set(HIVE_API_LIBNAME hive-api)
 
 set(TESTS
   cluster
+  id
   version
   block
   config

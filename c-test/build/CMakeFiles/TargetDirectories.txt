@@ -1,0 +1,11 @@
+/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build/CMakeFiles/edit_cache.dir
+/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build/CMakeFiles/swarm.dir
+/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build/CMakeFiles/pin.dir
+/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build/CMakeFiles/dht.dir
+/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build/CMakeFiles/files.dir
+/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build/CMakeFiles/rebuild_cache.dir
+/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build/CMakeFiles/config.dir
+/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build/CMakeFiles/block.dir
+/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build/CMakeFiles/object.dir
+/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build/CMakeFiles/generic.dir
+/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build/CMakeFiles/cluster.dir

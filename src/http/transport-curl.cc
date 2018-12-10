@@ -97,6 +97,37 @@ TransportCurl::TransportCurl() : curl_is_setup_(false) {
 
 TransportCurl::~TransportCurl() { HandleDestroy(); }
 
+void TransportCurl::Get(const std::string& url,
+                        std::iostream* response) {
+  HandleSetup();
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPGET.html */
+  curl_easy_setopt(curl_, CURLOPT_HTTPGET, 1L);
+
+  curl_slist* headers = NULL;
+  /* https://curl.haxx.se/libcurl/c/curl_slist_append.html */
+  headers = curl_slist_append(headers, "Expect:");
+
+  /* Auto free the resources occupied by `headers`. */
+  std::unique_ptr<curl_slist, void (*)(curl_slist*)> headers_deleter(
+      headers, [](curl_slist* d) {
+        /* https://curl.haxx.se/libcurl/c/curl_slist_free_all.html */
+        curl_slist_free_all(d);
+      });
+
+  /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPHEADER.html */
+  curl_easy_setopt(curl_, CURLOPT_HTTPHEADER, headers);
+
+#ifndef NDEBUG
+  if (!replace_body.empty()) {
+    *response << replace_body;
+    return;
+  }
+#endif /* NDEBUG */
+
+  Perform(url, response);
+}
+
 void TransportCurl::Fetch(const std::string& url,
                           const std::vector<FileUpload>& files,
                           std::iostream* response) {
@@ -216,7 +247,7 @@ void TransportCurl::HandleSetup() {
   curl_easy_setopt(curl_, CURLOPT_TCP_KEEPINTVL, 10);
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_USERAGENT.html */
-  curl_easy_setopt(curl_, CURLOPT_USERAGENT, "cpp-ipfs-api");
+  curl_easy_setopt(curl_, CURLOPT_USERAGENT, "cpp-hive-api");
 
   curl_is_setup_ = true;
 }

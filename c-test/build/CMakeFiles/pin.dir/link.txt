@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wall -Wpedantic -Wextra -Werror -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/pin.dir/pin.cc.o  -o pin  -L/Sources/research/fs/ipfs/cpp-hive-api/hive-client/.. -Wl,-rpath,/Sources/research/fs/ipfs/cpp-hive-api/hive-client/.. -lhive-api /usr/lib/libcurl.dylib 

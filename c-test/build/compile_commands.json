@@ -1,0 +1,47 @@
+[
+{
+  "directory": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/usr/local/include -I/Sources/research/fs/ipfs/cpp-hive-api/hive-client/../include   -Wall -Wpedantic -Wextra -Werror   -std=gnu++11 -o CMakeFiles/swarm.dir/swarm.cc.o -c /Sources/research/fs/ipfs/cpp-hive-api/hive-client/swarm.cc",
+  "file": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/swarm.cc"
+},
+{
+  "directory": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/usr/local/include -I/Sources/research/fs/ipfs/cpp-hive-api/hive-client/../include   -Wall -Wpedantic -Wextra -Werror   -std=gnu++11 -o CMakeFiles/pin.dir/pin.cc.o -c /Sources/research/fs/ipfs/cpp-hive-api/hive-client/pin.cc",
+  "file": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/pin.cc"
+},
+{
+  "directory": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/usr/local/include -I/Sources/research/fs/ipfs/cpp-hive-api/hive-client/../include   -Wall -Wpedantic -Wextra -Werror   -std=gnu++11 -o CMakeFiles/dht.dir/dht.cc.o -c /Sources/research/fs/ipfs/cpp-hive-api/hive-client/dht.cc",
+  "file": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/dht.cc"
+},
+{
+  "directory": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/usr/local/include -I/Sources/research/fs/ipfs/cpp-hive-api/hive-client/../include   -Wall -Wpedantic -Wextra -Werror   -std=gnu++11 -o CMakeFiles/files.dir/files.cc.o -c /Sources/research/fs/ipfs/cpp-hive-api/hive-client/files.cc",
+  "file": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/files.cc"
+},
+{
+  "directory": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/usr/local/include -I/Sources/research/fs/ipfs/cpp-hive-api/hive-client/../include   -Wall -Wpedantic -Wextra -Werror   -std=gnu++11 -o CMakeFiles/config.dir/config.cc.o -c /Sources/research/fs/ipfs/cpp-hive-api/hive-client/config.cc",
+  "file": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/config.cc"
+},
+{
+  "directory": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/usr/local/include -I/Sources/research/fs/ipfs/cpp-hive-api/hive-client/../include   -Wall -Wpedantic -Wextra -Werror   -std=gnu++11 -o CMakeFiles/block.dir/block.cc.o -c /Sources/research/fs/ipfs/cpp-hive-api/hive-client/block.cc",
+  "file": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/block.cc"
+},
+{
+  "directory": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/usr/local/include -I/Sources/research/fs/ipfs/cpp-hive-api/hive-client/../include   -Wall -Wpedantic -Wextra -Werror   -std=gnu++11 -o CMakeFiles/object.dir/object.cc.o -c /Sources/research/fs/ipfs/cpp-hive-api/hive-client/object.cc",
+  "file": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/object.cc"
+},
+{
+  "directory": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/usr/local/include -I/Sources/research/fs/ipfs/cpp-hive-api/hive-client/../include   -Wall -Wpedantic -Wextra -Werror   -std=gnu++11 -o CMakeFiles/generic.dir/generic.cc.o -c /Sources/research/fs/ipfs/cpp-hive-api/hive-client/generic.cc",
+  "file": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/generic.cc"
+},
+{
+  "directory": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/build",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -I/usr/local/include -I/Sources/research/fs/ipfs/cpp-hive-api/hive-client/../include   -Wall -Wpedantic -Wextra -Werror   -std=gnu++11 -o CMakeFiles/cluster.dir/cluster.cc.o -c /Sources/research/fs/ipfs/cpp-hive-api/hive-client/cluster.cc",
+  "file": "/Sources/research/fs/ipfs/cpp-hive-api/hive-client/cluster.cc"
+}
+]

@@ -55,6 +55,12 @@ class Transport {
   /** Destructor. */
   virtual inline ~Transport();
 
+  virtual void Get(
+      /** [in] URL to get. */
+      const std::string& url,
+      /** [out] Output to save the response body to. */
+      std::iostream* response) = 0;
+
   /** Fetch the contents of a given URL. If any files are provided in `files`,
    * they are submitted using "Content-Type: multipart/form-data".
    *

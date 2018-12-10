@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.1.0)
 
-# Adhere the version number to http://semver.org/
-project(cpp-hive-api VERSION 0.1.0 LANGUAGES CXX)
-
 # Compile in C++11 mode
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -28,33 +25,36 @@ if(NOT JSON_FOR_MODERN_CXX_INCLUDE_DIR)
 endif()
 include_directories(${JSON_FOR_MODERN_CXX_INCLUDE_DIR})
 
-include_directories("include")
+include_directories("${CMAKE_SOURCE_DIR}/../include")
 
-# Targets
+link_directories("${CMAKE_SOURCE_DIR}/../build_dir")
 
 set(HIVE_API_LIBNAME hive-api)
 
-# To build and install a shared library: "cmake -DBUILD_SHARED_LIBS:BOOL=ON ..."
-add_library(${HIVE_API_LIBNAME}
-  src/client.cc
-  src/cluster.cc
-  src/http/transport-curl.cc
+set(TESTS
+  cluster
+  version
+  block
+  config
+  dht
+  files
+  generic
+  object
+  pin
+  swarm
 )
-set_target_properties(${HIVE_API_LIBNAME} PROPERTIES
-  SOVERSION ${PROJECT_VERSION_MAJOR}
-  VERSION ${PROJECT_VERSION}
-)
-target_link_libraries(${HIVE_API_LIBNAME} ${CURL_LIBRARIES})
 
-install(TARGETS ${HIVE_API_LIBNAME} DESTINATION lib)
-install(FILES include/ipfs/client.h DESTINATION include/ipfs)
-install(FILES include/ipfs/http/transport.h DESTINATION include/ipfs/http)
-
-# Tests, use "CTEST_OUTPUT_ON_FAILURE=1 make test" to see output from failed tests
-
-# https://cmake.org/cmake/help/v3.0/module/CTest.html
-include(CTest)
-
-if(BUILD_TESTING)
-  add_subdirectory(cpp-test)
+string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)
+if(CMAKE_BUILD_TYPE_LOWER MATCHES "debug")
+  set(TESTS
+    ${TESTS}
+    error
+  )
 endif()
+
+foreach (T ${TESTS})
+  add_executable(${T} ${T}.cc)
+  target_link_libraries(${T} ${HIVE_API_LIBNAME} ${CURL_LIBRARIES})
+
+  add_test(NAME ${T} COMMAND ./${T})
+endforeach()

@@ -1,0 +1,17 @@
+class （C++）
+class DCache {
+    class DMessage {
+        std::vector<uint8> buf;
+    };
+
+public:
+    std::shared_ptr<std::vector<DMessage>> get_values(const string& key);
+    bool add_value(const string& key, std::shared_ptr<Message>);
+    bool replace_value(const string& key, std::shared_ptr<std::vector<Message>> values);
+    bool remove_values(const string& key);
+};
+
+如果是c形式：
+int dcache_get_values(const char *key, bool (*)(const char *key, const void *buf, size_t length, void *), void *context);
+int dcache_add_value(const char *key, const void *buf, size_t length);
+int dcache_remove_values(const char *key);

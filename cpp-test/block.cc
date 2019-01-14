@@ -21,14 +21,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <sstream>
 #include <stdexcept>
 
-#include <ipfs/client.h>
+#include <ipfs/node.h>
 #include <ipfs/test/utils.h>
 
 int main(int, char**) {
   try {
-    ipfs::Client client("localhost", 5001);
+    ipfs::Node client("localhost", 9095);
 
-    /** [ipfs::Client::BlockPut] */
+    /** [ipfs::Node::BlockPut] */
     ipfs::Json block;
     client.BlockPut(
         {"" /* no file name */, ipfs::http::FileUpload::Type::kFileContents,
@@ -38,11 +38,11 @@ int main(int, char**) {
     /* An example output:
     Stored block key: "QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo"
     */
-    /** [ipfs::Client::BlockPut] */
+    /** [ipfs::Node::BlockPut] */
     ipfs::test::check_if_properties_exist("client.BlockPut()", block,
                                           {"Key", "Size"});
 
-    /** [ipfs::Client::BlockGet] */
+    /** [ipfs::Node::BlockGet] */
     std::stringstream block_contents;
     /* E.g. block["Key"] is "QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo". */
     client.BlockGet(block["Key"], &block_contents);
@@ -51,16 +51,16 @@ int main(int, char**) {
     /* An example output:
     Block (hex): 426c6f636b2070757420746573742e
     */
-    /** [ipfs::Client::BlockGet] */
+    /** [ipfs::Node::BlockGet] */
 
-    /** [ipfs::Client::BlockStat] */
+    /** [ipfs::Node::BlockStat] */
     ipfs::Json stat_result;
     client.BlockStat(block["Key"], &stat_result);
     std::cout << "Stat: " << stat_result << std::endl;
     /* An example output:
     Stat: {"Key":"QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo","Size":15}
     */
-    /** [ipfs::Client::BlockStat] */
+    /** [ipfs::Node::BlockStat] */
     ipfs::test::check_if_properties_exist("client.BlockStat()", stat_result,
                                           {"Key", "Size"});
   } catch (const std::exception& e) {

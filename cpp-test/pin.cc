@@ -21,17 +21,17 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <stdexcept>
 #include <string>
 
-#include <ipfs/client.h>
+#include <ipfs/node.h>
 
 int main(int, char**) {
   try {
-    ipfs::Client client("localhost", 5001);
+    ipfs::Node client("localhost", 9095);
 
     std::string object_id;
 
     client.ObjectNew(&object_id);
 
-    /** [ipfs::Client::PinAdd] */
+    /** [ipfs::Node::PinAdd] */
     /* std::string object_id = "QmdfTbBqBPQ7VNxZEYEj14V...1zR1n" for example. */
     client.PinAdd(object_id);
 
@@ -39,9 +39,9 @@ int main(int, char**) {
     /* An example output:
     Pinned object: QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n
     */
-    /** [ipfs::Client::PinAdd] */
+    /** [ipfs::Node::PinAdd] */
 
-    /** [ipfs::Client::PinLs__a] */
+    /** [ipfs::Node::PinLs__a] */
     ipfs::Json pinned;
 
     client.PinLs(&pinned);
@@ -64,9 +64,9 @@ int main(int, char**) {
       }
     }
     */
-    /** [ipfs::Client::PinLs__a] */
+    /** [ipfs::Node::PinLs__a] */
 
-    /** [ipfs::Client::PinLs__b] */
+    /** [ipfs::Node::PinLs__b] */
     /* std::string object_id = "QmdfTbBqBPQ7VNxZEYEj14V...1zR1n" for example. */
     client.PinLs(object_id, &pinned);
 
@@ -82,14 +82,14 @@ int main(int, char**) {
       }
     }
     */
-    /** [ipfs::Client::PinLs__b] */
+    /** [ipfs::Node::PinLs__b] */
 
-    /** [ipfs::Client::PinRm] */
+    /** [ipfs::Node::PinRm] */
     /* std::string object_id = "QmdfTbBqBPQ7VNxZEYEj14V...1zR1n" for example. */
 
     bool unpinned;
     try {
-      client.PinRm(object_id, ipfs::Client::PinRmOptions::NON_RECURSIVE);
+      client.PinRm(object_id, ipfs::Node::PinRmOptions::NON_RECURSIVE);
       unpinned = true;
     } catch (const std::exception&) {
       unpinned = false;
@@ -101,8 +101,8 @@ int main(int, char**) {
           " non-recursively succeeded but should have failed.");
     }
 
-    client.PinRm(object_id, ipfs::Client::PinRmOptions::RECURSIVE);
-    /** [ipfs::Client::PinRm] */
+    client.PinRm(object_id, ipfs::Node::PinRmOptions::RECURSIVE);
+    /** [ipfs::Node::PinRm] */
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

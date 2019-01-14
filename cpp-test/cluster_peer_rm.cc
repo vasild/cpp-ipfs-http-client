@@ -9,9 +9,10 @@ int main(int, char**) {
   try {
     ipfs::Cluster cluster("localhost", 9094);
 
+    std::string peerId = "QmYihPNDiK4qMo4GL2Yfz6C1dusTSuGNVAxCUu2WH5R9kN";
     ipfs::Json peers;
 
-    cluster.Peers(&peers);
+    cluster.PeerRm(peerId, &peers);
 
     // std::cout << "Current cluster id:" << std::endl
 //               << peers.dump(2).substr(0, 8192) << std::endl;

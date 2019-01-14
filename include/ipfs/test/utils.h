@@ -27,7 +27,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <string>
 #include <vector>
 
-#include <ipfs/client.h>
+#include <ipfs/node.h>
 
 namespace ipfs {
 

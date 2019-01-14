@@ -6,8 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add compiler warnings
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR
+   CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" OR
    CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wpedantic -Wextra -Werror")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wpedantic -Wextra -Werror -Wno-unused-parameter")
 endif()
 
 # Generate compile_commands.json, to be used by YouCompleteMe.
@@ -27,23 +28,44 @@ include_directories(${JSON_FOR_MODERN_CXX_INCLUDE_DIR})
 
 include_directories("${CMAKE_SOURCE_DIR}/../include")
 
-link_directories("${CMAKE_SOURCE_DIR}/../build_dir")
+link_directories("${CMAKE_SOURCE_DIR}/..")
 
 set(HIVE_API_LIBNAME hive-api)
 
 set(TESTS
+  cluster_address_list
   cluster
-  id
-  peers
-  version
+  cluster_id
+  cluster_peers
+  cluster_peer_rm
+  cluster_peer_add
+  cluster_version
+  file_add
+  file_chcid
+  file_cp
+  file_dups
+  file_flush
+  file_get
+  file_ls
+  file_mkdir
+  file_mv
+  file_read
+  file_rm
+  file_stat
+  file_write
+  key_gen
+  key_list
+  key_rename
+  key_rm
   block
   config
   dht
-  files
+  file
   generic
   object
   pin
   swarm
+  uid_info
 )
 
 string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)
@@ -60,3 +82,6 @@ foreach (T ${TESTS})
 
   add_test(NAME ${T} COMMAND ./${T})
 endforeach()
+
+add_executable(message message.cc DMessage.cc)
+target_link_libraries(message ${HIVE_API_LIBNAME} ${CURL_LIBRARIES})

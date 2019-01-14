@@ -13,16 +13,18 @@ int main(int, char**) {
 
     cluster.Peers(&peers);
 
-    // std::cout << "Current cluster id:" << std::endl
-//               << peers.dump(2).substr(0, 8192) << std::endl;
-
     std::string cluster_peers;
     for (ipfs::Json::iterator it = peers.begin();
          it != peers.end(); ++it) {
       const ipfs::Json& cluster_peer = it.value();
 
-      std::cout << "cluster peer id:" << std::endl
-        << cluster_peer["id"] << std::endl;
+      ipfs::Json addresses = cluster_peer["addresses"];
+      for (ipfs::Json::iterator it = addresses.begin();
+         it != addresses.end(); ++it) {
+        const ipfs::Json& address = it.value();
+        std::cout << "cluster peer address:" << std::endl
+          << address << std::endl;
+      }
     }
 
   } catch (const std::exception& e) {

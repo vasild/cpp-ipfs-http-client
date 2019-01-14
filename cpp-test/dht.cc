@@ -20,20 +20,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <stdexcept>
 
-#include <ipfs/client.h>
+#include <ipfs/node.h>
 #include <ipfs/test/utils.h>
 
 int main(int, char**) {
   try {
-    ipfs::Client client("localhost", 5001);
+    ipfs::Node client("localhost", 9095);
 
     ipfs::Json add_result;
-    client.FilesAdd(
+    client.FileAdd(
         {{"foo.txt", ipfs::http::FileUpload::Type::kFileContents, "abcd"}},
         &add_result);
     const std::string& hash = add_result[0]["hash"];
 
-    /** [ipfs::Client::DhtFindProvs] */
+    /** [ipfs::Node::DhtFindProvs] */
     /* std::string hash = "QmWPyMW2u7J2Zyzut7TcBMT8pG6F...Bt1nP" for example. */
     ipfs::Json providers;
 
@@ -67,7 +67,7 @@ int main(int, char**) {
         "Type": 6
       },...
     */
-    /** [ipfs::Client::DhtFindProvs] */
+    /** [ipfs::Node::DhtFindProvs] */
 
     std::string peer_id;
     /* Find an actual peer. */
@@ -87,7 +87,7 @@ int main(int, char**) {
           providers.dump().substr(0, 1024));
     }
 
-    /** [ipfs::Client::DhtFindPeer] */
+    /** [ipfs::Node::DhtFindPeer] */
     /* std::string peer_id = "QmcZrBqWBYV3RGsPuhQX11Qzp...maDYF" for example. */
     ipfs::Json peer_addresses;
 
@@ -103,7 +103,7 @@ int main(int, char**) {
       "/ip4/127.0.0.1/tcp/4001"
     ]
     */
-    /** [ipfs::Client::DhtFindPeer] */
+    /** [ipfs::Node::DhtFindPeer] */
 
     ipfs::test::must_fail("client.DhtFindPeer()", [&client, &peer_addresses]() {
       const std::string nonexistent =

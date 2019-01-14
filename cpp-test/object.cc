@@ -21,23 +21,23 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <stdexcept>
 #include <string>
 
-#include <ipfs/client.h>
+#include <ipfs/node.h>
 #include <ipfs/test/utils.h>
 
 int main(int, char**) {
   try {
-    ipfs::Client client("localhost", 5001);
+    ipfs::Node client("localhost", 9095);
 
-    /** [ipfs::Client::ObjectNew] */
+    /** [ipfs::Node::ObjectNew] */
     std::string object_id;
     client.ObjectNew(&object_id);
     std::cout << "New object id: " << object_id << std::endl;
     /* An example output:
     New object id: QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n
     */
-    /** [ipfs::Client::ObjectNew] */
+    /** [ipfs::Node::ObjectNew] */
 
-    /** [ipfs::Client::ObjectPut] */
+    /** [ipfs::Node::ObjectPut] */
     ipfs::Json object_to_store = R"(
       {
           "Data": "another",
@@ -78,11 +78,11 @@ int main(int, char**) {
       ]
     }
     */
-    /** [ipfs::Client::ObjectPut] */
+    /** [ipfs::Node::ObjectPut] */
     ipfs::test::check_if_properties_exist("client.ObjectPut()", object_stored,
                                           {"Hash", "Links"});
 
-    /** [ipfs::Client::ObjectGet] */
+    /** [ipfs::Node::ObjectGet] */
     ipfs::Json object;
     client.ObjectGet("QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n", &object);
     std::cout << "Object: " << std::endl << object.dump(2) << std::endl;
@@ -97,18 +97,18 @@ int main(int, char**) {
       } ]
     }
     */
-    /** [ipfs::Client::ObjectGet] */
+    /** [ipfs::Node::ObjectGet] */
 
-    /** [ipfs::Client::ObjectData] */
+    /** [ipfs::Node::ObjectData] */
     std::string data;
     client.ObjectData("QmZZmY4KCu9r3e7M2Pcn46Fc5qbn6NpzaAGaYb22kbfTqm", &data);
     std::cout << "Object data: " << data << std::endl;
     /* An example output:
     Object data: another
     */
-    /** [ipfs::Client::ObjectData] */
+    /** [ipfs::Node::ObjectData] */
 
-    /** [ipfs::Client::ObjectLinks] */
+    /** [ipfs::Node::ObjectLinks] */
     ipfs::Json links;
     client.ObjectLinks("QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG",
                        &links);
@@ -147,29 +147,29 @@ int main(int, char**) {
       }
     ]
     */
-    /** [ipfs::Client::ObjectLinks] */
+    /** [ipfs::Node::ObjectLinks] */
 
-    /** [ipfs::Client::ObjectStat] */
+    /** [ipfs::Node::ObjectStat] */
     ipfs::Json stat;
     client.ObjectStat("QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG", &stat);
     std::cout << "Object data size: " << stat["DataSize"] << std::endl;
     /* An example output:
     Object data size: 2
     */
-    /** [ipfs::Client::ObjectStat] */
+    /** [ipfs::Node::ObjectStat] */
     ipfs::test::check_if_properties_exist(
         "client.ObjectStat()", stat, {"BlockSize", "CumulativeSize", "DataSize",
                                       "Hash", "LinksSize", "NumLinks"});
 
     {
-      /** [ipfs::Client::ObjectPatchAddLink] */
+      /** [ipfs::Node::ObjectPatchAddLink] */
       /* Create a new node, upload two files and link them to the node. */
 
       std::string orig_id;
       client.ObjectNew(&orig_id);
 
       ipfs::Json added_files;
-      client.FilesAdd(
+      client.FileAdd(
           {{"file1.txt", ipfs::http::FileUpload::Type::kFileContents, "f1f1"},
            {"file2.txt", ipfs::http::FileUpload::Type::kFileContents, "f2f2"}},
           &added_files);
@@ -225,10 +225,10 @@ int main(int, char**) {
         ]
       }
       */
-      /** [ipfs::Client::ObjectPatchAddLink] */
+      /** [ipfs::Node::ObjectPatchAddLink] */
 
       std::string target_id = new_id;
-      /** [ipfs::Client::ObjectPatchRmLink] */
+      /** [ipfs::Node::ObjectPatchRmLink] */
       /* std::string target_id = "QmTxf3cBwrzyRvCZgDQni...LtT21" for example. */
       std::string without_link_id;
 
@@ -267,10 +267,10 @@ int main(int, char**) {
         throw std::runtime_error(
             "Removal of nonexistent link succeeded but should have failed.");
       }
-      /** [ipfs::Client::ObjectPatchRmLink] */
+      /** [ipfs::Node::ObjectPatchRmLink] */
 
       std::string append_here_id = target_id;
-      /** [ipfs::Client::ObjectPatchAppendData] */
+      /** [ipfs::Node::ObjectPatchAppendData] */
       /* std::string target_id = "QmTxf3cBwrzyRvCZgDQni...LtT21" for example. */
       std::string with_appended_data_id;
 
@@ -303,10 +303,10 @@ int main(int, char**) {
         ]
       }
       */
-      /** [ipfs::Client::ObjectPatchAppendData] */
+      /** [ipfs::Node::ObjectPatchAppendData] */
 
       target_id = with_appended_data_id;
-      /** [ipfs::Client::ObjectPatchSetData] */
+      /** [ipfs::Node::ObjectPatchSetData] */
       /* std::string target_id = "QmbDtmUVyiN8vFZr8cDTp...67bTj" for example. */
       std::string with_new_data_id;
 
@@ -339,7 +339,7 @@ int main(int, char**) {
         ]
       }
       */
-      /** [ipfs::Client::ObjectPatchSetData] */
+      /** [ipfs::Node::ObjectPatchSetData] */
     }
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;

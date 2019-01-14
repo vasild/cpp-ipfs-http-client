@@ -20,14 +20,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <stdexcept>
 
-#include <ipfs/client.h>
+#include <ipfs/node.h>
 #include <ipfs/test/utils.h>
 
 int main(int, char**) {
   try {
-    ipfs::Client client("localhost", 5001);
+    ipfs::Node client("localhost", 9095);
 
-    /** [ipfs::Client::ConfigSet] */
+    /** [ipfs::Node::ConfigSet] */
     client.ConfigSet("Datastore.StorageMax", "20GB");
 
     client.ConfigSet("Datastore.StorageGCWatermark", 80);
@@ -38,9 +38,9 @@ int main(int, char**) {
                           "IPFS": "/ipfs",
                           "IPNS": "/ipns"
                         })"_json);
-    /** [ipfs::Client::ConfigSet] */
+    /** [ipfs::Node::ConfigSet] */
 
-    /** [ipfs::Client::ConfigGet] */
+    /** [ipfs::Node::ConfigGet] */
     ipfs::Json config;
     client.ConfigGet("Datastore", &config);
     std::cout << R"(Config "Datastore":)" << std::endl
@@ -66,14 +66,14 @@ int main(int, char**) {
     /* An example output:
     Config max storage: "10GB"
     */
-    /** [ipfs::Client::ConfigGet] */
+    /** [ipfs::Node::ConfigGet] */
 
-    /** [ipfs::Client::ConfigReplace] */
+    /** [ipfs::Node::ConfigReplace] */
     ipfs::Json entire_config;
     client.ConfigGet("" /* fetch the entire config */, &entire_config);
 
     client.ConfigReplace(entire_config);
-    /** [ipfs::Client::ConfigReplace] */
+    /** [ipfs::Node::ConfigReplace] */
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include <ipfs/cluster-client.h>
+#include <ipfs/cluster.h>
 #include <ipfs/http/transport-curl.h>
 #include <ipfs/http/transport.h>
 
@@ -25,8 +25,14 @@ void Cluster::Version(Json* version) {
   FetchAndParseJson(MakeUrl("version"), version);
 }
 
-void Cluster::Peers(Json* json) {
-  FetchAndParseJson(MakeUrl("peers"), json);
+void Cluster::Peers(Json* json) { FetchAndParseJson(MakeUrl("peers"), json); }
+
+void Cluster::PeerRm(const std::string& peerId, Json* json) {
+  DeleteAndParseJson(MakeUrl("peers/" + peerId), json);
+}
+
+void Cluster::PeerAdd(const std::string& peerId, Json* reponse) {
+  FetchAndParseJson(MakeUrl("add", {{"Id", peerId}}), reponse);
 }
 
 void Cluster::FetchAndParseJson(const std::string& url, Json* response) {
@@ -38,11 +44,19 @@ void Cluster::FetchAndParseJson(const std::string& url, Json* response) {
 }
 
 void Cluster::FetchAndParseJson(const std::string& url,
-                               const std::vector<http::FileUpload>& files,
-                               Json* response) {
+                                const std::vector<http::FileUpload>& files,
+                                Json* response) {
   std::stringstream body;
 
   http_->Fetch(url, files, &body);
+
+  ParseJson(body.str(), response);
+}
+
+void Cluster::DeleteAndParseJson(const std::string& url, Json* response) {
+  std::stringstream body;
+
+  http_->Delete(url, &body);
 
   ParseJson(body.str(), response);
 }
@@ -57,7 +71,7 @@ void Cluster::ParseJson(const std::string& input, Json* result) {
 
 template <class PropertyType>
 void Cluster::GetProperty(const Json& input, const std::string& property_name,
-                         size_t line_number, PropertyType* property_value) {
+                          size_t line_number, PropertyType* property_value) {
   if (input.find(property_name) == input.end()) {
     throw std::runtime_error(
         std::string("Unexpected reply: valid JSON, but without the \"") +
@@ -86,4 +100,4 @@ std::string Cluster::MakeUrl(
 
   return url;
 }
-} /* namespace cluster */
+}  // namespace ipfs

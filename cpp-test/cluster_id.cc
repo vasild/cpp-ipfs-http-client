@@ -9,20 +9,24 @@ int main(int, char**) {
   try {
     ipfs::Cluster cluster("localhost", 9094);
 
-    ipfs::Json peers;
+    ipfs::Json json;
 
-    cluster.Peers(&peers);
+    cluster.Id(&json);
 
-    // std::cout << "Current cluster id:" << std::endl
-//               << peers.dump(2).substr(0, 8192) << std::endl;
+    std::cout << "Current cluster id:" << std::endl
+              << json.dump(2).substr(0, 8192) << std::endl;
 
+    std::string id = json["id"];
+    std::cout << "cluster id:" << std::endl
+      << id << std::endl;
+    
     std::string cluster_peers;
-    for (ipfs::Json::iterator it = peers.begin();
-         it != peers.end(); ++it) {
+    for (ipfs::Json::iterator it = json["cluster_peers"].begin();
+         it != json["cluster_peers"].end(); ++it) {
       const ipfs::Json& cluster_peer = it.value();
 
       std::cout << "cluster peer id:" << std::endl
-        << cluster_peer["id"] << std::endl;
+        << cluster_peer << std::endl;
     }
 
   } catch (const std::exception& e) {

@@ -21,7 +21,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <stdexcept>
 #include <string>
 
-#include <ipfs/client.h>
+#include <ipfs/node.h>
 #include <ipfs/http/transport-curl.h>
 #include <ipfs/test/utils.h>
 
@@ -37,14 +37,14 @@ extern std::string replace_body;
 
 int main(int, char**) {
   try {
-    ipfs::Client client_cant_connect("localhost", 57);
+    ipfs::Node client_cant_connect("localhost", 57);
 
     ipfs::test::must_fail("client.Version()", [&client_cant_connect]() {
       ipfs::Json version;
       client_cant_connect.Version(&version);
     });
 
-    ipfs::Client client("localhost", 5001);
+    ipfs::Node client("localhost", 9095);
 
     std::string object_id;
     client.ObjectNew(&object_id);

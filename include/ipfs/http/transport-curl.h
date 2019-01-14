@@ -40,8 +40,7 @@ class TransportCurl : public Transport {
   /** Destructor. */
   ~TransportCurl();
 
-  void Get(const std::string& url,
-      std::iostream* response) override;
+  void Get(const std::string& url, std::iostream* response) override;
 
   /** Fetch the contents of a given URL. If any files are provided in `files`,
    * they are submitted using "Content-Type: multipart/form-data".
@@ -53,6 +52,12 @@ class TransportCurl : public Transport {
       const std::string& url,
       /** [in] List of files to upload. */
       const std::vector<FileUpload>& files,
+      /** [out] Output to save the response body to. */
+      std::iostream* response) override;
+
+  void Delete(
+      /** [in] URL to get. */
+      const std::string& url,
       /** [out] Output to save the response body to. */
       std::iostream* response) override;
 

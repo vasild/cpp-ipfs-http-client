@@ -9,8 +9,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add compiler warnings
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR
+   CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" OR
    CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wpedantic -Wextra -Werror")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wpedantic -Wextra -Werror -Wno-unused-parameter")
 endif()
 
 # Generate compile_commands.json, to be used by YouCompleteMe.
@@ -31,12 +32,13 @@ include_directories(${JSON_FOR_MODERN_CXX_INCLUDE_DIR})
 include_directories("include")
 
 # Targets
+# cpp-hive-api
 
 set(HIVE_API_LIBNAME hive-api)
 
 # To build and install a shared library: "cmake -DBUILD_SHARED_LIBS:BOOL=ON ..."
 add_library(${HIVE_API_LIBNAME}
-  src/client.cc
+  src/node.cc
   src/cluster.cc
   src/http/transport-curl.cc
 )
@@ -47,8 +49,25 @@ set_target_properties(${HIVE_API_LIBNAME} PROPERTIES
 target_link_libraries(${HIVE_API_LIBNAME} ${CURL_LIBRARIES})
 
 install(TARGETS ${HIVE_API_LIBNAME} DESTINATION lib)
-install(FILES include/ipfs/client.h DESTINATION include/ipfs)
+install(FILES include/ipfs/node.h DESTINATION include/ipfs)
 install(FILES include/ipfs/http/transport.h DESTINATION include/ipfs/http)
+
+# c-hive-api
+
+set(HIVE_CAPI_LIBNAME hive-capi)
+
+# To build and install a shared library: "cmake -DBUILD_SHARED_LIBS:BOOL=ON ..."
+add_library(${HIVE_CAPI_LIBNAME}
+  src/c-api/c-api.cc
+)
+set_target_properties(${HIVE_CAPI_LIBNAME} PROPERTIES
+  SOVERSION ${PROJECT_VERSION_MAJOR}
+  VERSION ${PROJECT_VERSION}
+)
+target_link_libraries(${HIVE_CAPI_LIBNAME} ${HIVE_API_LIBNAME})
+
+install(TARGETS ${HIVE_CAPI_LIBNAME} DESTINATION lib)
+install(FILES include/c-api/c-api.h DESTINATION include/c-api)
 
 # Tests, use "CTEST_OUTPUT_ON_FAILURE=1 make test" to see output from failed tests
 

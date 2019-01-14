@@ -21,13 +21,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <stdexcept>
 #include <string>
 
-#include <ipfs/client.h>
+#include <ipfs/node.h>
 
 int main(int, char**) {
   try {
-    ipfs::Client client("localhost", 5001);
+    ipfs::Node client("localhost", 9095);
 
-    /** [ipfs::Client::SwarmAddrs] */
+    /** [ipfs::Node::SwarmAddrs] */
     ipfs::Json addresses;
 
     client.SwarmAddrs(&addresses);
@@ -55,7 +55,7 @@ int main(int, char**) {
       }
     }
     */
-    /** [ipfs::Client::SwarmAddrs] */
+    /** [ipfs::Node::SwarmAddrs] */
 
     /* Craft a string like
     /ip4/127.0.0.1/tcp/4001/ipfs/QmNRV7kyUxYaQ4KQxFXPYm8EfuzJbtGn1wSFenjXL6LD8y
@@ -88,12 +88,12 @@ int main(int, char**) {
     std::cout << "Connecting to " << peer << std::endl;
 
     try {
-      /** [ipfs::Client::SwarmConnect] */
+      /** [ipfs::Node::SwarmConnect] */
       /* std::string peer =
        * "/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
        * for example */
       client.SwarmConnect(peer);
-      /** [ipfs::Client::SwarmConnect] */
+      /** [ipfs::Node::SwarmConnect] */
       std::cout << "Connected to " << peer << std::endl;
     } catch (const std::exception&) {
       /* Connect and disconnect occasionally fail due to circumstances beyond
@@ -101,19 +101,19 @@ int main(int, char**) {
     }
 
     try {
-      /** [ipfs::Client::SwarmDisconnect] */
+      /** [ipfs::Node::SwarmDisconnect] */
       /* std::string peer =
        * "/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ"
        * for example */
       client.SwarmDisconnect(peer);
-      /** [ipfs::Client::SwarmDisconnect] */
+      /** [ipfs::Node::SwarmDisconnect] */
       std::cout << "Disconnected from " << peer << std::endl;
     } catch (const std::exception&) {
       /* Connect and disconnect occasionally fail due to circumstances beyond
        * the control of this test. */
     }
 
-    /** [ipfs::Client::SwarmPeers] */
+    /** [ipfs::Node::SwarmPeers] */
     ipfs::Json peers;
 
     client.SwarmPeers(&peers);
@@ -130,7 +130,7 @@ int main(int, char**) {
       ]
     }
     */
-    /** [ipfs::Client::SwarmPeers] */
+    /** [ipfs::Node::SwarmPeers] */
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

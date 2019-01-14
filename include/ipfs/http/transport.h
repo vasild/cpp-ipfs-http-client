@@ -74,6 +74,12 @@ class Transport {
       /** [out] Output to save the response body to. */
       std::iostream* response) = 0;
 
+  virtual void Delete(
+      /** [in] URL to get. */
+      const std::string& url,
+      /** [out] Output to save the response body to. */
+      std::iostream* response) = 0;
+
   /** URL encode a string. */
   virtual void UrlEncode(
       /** [in] Input string to encode. */

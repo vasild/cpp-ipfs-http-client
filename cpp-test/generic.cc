@@ -20,27 +20,27 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <stdexcept>
 
-#include <ipfs/client.h>
+#include <ipfs/node.h>
 #include <ipfs/test/utils.h>
 
 int main(int, char**) {
   try {
-    /** [ipfs::Client::Client] */
-    ipfs::Client client("localhost", 5001);
-    /** [ipfs::Client::Client] */
+    /** [ipfs::Node::Node] */
+    ipfs::Node client("localhost", 9095);
+    /** [ipfs::Node::Node] */
 
-    /** [ipfs::Client::Id] */
+    /** [ipfs::Node::Id] */
     ipfs::Json id;
     client.Id(&id);
     std::cout << "Peer's public key: " << id["PublicKey"] << std::endl;
     /* An example output:
     Peer's public key: "CAASpgIwggEiMA0GCSqGSIb3DQN/ImJDE/CN1eHE....gMBAAE="
     */
-    /** [ipfs::Client::Id] */
+    /** [ipfs::Node::Id] */
     ipfs::test::check_if_properties_exist("client.Id()", id,
                                           {"Addresses", "ID", "PublicKey"});
 
-    /** [ipfs::Client::Version] */
+    /** [ipfs::Node::Version] */
     ipfs::Json version;
     client.Version(&version);
     std::cout << "Peer's version: " << version << std::endl;
@@ -48,7 +48,7 @@ int main(int, char**) {
     Peer's version: {"Commit":"ee6dd5e","Golang":"go1.7.3","Repo":"4",
     "System":"amd64/freebsd","Version":"0.4.3"}
     */
-    /** [ipfs::Client::Version] */
+    /** [ipfs::Node::Version] */
     ipfs::test::check_if_properties_exist("client.Version()", version,
                                           {"Repo", "System", "Version"});
   } catch (const std::exception& e) {

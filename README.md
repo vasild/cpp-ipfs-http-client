@@ -1,50 +1,33 @@
-# IPFS C++ API client library
+# Elastos Hive Native SDK
 
-[![Build Status](https://api.travis-ci.org/vasild/cpp-ipfs-api.svg?branch=master)](https://travis-ci.org/vasild/cpp-ipfs-api)
-[![Coverage Status](https://coveralls.io/repos/github/vasild/cpp-ipfs-api/badge.svg?branch=master)](https://coveralls.io/github/vasild/cpp-ipfs-api?branch=master)
-[![Documentation](https://img.shields.io/badge/docs-doxygen-blue.svg)](https://vasild.github.io/cpp-ipfs-api)
-[![GitHub Issues](https://img.shields.io/github/issues/vasild/cpp-ipfs-api.svg)](http://github.com/vasild/cpp-ipfs-api/issues)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/465/badge)](https://bestpractices.coreinfrastructure.org/projects/465)
+[![](https://img.shields.io/badge/made%20by-Elastos%20org-blue.svg?style=flat-square)](http://elastos.org)
+[![](https://img.shields.io/badge/project-Hive-blue.svg?style=flat-square)](http://elastos.org/)
+[![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![Build Status](https://travis-ci.org/elastos/Elastos.NET.Hive.Native.SDK.svg?branch=master)](https://travis-ci.org/elastos/Elastos.NET.Hive.Native.SDK)
+[![GitHub Issues](https://img.shields.io/github/issues/elastos/Elastos.NET.Hive.Native.SDK.svg)](http://github.com/elastos/Elastos.NET.Hive.Native.SDK/issues)
 
-![](https://ipfs.io/ipfs/QmQJ68PFMDdAsgCZvA1UVzzn18asVcf7HVvCDgpjiSCAse)
+Allows C++ applications to communicate with [Hive.Cluster](https://github.com/elastos/Elastos.NET.Hive.Cluster).
+It implements Hive.Cluster API bindings for C++.
+See [the source code](http://github.com/elastos/Elastos.NET.Hive.Native.SDK).
 
-Allows C++ applications to communicate with [IPFS](https://ipfs.io).
-It implements [IPFS API bindings](https://github.com/ipfs/interface-ipfs-core/tree/master/API) for C++.
-See [the documentation](https://vasild.github.io/cpp-ipfs-api) or [the source code](https://github.com/vasild/cpp-ipfs-api).
+See also [Hive.Cluster on GitHub](https://github.com/elastos/Elastos.NET.Hive.Cluster).
 
-See also [IPFS on GitHub](https://github.com/ipfs).
+## Table of Contents
 
-Currently implemented methods:
+- [Install](#install)
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+- [Contributions](#contributions)
+- [Acknowledgments](#Acknowledgments)
+- [License](#license)
 
-- [block](https://github.com/ipfs/interface-ipfs-core/tree/master/API/block): get(), put(), stat()
-- [config](https://github.com/ipfs/interface-ipfs-core/tree/master/API/config): get(), set(), replace()
-- [dht](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht): findpeer(), findprovs()
-- [files](https://github.com/ipfs/interface-ipfs-core/tree/master/API/files): get(), add()
-- [generic](https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic): id(), version()
-- [object](https://github.com/ipfs/interface-ipfs-core/tree/master/API/object): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()
-- [pin](https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin): add(), ls(), rm()
-- [swarm](https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm): addrs(), connect(), disconnect(), peers()
-
-Not implemented yet:
-
-- [dag](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dag): get(), put()
-- [dht](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht): get(), put(), query()
-
-# TODO
-
-- Implement the above methods
-- Compare with the latest [IPFS API bindings](https://github.com/ipfs/interface-ipfs-core/tree/master/API) and implement any new methods that have been defined
-- Contributors are welcome!
-
-# Install
+## Install
 
 ```sh
-cmake /path/to/cpp-ipfs-api
+cmake /path/to/Elastos.Net.Hive.Native.SDK
 make
 make install
 ```
-
-See the [documentation for details](https://vasild.github.io/cpp-ipfs-api).
 
 ## Dependencies
 
@@ -53,40 +36,40 @@ See the [documentation for details](https://vasild.github.io/cpp-ipfs-api).
 - [libcurl](https://curl.haxx.se/libcurl)
 - [JSON for Modern C++](https://github.com/nlohmann/json)
 
-# Usage
+## Usage
 
 ```cpp
 #include <iostream>
-#include <sstream>
+#include <string>
 
-#include <ipfs/client.h>
+#include <ipfs/node.h>
 
 int main(int, char**) {
-  std::stringstream contents;
+  ipfs::Json userInfo;
+  std::string uid = "uid-132fdc89-4e85-47f5-b942-fd7ba515a6f3";
 
-  ipfs::Client client("localhost", 5001);
+  ipfs::Node node("localhost", 9095);
+  node.UidInfo(uid, &userInfo);
 
-  client.FilesGet("/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme", &contents);
-
-  std::cout << contents.str() << std::endl;
+  std::cout << "uid info: " << userInfo["Name"] << " => " << userInfo["Id"]
+            << std::endl;
 
   return 0;
 }
 ```
 
 ```sh
-c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-api myprog.cc -o myprog
+c++ -std=c++11 -I/path/to/header -L/path/to/lib -lhive-api myprog.cc -o myprog
 ```
 
-# Contribute
+## Contributions
 
-Feel free to [open issues](https://github.com/vasild/cpp-ipfs-api/issues/new) and [pull requests](https://github.com/vasild/cpp-ipfs-api/compare).
-Report vulnerabilities publicly, similar to other non-security issues.
+We welcome any contribution to Elastos Hive projects.
 
-The project adheres to the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html). Use [clang-format](http://clang.llvm.org/docs/ClangFormat.html) to properly format the code when you submit patches.
+## Acknowledgments
 
-Write tests for new code. Changes should not cause the code coverage to go down.
+A sincere thank you to all teams and projects that we rely on directly or indirectly.
 
-# License
+## License
 
-Copyright &copy; 2016-2016 Vasil Dimov. The code is distributed under the [MIT License](http://opensource.org/licenses/MIT).
+This project is licensed under the terms of the [MIT license](https://github.com/elastos/Elastos.NET.Native.SDK/blob/master/LICENSE).

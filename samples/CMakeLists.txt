@@ -32,53 +32,5 @@ link_directories("${CMAKE_SOURCE_DIR}/..")
 
 set(HIVE_API_LIBNAME hive-api)
 
-set(TESTS
-  cluster_address_list
-  cluster
-  cluster_id
-  cluster_peers
-  cluster_peer_rm
-  cluster_peer_add
-  cluster_version
-  file_add
-  file_chcid
-  file_cp
-  file_dups
-  file_flush
-  file_get
-  file_ls
-  file_mkdir
-  file_mv
-  file_read
-  file_rm
-  file_stat
-  file_write
-  key_gen
-  key_list
-  key_rename
-  key_rm
-  block
-  config
-  dht
-  file
-  generic
-  object
-  pin
-  swarm
-  uid_info
-)
-
-string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)
-if(CMAKE_BUILD_TYPE_LOWER MATCHES "debug")
-  set(TESTS
-    ${TESTS}
-    error
-  )
-endif()
-
-foreach (T ${TESTS})
-  add_executable(${T} ${T}.cc)
-  target_link_libraries(${T} ${HIVE_API_LIBNAME} ${CURL_LIBRARIES})
-
-  add_test(NAME ${T} COMMAND ./${T})
-endforeach()
+add_executable(message message.cc DMessage.cc)
+target_link_libraries(message ${HIVE_API_LIBNAME} ${CURL_LIBRARIES})

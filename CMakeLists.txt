@@ -77,3 +77,6 @@ include(CTest)
 if(BUILD_TESTING)
   add_subdirectory(cpp-test)
 endif()
+
+# Samples
+add_subdirectory(samples)

@@ -12,4 +12,5 @@ c-test/compile_commands.json
 compile_commands.json
 libhive-api.a
 libhive-capi.a
+build
 

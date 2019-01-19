@@ -53,10 +53,6 @@ set(TESTS
   file_rm
   file_stat
   file_write
-  key_gen
-  key_list
-  key_rename
-  key_rm
   block
   config
   dht

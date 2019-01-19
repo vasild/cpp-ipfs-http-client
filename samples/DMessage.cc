@@ -76,7 +76,7 @@ std::shared_ptr<std::vector<std::shared_ptr<DMessage>>> DCache::get_values(
   ipfs::Json messages;
 
   try {
-    node.FilesLs(path, &ls_result);
+    node.FilesLs(userId, path, &ls_result);
     messages = ls_result["Entries"];
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
@@ -95,7 +95,7 @@ std::shared_ptr<std::vector<std::shared_ptr<DMessage>>> DCache::get_values(
       const std::string name = message["Name"].get<std::string>();
 
       std::stringstream content;
-      node.FilesRead(path + "/" + name, 0, 1000, &content);
+      node.FilesRead(userId, path + "/" + name, 0, 1000, &content);
 
       std::shared_ptr<DMessage> dmsg(new DMessage(name, content.str()));
       vm->push_back(dmsg);
@@ -128,7 +128,7 @@ bool DCache::add_value(const std::string& key,
   bool keyPath = true;
 
   try {
-    node.FilesLs(path, &result);
+    node.FilesLs(userId, path, &result);
   } catch (const std::exception& e) {
     std::cerr << "Not exist path: " << path << ". Creating it ... " << e.what()
               << std::endl;
@@ -139,7 +139,7 @@ bool DCache::add_value(const std::string& key,
 
   if (!keyPath) {
     try {
-      node.FilesMkdir(path, &result);
+      node.FilesMkdir(userId, path, &result);
     } catch (const std::exception& e) {
       std::cerr << "Mkdir: " << path << "; " << e.what() << std::endl;
       return false;
@@ -152,7 +152,8 @@ bool DCache::add_value(const std::string& key,
   std::string messagePath = path + "/" + message->timestamp();
   try {
     ipfs::Json result0;
-    node.FilesWrite(messagePath, message->value(), 0, true, false, &result0);
+    node.FilesWrite(userId, messagePath, message->value(), 0, true, false,
+                    &result0);
   } catch (const std::exception& e) {
     std::cerr << __LINE__ << " FilesWrite: " << e.what() << std::endl;
     return false;
@@ -179,7 +180,7 @@ bool DCache::remove_values(const std::string& key) {
     ipfs::Json result;
     std::string path = workingPath + "/messages/" + key;
 
-    node.FilesRm(path, true, &result);
+    node.FilesRm(userId, path, true, &result);
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return false;
@@ -200,11 +201,11 @@ bool DCache::init() {
   // /ipfs/xxxxxxx
   // > ipfs files mv /ipfs/xxxxxxx/messages /nodes/peerId/
 
-  workingPath = "/nodes/" + userId;
+  workingPath = "/";
   ipfs::Json result;
 
   try {
-    node.FilesLs(workingPath, &result);
+    node.FilesLs(userId, workingPath, &result);
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     std::cerr << "Please call UIDNew()  " << std::endl;
@@ -214,7 +215,7 @@ bool DCache::init() {
   // std::cout << "DEBUG: " << result.dump() << std::endl;
 
   try {
-    node.FilesRm(workingPath + "/messages", true, &result);
+    node.FilesRm(userId, workingPath + "/messages", true, &result);
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
   }
@@ -239,7 +240,7 @@ bool DCache::init() {
 
   if (!messagesPath) {
     try {
-      node.FilesMkdir(workingPath + "/messages", &result);
+      node.FilesMkdir(userId, workingPath + "/messages", &result);
     } catch (const std::exception& e) {
       std::cerr << e.what() << std::endl;
       return false;
@@ -259,7 +260,7 @@ bool DCache::publish() {
 
   if (needPublish) {
     try {
-      node.FilesStat(workingPath, &result);
+      node.FilesStat(userId, workingPath, &result);
     } catch (const std::exception& e) {
       std::cerr << "publish at FilesStat: " << e.what() << std::endl;
       return false;
@@ -305,7 +306,7 @@ bool DCache::resolve() {
               << peerId << " successfully" << std::endl;
 
     try {
-      node.FilesCp(rootPath + "/messages", workingPath, &result);
+      node.FilesCp(userId, rootPath + "/messages", workingPath, &result);
     } catch (const std::exception& e) {
       std::cerr << "DEBUG: Restore workingPath " << workingPath << " from "
                 << (rootPath + "/messages") << " for peerId " << peerId

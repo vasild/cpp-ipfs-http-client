@@ -223,81 +223,82 @@ void Node::FileAdd(const std::vector<http::FileUpload>& files, Json* result) {
   }
 }
 
-void Node::FilesLs(const std::string& path, Json* json) {
-  FetchAndParseJson(MakeUrl("files/ls", {{"arg", path}}), {}, json);
+void Node::UIDNew(Json* json) {
+  FetchAndParseJson(MakeUrl("uid/new", {}), {}, json);
 }
 
-void Node::FilesCp(const std::string& source, const std::string& destination,
+void Node::UidLogin(const std::string& uid, Json* json) {
+  FetchAndParseJson(MakeUrl("uid/login", {{"uid", uid}}), {}, json);
+}
+
+void Node::UidInfo(const std::string& uid, Json* json) {
+  FetchAndParseJson(MakeUrl("uid/info", {{"uid", uid}}), {},  json);
+}
+
+void Node::FilesLs(const std::string& uid, const std::string& path,
                    Json* json) {
-  FetchAndParseJson(
-      MakeUrl("files/cp", {{"arg", source}, {"arg", destination}}), {}, json);
-}
-
-void Node::FilesMkdir(const std::string& path, Json* json) {
-  FetchAndParseJson(MakeUrl("files/mkdir", {{"arg", path}}), {}, json);
-}
-
-void Node::FilesMv(const std::string& path, const std::string& dest,
-                   Json* json) {
-  FetchAndParseJson(MakeUrl("files/mv", {{"arg", path}, {"arg", dest}}), {},
+  FetchAndParseJson(MakeUrl("files/ls", {{"uid", uid}, {"path", path}}), {},
                     json);
 }
 
-void Node::FilesRead(const std::string& path, int64_t offset, int64_t count,
+void Node::FilesCp(const std::string& uid, const std::string& source,
+                   const std::string& destination, Json* json) {
+  FetchAndParseJson(
+      MakeUrl("files/cp",
+              {{"uid", uid}, {"source", source}, {"dest", destination}}),
+      {}, json);
+}
+
+void Node::FilesMkdir(const std::string& uid, const std::string& path,
+                      Json* json) {
+  FetchAndParseJson(MakeUrl("files/mkdir", {{"uid", uid}, {"path", path}}), {},
+                    json);
+}
+
+void Node::FilesMv(const std::string& uid, const std::string& path,
+                   const std::string& dest, Json* json) {
+  FetchAndParseJson(
+      MakeUrl("files/mv", {{"uid", uid}, {"source", path}, {"dest", dest}}), {},
+      json);
+}
+
+void Node::FilesRead(const std::string& uid, const std::string& path,
+                     int64_t offset, int64_t count,
                      std::stringstream* content) {
-  http_->Fetch(MakeUrl("files/read", {{"arg", path},
+  http_->Fetch(MakeUrl("files/read", {{"uid", uid},
+                                      {"path", path},
                                       {"offset", std::to_string(offset)},
                                       {"count", std::to_string(count)}}),
                {}, content);
 }
 
-void Node::FilesRm(const std::string& path, bool recursive, Json* json) {
+void Node::FilesRm(const std::string& uid, const std::string& path,
+                   bool recursive, Json* json) {
   FetchAndParseJson(
-      MakeUrl("files/rm",
-              {{"arg", path}, {"recursive", recursive ? "true" : "false"}}),
+      MakeUrl("files/rm", {{"uid", uid},
+                           {"path", path},
+                           {"recursive", recursive ? "true" : "false"}}),
       {}, json);
 }
 
-void Node::FilesStat(const std::string& path, Json* json) {
-  FetchAndParseJson(MakeUrl("files/stat", {{"arg", path}}), {}, json);
+void Node::FilesStat(const std::string& uid, const std::string& path,
+                     Json* json) {
+  FetchAndParseJson(MakeUrl("files/stat", {{"uid", uid}, {"path", path}}), {},
+                    json);
 }
 
-void Node::FilesWrite(const std::string& path, const std::string& data,
-                      int64_t offset, bool create, bool truncate, Json* json) {
+void Node::FilesWrite(const std::string& uid, const std::string& path,
+                      const std::string& data, int64_t offset, bool create,
+                      bool truncate, Json* json) {
   std::stringstream body;
 
   http_->Fetch(
-      MakeUrl("files/write", {{"arg", path},
+      MakeUrl("files/write", {{"uid", uid},
+                              {"path", path},
                               {"offset", std::to_string(offset)},
                               {"create", create ? "true" : "false"},
                               {"truncate", truncate ? "true" : "false"}}),
       {{"data", ipfs::http::FileUpload::Type::kFileContents, data}}, &body);
-}
-
-void Node::KeyList(const std::string& uid, Json* json) {
-  FetchAndParseJson(MakeUrl("key/list", {{"l", "true"}}), json);
-}
-
-// FIXME: following code will be implemented in Hive
-void Node::UidInfo(const std::string& uid, Json* json) {
-  ipfs::Json keyList;
-
-  FetchAndParseJson(MakeUrl("key/list", {{"l", "true"}}), &keyList);
-
-  try {
-    for (ipfs::Json::iterator it = keyList["Keys"].begin();
-         it != keyList["Keys"].end(); ++it) {
-      const ipfs::Json& key = it.value();
-
-      if (key["Name"] == uid) {
-        *json = it.value();
-        break;
-      }
-    }
-
-  } catch (const std::exception& e) {
-    std::cerr << e.what() << std::endl;
-  }
 }
 
 void Node::ObjectNew(std::string* object_id) {
@@ -441,10 +442,10 @@ void Node::SwarmPeers(Json* peers) {
   FetchAndParseJson(MakeUrl("swarm/peers"), peers);
 }
 
-void Node::NamePublish(const std::string key, const std::string path,
+void Node::NamePublish(const std::string uid, const std::string path,
                        Json* response) {
-  FetchAndParseJson(MakeUrl("name/publish", {{"arg", path},
-                                             {"key", key},
+  FetchAndParseJson(MakeUrl("name/publish", {{"uid", uid},
+                                             {"path", path},
                                              {"resolve", "true"},
                                              {"lifetime", "24h"}}),
                     {}, response);

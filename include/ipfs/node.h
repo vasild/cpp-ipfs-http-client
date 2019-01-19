@@ -277,6 +277,10 @@ class Node {
        */
       Json* result);
 
+  void UIDNew(Json* json);
+
+  void UidLogin(const std::string& uid, Json* json);
+
   /** List directory contents for Unix filesystem objects.
    *
    * Implements
@@ -289,6 +293,8 @@ class Node {
    *
    * @since version 0.2.0 */
   void FilesLs(
+      /** [in] The Hive uid in filesystem. */
+      const std::string& uid,
       /** [in] The path to an IPFS object. */
       const std::string& path,
       /** [out] List of results (files). For example:
@@ -320,24 +326,38 @@ class Node {
       */
       Json* result);
 
-  void FilesCp(const std::string& source, const std::string& destination,
-               Json* json);
+  void FilesCp(
+      /** [in] The Hive uid in filesystem. */
+      const std::string& uid, const std::string& source,
+      const std::string& destination, Json* json);
 
-  void FilesMkdir(const std::string& path, Json* json);
+  void FilesMkdir(
+      /** [in] The Hive uid in filesystem. */
+      const std::string& uid, const std::string& path, Json* json);
 
-  void FilesMv(const std::string& path, const std::string& dest, Json* json);
+  void FilesMv(
+      /** [in] The Hive uid in filesystem. */
+      const std::string& uid, const std::string& path, const std::string& dest,
+      Json* json);
 
-  void FilesRead(const std::string& path, int64_t offset, int64_t count,
-                 std::stringstream* content);
+  void FilesRead(
+      /** [in] The Hive uid in filesystem. */
+      const std::string& uid, const std::string& path, int64_t offset,
+      int64_t count, std::stringstream* content);
 
-  void FilesRm(const std::string& path, bool recursive, Json* json);
+  void FilesRm(
+      /** [in] The Hive uid in filesystem. */
+      const std::string& uid, const std::string& path, bool recursive,
+      Json* json);
 
-  void FilesStat(const std::string& path, Json* json);
+  void FilesStat(
+      /** [in] The Hive uid in filesystem. */
+      const std::string& uid, const std::string& path, Json* json);
 
-  void FilesWrite(const std::string& path, const std::string& data,
-                  int64_t offset, bool create, bool truncate, Json* json);
-
-  void KeyList(const std::string& uid, Json* json);
+  void FilesWrite(
+      /** [in] The Hive uid in filesystem. */
+      const std::string& uid, const std::string& path, const std::string& data,
+      int64_t offset, bool create, bool truncate, Json* json);
 
   void UidInfo(const std::string& uid, Json* json);
 
@@ -663,7 +683,7 @@ class Node {
       /** [out] The retrieved list. */
       Json* peers);
 
-  void NamePublish(const std::string key, const std::string path,
+  void NamePublish(const std::string uid, const std::string path,
                    Json* response);
   void NameResolve(const std::string PeerId, Json* response);
 

@@ -10,7 +10,22 @@
 #include "DMessage.h"
 
 int main(int, char**) {
-  DCache DCache("localhost", 9095, "uid-f996965a-f916-463c-8d4e-f809b590b783");
+  ipfs::Node node("localhost", 9095);
+
+  ipfs::Json result;
+
+  // create a new UID
+
+  node.UIDNew(&result);
+
+  std::cout << "UIDNew() result:" << std::endl
+            << result.dump(2) << std::endl;
+
+  std::string uid = result["UID"].get<std::string>();
+
+
+  // init DCache for message
+  DCache DCache("localhost", 9095, uid);
 
   std::shared_ptr<DMessage> msg1(new DMessage("20190111-1", "hello-1"));
   std::shared_ptr<DMessage> msg2(new DMessage("20190111-2", "hello-2"));
@@ -26,28 +41,31 @@ int main(int, char**) {
       DCache.get_values("msg0");
 
   for (auto& msg : *msgs) {
-    std::cout << "msg0" << msg->timestamp() << " => " << msg->value() << std::endl;
+    std::cout << "msg0" << msg->timestamp() << " => " << msg->value()
+              << std::endl;
   }
 
   msgs = DCache.get_values("msg1");
 
   for (auto& msg : *msgs) {
-    std::cout << "msg1" << msg->timestamp() << " => " << msg->value() << std::endl;
+    std::cout << "msg1" << msg->timestamp() << " => " << msg->value()
+              << std::endl;
   }
 
   msgs = DCache.get_values("msg2");
 
   for (auto& msg : *msgs) {
-    std::cout << "msg2" << msg->timestamp() << " => " << msg->value() << std::endl;
+    std::cout << "msg2" << msg->timestamp() << " => " << msg->value()
+              << std::endl;
   }
-
 
   DCache.remove_values("msg2");
 
   msgs = DCache.get_values("msg2");
 
   for (auto& msg : *msgs) {
-    std::cout << "msg2" << msg->timestamp() << " => " << msg->value() << std::endl;
+    std::cout << "msg2" << msg->timestamp() << " => " << msg->value()
+              << std::endl;
   }
 
   return 0;

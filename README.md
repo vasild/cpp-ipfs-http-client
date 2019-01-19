@@ -134,5 +134,4 @@ We welcome any contribution to Elastos Hive projects.
 A sincere thank you to all teams and projects that we rely on directly or indirectly.
 
 ## License
-This project is licensed under the terms of the [MIT license](https://github.com/elastos/Elastos.NET.Hive.Native.SDK/blob/master/LICENSE.MIT).
-
+This project is licensed under the terms of the [MIT license](https://github.com/elastos/Elastos.NET.Hive.Native.SDK/blob/dev-master/LICENSE).

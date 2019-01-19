@@ -12,7 +12,7 @@ int main(int, char**) {
 
     /** [ipfs::Node::FilesLs] */
     ipfs::Json ls_result;
-    client.FilesLs("/ipfs/QmZJwDYpFZrdLHVy6Zhzd1bxq87zBcW8beR2eidihXPQ4j",
+    client.FileLs("/ipfs/QmZJwDYpFZrdLHVy6Zhzd1bxq87zBcW8beR2eidihXPQ4j",
                    &ls_result);
     std::cout << "FilesLs() result:" << std::endl
               << ls_result.dump(2) << std::endl;

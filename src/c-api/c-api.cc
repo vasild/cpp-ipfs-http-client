@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <string>
 
-#include <c-api/c-api.h>
+#include <hive/c-api.h>
 #include <hive/cluster.h>
 
 #include <stdio.h>

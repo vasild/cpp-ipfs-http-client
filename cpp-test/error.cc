@@ -21,9 +21,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <stdexcept>
 #include <string>
 
-#include <ipfs/node.h>
-#include <ipfs/http/transport-curl.h>
-#include <ipfs/test/utils.h>
+#include <hive/node.h>
+#include <hive/http/transport-curl.h>
+#include <hive/test/utils.h>
 
 #ifdef NDEBUG
 #error This file only makes sense in debug mode, dont try to compile it in non-debug.

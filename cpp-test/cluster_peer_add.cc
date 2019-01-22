@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <string>
 
-#include <ipfs/cluster.h>
+#include <hive/cluster.h>
 
 int main(int, char**) {
   try {

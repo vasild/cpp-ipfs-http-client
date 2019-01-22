@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <string>
 
-#include <ipfs/node.h>
+#include <hive/node.h>
 
 int UidInfo(std::string& uid, ipfs::Json* uidInfo) {
   try {

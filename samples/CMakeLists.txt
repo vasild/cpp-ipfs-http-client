@@ -30,7 +30,7 @@ include_directories("${CMAKE_SOURCE_DIR}/../include")
 
 link_directories("${CMAKE_SOURCE_DIR}/..")
 
-set(HIVE_API_LIBNAME hive-api)
+set(HIVE_API_LIBNAME hive-api++)
 
 add_executable(message message.cc DMessage.cc)
 target_link_libraries(message ${HIVE_API_LIBNAME} ${CURL_LIBRARIES})

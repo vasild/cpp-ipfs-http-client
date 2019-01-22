@@ -3,26 +3,27 @@
 #include <stdexcept>
 #include <string>
 
-#include <ipfs/cluster.h>
-#include <ipfs/node.h>
-#include <ipfs/test/utils.h>
+#include <hive/cluster.h>
+#include <hive/node.h>
+#include <hive/test/utils.h>
 
 #include "DMessage.h"
 
-DCache::DCache(const std::string host, int port, const std::string& uid)
+DStore::DStore(const std::string host, int port, const std::string& uid)
     : node(host, port) {
   ipfs::Json uidInfo;
 
   node.UidInfo(uid, &uidInfo);
-
   userId = uid;
-  peerId = uidInfo["Id"];
+  peerId = uidInfo["PeerID"].get<std::string>();
+
+  std::cout << "My PeerID is " << peerId << std::endl;
 
   needPublish = true;
   needResolve = true;
 }
 
-std::shared_ptr<std::vector<std::string>> DCache::get_keys() {
+std::shared_ptr<std::vector<std::string>> DStore::get_keys() {
   // ipfs name publish --key=mykey
   //  ipfs name resolve QmRMgVUVsVcBCo8XMnsfMtLMaQ1myGWnhv8xy6iCTBccyZ
   // /ipfs/QmWMg1Wm6pyjU6VWrBU3uvY9kfm17X3UbHz91qm2wY559j
@@ -62,7 +63,7 @@ std::shared_ptr<std::vector<std::string>> DCache::get_keys() {
   return vm;
 }
 
-std::shared_ptr<std::vector<std::shared_ptr<DMessage>>> DCache::get_values(
+std::shared_ptr<std::vector<std::shared_ptr<DMessage>>> DStore::get_values(
     const std::string& key) {
   // ipfs files ls /nodes/peerId/
   // ipfs files read /nodes/peerId/messages/key/001
@@ -113,7 +114,7 @@ std::shared_ptr<std::vector<std::shared_ptr<DMessage>>> DCache::get_values(
   return vm;
 }
 
-bool DCache::add_value(const std::string& key,
+bool DStore::add_value(const std::string& key,
                        std::shared_ptr<DMessage> message) {
   // > ipfs files write /nodes/peerId/messages/key/timestamp-xxxx
 
@@ -168,7 +169,7 @@ bool DCache::add_value(const std::string& key,
   return true;
 }
 
-bool DCache::remove_values(const std::string& key) {
+bool DStore::remove_values(const std::string& key) {
   // > ipfs files rm /nodes/peerId/messages/key/xxxxxxxx
 
   // > ipfs files stat /nodes/peerId
@@ -195,7 +196,7 @@ bool DCache::remove_values(const std::string& key) {
   return true;
 }
 
-bool DCache::init() {
+bool DStore::init() {
   // > ipfs files mkdir /nodes/peerId/
   // > ipfs name resolve /ipns/peerId
   // /ipfs/xxxxxxx
@@ -250,7 +251,7 @@ bool DCache::init() {
   return true;
 }
 
-bool DCache::publish() {
+bool DStore::publish() {
   // > ipfs files stat /nodes/peerId
   // xxxxxxxx
   // > ipfs name  publish --key=uid-132fdc89-4e85-47f5-b942-fd7ba515a6f3
@@ -286,7 +287,7 @@ bool DCache::publish() {
   return true;
 }
 
-bool DCache::resolve() {
+bool DStore::resolve() {
   // > ipfs name resolve /ipns/peerId
   // /ipfs/xxxxxxx
   // > ipfs files mv /ipfs/xxxxxxx/messages /nodes/peerId/

@@ -34,7 +34,7 @@ include_directories("include")
 # Targets
 # cpp-hive-api
 
-set(HIVE_API_LIBNAME hive-api)
+set(HIVE_API_LIBNAME hive-api++)
 
 # To build and install a shared library: "cmake -DBUILD_SHARED_LIBS:BOOL=ON ..."
 add_library(${HIVE_API_LIBNAME}
@@ -49,12 +49,12 @@ set_target_properties(${HIVE_API_LIBNAME} PROPERTIES
 target_link_libraries(${HIVE_API_LIBNAME} ${CURL_LIBRARIES})
 
 install(TARGETS ${HIVE_API_LIBNAME} DESTINATION lib)
-install(FILES include/ipfs/node.h DESTINATION include/ipfs)
-install(FILES include/ipfs/http/transport.h DESTINATION include/ipfs/http)
+install(FILES include/hive/node.h DESTINATION include/hive)
+install(FILES include/hive/http/transport.h DESTINATION include/hive/http)
 
 # c-hive-api
 
-set(HIVE_CAPI_LIBNAME hive-capi)
+set(HIVE_CAPI_LIBNAME hive-api)
 
 # To build and install a shared library: "cmake -DBUILD_SHARED_LIBS:BOOL=ON ..."
 add_library(${HIVE_CAPI_LIBNAME}
@@ -67,7 +67,7 @@ set_target_properties(${HIVE_CAPI_LIBNAME} PROPERTIES
 target_link_libraries(${HIVE_CAPI_LIBNAME} ${HIVE_API_LIBNAME})
 
 install(TARGETS ${HIVE_CAPI_LIBNAME} DESTINATION lib)
-install(FILES include/c-api/c-api.h DESTINATION include/c-api)
+install(FILES include/hive/c-api.h DESTINATION include/hive)
 
 # Tests, use "CTEST_OUTPUT_ON_FAILURE=1 make test" to see output from failed tests
 

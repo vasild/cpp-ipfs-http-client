@@ -21,8 +21,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <stdexcept>
 #include <string>
 
-#include <ipfs/node.h>
-#include <ipfs/test/utils.h>
+#include <hive/node.h>
+#include <hive/test/utils.h>
 
 int main(int, char**) {
   try {

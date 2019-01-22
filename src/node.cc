@@ -24,9 +24,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <string>
 #include <vector>
 
-#include <ipfs/http/transport-curl.h>
-#include <ipfs/http/transport.h>
-#include <ipfs/node.h>
+#include <hive/http/transport-curl.h>
+#include <hive/http/transport.h>
+#include <hive/node.h>
 
 namespace ipfs {
 

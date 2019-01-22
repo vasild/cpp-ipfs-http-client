@@ -6,7 +6,7 @@
 #include <string>
 
 #include <c-api/c-api.h>
-#include <ipfs/cluster.h>
+#include <hive/cluster.h>
 
 #include <stdio.h>
 

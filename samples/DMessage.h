@@ -20,9 +20,9 @@ class DMessage {
   std::string content;
 };
 
-class DCache {
+class DStore {
  public:
-  DCache(const std::string host, int port, const std::string& uid);
+  DStore(const std::string host, int port, const std::string& uid);
 
   std::shared_ptr<std::vector<std::string>> get_keys();
 

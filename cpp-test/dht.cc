@@ -20,8 +20,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <stdexcept>
 
-#include <ipfs/node.h>
-#include <ipfs/test/utils.h>
+#include <hive/node.h>
+#include <hive/test/utils.h>
 
 int main(int, char**) {
   try {

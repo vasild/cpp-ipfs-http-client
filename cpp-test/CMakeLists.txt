@@ -30,7 +30,7 @@ include_directories("${CMAKE_SOURCE_DIR}/../include")
 
 link_directories("${CMAKE_SOURCE_DIR}/..")
 
-set(HIVE_API_LIBNAME hive-api)
+set(HIVE_API_LIBNAME hive-api++)
 
 set(TESTS
   cluster_address_list

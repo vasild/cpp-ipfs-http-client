@@ -2,9 +2,9 @@
 #include <sstream>
 #include <stdexcept>
 
-#include <ipfs/node.h>
-#include <ipfs/cluster.h>
-#include <ipfs/test/utils.h>
+#include <hive/node.h>
+#include <hive/cluster.h>
+#include <hive/test/utils.h>
 
 int main(int, char**) {
   try {

@@ -1,6 +1,6 @@
 
 
-#include <c-api/c-api.h>
+#include <hive/c-api.h>
 #include <stdio.h>
 #include <stdlib.h>
 

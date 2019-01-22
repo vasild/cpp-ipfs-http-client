@@ -25,8 +25,8 @@ include_directories("${CMAKE_SOURCE_DIR}/../include")
 
 link_directories("${CMAKE_SOURCE_DIR}/..")
 
-set(HIVE_API_LIBNAME hive-api)
-set(HIVE_CAPI_LIBNAME hive-capi)
+set(HIVE_API_LIBNAME hive-api++)
+set(HIVE_CAPI_LIBNAME hive-api)
 set(TESTS
   hive_random_host
   hive_generate_conf

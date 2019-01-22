@@ -63,7 +63,7 @@ Navigate to the previously downloaded folder that contains the source code of th
 $ cd YOUR-PATH/Elastos.NET.Hive.Native.SDK
 ```
 
-Before compilation, submodule `cjson` should be updated to this local repository. Otherwise, run command:
+Before compilation, submodule `json` should be updated to this local repository. Otherwise, run command:
 
 ```shell
 $ git submodule update --init --recursive
@@ -79,7 +79,7 @@ $ cd build
 Generate the Makefile in the current directory:
 
 ```shell
-$ cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH=$PWD/../cjson/include ..
+$ cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH=$PWD/../json/include ..
 $ make
 ```
 
@@ -87,7 +87,7 @@ To be able to build a distribution and install it to the customized location, ru
 
 ```shell
 $ cmake -DCMAKE_INSTALL_PREFIX=YOUR-INSTALL-PATH -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH=$
-PWD/../cjson/include ..
+PWD/../json/include ..
 $ make install
 ```
 # Run Tests
@@ -115,7 +115,7 @@ int main(int, char**) {
   ipfs::Node node("localhost", 9095);
   node.UidInfo(uid, &userInfo);
 
-  std::cout << "uid info: " << userInfo["Name"] << " => " << userInfo["Id"]
+  std::cout << "uid info: " << userInfo["UID"] << " => " << userInfo["PeerID"]
             << std::endl;
 }
 ```
@@ -134,4 +134,4 @@ We welcome any contribution to Elastos Hive projects.
 A sincere thank you to all teams and projects that we rely on directly or indirectly.
 
 ## License
-This project is licensed under the terms of the [MIT license](https://github.com/elastos/Elastos.NET.Hive.Native.SDK/blob/dev-master/LICENSE).
+This project is licensed under the terms of the [MIT license](https://github.com/elastos/Elastos.NET.Hive.Native.SDK/blob/dev-master/LICENSE.MIT).

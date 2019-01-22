@@ -8,7 +8,7 @@
 #include <utility>
 #include <vector>
 
-#include <ipfs/http/transport.h>
+#include <hive/http/transport.h>
 
 /** IPFS namespace. Everything IPFS related goes inside it. */
 namespace ipfs {

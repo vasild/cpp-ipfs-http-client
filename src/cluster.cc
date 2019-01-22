@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include <ipfs/cluster.h>
-#include <ipfs/http/transport-curl.h>
-#include <ipfs/http/transport.h>
+#include <hive/cluster.h>
+#include <hive/http/transport-curl.h>
+#include <hive/http/transport.h>
 
 namespace ipfs {
 

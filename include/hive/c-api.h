@@ -3,7 +3,9 @@
 #define _HIVE_API_H_
 
 #include <stdlib.h>
+#include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,7 +20,7 @@ typedef void DStoreC;
 DStoreC *dstore_create(const char *hive_conf);
 void dstore_destroy(DStoreC *dstore);
 int dstore_get_values(DStoreC *dstore, const char *key,
-                      int (*cb)(const char *key, const uint8_t *value,
+                      bool (*cb)(const char *key, const uint8_t *value,
                                  size_t length, void *ctx),
                       void *ctx);
 int dstore_add_value(DStoreC *dstore, const char *key,

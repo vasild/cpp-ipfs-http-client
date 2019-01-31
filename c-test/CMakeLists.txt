@@ -31,6 +31,7 @@ set(TESTS
   hive_random_host
   hive_generate_conf
   hive_refresh_conf
+  hive_message
 )
 
 string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)

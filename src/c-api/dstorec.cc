@@ -34,7 +34,7 @@ void dstore_destroy(DStoreC *dstore) {
 
 extern "C"
 int dstore_get_values(DStoreC *dstore, const char *key,
-                      int (*callback)(const char *key, const uint8_t *value,
+                      bool (*callback)(const char *key, const uint8_t *value,
                                        size_t length, void *context),
                       void *context) {
   auto ds = reinterpret_cast<DStore *>(dstore);

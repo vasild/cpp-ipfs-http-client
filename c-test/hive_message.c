@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int callback(const char *key, const uint8_t *value, size_t length, void *ctx) {
+bool callback(const char *key, const uint8_t *value, size_t length, void *ctx) {
   printf("message: ctx=%p, key= %s, value = %p, length=%lu\n",
          ctx, key, value, length);
   return 0;

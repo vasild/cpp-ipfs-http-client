@@ -9,7 +9,6 @@
 #include <hive/c-api.h>
 #include <hive/message.h>
 
-extern "C"
 DStoreC *dstore_create(const char *hive_conf) {
   try {
     auto host_rand = hive_random_host(hive_conf);
@@ -27,12 +26,10 @@ DStoreC *dstore_create(const char *hive_conf) {
   }
 }
 
-extern "C"
 void dstore_destroy(DStoreC *dstore) {
   delete reinterpret_cast<DStore *>(dstore);
 }
 
-extern "C"
 int dstore_get_values(DStoreC *dstore, const char *key,
                       bool (*callback)(const char *key, const uint8_t *value,
                                        size_t length, void *context),
@@ -55,7 +52,6 @@ int dstore_get_values(DStoreC *dstore, const char *key,
   }
 }
 
-extern "C"
 int dstore_add_value(DStoreC *dstore, const char *key, const uint8_t *value,
                      size_t len) {
   static int cnt = 0;
@@ -75,7 +71,6 @@ int dstore_add_value(DStoreC *dstore, const char *key, const uint8_t *value,
   }
 }
 
-extern "C"
 int dstore_remove_values(DStoreC *dstore, const char *key) {
   auto ds = reinterpret_cast<DStore *>(dstore);
 

@@ -61,6 +61,7 @@ set(HIVE_CAPI_LIBNAME hive-api)
 # To build and install a shared library: "cmake -DBUILD_SHARED_LIBS:BOOL=ON ..."
 add_library(${HIVE_CAPI_LIBNAME}
   src/c-api/c-api.cc
+  src/c-api/dstorec.cc
 )
 set_target_properties(${HIVE_CAPI_LIBNAME} PROPERTIES
   SOVERSION ${PROJECT_VERSION_MAJOR}

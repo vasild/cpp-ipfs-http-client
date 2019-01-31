@@ -1,14 +1,41 @@
 
 
+#include <chrono>
 #include <fstream>
+#include <future>
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <thread>
 
 #include <hive/c-api.h>
 #include <hive/cluster.h>
 
 #include <stdio.h>
+
+static std::mutex mtx;
+
+static bool test_reachable(ipfs::Json* jconf, const char* host, int port) {
+  ipfs::Cluster cluster(host, port);
+  ipfs::Json id;
+
+  try {
+    cluster.Id(&id);
+    std::string rpc_protocol_version =
+        id["rpc_protocol_version"].get<std::string>();
+    if (rpc_protocol_version.find("hivecluster") != std::string::npos) {
+      mtx.lock();
+      (*jconf)["hosts"].push_back(host);
+      mtx.unlock();
+    }
+
+    free((void *)host);
+  } catch (const std::exception& e) {
+    return false;
+  }
+
+  return true;
+}
 
 extern "C" const char* hive_generate_conf(const char* host = "localhost",
                                           int port = 9094) {
@@ -21,6 +48,7 @@ extern "C" const char* hive_generate_conf(const char* host = "localhost",
     cluster.Peers(&peers);
 
     std::string cluster_peers;
+    std::vector<std::shared_ptr<std::thread>> threads;
     for (ipfs::Json::iterator it = peers.begin(); it != peers.end(); ++it) {
       const ipfs::Json& cluster_peer = it.value();
 
@@ -30,7 +58,7 @@ extern "C" const char* hive_generate_conf(const char* host = "localhost",
         const ipfs::Json& address = it.value();
 
         // /ip4/10.10.1.20/tcp/32388/
-        std::string a = address.dump(2);
+        std::string a = address.get<std::string>();
         std::size_t pos = a.find("/ip4/");
         if (pos == std::string::npos) {
           pos = a.find("/ip6/");
@@ -40,20 +68,22 @@ extern "C" const char* hive_generate_conf(const char* host = "localhost",
           if (pos2 == std::string::npos) {
             goto __end;
           }
-          // int port = atoi(a.substr(pos2 + 5).c_str());
 
-          char addr[100];
-          if (sprintf(addr, "%s", a.substr(pos + 5, pos2 - pos - 5).c_str()) >
-              0) {
-            // if (strncmp(addr, "127", 3) != 0 && strncmp(addr, "::1", 3) != 0) {
-            	jconf["hosts"].push_back(addr);
-            // }
+          std::string addr = a.substr(pos + 5, pos2 - pos - 5);
+          if (addr.compare(0, 3, "127") != 0 &&
+              addr.compare(0, 3, "::1") != 0) {
+            std::shared_ptr<std::thread> th(new std::thread(
+                test_reachable, &jconf, strdup(addr.c_str()), 9094));
+            threads.push_back(th);
           }
         }
-
-        // std::cout << "cluster peer address:" << std::endl
-        //   << address. << std::endl;
       }
+    }
+
+    for (std::vector<std::shared_ptr<std::thread>>::iterator it =
+             threads.begin();
+         it != threads.end(); ++it) {
+      (*it)->join();
     }
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
@@ -66,7 +96,7 @@ __end:
 
 extern "C" const char* hive_refresh_conf(
     const char* defaultConf = "hive.conf") {
-  srand (time(NULL));
+  srand(time(NULL));
 
   try {
     ipfs::Json jconf;
@@ -85,11 +115,11 @@ extern "C" const char* hive_refresh_conf(
     int count = std::distance(jhosts.begin(), jhosts.end());
 
     do {
-	    std::string addr = jhosts[rand() % count];
-	    new_conf = hive_generate_conf(addr.c_str(), 9094);
+      std::string addr = jhosts[rand() % count];
+      new_conf = hive_generate_conf(addr.c_str(), 9094);
 
-	    std::cerr << "fetch conf from " << addr << std::endl;
-	  } while (new_conf == NULL);
+      // std::cerr << "fetch conf from " << addr << std::endl;
+    } while (new_conf == NULL);
 
     return strdup(new_conf);
   } catch (const std::exception& e) {

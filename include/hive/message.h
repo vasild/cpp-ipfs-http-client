@@ -2,6 +2,7 @@
 #if !defined(__DMMESSAGE_H_)
 #define __DMMESSAGE_H_
 
+#include <hive/node.h>
 #include <string>
 
 class DMessage {
@@ -22,18 +23,28 @@ class DMessage {
 
 class DStore {
  public:
-  DStore(const std::string host, int port, const std::string& uid);
+  DStore(const std::string host, int port, bool log = false);
+
+  std::string get_peerId();
 
   std::shared_ptr<std::vector<std::string>> get_keys();
 
+  std::shared_ptr<std::vector<std::string>> get_remote_keys(
+      const std::string& peerId);
+
   std::shared_ptr<std::vector<std::shared_ptr<DMessage>>> get_values(
       const std::string& key);
+
+  std::shared_ptr<std::vector<std::shared_ptr<DMessage>>> get_remote_values(
+      const std::string& peerId, const std::string& key);
 
   bool add_value(const std::string& key, std::shared_ptr<DMessage> message);
 
   bool remove_values(const std::string& key);
 
-  bool init();
+  bool set_sender_UID(std::string& uid);
+
+  void enable_log(bool enable);
 
  private:
   bool publish();
@@ -48,6 +59,7 @@ class DStore {
   std::string workingPath;
   bool needPublish;
   bool needResolve;
+  bool debugLog;
 };
 
 #endif  // __DMMESSAGE_H_

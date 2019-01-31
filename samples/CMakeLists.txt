@@ -32,5 +32,11 @@ link_directories("${CMAKE_SOURCE_DIR}/..")
 
 set(HIVE_API_LIBNAME hive-api++)
 
-add_executable(message message.cc DMessage.cc)
-target_link_libraries(message ${HIVE_API_LIBNAME} ${CURL_LIBRARIES})
+add_executable(deploy_message_service deploy_message_service.cc)
+target_link_libraries(deploy_message_service ${HIVE_API_LIBNAME} ${CURL_LIBRARIES})
+
+add_executable(send_message send_message.cc)
+target_link_libraries(send_message ${HIVE_API_LIBNAME} ${CURL_LIBRARIES})
+
+add_executable(read_message read_message.cc)
+target_link_libraries(read_message ${HIVE_API_LIBNAME} ${CURL_LIBRARIES})

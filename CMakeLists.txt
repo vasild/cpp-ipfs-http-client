@@ -40,6 +40,7 @@ set(HIVE_API_LIBNAME hive-api++)
 add_library(${HIVE_API_LIBNAME}
   src/node.cc
   src/cluster.cc
+  src/message.cc
   src/http/transport-curl.cc
 )
 set_target_properties(${HIVE_API_LIBNAME} PROPERTIES
@@ -50,6 +51,7 @@ target_link_libraries(${HIVE_API_LIBNAME} ${CURL_LIBRARIES})
 
 install(TARGETS ${HIVE_API_LIBNAME} DESTINATION lib)
 install(FILES include/hive/node.h DESTINATION include/hive)
+install(FILES include/hive/message.h DESTINATION include/hive)
 install(FILES include/hive/http/transport.h DESTINATION include/hive/http)
 
 # c-hive-api

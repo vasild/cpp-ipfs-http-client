@@ -6,22 +6,15 @@
 #include <hive/cluster.h>
 #include <hive/node.h>
 #include <hive/test/utils.h>
+#include "hive/message.h"
 
-#include "DMessage.h"
-
-DStore::DStore(const std::string host, int port, const std::string& uid)
-    : node(host, port) {
-  ipfs::Json uidInfo;
-
-  node.UidInfo(uid, &uidInfo);
-  userId = uid;
-  peerId = uidInfo["PeerID"].get<std::string>();
-
-  std::cout << "My PeerID is " << peerId << std::endl;
-
+DStore::DStore(const std::string host, int port, bool log) : node(host, port) {
+  debugLog = log;
   needPublish = true;
   needResolve = true;
 }
+
+std::string DStore::get_peerId() { return peerId; }
 
 std::shared_ptr<std::vector<std::string>> DStore::get_keys() {
   // ipfs name publish --key=mykey
@@ -40,15 +33,14 @@ std::shared_ptr<std::vector<std::string>> DStore::get_keys() {
   // ipfs files read /nodes/peerId/messages/key/002
   // ..
 
-  std::shared_ptr<std::vector<std::string>> vm;
-
+  std::shared_ptr<std::vector<std::string>> vm(new std::vector<std::string>);
   try {
     ipfs::Json ls_result;
     std::string path = workingPath + "/messages/";
 
     node.FileLs(path, &ls_result);
     std::string objectsId = ls_result["Arguments"][path];
-    ipfs::Json& messages = ls_result["objects"][objectsId]["Links"];
+    ipfs::Json& messages = ls_result["Objects"][objectsId]["Links"];
     for (ipfs::Json::iterator it = messages.begin(); it != messages.end();
          ++it) {
       const ipfs::Json& message = it.value();
@@ -57,7 +49,40 @@ std::shared_ptr<std::vector<std::string>> DStore::get_keys() {
       vm->push_back(key);
     }
   } catch (const std::exception& e) {
-    std::cerr << e.what() << std::endl;
+    if (debugLog) {
+      std::cerr << e.what() << std::endl;
+    }
+  }
+
+  return vm;
+}
+
+std::shared_ptr<std::vector<std::string>> DStore::get_remote_keys(
+    const std::string& peerId) {
+  std::shared_ptr<std::vector<std::string>> vm(new std::vector<std::string>);
+
+  try {
+    ipfs::Json ls_result;
+    std::string path = "/ipns/" + peerId + "/messages/";
+
+    node.FileLs(path, &ls_result);
+    std::string objectsId = ls_result["Arguments"][path];
+    ipfs::Json& messages = ls_result["Objects"][objectsId]["Links"];
+    if (debugLog) {
+      // std::cerr << "result json: " << std::endl << ls_result.dump(4) <<
+      // std::endl;
+    }
+    for (ipfs::Json::iterator it = messages.begin(); it != messages.end();
+         ++it) {
+      const ipfs::Json& message = it.value();
+
+      std::string key = message["Name"].get<std::string>();
+      vm->push_back(key);
+    }
+  } catch (const std::exception& e) {
+    if (debugLog) {
+      std::cerr << e.what() << std::endl;
+    }
   }
 
   return vm;
@@ -80,14 +105,18 @@ std::shared_ptr<std::vector<std::shared_ptr<DMessage>>> DStore::get_values(
     node.FilesLs(userId, path, &ls_result);
     messages = ls_result["Entries"];
   } catch (const std::exception& e) {
-    std::cerr << e.what() << std::endl;
-    std::cerr << "DEBUG: List key path " << path << " for key " << key
-              << " failed" << std::endl;
+    if (debugLog) {
+      std::cerr << e.what() << std::endl;
+      std::cerr << "DEBUG: List key path " << path << " for key " << key
+                << " failed" << std::endl;
+    }
     return vm;
   }
 
-  std::cerr << "DEBUG: List key path " << path << " for key " << key
-            << " successfully" << std::endl;
+  if (debugLog) {
+    std::cerr << "DEBUG: List key path " << path << " for key " << key
+              << " successfully" << std::endl;
+  }
 
   try {
     for (ipfs::Json::iterator it = messages.begin(); it != messages.end();
@@ -102,14 +131,73 @@ std::shared_ptr<std::vector<std::shared_ptr<DMessage>>> DStore::get_values(
       vm->push_back(dmsg);
     }
   } catch (const std::exception& e) {
-    std::cerr << "DEBUG: Read key path " << path << " for key " << key
-              << " failed" << std::endl;
-    std::cerr << e.what() << std::endl;
+    if (debugLog) {
+      std::cerr << "DEBUG: Read key path " << path << " for key " << key
+                << " failed" << std::endl;
+      std::cerr << e.what() << std::endl;
+    }
     return vm;
   }
 
-  std::cerr << "DEBUG: Read key path " << path << " for key " << key
-            << " successfully" << std::endl;
+  if (debugLog) {
+    std::cerr << "DEBUG: Read key path " << path << " for key " << key
+              << " successfully" << std::endl;
+  }
+
+  return vm;
+}
+
+std::shared_ptr<std::vector<std::shared_ptr<DMessage>>>
+DStore::get_remote_values(const std::string& peerId, const std::string& key) {
+  std::shared_ptr<std::vector<std::shared_ptr<DMessage>>> vm(
+      new std::vector<std::shared_ptr<DMessage>>);
+  ipfs::Json ls_result;
+  std::string path = "/ipns/" + peerId + "/messages/" + key;
+  ipfs::Json messages;
+
+  try {
+    node.FileLs(path, &ls_result);
+    std::string objectsId = ls_result["Arguments"][path];
+    messages = ls_result["Objects"][objectsId]["Links"];
+  } catch (const std::exception& e) {
+    if (debugLog) {
+      std::cerr << e.what() << std::endl;
+      std::cerr << "DEBUG: List key path " << path << " for key " << key
+                << " failed" << std::endl;
+    }
+    return vm;
+  }
+
+  if (debugLog) {
+    std::cerr << "DEBUG: List key path " << path << " for key " << key
+              << " successfully" << std::endl;
+  }
+
+  try {
+    for (ipfs::Json::iterator it = messages.begin(); it != messages.end();
+         ++it) {
+      const ipfs::Json& message = it.value();
+      const std::string name = message["Name"].get<std::string>();
+
+      std::stringstream content;
+      node.FileGet(path + "/" + name, &content);
+
+      std::shared_ptr<DMessage> dmsg(new DMessage(name, content.str()));
+      vm->push_back(dmsg);
+    }
+  } catch (const std::exception& e) {
+    if (debugLog) {
+      std::cerr << "DEBUG: Read key path " << path << " for key " << key
+                << " failed" << std::endl;
+      std::cerr << e.what() << std::endl;
+    }
+    return vm;
+  }
+
+  if (debugLog) {
+    std::cerr << "DEBUG: Read key path " << path << " for key " << key
+              << " successfully" << std::endl;
+  }
 
   return vm;
 }
@@ -131,8 +219,10 @@ bool DStore::add_value(const std::string& key,
   try {
     node.FilesLs(userId, path, &result);
   } catch (const std::exception& e) {
-    std::cerr << "Not exist path: " << path << ". Creating it ... " << e.what()
-              << std::endl;
+    if (debugLog) {
+      std::cerr << "Not exist path: " << path << ". Creating it ... "
+                << e.what() << std::endl;
+    }
     keyPath = false;
   }
 
@@ -142,13 +232,16 @@ bool DStore::add_value(const std::string& key,
     try {
       node.FilesMkdir(userId, path, &result);
     } catch (const std::exception& e) {
-      std::cerr << "Mkdir: " << path << "; " << e.what() << std::endl;
+      if (debugLog) {
+        std::cerr << "Mkdir: " << path << "; " << e.what() << std::endl;
+      }
       return false;
     }
   }
-
-  std::cerr << "DEBUG: Create key path " << path << " for key " << key
-            << " successfully" << std::endl;
+  if (debugLog) {
+    std::cerr << "DEBUG: Create key path " << path << " for key " << key
+              << " successfully" << std::endl;
+  }
 
   std::string messagePath = path + "/" + message->timestamp();
   try {
@@ -156,12 +249,16 @@ bool DStore::add_value(const std::string& key,
     node.FilesWrite(userId, messagePath, message->value(), 0, true, false,
                     &result0);
   } catch (const std::exception& e) {
-    std::cerr << __LINE__ << " FilesWrite: " << e.what() << std::endl;
+    if (debugLog) {
+      std::cerr << __LINE__ << " FilesWrite: " << e.what() << std::endl;
+    }
     return false;
   }
 
-  std::cerr << "DEBUG: Write message \"" << message->value() << "\" for key "
-            << key << " is success, publish now... " << std::endl;
+  if (debugLog) {
+    std::cerr << "DEBUG: Write message \"" << message->value() << "\" for key "
+              << key << " is success, publish now... " << std::endl;
+  }
 
   needPublish = true;
   publish();
@@ -183,12 +280,16 @@ bool DStore::remove_values(const std::string& key) {
 
     node.FilesRm(userId, path, true, &result);
   } catch (const std::exception& e) {
-    std::cerr << e.what() << std::endl;
+    if (debugLog) {
+      std::cerr << e.what() << std::endl;
+    }
     return false;
   }
 
-  std::cerr << "DEBUG: Remove messages for key " << key
-            << " is success, publish now... " << std::endl;
+  if (debugLog) {
+    std::cerr << "DEBUG: Remove messages for key " << key
+              << " is success, publish now... " << std::endl;
+  }
 
   needPublish = true;
   publish();
@@ -196,7 +297,17 @@ bool DStore::remove_values(const std::string& key) {
   return true;
 }
 
-bool DStore::init() {
+bool DStore::set_sender_UID(std::string& uid) {
+  ipfs::Json uidInfo;
+
+  node.UidInfo(uid, &uidInfo);
+  userId = uidInfo["UID"].get<std::string>();
+  peerId = uidInfo["PeerID"].get<std::string>();
+
+  if (debugLog) {
+    std::cerr << "My PeerID is " << peerId << std::endl;
+  }
+
   // > ipfs files mkdir /nodes/peerId/
   // > ipfs name resolve /ipns/peerId
   // /ipfs/xxxxxxx
@@ -208,8 +319,10 @@ bool DStore::init() {
   try {
     node.FilesLs(userId, workingPath, &result);
   } catch (const std::exception& e) {
-    std::cerr << e.what() << std::endl;
-    std::cerr << "Please call UIDNew()  " << std::endl;
+    if (debugLog) {
+      std::cerr << e.what() << std::endl;
+      std::cerr << "Please call UIDNew()  " << std::endl;
+    }
     return false;
   }
 
@@ -218,11 +331,15 @@ bool DStore::init() {
   try {
     node.FilesRm(userId, workingPath + "/messages", true, &result);
   } catch (const std::exception& e) {
-    std::cerr << e.what() << std::endl;
+    if (debugLog) {
+      std::cerr << e.what() << std::endl;
+    }
   }
 
-  std::cerr << "Cleanuped workingPath: " << (workingPath + "/messages")
-            << std::endl;
+  if (debugLog) {
+    std::cerr << "Cleanuped workingPath: " << (workingPath + "/messages")
+              << std::endl;
+  }
 
   needResolve = true;
   resolve();
@@ -243,13 +360,17 @@ bool DStore::init() {
     try {
       node.FilesMkdir(userId, workingPath + "/messages", &result);
     } catch (const std::exception& e) {
-      std::cerr << e.what() << std::endl;
+      if (debugLog) {
+        std::cerr << e.what() << std::endl;
+      }
       return false;
     }
   }
 
   return true;
 }
+
+void DStore::enable_log(bool enable) { debugLog = enable; }
 
 bool DStore::publish() {
   // > ipfs files stat /nodes/peerId
@@ -263,7 +384,9 @@ bool DStore::publish() {
     try {
       node.FilesStat(userId, workingPath, &result);
     } catch (const std::exception& e) {
-      std::cerr << "publish at FilesStat: " << e.what() << std::endl;
+      if (debugLog) {
+        std::cerr << "publish at FilesStat: " << e.what() << std::endl;
+      }
       return false;
     }
 
@@ -271,15 +394,19 @@ bool DStore::publish() {
     try {
       node.NamePublish(userId, "/ipfs/" + hash, &result);
 
-      std::cerr << "published with userId:" << userId
-                << " path = " << workingPath << " and hash = " << hash
-                << std::endl;
+      if (debugLog) {
+        std::cerr << "published with userId:" << userId
+                  << " path = " << workingPath << " and hash = " << hash
+                  << std::endl;
+      }
 
       needPublish = false;
     } catch (const std::exception& e) {
-      std::cerr << "publish failed, userId:" << userId
-                << " path = " << workingPath << " and hash = " << hash << " "
-                << e.what() << std::endl;
+      if (debugLog) {
+        std::cerr << "publish failed, userId:" << userId
+                  << " path = " << workingPath << " and hash = " << hash << " "
+                  << e.what() << std::endl;
+      }
       return false;
     }
   }
@@ -299,25 +426,33 @@ bool DStore::resolve() {
       node.NameResolve("/ipns/" + peerId, &result);
       rootPath = result["Path"];
     } catch (const std::exception& e) {
-      std::cerr << "NameResolve: " << e.what() << std::endl;
+      if (debugLog) {
+        std::cerr << "NameResolve: " << e.what() << std::endl;
+      }
       return false;
     }
 
-    std::cerr << "DEBUG: Fetched rootPath " << rootPath << " for peerId "
-              << peerId << " successfully" << std::endl;
+    if (debugLog) {
+      std::cerr << "DEBUG: Fetched rootPath " << rootPath << " for peerId "
+                << peerId << " successfully" << std::endl;
+    }
 
     try {
       node.FilesCp(userId, rootPath + "/messages", workingPath, &result);
     } catch (const std::exception& e) {
-      std::cerr << "DEBUG: Restore workingPath " << workingPath << " from "
-                << (rootPath + "/messages") << " for peerId " << peerId
-                << " failed. Continue ..." << std::endl;
-      std::cerr << "FilesCp: " << e.what() << std::endl;
+      if (debugLog) {
+        std::cerr << "DEBUG: Restore workingPath " << workingPath << " from "
+                  << (rootPath + "/messages") << " for peerId " << peerId
+                  << " failed. Continue ..." << std::endl;
+        std::cerr << "FilesCp: " << e.what() << std::endl;
+      }
       return false;
     }
 
-    std::cerr << "DEBUG: Restored workingPath " << workingPath << " for peerId "
-              << peerId << " successfully" << std::endl;
+    if (debugLog) {
+      std::cerr << "DEBUG: Restored workingPath " << workingPath
+                << " for peerId " << peerId << " successfully" << std::endl;
+    }
 
     needResolve = false;
   }

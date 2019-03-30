@@ -22,12 +22,7 @@ find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIRS})
 
 # Find "JSON for Modern C++" (nlohmann/json.hpp)
-find_path(JSON_FOR_MODERN_CXX_INCLUDE_DIR NAMES nlohmann/json.hpp)
-mark_as_advanced(JSON_FOR_MODERN_CXX_INCLUDE_DIR)
-if(NOT JSON_FOR_MODERN_CXX_INCLUDE_DIR)
-  message(FATAL_ERROR "JSON for Modern C++ (nlohmann/json.hpp) not found. Go fetch it from https://github.com/nlohmann/json/blob/develop/src/json.hpp and tell CMake where it is: 'cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH=/path/to/include' (assuming the file is in /path/to/include/nlohmann/json.hpp)")
-endif()
-include_directories(${JSON_FOR_MODERN_CXX_INCLUDE_DIR})
+include_directories("include/hive")
 
 include_directories("include")
 
@@ -53,6 +48,7 @@ install(TARGETS ${HIVE_API_LIBNAME} DESTINATION lib)
 install(FILES include/hive/node.h DESTINATION include/hive)
 install(FILES include/hive/message.h DESTINATION include/hive)
 install(FILES include/hive/http/transport.h DESTINATION include/hive/http)
+install(FILES include/hive/nlohmann/json.hpp DESTINATION include/hive/nlohmann)
 
 # c-hive-api
 

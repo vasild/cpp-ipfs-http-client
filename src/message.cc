@@ -317,6 +317,23 @@ bool DStore::set_sender_UID(std::string& uid) {
   ipfs::Json result;
 
   try {
+    node.FilesRm(userId, workingPath + "messages", true, &result);
+  } catch (const std::exception& e) {
+    if (debugLog) {
+      std::cerr << e.what() << std::endl;
+    }
+  }
+
+  if (debugLog) {
+    std::cerr << "Cleanuped workingPath: " << (workingPath + "messages")
+              << std::endl;
+  }
+
+  needResolve = true;
+  resolve();
+
+  // verify working path
+  try {
     node.FilesLs(userId, workingPath, &result);
   } catch (const std::exception& e) {
     if (debugLog) {
@@ -325,26 +342,7 @@ bool DStore::set_sender_UID(std::string& uid) {
     }
     return false;
   }
-
-  // std::cout << "DEBUG: " << result.dump() << std::endl;
-
-  try {
-    node.FilesRm(userId, workingPath + "/messages", true, &result);
-  } catch (const std::exception& e) {
-    if (debugLog) {
-      std::cerr << e.what() << std::endl;
-    }
-  }
-
-  if (debugLog) {
-    std::cerr << "Cleanuped workingPath: " << (workingPath + "/messages")
-              << std::endl;
-  }
-
-  needResolve = true;
-  resolve();
-
-  // verify working path
+  
   bool messagesPath = false;
   for (ipfs::Json::iterator it = result["Entries"].begin();
        it != result["Entries"].end(); ++it) {
@@ -358,7 +356,7 @@ bool DStore::set_sender_UID(std::string& uid) {
 
   if (!messagesPath) {
     try {
-      node.FilesMkdir(userId, workingPath + "/messages", &result);
+      node.FilesMkdir(userId, workingPath + "messages", &result);
     } catch (const std::exception& e) {
       if (debugLog) {
         std::cerr << e.what() << std::endl;
@@ -438,10 +436,10 @@ bool DStore::resolve() {
     }
 
     try {
-      node.FilesCp(userId, rootPath + "/messages", workingPath, &result);
+      node.FilesCp(userId, rootPath + "/messages", workingPath + "/messages", &result);
     } catch (const std::exception& e) {
       if (debugLog) {
-        std::cerr << "DEBUG: Restore workingPath " << workingPath << " from "
+        std::cerr << "DEBUG: recover workingPath " << workingPath << " from "
                   << (rootPath + "/messages") << " for peerId " << peerId
                   << " failed. Continue ..." << std::endl;
         std::cerr << "FilesCp: " << e.what() << std::endl;
@@ -450,7 +448,7 @@ bool DStore::resolve() {
     }
 
     if (debugLog) {
-      std::cerr << "DEBUG: Restored workingPath " << workingPath
+      std::cerr << "DEBUG: recover workingPath " << workingPath
                 << " for peerId " << peerId << " successfully" << std::endl;
     }
 

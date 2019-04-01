@@ -8,8 +8,6 @@
 #include <hive/node.h>
 
 int main(int, char**) {
-  ipfs::Node node("localhost", 9095);
-
   ipfs::Json result;
 
   // Please replace this line

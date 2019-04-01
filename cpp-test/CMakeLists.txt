@@ -54,6 +54,7 @@ set(TESTS
   pin
   swarm
   uid_info
+  dstore_test
 )
 
 string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)

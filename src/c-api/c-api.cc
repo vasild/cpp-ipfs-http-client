@@ -28,8 +28,7 @@ static bool test_reachable(ipfs::Json* jconf, const char* host, int port) {
       (*jconf)["hosts"].push_back(host);
       mtx.unlock();
     }
-
-    free((void *)host);
+    free((void*)host);
   } catch (const std::exception& e) {
     return false;
   }
@@ -40,42 +39,42 @@ static bool test_reachable(ipfs::Json* jconf, const char* host, int port) {
 extern "C" const char* hive_generate_conf(const char* host = "localhost",
                                           int port = 9094) {
   ipfs::Json jconf = "{ \"hosts\": []}"_json;
-
   try {
     ipfs::Cluster cluster(host, port);
-    ipfs::Json peers;
+    ipfs::Json id;
 
-    cluster.Peers(&peers);
+    cluster.Id(&id);
 
-    std::string cluster_peers;
+    std::string rpc_protocol_version =
+        id["rpc_protocol_version"].get<std::string>();
+    if (rpc_protocol_version.find("hivecluster") != std::string::npos) {
+      jconf["hosts"].push_back(host);
+    } else {
+      return NULL;
+    }
+
     std::vector<std::shared_ptr<std::thread>> threads;
-    for (ipfs::Json::iterator it = peers.begin(); it != peers.end(); ++it) {
-      const ipfs::Json& cluster_peer = it.value();
-
-      ipfs::Json addresses = cluster_peer["addresses"];
-      for (ipfs::Json::iterator it = addresses.begin(); it != addresses.end();
-           ++it) {
-        const ipfs::Json& address = it.value();
-
-        // /ip4/10.10.1.20/tcp/32388/
-        std::string a = address.get<std::string>();
-        std::size_t pos = a.find("/ip4/");
-        if (pos == std::string::npos) {
-          pos = a.find("/ip6/");
+    ipfs::Json addresses = id["cluster_peers_addresses"];
+    for (ipfs::Json::iterator it = addresses.begin(); it != addresses.end();
+         ++it) {
+      const ipfs::Json& address = it.value();
+      // /ip4/10.10.1.20/tcp/32388/
+      std::string a = address.get<std::string>();
+      std::size_t pos = a.find("/ip4/");
+      if (pos == std::string::npos) {
+        pos = a.find("/ip6/");
+      }
+      if (pos != std::string::npos) {
+        std::size_t pos2 = a.find("/tcp/", pos + 5);
+        if (pos2 == std::string::npos) {
+          goto __end;
         }
-        if (pos != std::string::npos) {
-          std::size_t pos2 = a.find("/tcp/", pos + 5);
-          if (pos2 == std::string::npos) {
-            goto __end;
-          }
 
-          std::string addr = a.substr(pos + 5, pos2 - pos - 5);
-          if (addr.compare(0, 3, "127") != 0 &&
-              addr.compare(0, 3, "::1") != 0) {
-            std::shared_ptr<std::thread> th(new std::thread(
-                test_reachable, &jconf, strdup(addr.c_str()), 9094));
-            threads.push_back(th);
-          }
+        std::string addr = a.substr(pos + 5, pos2 - pos - 5);
+        if (addr.compare(0, 3, "127") != 0 && addr.compare(0, 3, "::1") != 0) {
+          std::shared_ptr<std::thread> th(new std::thread(
+              test_reachable, &jconf, strdup(addr.c_str()), 9094));
+          threads.push_back(th);
         }
       }
     }
@@ -91,7 +90,10 @@ extern "C" const char* hive_generate_conf(const char* host = "localhost",
   }
 
 __end:
-  return strdup(jconf.dump(4).c_str());
+  if (jconf["hosts"].size() > 0) {
+    return strdup(jconf.dump(4).c_str());
+  }
+  return NULL;
 }
 
 extern "C" const char* hive_refresh_conf(
@@ -113,6 +115,9 @@ extern "C" const char* hive_refresh_conf(
 
     ipfs::Json jhosts = jconf["hosts"];
     int count = std::distance(jhosts.begin(), jhosts.end());
+    if (count == 0) {
+      return NULL;
+    }
 
     do {
       std::string addr = jhosts[rand() % count];
@@ -134,6 +139,10 @@ extern "C" const char* hive_random_host(
   try {
     ipfs::Json jconf;
     const char* hosts = hive_refresh_conf(volatileConf);
+    if (hosts == NULL) {
+      return NULL;
+    }
+
     // std::cerr << "to parse:" << hosts << std::endl;
     jconf = ipfs::Json::parse(hosts);
 

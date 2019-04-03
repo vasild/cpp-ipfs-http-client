@@ -46,11 +46,6 @@ Download this repository using Git:
 $ git clone https://github.com/elastos/Elastos.NET.Hive.Native.SDK
 ```
 
-Or using Git with extra option in order to download submodule `json`:
-
-```shell
-$ git clone --recurse-submodules https://github.com/elastos/Elastos.NET.Hive.Native.SDK
-```
 ## Build to run on host (Ubuntu / Debian / Linux)
 
 To compile the project from source code for the target to run on Ubuntu / Debian / Linux, carry out the following steps:
@@ -63,13 +58,7 @@ Navigate to the previously downloaded folder that contains the source code of th
 $ cd YOUR-PATH/Elastos.NET.Hive.Native.SDK
 ```
 
-Before compilation, submodule `json` should be updated to this local repository. Otherwise, run command:
-
-```shell
-$ git submodule update --init --recursive
-```
-
-After that, create a new folder, then change to directory.
+Create a new folder, then change to directory.
 
 ```shell
 $ mkdir build
@@ -79,15 +68,14 @@ $ cd build
 Generate the Makefile in the current directory:
 
 ```shell
-$ cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH=$PWD/../json/include ..
+$ cmake ..
 $ make
 ```
 
 To be able to build a distribution and install it to the customized location, run the following commands:
 
 ```shell
-$ cmake -DCMAKE_INSTALL_PREFIX=YOUR-INSTALL-PATH -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH=$
-PWD/../json/include ..
+$ cmake -DCMAKE_INSTALL_PREFIX=YOUR-INSTALL-PATH ..
 $ make install
 ```
 # Run Tests

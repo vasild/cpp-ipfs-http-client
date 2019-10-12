@@ -44,11 +44,11 @@ set_target_properties(${IPFS_API_LIBNAME} PROPERTIES
   VERSION ${PROJECT_VERSION}
 )
 target_link_libraries(${IPFS_API_LIBNAME} ${CURL_LIBRARIES})
-
-install(TARGETS ${IPFS_API_LIBNAME} DESTINATION lib)
-install(FILES include/ipfs/client.h DESTINATION include/ipfs)
-install(FILES include/ipfs/http/transport.h DESTINATION include/ipfs/http)
-
+if(NOT DISABLE_INSTALL)
+  install(TARGETS ${IPFS_API_LIBNAME} DESTINATION lib)
+  install(FILES include/ipfs/client.h DESTINATION include/ipfs)
+  install(FILES include/ipfs/http/transport.h DESTINATION include/ipfs/http)
+endif()
 # Tests, use "CTEST_OUTPUT_ON_FAILURE=1 make test" to see output from failed tests
 
 # https://cmake.org/cmake/help/v3.0/module/CTest.html

@@ -224,6 +224,15 @@ void Client::FilesLs(const std::string& path, Json* json) {
   FetchAndParseJson(MakeUrl("file/ls", {{"arg", path}}), {}, json);
 }
 
+void Client::KeyNew(const std::string& key_name, std::string* generated_key) {
+  Json response;
+
+  FetchAndParseJson(
+      MakeUrl("key/gen", {{"arg", key_name}, {"type", "rsa"}, {"size", "2048"}}),
+      &response);
+  *generated_key = response["Id"];
+}
+
 void Client::ObjectNew(std::string* object_id) {
   Json response;
 

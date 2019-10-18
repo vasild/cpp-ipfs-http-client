@@ -310,6 +310,23 @@ class Client {
       */
       Json* result);
 
+  /** Generate a new key.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/KEY.md#key.gen.
+   *
+   * An example usage:
+   * @snippet key.cc ipfs::Client::KeyNew
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.4.0 */
+  void KeyNew(
+      /** [in] Key name. */
+      const std::string& key_name,
+      /** [out] Key object. */
+      std::string* key_id);
+
   /** Create a new MerkleDAG node.
    *
    * Implements

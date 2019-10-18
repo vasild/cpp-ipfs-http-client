@@ -3,6 +3,7 @@ set(TESTS
   config
   dht
   files
+  key
   generic
   object
   pin

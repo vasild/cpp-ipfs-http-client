@@ -310,6 +310,24 @@ class Client {
       */
       Json* result);
 
+  /** Resolve an IPNS name.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/NAME.md#name.resolve.
+   *
+   * An example usage:
+   * @snippet name.cc ipfs::Client::NameResolve
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.4.0 */
+  void NameResolve(
+      /** [in] Id (multihash) of the name to resolve. */
+      const std::string& name_id,
+      /** [out] IPFS path string to the resolving object.
+       For example: "/ipfs/QmRrVRGx5xAXX52BYuScmJk1KWPny86BtexP8YNJ8jz76U" */
+      std::string* path_string);
+
   /** Create a new MerkleDAG node.
    *
    * Implements

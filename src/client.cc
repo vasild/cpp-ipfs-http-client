@@ -224,6 +224,14 @@ void Client::FilesLs(const std::string& path, Json* json) {
   FetchAndParseJson(MakeUrl("file/ls", {{"arg", path}}), {}, json);
 }
 
+void Client::NameResolve(const std::string& name_id, std::string* path_string) {
+  Json response;
+
+  FetchAndParseJson(MakeUrl("name/resolve", {{"arg", name_id}}), &response);
+
+  GetProperty(response, "Path", 0, path_string);
+}
+
 void Client::ObjectNew(std::string* object_id) {
   Json response;
 

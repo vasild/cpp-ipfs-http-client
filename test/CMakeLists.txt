@@ -4,6 +4,7 @@ set(TESTS
   dht
   files
   generic
+  name
   object
   pin
   swarm

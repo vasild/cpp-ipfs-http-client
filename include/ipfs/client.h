@@ -310,6 +310,23 @@ class Client {
       */
       Json* result);
 
+  /** Publish an IPNS name attached to a given value.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/NAME.md#name.publish.
+   *
+   * An example usage:
+   * @snippet name.cc ipfs::Client::NamePublish
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.4.0 */
+  void NamePublish(
+      /** [in] Id (multihash) of the object to publish. */
+      const std::string& object_id,
+      /** [out] IPNS name Id (multihash) of the named object. */
+      std::string* name_id);
+
   /** Resolve an IPNS name.
    *
    * Implements

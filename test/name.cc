@@ -28,16 +28,25 @@ int main(int, char**) {
   try {
     ipfs::Client client("localhost", 5001);
 
+    /** [ipfs::Client::NamePublish] */
+    std::string object_id = "QmRrVRGx5xAXX52BYuScmJk1KWPny86BtexP8YNJ8jz76U";
+    std::string name;
+    client.NamePublish(
+        object_id,
+        &name);
+    /* An example output: "QmbJ5UzreC86qtHrWC2SwWKLsTiLqTuG4cqHHJVdYPK6s9" */
+    std::cout << "Published name: " << name << std::endl;
+
     /** [ipfs::Client::NameResolve] */
-    std::string name = "QmPXahdEAs7nGhTAPmct458LEWtEsWRGaX1xXBURdJu1ir";
-    std::string object;
+    // std::string name = "QmPXahdEAs7nGhTAPmct458LEWtEsWRGaX1xXBURdJu1ir";
+    std::string resolved_object_path;
     client.NameResolve(
         name,
-        &object);
+        &resolved_object_path);
     /* An example output:
-    {"Path":"/ipfs/QmRrVRGx5xAXX52BYuScmJk1KWPny86BtexP8YNJ8jz76U"}
+        "/ipfs/QmRrVRGx5xAXX52BYuScmJk1KWPny86BtexP8YNJ8jz76U"
     */
-    std::cout << "Resolved name: " << object << std::endl;
+    std::cout << "Resolved name: " << resolved_object_path << std::endl;
 
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;

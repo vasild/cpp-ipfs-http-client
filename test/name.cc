@@ -29,7 +29,8 @@ int main(int, char**) {
     ipfs::Client client("localhost", 5001);
 
     /** [ipfs::Client::NamePublish] */
-    std::string object_id = "QmRrVRGx5xAXX52BYuScmJk1KWPny86BtexP8YNJ8jz76U";
+    // The object here is well-known.
+    std::string object_id = "QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG";
     std::string name;
     client.NamePublish(
         object_id,
@@ -38,15 +39,18 @@ int main(int, char**) {
     std::cout << "Published name: " << name << std::endl;
 
     /** [ipfs::Client::NameResolve] */
-    // std::string name = "QmPXahdEAs7nGhTAPmct458LEWtEsWRGaX1xXBURdJu1ir";
     std::string resolved_object_path;
     client.NameResolve(
         name,
         &resolved_object_path);
-    /* An example output:
-        "/ipfs/QmRrVRGx5xAXX52BYuScmJk1KWPny86BtexP8YNJ8jz76U"
+    /* The expected output:
+        "/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG";
     */
     std::cout << "Resolved name: " << resolved_object_path << std::endl;
+
+    std::string expected = "/ipfs/" + object_id;
+    ipfs::test::check_if_string_contains("client.NameResolve()",
+        resolved_object_path, expected);
 
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;

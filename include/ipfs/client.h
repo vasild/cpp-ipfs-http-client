@@ -322,10 +322,29 @@ class Client {
    *
    * @since version 0.4.0 */
   void KeyNew(
-      /** [in] Key name. */
+      /** [in] Key name (local, user-friendly name for the key). */
       const std::string& key_name,
       /** [out] Key object. */
-      std::string* key_id);
+      std::string* key_id,
+      /** [in] Key type. */
+      const std::string& key_type = "rsa",
+      /** [in] Key size. */
+      const std::string& key_size = "2048");
+
+  /** Remove a key.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/KEY.md#key.rm.
+   *
+   * An example usage:
+   * @snippet key.cc ipfs::Client::KeyRm
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.4.0 */
+  void KeyRm(
+      /** [in] Key name (local, user-friendly name for the key). */
+      const std::string& key_name);
 
   /** Create a new MerkleDAG node.
    *

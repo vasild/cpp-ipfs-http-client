@@ -36,6 +36,10 @@ int main(int, char**) {
     Generated key: "QmQeVW8BKqpHbUV5GcecC3wDLF3iqV6ZJhtFN8q8mUYFUs"
     */
 
+    /** [ipfs::Client::KeyRm] */
+    /* Successful, if no error is thrown. */
+    client.KeyRm("foobar-key");
+
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

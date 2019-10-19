@@ -224,13 +224,32 @@ void Client::FilesLs(const std::string& path, Json* json) {
   FetchAndParseJson(MakeUrl("file/ls", {{"arg", path}}), {}, json);
 }
 
-void Client::KeyNew(const std::string& key_name, std::string* generated_key) {
+void Client::KeyNew(const std::string& key_name,
+                    std::string* generated_key,
+                    const std::string& key_type,
+                    const std::string& key_size)
+{
   Json response;
 
   FetchAndParseJson(
-      MakeUrl("key/gen", {{"arg", key_name}, {"type", "rsa"}, {"size", "2048"}}),
+      MakeUrl("key/gen", {{"arg", key_name},
+                          {"type", key_type},
+                          {"size", key_size}}),
       &response);
   *generated_key = response["Id"];
+}
+
+void Client::KeyRm(const std::string& key_name) {
+  std::stringstream body;
+  http_->Fetch(MakeUrl("key/rm", {{"arg", key_name}}), {}, &body);
+
+#ifdef ALTERNATE_IMPLEMENTATION
+  // Another way to do the above.
+  Json response;
+  FetchAndParseJson(
+      MakeUrl("key/rm", {{"arg", key_name}}),
+      &response);
+#endif
 }
 
 void Client::ObjectNew(std::string* object_id) {

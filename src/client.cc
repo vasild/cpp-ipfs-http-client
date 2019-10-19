@@ -252,10 +252,20 @@ void Client::KeyRm(const std::string& key_name) {
 #endif
 }
 
-void Client::NamePublish(const std::string& object_id, std::string* name_id) {
+void Client::NamePublish(const std::string& object_id,
+                         const std::string& key_name,
+                         std::string* name_id,
+                         const std::string& lifetime,
+                         const std::string& ttl)
+{
   Json response;
 
-  FetchAndParseJson(MakeUrl("name/publish", {{"arg", object_id}}), &response);
+  FetchAndParseJson(MakeUrl("name/publish",
+                            {{"arg", object_id},
+                             {"key", key_name},
+                             {"lifetime", lifetime},
+                             {"ttl", ttl}}),
+                            &response);
 
   GetProperty(response, "Name", 0, name_id);
 }

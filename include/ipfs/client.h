@@ -360,8 +360,15 @@ class Client {
   void NamePublish(
       /** [in] Id (multihash) of the object to publish. */
       const std::string& object_id,
+      /** [in] Name of the key to use. This is the local,
+       * human-friendly keyname */
+      const std::string& key_name,
       /** [out] IPNS name Id (multihash) of the named object. */
-      std::string* name_id);
+      std::string* name_id,
+      /** [in] Lifetime duration of the record. */
+      const std::string& lifetime = "24h",
+      /** [in] Duration of client's cache before new query. */
+      const std::string& ttl = "60s");
 
   /** Resolve an IPNS name.
    *

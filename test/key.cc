@@ -1,4 +1,5 @@
 /* Copyright (c) 2016-2016, Vasil Dimov
+   Copyright (c) 2019 Linas Vepštas
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

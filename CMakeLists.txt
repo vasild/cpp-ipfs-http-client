@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1.0)
 
 # Adhere the version number to http://semver.org/
-project(cpp-ipfs-api VERSION 0.1.0 LANGUAGES CXX)
+project(cpp-ipfs-api VERSION 0.1.1 LANGUAGES CXX)
 
 # Compile in C++11 mode
 set(CMAKE_CXX_STANDARD 11)
@@ -34,8 +34,8 @@ include_directories("include")
 
 set(IPFS_API_LIBNAME ipfs-api)
 
-# To build and install a shared library: "cmake -DBUILD_SHARED_LIBS:BOOL=ON ..."
-add_library(${IPFS_API_LIBNAME}
+# Build shared-lib by default.
+add_library(${IPFS_API_LIBNAME} SHARED
   src/client.cc
   src/http/transport-curl.cc
 )

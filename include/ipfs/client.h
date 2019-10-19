@@ -146,7 +146,7 @@ class Client {
   /** Retrieve the peer info of a reachable node in the network.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/DHT.md#findpeer.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DHT.md#dhtfindpeer.
    *
    * An example usage:
    * @snippet dht.cc ipfs::Client::DhtFindPeer
@@ -163,7 +163,7 @@ class Client {
   /** Retrieve the providers for a content that is addressed by a hash.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/DHT.md#findprovs.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DHT.md#dhtfindprovs.
    *
    * An example usage:
    * @snippet dht.cc ipfs::Client::DhtFindProvs
@@ -180,7 +180,7 @@ class Client {
   /** Get a raw IPFS block.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/BLOCK.md#get.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockget.
    *
    * An example usage:
    * @snippet block.cc ipfs::Client::BlockGet
@@ -198,7 +198,7 @@ class Client {
   /** Store a raw block in IPFS.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/BLOCK.md#put.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockput.
    *
    * An example usage:
    * @snippet block.cc ipfs::Client::BlockPut
@@ -215,7 +215,7 @@ class Client {
   /** Get information for a raw IPFS block.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/BLOCK.md#stat.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockstat.
    *
    * An example usage:
    * @snippet block.cc ipfs::Client::BlockStat
@@ -497,7 +497,7 @@ class Client {
   /** Pin a given IPFS object.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/PIN.md#add.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinadd.
    *
    * An example usage:
    * @snippet pin.cc ipfs::Client::PinAdd
@@ -512,7 +512,7 @@ class Client {
   /** List all the objects pinned to local storage.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/PIN.md#ls.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinls.
    *
    * An example usage:
    * @snippet pin.cc ipfs::Client::PinLs__a
@@ -527,7 +527,7 @@ class Client {
   /** List the objects pinned under a specific hash.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/PIN.md#ls.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinls.
    *
    * An example usage:
    * @snippet pin.cc ipfs::Client::PinLs__b
@@ -552,7 +552,7 @@ class Client {
   /** Unpin an object.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/PIN.md#rm.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinrm.
    *
    * An example usage:
    * @snippet pin.cc ipfs::Client::PinRm
@@ -571,7 +571,7 @@ class Client {
   /** List of known addresses of each peer connected.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/SWARM.md#addrs.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmaddrs.
    *
    * An example usage:
    * @snippet swarm.cc ipfs::Client::SwarmAddrs
@@ -586,7 +586,7 @@ class Client {
   /** Open a connection to a given address.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/SWARM.md#connect.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmconnect.
    *
    * An example usage:
    * @snippet swarm.cc ipfs::Client::SwarmConnect
@@ -603,7 +603,7 @@ class Client {
   /** Close a connection on a given address.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/SWARM.md#disconnect.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmdisconnect.
    *
    * An example usage:
    * @snippet swarm.cc ipfs::Client::SwarmDisconnect
@@ -620,7 +620,7 @@ class Client {
   /** List the peers that we have connections with.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/SWARM.md#peers.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmpeers.
    *
    * An example usage:
    * @snippet swarm.cc ipfs::Client::SwarmPeers

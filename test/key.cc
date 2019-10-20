@@ -25,6 +25,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <ipfs/client.h>
 #include <ipfs/test/utils.h>
 
+using Json = nlohmann::json;
+
 int main(int, char**) {
   try {
     ipfs::Client client("localhost", 5001);
@@ -36,6 +38,17 @@ int main(int, char**) {
     /* An example output:
     Generated key: "QmQeVW8BKqpHbUV5GcecC3wDLF3iqV6ZJhtFN8q8mUYFUs"
     */
+
+    /** [ipfs::Client::KeyList] */
+    Json key_list;
+    client.KeyList(&key_list);
+    std::cout << "A list of all local keys: " << key_list.dump(2) << std::endl;
+
+    client.KeyFind("self", &key_id);
+    std::cout << "My own (self) key is: " << key_id << std::endl;
+
+    client.KeyFind("foobar-key", &key_id);
+    std::cout << "The foobar key is: " << key_id << std::endl;
 
     /** [ipfs::Client::KeyRm] */
     /* Successful, if no error is thrown. */

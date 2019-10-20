@@ -310,10 +310,41 @@ class Client {
       */
       Json* result);
 
+  /** List all the keys.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/KEY.md#key.list.
+   *
+   * An example usage:
+   * @snippet key.cc ipfs::Client::KeyList
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.4.0 */
+  void KeyList(
+      /** [out] List of all local keys. */
+      Json* key_list);
+
+  /** Find a single key by name.
+   *
+   * Handy utility wrapper around KeyList.
+   *
+   * An example usage:
+   * @snippet key.cc ipfs::Client::KeyFind
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.4.0 */
+  void KeyFind(
+      /** [in] Key name (local, user-friendly name for the key). */
+      const std::string& key_name,
+      /** [out] Key CID. */
+      std::string* key_id);
+
   /** Generate a new key.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/KEY.md#key.gen.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/KEY.md#key.gen.
    *
    * An example usage:
    * @snippet key.cc ipfs::Client::KeyNew
@@ -324,7 +355,7 @@ class Client {
   void KeyNew(
       /** [in] Key name (local, user-friendly name for the key). */
       const std::string& key_name,
-      /** [out] Key object. */
+      /** [out] Key CID. */
       std::string* key_id,
       /** [in] Key type. */
       const std::string& key_type = "rsa",
@@ -334,7 +365,7 @@ class Client {
   /** Remove a key.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/KEY.md#key.rm.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/KEY.md#key.rm.
    *
    * An example usage:
    * @snippet key.cc ipfs::Client::KeyRm

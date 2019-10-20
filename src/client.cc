@@ -224,6 +224,27 @@ void Client::FilesLs(const std::string& path, Json* json) {
   FetchAndParseJson(MakeUrl("file/ls", {{"arg", path}}), {}, json);
 }
 
+void Client::KeyList(Json* key_list)
+{
+  Json response;
+  FetchAndParseJson(MakeUrl("key/list", {}), &response);
+  *key_list = response["Keys"];
+}
+
+void Client::KeyFind(const std::string& key_name,
+                    std::string* key_id)
+{
+  Json response;
+  KeyList(&response);
+  for (const auto& item : response) {
+    std::string name = item["Name"];
+    if (0 == name.compare(key_name)) {
+      *key_id = item["Id"];
+      return;
+    }
+  }
+}
+
 void Client::KeyNew(const std::string& key_name,
                     std::string* generated_key,
                     const std::string& key_type,

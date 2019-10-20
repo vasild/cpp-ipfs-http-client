@@ -8,7 +8,7 @@ install:
   # out (ie it assumes in-source build)
   - JSON_INSTALL_DIR="${TRAVIS_BUILD_DIR}/../include/nlohmann"
   - mkdir -p "${JSON_INSTALL_DIR}"
-  - travis_retry wget --quiet -O "${JSON_INSTALL_DIR}/json.hpp" https://raw.githubusercontent.com/nlohmann/json/v3.7.0/include/nlohmann/json.hpp
+  - travis_retry wget --quiet -O "${JSON_INSTALL_DIR}/json.hpp" https://raw.githubusercontent.com/nlohmann/json/v3.7.0/single_include/nlohmann/json.hpp
 
   - GO_IPFS_DIR="${TRAVIS_BUILD_DIR}/../go-ipfs"
   - GO_IPFS_ARCHIVE_BASENAME="go-ipfs_v0.4.22_linux-amd64.tar.gz"

@@ -45,12 +45,12 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-9.0
+            - llvm-toolchain-precise-6.0
           packages:
-            - clang-9.0
+            - clang-6.0
       env:
-        - TAG="compile with clang 9.0 in Release mode"
-        - CXX_=clang++-9.0
+        - TAG="compile with clang 6.0 in Release mode"
+        - CXX_=clang++-6.0
         - CMAKE_EXTRA_ARGS_="-DCMAKE_BUILD_TYPE=Release"
     - os: linux
       before_install:
@@ -60,12 +60,12 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-9.0
+            - llvm-toolchain-precise-6.0
           packages:
-            - clang-9.0
+            - clang-6.0
       env:
-        - TAG="compile with clang 9.0 and run tests"
-        - CXX_=clang++-9.0
+        - TAG="compile with clang 6.0 and run tests"
+        - CXX_=clang++-6.0
       after_success:
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_start.sh"
         - OK="no"
@@ -80,19 +80,19 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-9.0
+            - llvm-toolchain-precise-6.0
           packages:
-            - clang-9.0
+            - clang-6.0
       env:
-        - TAG="static analysis with scan-build 9.0"
+        - TAG="static analysis with scan-build 6.0"
       script:
         - cmake --version
         - SOURCE_DIR="${TRAVIS_BUILD_DIR}"
         - BUILD_DIR="${TRAVIS_BUILD_DIR}/../build"
         - mkdir -p "${BUILD_DIR}"
         - cd "${BUILD_DIR}"
-        - CCC_CXX=clang++-9.0 scan-build-9.0 --status-bugs cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
-        - CCC_CXX=clang++-9.0 scan-build-9.0 --status-bugs make VERBOSE=1
+        - CCC_CXX=clang++-6.0 scan-build-6.0 --status-bugs cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
+        - CCC_CXX=clang++-6.0 scan-build-6.0 --status-bugs make VERBOSE=1
     - os: linux
       before_install:
         - sudo apt-get update -qq
@@ -102,10 +102,10 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-9
+            - g++-8
       env:
-        - TAG="compile with gcc 9.x"
-        - CXX_=g++-9
+        - TAG="compile with gcc 8.x"
+        - CXX_=g++-8
     - os: linux
       before_install:
         - sudo apt-get update -qq
@@ -116,10 +116,10 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-9
+            - g++-8
       env:
-        - TAG="compile with gcc 9.x and assess coverage"
-        - CXX_=g++-9
+        - TAG="compile with gcc 8.x and assess coverage"
+        - CXX_=g++-8
         - CXXFLAGS="-g -O0 --coverage"
         - LDFLAGS="-g -O0 --coverage"
       script:

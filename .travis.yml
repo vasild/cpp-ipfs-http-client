@@ -83,6 +83,7 @@ matrix:
             - llvm-toolchain-precise-6.0
           packages:
             - clang-6.0
+            - clang-tools-6.0
       env:
         - TAG="static analysis with scan-build 6.0"
       script:

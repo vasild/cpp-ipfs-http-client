@@ -9,31 +9,27 @@
 ![](https://ipfs.io/ipfs/QmQJ68PFMDdAsgCZvA1UVzzn18asVcf7HVvCDgpjiSCAse)
 
 Allows C++ applications to communicate with [IPFS](https://ipfs.io).
-It implements [IPFS API bindings](https://github.com/ipfs/interface-ipfs-core/tree/master/API) for C++.
+It implements [IPFS API bindings](https://github.com/ipfs/interface-js-ipfs-core/blob/master/README.md#api) for C++.
 See [the documentation](https://vasild.github.io/cpp-ipfs-api) or [the source code](https://github.com/vasild/cpp-ipfs-api).
 
 See also [IPFS on GitHub](https://github.com/ipfs).
 
 Currently implemented methods:
 
-- [block](https://github.com/ipfs/interface-ipfs-core/tree/master/API/block): get(), put(), stat()
-- [config](https://github.com/ipfs/interface-ipfs-core/tree/master/API/config): get(), set(), replace()
-- [dht](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht): findpeer(), findprovs()
-- [files](https://github.com/ipfs/interface-ipfs-core/tree/master/API/files): get(), add()
-- [generic](https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic): id(), version()
-- [object](https://github.com/ipfs/interface-ipfs-core/tree/master/API/object): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()
-- [pin](https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin): add(), ls(), rm()
-- [swarm](https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm): addrs(), connect(), disconnect(), peers()
+- [block](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/BLOCK.md): get(), put(), stat()
+- [config](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/CONFIG.md): get(), set(), replace()
+- [dht](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/DHT.md): findpeer(), findprovs()
+- [files](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/FILES.md): get(), add()
+- [miscellaneous](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/MISCELLANEOUS.md): id(), version()
+- [object](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/OBJECT.md): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()
+- [pin](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/PIN.md): add(), ls(), rm()
+- [swarm](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/SWARM.md): addrs(), connect(), disconnect(), peers()
 
-Not implemented yet:
-
-- [dag](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dag): get(), put()
-- [dht](https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht): get(), put(), query()
+Not all methods are implemented.
 
 # TODO
 
-- Implement the above methods
-- Compare with the latest [IPFS API bindings](https://github.com/ipfs/interface-ipfs-core/tree/master/API) and implement any new methods that have been defined
+- Implement the missing methods
 - Contributors are welcome!
 
 # Install
@@ -89,4 +85,4 @@ Write tests for new code. Changes should not cause the code coverage to go down.
 
 # License
 
-Copyright &copy; 2016-2016 Vasil Dimov. The code is distributed under the [MIT License](http://opensource.org/licenses/MIT).
+The code is distributed under the [MIT License](http://opensource.org/licenses/MIT).

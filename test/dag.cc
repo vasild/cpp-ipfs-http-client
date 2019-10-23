@@ -91,57 +91,6 @@ int main(int, char**) {
     */
     /** [ipfs::Client::DagGet] */
 
-
-#if 0
-    /** [ipfs::Client::DagTree] */
-    ipfs::Json stat;
-    client.DagTree("QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG", &stat);
-    std::cout << "Dag data size: " << stat["DataSize"] << std::endl;
-    /* An example output:
-    Dag data size: 2
-    */
-    /** [ipfs::Client::DagTree] */
-    ipfs::test::check_if_properties_exist(
-        "client.DagTree()", stat, {"BlockSize", "CumulativeSize", "DataSize",
-                                      "Hash", "LinksSize", "NumLinks"});
-
-    {
-      /** [ipfs::Client::DagPatchAddLink] */
-      /* Create a new node, upload two files and link them to the node. */
-
-      std::string orig_id;
-      client.DagNew(&orig_id);
-
-      ipfs::Json added_files;
-      client.FilesAdd(
-          {{"file1.txt", ipfs::http::FileUpload::Type::kFileContents, "f1f1"},
-           {"file2.txt", ipfs::http::FileUpload::Type::kFileContents, "f2f2"}},
-          &added_files);
-
-      std::string new_id;
-      client.DagPatchAddLink(orig_id, "link to file1.txt",
-                                added_files[0]["hash"], &new_id);
-
-      ipfs::Json new_object;
-      client.DagGet(new_id, &new_object);
-      std::cout << "Added a link to " << orig_id << "." << std::endl
-                << "New object " << new_id << ":" << std::endl
-                << new_object.dump(2) << std::endl;
-      /* An example output:
-      Added a link to QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n.
-      New object QmRgn5ZeLiPRwQHqSbMLUZ2gkyLbJiaxVEx3LrDCqqaCAb:
-      {
-        "Data": "",
-        "Links": [
-          {
-            "Hash": "QmNYaS23te5Rja36U94JoSTuMxJZmBEnHN8KEcjR6rGRGn",
-            "Name": "link to file1.txt",
-            "Size": 12
-          }
-        ]
-      }
-      */
-#endif
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

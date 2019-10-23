@@ -229,6 +229,24 @@ class Client {
       /** [out] Retrieved information about the block. */
       Json* stat);
 
+  /** Store a MerkleDAG node, new API
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/DAG.md#dagput.
+   *
+   * An example usage:
+   * @snippet dag.cc ipfs::Client::DagPut
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.4.0 */
+  void DagPut(
+      /** [in] Node to store. */
+      const Json& dag,
+      /** [out] Stored node. Should be the same as the provided `object` plus
+       * the stored object's multihash id. */
+      Json* dag_stored);
+
   /** Get a MerkleDAG node, new API
    *
    * Implements

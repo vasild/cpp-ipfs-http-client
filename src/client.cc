@@ -157,6 +157,13 @@ void Client::BlockStat(const std::string& block_id, Json* stat) {
   FetchAndParseJson(MakeUrl("block/stat", {{"arg", block_id}}), stat);
 }
 
+void Client::DagPut(const Json& dag, Json* dag_stored) {
+  FetchAndParseJson(
+      MakeUrl("dag/put", {{"inputenc", "json"}}),
+      {{"node.json", http::FileUpload::Type::kFileContents, dag.dump()}},
+      dag_stored);
+}
+
 void Client::DagGet(const std::string& cid, Json* value) {
   FetchAndParseJson(MakeUrl("dag/get", {{"arg", cid}}), value);
   // http_->Fetch(MakeUrl("dag/get", {{"arg", cid}}), {}, value);

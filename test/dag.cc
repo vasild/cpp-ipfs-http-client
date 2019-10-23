@@ -28,9 +28,8 @@ int main(int, char**) {
   try {
     ipfs::Client client("localhost", 5001);
 
-#if 0
     /** [ipfs::Client::DagPut] */
-    ipfs::Json object_to_store = R"(
+    ipfs::Json dag_to_store = R"(
       {
           "Data": "another",
           "Links": [ {
@@ -40,12 +39,12 @@ int main(int, char**) {
           } ]
       }
     )"_json;
-    ipfs::Json object_stored;
-    client.DagPut(object_to_store, &object_stored);
+    ipfs::Json dag_stored;
+    client.DagPut(dag_to_store, &dag_stored);
     std::cout << "Dag to store:" << std::endl
-              << object_to_store.dump(2) << std::endl;
-    std::cout << "Stored object:" << std::endl
-              << object_stored.dump(2) << std::endl;
+              << dag_to_store.dump(2) << std::endl;
+    std::cout << "Stored dag:" << std::endl
+              << dag_stored.dump(2) << std::endl;
     /* An example output:
     Dag to store:
     {
@@ -58,28 +57,22 @@ int main(int, char**) {
         }
       ]
     }
-    Stored object:
+    Stored dag:
     {
-      "Hash": "QmZZmY4KCu9r3e7M2Pcn46Fc5qbn6NpzaAGaYb22kbfTqm",
-      "Links": [
-        {
-          "Hash": "QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V",
-          "Name": "some link",
-          "Size": 8
-        }
-      ]
+      "Cid": {
+        "/": "bafyreic25pekmrs3pezhzlnpztcnlqjgulknd52wk3tdfghnjjrq7dugpq"
+      }
     }
     */
     /** [ipfs::Client::DagPut] */
-    ipfs::test::check_if_properties_exist("client.DagPut()", object_stored,
-                                          {"Hash", "Links"});
+    ipfs::test::check_if_properties_exist("client.DagPut()", dag_stored,
+                                          {"Cid"});
 
-#endif
 
     /** [ipfs::Client::DagGet] */
-    ipfs::Json object;
-    client.DagGet("QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n", &object);
-    std::cout << "Dag: " << std::endl << object.dump(2) << std::endl;
+    ipfs::Json dag;
+    client.DagGet("bafyreic25pekmrs3pezhzlnpztcnlqjgulknd52wk3tdfghnjjrq7dugpq", &dag);
+    std::cout << "Dag: " << std::endl << dag.dump(2) << std::endl;
     /* An example output:
     Dag:
     {

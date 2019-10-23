@@ -1,6 +1,7 @@
 set(TESTS
   block
   config
+  dag
   dht
   files
   generic

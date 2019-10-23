@@ -229,6 +229,25 @@ class Client {
       /** [out] Retrieved information about the block. */
       Json* stat);
 
+  /** Get a MerkleDAG node, new API
+   *
+   * Implements
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/DAG.md#dagget.
+   *
+   * An example usage:
+   * @snippet dag.cc ipfs::Client::DagGet
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.4.0 */
+  void DagGet(
+      /** [in] Id (multihash) of the MerkleDAG node to fetch. */
+      const std::string& cid,
+      /** [out] Retrieved MerkleDAG node. For example:
+       * {"Data": "abc", "Links": [{"Name": "link1", "Hash": "...", "Size": 8}]}
+       */
+      Json* object);
+
   /** Get a file from IPFS.
    *
    * Implements

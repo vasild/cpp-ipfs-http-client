@@ -157,6 +157,11 @@ void Client::BlockStat(const std::string& block_id, Json* stat) {
   FetchAndParseJson(MakeUrl("block/stat", {{"arg", block_id}}), stat);
 }
 
+void Client::DagGet(const std::string& cid, Json* value) {
+  FetchAndParseJson(MakeUrl("dag/get", {{"arg", cid}}), value);
+  // http_->Fetch(MakeUrl("dag/get", {{"arg", cid}}), {}, value);
+}
+
 void Client::FilesGet(const std::string& path, std::iostream* response) {
   http_->Fetch(MakeUrl("cat", {{"arg", path}}), {}, response);
 }

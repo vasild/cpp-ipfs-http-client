@@ -31,11 +31,12 @@ int main(int, char**) {
     /** [ipfs::Client::DagPut] */
     ipfs::Json dag_to_store = R"(
       {
-          "Data": "another",
-          "Links": [ {
-              "Name": "some link",
-              "Hash": "QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V",
-              "Size": 8
+          "thing": "stuff",
+          "MoreData": "important",
+          "Stinks": [ {
+              "Name": "old sock",
+              "Splash": "QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V",
+              "Spize": 42
           } ]
       }
     )"_json;
@@ -48,19 +49,20 @@ int main(int, char**) {
     /* An example output:
     Dag to store:
     {
-      "Data": "another",
-      "Links": [
+      "thing": "stuff",
+      "MoreData": "important",
+      "Stinks": [
         {
           "Hash": "QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V",
-          "Name": "some link",
-          "Size": 8
+          "Name": "old sock",
+          "Size": 42
         }
       ]
     }
     Stored dag:
     {
       "Cid": {
-        "/": "bafyreic25pekmrs3pezhzlnpztcnlqjgulknd52wk3tdfghnjjrq7dugpq"
+        "/": "bafyreie3ybajzu6qlfjxpq4mwe62klirtc7yxmpuzclc22e6ifremzlrmq"
       }
     }
     */
@@ -71,17 +73,20 @@ int main(int, char**) {
 
     /** [ipfs::Client::DagGet] */
     ipfs::Json dag;
-    client.DagGet("bafyreic25pekmrs3pezhzlnpztcnlqjgulknd52wk3tdfghnjjrq7dugpq", &dag);
+    client.DagGet("bafyreie3ybajzu6qlfjxpq4mwe62klirtc7yxmpuzclc22e6ifremzlrmq", &dag);
     std::cout << "Dag: " << std::endl << dag.dump(2) << std::endl;
     /* An example output:
     Dag:
     {
-      "Data": "another",
-      "Links": [ {
-        "Name": "some link",
-        "Hash": "QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V",
-        "Size": 8
-      } ]
+      "MoreData": "important",
+      "Stinks": [
+        {
+          "Hash": "QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V",
+          "Name": "old sock",
+          "Size": 42
+        }
+      ],
+      "thing": "stuff"
     }
     */
     /** [ipfs::Client::DagGet] */

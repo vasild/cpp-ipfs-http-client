@@ -35,6 +35,11 @@ Client::Client(const std::string& host, long port)
   http_ = new http::TransportCurl();
 }
 
+Client::Client(const Client& other)
+    : url_prefix_(other.url_prefix_) {
+  http_ = new http::TransportCurl();
+}
+
 Client::~Client() { delete http_; }
 
 void Client::Id(Json* id) { FetchAndParseJson(MakeUrl("id"), id); }

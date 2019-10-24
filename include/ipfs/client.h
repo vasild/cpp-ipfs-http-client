@@ -57,6 +57,10 @@ class Client {
       /** [in] Port to connect to. */
       long port);
 
+  Client(
+      /** [in] Other client connection to be copied */
+      const Client&);
+
   /** Destructor.
    * @since version 0.1.0 */
   ~Client();

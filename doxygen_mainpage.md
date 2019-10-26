@@ -39,4 +39,4 @@ make install
 
 # License
 
-Copyright &copy; 2016-2016 Vasil Dimov. The code is distributed under the [MIT License](http://opensource.org/licenses/MIT).
+The code is distributed under the [MIT License](http://opensource.org/licenses/MIT).

@@ -1,6 +1,6 @@
 language: cpp
 
-dist: trusty
+dist: bionic
 sudo: required
 
 install:
@@ -8,10 +8,10 @@ install:
   # out (ie it assumes in-source build)
   - JSON_INSTALL_DIR="${TRAVIS_BUILD_DIR}/../include/nlohmann"
   - mkdir -p "${JSON_INSTALL_DIR}"
-  - travis_retry wget --quiet -O "${JSON_INSTALL_DIR}/json.hpp" https://raw.githubusercontent.com/nlohmann/json/v2.0.7/src/json.hpp
+  - travis_retry wget --quiet -O "${JSON_INSTALL_DIR}/json.hpp" https://raw.githubusercontent.com/nlohmann/json/v3.7.0/single_include/nlohmann/json.hpp
 
   - GO_IPFS_DIR="${TRAVIS_BUILD_DIR}/../go-ipfs"
-  - GO_IPFS_ARCHIVE_BASENAME="go-ipfs_v0.4.4_linux-amd64.tar.gz"
+  - GO_IPFS_ARCHIVE_BASENAME="go-ipfs_v0.4.22_linux-amd64.tar.gz"
   - GO_IPFS_ARCHIVE_FULLPATH="${GO_IPFS_DIR}/${GO_IPFS_ARCHIVE_BASENAME}"
   - GO_IPFS_CMD_BASENAME="ipfs"
   - GO_IPFS_CMD="${GO_IPFS_DIR}/go-ipfs/${GO_IPFS_CMD_BASENAME}"
@@ -21,7 +21,7 @@ install:
     else
       echo "${GO_IPFS_ARCHIVE_FULLPATH} does not exist, downloading"
       mkdir -p "${GO_IPFS_DIR}"
-      travis_retry wget --quiet -O "${GO_IPFS_ARCHIVE_FULLPATH}" "https://ipfs.io/ipns/dist.ipfs.io/go-ipfs/v0.4.4/${GO_IPFS_ARCHIVE_BASENAME}"
+      travis_retry wget --quiet -O "${GO_IPFS_ARCHIVE_FULLPATH}" "https://ipfs.io/ipns/dist.ipfs.io/go-ipfs/v0.4.22/${GO_IPFS_ARCHIVE_BASENAME}"
     fi
   - |
     if [ -x "${GO_IPFS_CMD}" ] ; then
@@ -45,26 +45,12 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.7
+            - llvm-toolchain-precise-6.0
           packages:
-            - clang-3.7
+            - clang-6.0
       env:
-        - TAG="compile with clang 3.7"
-        - CXX_=clang++-3.7
-    - os: linux
-      before_install:
-        - sudo apt-get update -qq
-      compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.8
-          packages:
-            - clang-3.8
-      env:
-        - TAG="compile with clang 3.8 in Release mode"
-        - CXX_=clang++-3.8
+        - TAG="compile with clang 6.0 in Release mode"
+        - CXX_=clang++-6.0
         - CMAKE_EXTRA_ARGS_="-DCMAKE_BUILD_TYPE=Release"
     - os: linux
       before_install:
@@ -74,12 +60,12 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.8
+            - llvm-toolchain-precise-6.0
           packages:
-            - clang-3.8
+            - clang-6.0
       env:
-        - TAG="compile with clang 3.8 and run tests"
-        - CXX_=clang++-3.8
+        - TAG="compile with clang 6.0 and run tests"
+        - CXX_=clang++-6.0
       after_success:
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_start.sh"
         - OK="no"
@@ -94,19 +80,20 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.8
+            - llvm-toolchain-precise-6.0
           packages:
-            - clang-3.8
+            - clang-6.0
+            - clang-tools-6.0
       env:
-        - TAG="static analysis with scan-build 3.8"
+        - TAG="static analysis with scan-build 6.0"
       script:
         - cmake --version
         - SOURCE_DIR="${TRAVIS_BUILD_DIR}"
         - BUILD_DIR="${TRAVIS_BUILD_DIR}/../build"
         - mkdir -p "${BUILD_DIR}"
         - cd "${BUILD_DIR}"
-        - CCC_CXX=clang++-3.8 scan-build-3.8 --status-bugs cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
-        - CCC_CXX=clang++-3.8 scan-build-3.8 --status-bugs make VERBOSE=1
+        - CCC_CXX=clang++-6.0 scan-build-6.0 --status-bugs cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
+        - CCC_CXX=clang++-6.0 scan-build-6.0 --status-bugs make VERBOSE=1
     - os: linux
       before_install:
         - sudo apt-get update -qq
@@ -116,36 +103,10 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-4.9
+            - g++-8
       env:
-        - TAG="compile with gcc 4.9"
-        - CXX_=g++-4.9
-    - os: linux
-      before_install:
-        - sudo apt-get update -qq
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env:
-        - TAG="compile with gcc 5.x"
-        - CXX_=g++-5
-    - os: linux
-      before_install:
-        - sudo apt-get update -qq
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-6
-      env:
-        - TAG="compile with gcc 6.x"
-        - CXX_=g++-6
+        - TAG="compile with gcc 8.x"
+        - CXX_=g++-8
     - os: linux
       before_install:
         - sudo apt-get update -qq
@@ -156,10 +117,10 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-6
+            - g++-8
       env:
-        - TAG="compile with gcc 6.x and assess coverage"
-        - CXX_=g++-6
+        - TAG="compile with gcc 8.x and assess coverage"
+        - CXX_=g++-8
         - CXXFLAGS="-g -O0 --coverage"
         - LDFLAGS="-g -O0 --coverage"
       script:
@@ -180,7 +141,7 @@ matrix:
         - |
           if [ "${OK}" = "yes" ] ; then
             echo "Tests passed, gathering coverage statistics"
-            coveralls --verbose --exclude "`find ./ -name CMakeCXXCompilerId.cpp`" --exclude "`find ./ -name feature_tests.cxx`" --exclude test --exclude include/ipfs/test/utils.h --gcov gcov-6 --gcov-options '\-lp' --repo-token hfT2FIRhKeMMqAVnEmUxGSu36wUwnpa0V
+            coveralls --verbose --exclude "`find ./ -name CMakeCXXCompilerId.cpp`" --exclude "`find ./ -name feature_tests.cxx`" --exclude test --exclude include/ipfs/test/utils.h --gcov gcov-8 --gcov-options '\-lp' --repo-token hfT2FIRhKeMMqAVnEmUxGSu36wUwnpa0V
           else
             echo "Tests failed, not gathering coverage statistics"
           fi

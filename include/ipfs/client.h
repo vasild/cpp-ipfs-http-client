@@ -270,7 +270,7 @@ class Client {
   /** List directory contents for Unix filesystem objects.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#ls
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#ls.
    *
    * An example usage:
    * @snippet files.cc ipfs::Client::FilesLs

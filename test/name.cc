@@ -37,12 +37,12 @@ int main(int, char**) {
     // The object here is well-known.
     std::string object_id = "QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG";
     std::string name;
+    ipfs::Json options = {{"lifetime", "4h"}, {"ttl", "60s"}};
     client.NamePublish(
         object_id,
         "foobar-key",
-        &name,
-        "4h",     // lifetime
-        "30s");   // ttl
+        options,
+        &name);
     /* An example output: "QmbJ5UzreC86qtHrWC2SwWKLsTiLqTuG4cqHHJVdYPK6s9" */
     std::cout << "Published name: " << name << std::endl;
     /** [ipfs::Client::NamePublish] */

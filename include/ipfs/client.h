@@ -378,12 +378,20 @@ class Client {
       /** [in] Name of the key to use. This is the local,
        * human-friendly keyname */
       const std::string& key_name,
+      /** [in] Optional JSON parameter providing options.
+       * If specified, these will be used to determine how the name is
+       * published:
+       * {
+       *    resolve:  // bool - Resolve given path before publishing.
+       *              //   Default: true
+       *    lifetime: // string - Lifetime duration of the record.
+       *              //   Default: 24h
+       *    ttl:      // string - Duration in client's cache.
+       * }
+       */
+      const ipfs::Json& options,
       /** [out] IPNS name id (multihash) of the named object. */
-      std::string* name_id,
-      /** [in] Lifetime duration of the record. */
-      const std::string& lifetime = "24h",
-      /** [in] Duration of client's cache before new query. */
-      const std::string& ttl = "60s");
+      std::string* name_id);
 
   /** Resolve an IPNS name.
    *

@@ -253,18 +253,17 @@ void Client::KeyRm(const std::string& key_name) {
 
 void Client::NamePublish(const std::string& object_id,
                          const std::string& key_name,
-                         std::string* name_id,
-                         const std::string& lifetime,
-                         const std::string& ttl)
+                         const ipfs::Json& options,
+                         std::string* name_id)
 {
   Json response;
 
-  FetchAndParseJson(MakeUrl("name/publish",
-                            {{"arg", object_id},
-                             {"key", key_name},
-                             {"lifetime", lifetime},
-                             {"ttl", ttl}}),
-                            &response);
+  std::vector<std::pair<std::string, std::string>> args;
+  args = {{"arg", object_id}, {"key", key_name}};
+  for (auto& elt : options.items())
+    args.push_back({elt.key(), elt.value()});
+
+  FetchAndParseJson(MakeUrl("name/publish", args), &response);
 
   GetProperty(response, "Name", 0, name_id);
 }

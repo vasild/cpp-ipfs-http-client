@@ -135,6 +135,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0c0a73fa1a284cd4a12c1395a0eb356c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a0c0a73fa1a284cd4a12c1395a0eb356c">FilesLs</a> (const std::string &amp;path, <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *result)</td></tr>
 <tr class="memdesc:a0c0a73fa1a284cd4a12c1395a0eb356c"><td class="mdescLeft">&#160;</td><td class="mdescRight">List directory contents for Unix filesystem objects.  <a href="#a0c0a73fa1a284cd4a12c1395a0eb356c">More...</a><br /></td></tr>
 <tr class="separator:a0c0a73fa1a284cd4a12c1395a0eb356c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada01369adfda81c869a7095d98197961"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#ada01369adfda81c869a7095d98197961">KeyGen</a> (const std::string &amp;key_name, const std::string &amp;key_type, size_t key_size, std::string *key_id)</td></tr>
+<tr class="memdesc:ada01369adfda81c869a7095d98197961"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a new key.  <a href="#ada01369adfda81c869a7095d98197961">More...</a><br /></td></tr>
+<tr class="separator:ada01369adfda81c869a7095d98197961"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49d9bb4e44e66170c8e32134300ccfb1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a49d9bb4e44e66170c8e32134300ccfb1">KeyList</a> (<a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *key_list)</td></tr>
+<tr class="memdesc:a49d9bb4e44e66170c8e32134300ccfb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">List all the keys.  <a href="#a49d9bb4e44e66170c8e32134300ccfb1">More...</a><br /></td></tr>
+<tr class="separator:a49d9bb4e44e66170c8e32134300ccfb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c8c8703f4be0e4eb5053301b3577ed8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a8c8c8703f4be0e4eb5053301b3577ed8">KeyRm</a> (const std::string &amp;key_name)</td></tr>
+<tr class="memdesc:a8c8c8703f4be0e4eb5053301b3577ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a key.  <a href="#a8c8c8703f4be0e4eb5053301b3577ed8">More...</a><br /></td></tr>
+<tr class="separator:a8c8c8703f4be0e4eb5053301b3577ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65d8e5b1ac53f2f54bc9860dea015c6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a65d8e5b1ac53f2f54bc9860dea015c6d">ObjectNew</a> (std::string *object_id)</td></tr>
 <tr class="memdesc:a65d8e5b1ac53f2f54bc9860dea015c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new MerkleDAG node.  <a href="#a65d8e5b1ac53f2f54bc9860dea015c6d">More...</a><br /></td></tr>
 <tr class="separator:a65d8e5b1ac53f2f54bc9860dea015c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -751,7 +760,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>List directory contents for Unix filesystem objects. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#ls">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#ls</a></p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#ls">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#ls</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> ls_result;</div><div class="line">    client.FilesLs(<span class="stringliteral">&quot;/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG&quot;</span>,</div><div class="line">                   &amp;ls_result);</div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;FilesLs() result:&quot;</span> &lt;&lt; std::endl</div><div class="line">              &lt;&lt; ls_result.dump(2) &lt;&lt; std::endl;</div><div class="line">    <span class="comment">/* An example output:</span></div><div class="line"><span class="comment">    {</span></div><div class="line"><span class="comment">      &quot;Arguments&quot;: {</span></div><div class="line"><span class="comment">        &quot;/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG&quot;:</span></div><div class="line"><span class="comment">        &quot;QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG&quot;</span></div><div class="line"><span class="comment">      },</span></div><div class="line"><span class="comment">      &quot;Objects&quot;: {</span></div><div class="line"><span class="comment">        &quot;QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG&quot;: {</span></div><div class="line"><span class="comment">          &quot;Hash&quot;: &quot;QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG&quot;,</span></div><div class="line"><span class="comment">          &quot;Links&quot;: [</span></div><div class="line"><span class="comment">            {</span></div><div class="line"><span class="comment">              &quot;Hash&quot;: &quot;QmZTR5bcpQD7cFgTorqxZDYaew1Wqgfbd2ud9QqGPAkK2V&quot;,</span></div><div class="line"><span class="comment">              &quot;Name&quot;: &quot;about&quot;,</span></div><div class="line"><span class="comment">              &quot;Size&quot;: 1677,</span></div><div class="line"><span class="comment">              &quot;Type&quot;: &quot;File&quot;</span></div><div class="line"><span class="comment">            },</span></div><div class="line"><span class="comment">            ...</span></div><div class="line"><span class="comment">            {</span></div><div class="line"><span class="comment">              &quot;Hash&quot;: &quot;QmdncfsVm2h5Kqq9hPmU7oAVX2zTSVP3L869tgTbPYnsha&quot;,</span></div><div class="line"><span class="comment">              &quot;Name&quot;: &quot;quick-start&quot;,</span></div><div class="line"><span class="comment">              &quot;Size&quot;: 1717,</span></div><div class="line"><span class="comment">              &quot;Type&quot;: &quot;File&quot;</span></div><div class="line"><span class="comment">            },</span></div><div class="line"><span class="comment">            ...</span></div><div class="line"><span class="comment">          ],</span></div><div class="line"><span class="comment">          &quot;Size&quot;: 0,</span></div><div class="line"><span class="comment">          &quot;Type&quot;: &quot;Directory&quot;</span></div><div class="line"><span class="comment">        }</span></div><div class="line"><span class="comment">      }</span></div><div class="line"><span class="comment">    }</span></div><div class="line"><span class="comment">    */</span></div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
@@ -797,6 +806,133 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">id</td><td>The identity of the peer. It contains at least the properties "Addresses", "ID", "PublicKey". </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ada01369adfda81c869a7095d98197961"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada01369adfda81c869a7095d98197961">&#9670;&nbsp;</a></span>KeyGen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::KeyGen </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>key_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string *&#160;</td>
+          <td class="paramname"><em>key_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Generate a new key. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keygen">https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keygen</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    std::string key_id;</div><div class="line">    client.KeyGen(<span class="stringliteral">&quot;foobar-key&quot;</span>, <span class="stringliteral">&quot;rsa&quot;</span>, 2048, &amp;key_id);</div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Generated key: &quot;</span> &lt;&lt; key_id &lt;&lt; std::endl;</div><div class="line">    <span class="comment">/* An example output:</span></div><div class="line"><span class="comment">    Generated key: &quot;QmQeVW8BKqpHbUV5GcecC3wDLF3iqV6ZJhtFN8q8mUYFUs&quot;</span></div><div class="line"><span class="comment">    */</span></div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.3.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">key_name</td><td>Key name (local, user-friendly name for the key). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key_type</td><td>Key type. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key_size</td><td>Key size. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">key_id</td><td>Key CID. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a49d9bb4e44e66170c8e32134300ccfb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49d9bb4e44e66170c8e32134300ccfb1">&#9670;&nbsp;</a></span>KeyList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::KeyList </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *&#160;</td>
+          <td class="paramname"><em>key_list</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>List all the keys. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keylist">https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keylist</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    Json key_list;</div><div class="line">    client.KeyList(&amp;key_list);</div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;A list of all local keys: &quot;</span> &lt;&lt; key_list.dump(2) &lt;&lt; std::endl;</div><div class="line">    <span class="comment">/* An example output:</span></div><div class="line"><span class="comment">    A list of all local keys: [</span></div><div class="line"><span class="comment">      {</span></div><div class="line"><span class="comment">        &quot;Id&quot;: &quot;QmQ9KnoHP3iRwXLSrdDb8wdJCbEdjk7hVFYGUGDUsdC41k&quot;,</span></div><div class="line"><span class="comment">        &quot;Name&quot;: &quot;self&quot;</span></div><div class="line"><span class="comment">      },</span></div><div class="line"><span class="comment">      {</span></div><div class="line"><span class="comment">        &quot;Id&quot;: &quot;QmNjm428tzU5P2ik1yDJNZP2F5zG2jb8fHXZ5D2mzvJGLg&quot;,</span></div><div class="line"><span class="comment">        &quot;Name&quot;: &quot;foobar-key&quot;</span></div><div class="line"><span class="comment">      }</span></div><div class="line"><span class="comment">    ]</span></div><div class="line"><span class="comment">    */</span></div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.3.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">key_list</td><td>List of all local keys. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8c8c8703f4be0e4eb5053301b3577ed8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c8c8703f4be0e4eb5053301b3577ed8">&#9670;&nbsp;</a></span>KeyRm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::KeyRm </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remove a key. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keyrm">https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keyrm</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* Successful, if no error is thrown. */</span></div><div class="line">    client.KeyRm(<span class="stringliteral">&quot;foobar-key&quot;</span>);</div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.3.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">key_name</td><td>Key name (local, user-friendly name for the key). </td></tr>
   </table>
   </dd>
 </dl>

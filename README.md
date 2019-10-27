@@ -24,6 +24,7 @@ Currently implemented methods:
 - [object](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/OBJECT.md): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()
 - [pin](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/PIN.md): add(), ls(), rm()
 - [swarm](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/SWARM.md): addrs(), connect(), disconnect(), peers()
+- [key](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md): gen(), list(), rm()
 
 Not all methods are implemented.
 

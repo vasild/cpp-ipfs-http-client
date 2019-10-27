@@ -69,7 +69,7 @@ matrix:
       after_success:
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_start.sh"
         - OK="no"
-        - CTEST_OUTPUT_ON_FAILURE=1 make test && OK="yes"
+        - CTEST_OUTPUT_ON_FAILURE=1 travis_wait 30 make test && OK="yes"
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_stop.sh"
         - test "${OK}" = "yes"
     - os: linux
@@ -136,7 +136,7 @@ matrix:
         - make VERBOSE=1
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_start.sh"
         - OK="no"
-        - CTEST_OUTPUT_ON_FAILURE=1 make test && OK="yes"
+        - CTEST_OUTPUT_ON_FAILURE=1 travis_wait 30 make test && OK="yes"
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_stop.sh"
         - |
           if [ "${OK}" = "yes" ] ; then

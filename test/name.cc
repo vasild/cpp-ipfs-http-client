@@ -30,7 +30,7 @@ int main(int, char**) {
 
     // We need a key here, so as not to clobber the "self" key.
     std::string key_id;
-    client.KeyGen("foobar-key", &key_id);
+    client.KeyGen("foobar-key", "rsa", 2048, &key_id);
     std::cout << "Generated key: " << key_id << std::endl;
 
     /** [ipfs::Client::NamePublish] */

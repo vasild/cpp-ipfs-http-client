@@ -389,7 +389,7 @@ class Client {
        *    ttl:      // string - Duration in client's cache.
        * }
        */
-      const ipfs::Json& options,
+      const Json& options,
       /** [out] IPNS name id (multihash) of the named object. */
       std::string* name_id);
 

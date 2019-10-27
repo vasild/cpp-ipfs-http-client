@@ -310,69 +310,53 @@ class Client {
       */
       Json* result);
 
+  /** Generate a new key.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keygen.
+   *
+   * An example usage:
+   * @snippet key.cc ipfs::Client::KeyGen
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.3.0 */
+  void KeyGen(
+      /** [in] Key name (local, user-friendly name for the key). */
+      const std::string& key_name,
+      /** [in] Key type. */
+      const std::string& key_type,
+      /** [in] Key size. */
+      size_t key_size,
+      /** [out] Key CID. */
+      std::string* key_id);
+
   /** List all the keys.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/KEY.md#key.list.
+   * https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keylist.
    *
    * An example usage:
    * @snippet key.cc ipfs::Client::KeyList
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 0.4.0 */
+   * @since version 0.3.0 */
   void KeyList(
       /** [out] List of all local keys. */
       Json* key_list);
 
-  /** Find a single key by name.
-   *
-   * Handy utility wrapper around KeyList.
-   *
-   * An example usage:
-   * @snippet key.cc ipfs::Client::KeyFind
-   *
-   * @throw std::exception if any error occurs
-   *
-   * @since version 0.4.0 */
-  void KeyFind(
-      /** [in] Key name (local, user-friendly name for the key). */
-      const std::string& key_name,
-      /** [out] Key CID. */
-      std::string* key_id);
-
-  /** Generate a new key.
-   *
-   * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/KEY.md#key.gen.
-   *
-   * An example usage:
-   * @snippet key.cc ipfs::Client::KeyNew
-   *
-   * @throw std::exception if any error occurs
-   *
-   * @since version 0.4.0 */
-  void KeyNew(
-      /** [in] Key name (local, user-friendly name for the key). */
-      const std::string& key_name,
-      /** [out] Key CID. */
-      std::string* key_id,
-      /** [in] Key type. */
-      const std::string& key_type = "rsa",
-      /** [in] Key size. */
-      const std::string& key_size = "2048");
-
   /** Remove a key.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/KEY.md#key.rm.
+   * https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keyrm.
    *
    * An example usage:
    * @snippet key.cc ipfs::Client::KeyRm
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 0.4.0 */
+   * @since version 0.3.0 */
   void KeyRm(
       /** [in] Key name (local, user-friendly name for the key). */
       const std::string& key_name);

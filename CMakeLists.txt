@@ -32,7 +32,7 @@ include_directories("include")
 
 # Targets
 
-set(IPFS_API_LIBNAME ipfs-api)
+set(IPFS_API_LIBNAME ipfs-http-client)
 
 # To build and install a shared library: "cmake -DBUILD_SHARED_LIBS:BOOL=ON ..."
 add_library(${IPFS_API_LIBNAME}

@@ -364,7 +364,7 @@ class Client {
   /** Publish an IPNS name attached to a given value.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/NAME.md#name.publish.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#namepublish
    *
    * An example usage:
    * @snippet name.cc ipfs::Client::NamePublish
@@ -378,7 +378,7 @@ class Client {
       /** [in] Name of the key to use. This is the local,
        * human-friendly keyname */
       const std::string& key_name,
-      /** [out] IPNS name Id (multihash) of the named object. */
+      /** [out] IPNS name id (multihash) of the named object. */
       std::string* name_id,
       /** [in] Lifetime duration of the record. */
       const std::string& lifetime = "24h",
@@ -388,7 +388,7 @@ class Client {
   /** Resolve an IPNS name.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/NAME.md#name.resolve.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#nameresolve
    *
    * An example usage:
    * @snippet name.cc ipfs::Client::NameResolve
@@ -400,7 +400,7 @@ class Client {
       /** [in] Id (multihash) of the name to resolve. */
       const std::string& name_id,
       /** [out] IPFS path string to the resolving object.
-       For example: "/ipfs/QmRrVRGx5xAXX52BYuScmJk1KWPny86BtexP8YNJ8jz76U" */
+       * For example: "/ipfs/QmRrVRGx5xAXX52BYuScmJk1KWPny86BtexP8YNJ8jz76U" */
       std::string* path_string);
 
   /** Create a new MerkleDAG node.

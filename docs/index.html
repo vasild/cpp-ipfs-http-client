@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>cpp-ipfs-api: IPFS C++ API client library</title>
+<title>cpp-ipfs-http-client: IPFS C++ API client library</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">cpp-ipfs-api
+   <div id="projectname">cpp-ipfs-http-client
    </div>
    <div id="projectbrief">IPFS C++ client library</div>
   </td>
@@ -68,7 +68,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p>The main class the library exports is <a class="el" href="classipfs_1_1Client.html">ipfs::Client</a>. The rest is only interesting to developers of this library.</p>
 <h1>Install</h1>
-<div class="fragment"><div class="line"># Fetch the source code from GitHub.</div><div class="line">git clone git@github.com:vasild/cpp-ipfs-api.git</div><div class="line"></div><div class="line"># Build out-of-source using cmake in the usual way.</div><div class="line"># These extra options may be of interest in case the dependencies have</div><div class="line"># been installed in non-standard locations:</div><div class="line"># JSON_FOR_MODERN_CXX_INCLUDE_DIR</div><div class="line"># CURL_INCLUDE_DIR</div><div class="line"># CURL_LIBRARY</div><div class="line">mkdir build</div><div class="line">cd build</div><div class="line">cmake \</div><div class="line">  -DCMAKE_INSTALL_PREFIX:PATH=/home/joe.smith/cpp-ipfs-api-install \</div><div class="line">  -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH=/home/joe.smith/include \</div><div class="line">  -DCURL_INCLUDE_DIR:PATH=/home/joe.smith/include</div><div class="line">  -DCURL_LIBRARY:PATH=/home/joe.smith/lib/libcurl.so</div><div class="line">  -DCMAKE_BUILD_TYPE=Debug \</div><div class="line">  -DBUILD_SHARED_LIBS:BOOL=ON \</div><div class="line">  ../cpp-ipfs-api</div><div class="line">make -j742</div><div class="line"></div><div class="line"># Optionally install it.</div><div class="line">make install</div></div><!-- fragment --><h2>Dependencies</h2>
+<div class="fragment"><div class="line"># Fetch the source code from GitHub.</div><div class="line">git clone git@github.com:vasild/cpp-ipfs-http-client.git</div><div class="line"></div><div class="line"># Build out-of-source using cmake in the usual way.</div><div class="line"># These extra options may be of interest in case the dependencies have</div><div class="line"># been installed in non-standard locations:</div><div class="line"># JSON_FOR_MODERN_CXX_INCLUDE_DIR</div><div class="line"># CURL_INCLUDE_DIR</div><div class="line"># CURL_LIBRARY</div><div class="line">mkdir build</div><div class="line">cd build</div><div class="line">cmake \</div><div class="line">  -DCMAKE_INSTALL_PREFIX:PATH=/home/joe.smith/cpp-ipfs-http-client-install \</div><div class="line">  -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH=/home/joe.smith/include \</div><div class="line">  -DCURL_INCLUDE_DIR:PATH=/home/joe.smith/include</div><div class="line">  -DCURL_LIBRARY:PATH=/home/joe.smith/lib/libcurl.so</div><div class="line">  -DCMAKE_BUILD_TYPE=Debug \</div><div class="line">  -DBUILD_SHARED_LIBS:BOOL=ON \</div><div class="line">  ../cpp-ipfs-http-client</div><div class="line">make -j742</div><div class="line"></div><div class="line"># Optionally install it.</div><div class="line">make install</div></div><!-- fragment --><h2>Dependencies</h2>
 <ul>
 <li><a href="https://github.com/nlohmann/json#supported-compilers">C++11 compiler</a></li>
 <li><a href="http://cmake.org">CMake</a>, version 3.1.0 or higher</li>

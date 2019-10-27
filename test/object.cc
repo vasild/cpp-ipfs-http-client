@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2016, Vasil Dimov
+/* Copyright (c) 2016-2019, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -69,18 +69,11 @@ int main(int, char**) {
     Stored object:
     {
       "Hash": "QmZZmY4KCu9r3e7M2Pcn46Fc5qbn6NpzaAGaYb22kbfTqm",
-      "Links": [
-        {
-          "Hash": "QmXg9Pp2ytZ14xgmQjYEiHjVjMFXzCVVEcRTWJBmLgR39V",
-          "Name": "some link",
-          "Size": 8
-        }
-      ]
     }
     */
     /** [ipfs::Client::ObjectPut] */
     ipfs::test::check_if_properties_exist("client.ObjectPut()", object_stored,
-                                          {"Hash", "Links"});
+                                          {"Hash"});
 
     /** [ipfs::Client::ObjectGet] */
     ipfs::Json object;

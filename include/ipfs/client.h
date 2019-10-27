@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2016, Vasil Dimov
+/* Copyright (c) 2016-2019, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -64,7 +64,7 @@ class Client {
   /** Return the identity of the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic#id.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/MISCELLANEOUS.md#id.
    *
    * An example usage:
    * @snippet generic.cc ipfs::Client::Id
@@ -80,7 +80,7 @@ class Client {
   /** Return the implementation version of the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/generic#version.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/MISCELLANEOUS.md#version.
    *
    * An example usage:
    * @snippet generic.cc ipfs::Client::Version
@@ -96,7 +96,7 @@ class Client {
   /** Query the current config of the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/config#configget.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/CONFIG.md#configget.
    *
    * An example usage:
    * @snippet config.cc ipfs::Client::ConfigGet
@@ -114,7 +114,7 @@ class Client {
   /** Add or replace a config knob at the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/config#configset.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/CONFIG.md#configset.
    *
    * An example usage:
    * @snippet config.cc ipfs::Client::ConfigSet
@@ -131,7 +131,7 @@ class Client {
   /** Replace the entire config at the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/config#configreplace.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/CONFIG.md#configreplace.
    *
    * An example usage:
    * @snippet config.cc ipfs::Client::ConfigReplace
@@ -146,7 +146,7 @@ class Client {
   /** Retrieve the peer info of a reachable node in the network.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht#findpeer.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DHT.md#dhtfindpeer.
    *
    * An example usage:
    * @snippet dht.cc ipfs::Client::DhtFindPeer
@@ -163,7 +163,7 @@ class Client {
   /** Retrieve the providers for a content that is addressed by a hash.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/dht#findprovs.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DHT.md#dhtfindprovs.
    *
    * An example usage:
    * @snippet dht.cc ipfs::Client::DhtFindProvs
@@ -180,7 +180,7 @@ class Client {
   /** Get a raw IPFS block.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/block#get.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockget.
    *
    * An example usage:
    * @snippet block.cc ipfs::Client::BlockGet
@@ -198,7 +198,7 @@ class Client {
   /** Store a raw block in IPFS.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/block#put.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockput.
    *
    * An example usage:
    * @snippet block.cc ipfs::Client::BlockPut
@@ -215,7 +215,7 @@ class Client {
   /** Get information for a raw IPFS block.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/block#stat.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockstat.
    *
    * An example usage:
    * @snippet block.cc ipfs::Client::BlockStat
@@ -232,7 +232,7 @@ class Client {
   /** Get a file from IPFS.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/files#get.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/FILES.md#get.
    *
    * An example usage:
    * @snippet files.cc ipfs::Client::FilesGet
@@ -251,7 +251,7 @@ class Client {
   /** Add files to IPFS.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/files#add.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/FILES.md#add.
    *
    * An example usage:
    * @snippet files.cc ipfs::Client::FilesAdd
@@ -270,7 +270,7 @@ class Client {
   /** List directory contents for Unix filesystem objects.
    *
    * Implements
-   * https://ipfs.io/docs/api/#api-v0-file-ls
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#ls.
    *
    * An example usage:
    * @snippet files.cc ipfs::Client::FilesLs
@@ -310,69 +310,53 @@ class Client {
       */
       Json* result);
 
+  /** Generate a new key.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keygen.
+   *
+   * An example usage:
+   * @snippet key.cc ipfs::Client::KeyGen
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.3.0 */
+  void KeyGen(
+      /** [in] Key name (local, user-friendly name for the key). */
+      const std::string& key_name,
+      /** [in] Key type. */
+      const std::string& key_type,
+      /** [in] Key size. */
+      size_t key_size,
+      /** [out] Key CID. */
+      std::string* key_id);
+
   /** List all the keys.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/KEY.md#key.list.
+   * https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keylist.
    *
    * An example usage:
    * @snippet key.cc ipfs::Client::KeyList
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 0.4.0 */
+   * @since version 0.3.0 */
   void KeyList(
       /** [out] List of all local keys. */
       Json* key_list);
 
-  /** Find a single key by name.
-   *
-   * Handy utility wrapper around KeyList.
-   *
-   * An example usage:
-   * @snippet key.cc ipfs::Client::KeyFind
-   *
-   * @throw std::exception if any error occurs
-   *
-   * @since version 0.4.0 */
-  void KeyFind(
-      /** [in] Key name (local, user-friendly name for the key). */
-      const std::string& key_name,
-      /** [out] Key CID. */
-      std::string* key_id);
-
-  /** Generate a new key.
-   *
-   * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/KEY.md#key.gen.
-   *
-   * An example usage:
-   * @snippet key.cc ipfs::Client::KeyNew
-   *
-   * @throw std::exception if any error occurs
-   *
-   * @since version 0.4.0 */
-  void KeyNew(
-      /** [in] Key name (local, user-friendly name for the key). */
-      const std::string& key_name,
-      /** [out] Key CID. */
-      std::string* key_id,
-      /** [in] Key type. */
-      const std::string& key_type = "rsa",
-      /** [in] Key size. */
-      const std::string& key_size = "2048");
-
   /** Remove a key.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/KEY.md#key.rm.
+   * https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keyrm.
    *
    * An example usage:
    * @snippet key.cc ipfs::Client::KeyRm
    *
    * @throw std::exception if any error occurs
    *
-   * @since version 0.4.0 */
+   * @since version 0.3.0 */
   void KeyRm(
       /** [in] Key name (local, user-friendly name for the key). */
       const std::string& key_name);
@@ -422,7 +406,7 @@ class Client {
   /** Create a new MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectnew.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectnew.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectNew
@@ -437,7 +421,7 @@ class Client {
   /** Store a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectput.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectput.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectPut
@@ -455,7 +439,7 @@ class Client {
   /** Get a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectget.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectget.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectGet
@@ -474,7 +458,7 @@ class Client {
   /** Get the data field of a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectdata.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectdata.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectData
@@ -491,7 +475,7 @@ class Client {
   /** Get links of a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectlinks.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectlinks.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectLinks
@@ -509,7 +493,7 @@ class Client {
   /** Get stats about a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectstat.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectstat.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectStat
@@ -527,7 +511,7 @@ class Client {
   /** Create a new object from an existing MerkleDAG node and add to its links.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectpatchaddlink.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectpatchaddlink.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectPatchAddLink
@@ -549,7 +533,7 @@ class Client {
    * links.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectpatchrmlink.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectpatchrmlink.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectPatchRmLink
@@ -568,7 +552,7 @@ class Client {
   /** Create a new object from an existing MerkleDAG node and append data to it.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectpatchappenddata.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectpatchappenddata.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectPatchAppendData
@@ -587,7 +571,7 @@ class Client {
   /** Create a new object from an existing MerkleDAG node and set its data.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/object#objectpatchsetdata.
+   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectpatchsetdata.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectPatchSetData
@@ -606,7 +590,7 @@ class Client {
   /** Pin a given IPFS object.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin#add.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinadd.
    *
    * An example usage:
    * @snippet pin.cc ipfs::Client::PinAdd
@@ -621,7 +605,7 @@ class Client {
   /** List all the objects pinned to local storage.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin#ls.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinls.
    *
    * An example usage:
    * @snippet pin.cc ipfs::Client::PinLs__a
@@ -636,7 +620,7 @@ class Client {
   /** List the objects pinned under a specific hash.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin#ls.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinls.
    *
    * An example usage:
    * @snippet pin.cc ipfs::Client::PinLs__b
@@ -661,7 +645,7 @@ class Client {
   /** Unpin an object.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/pin#rm.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinrm.
    *
    * An example usage:
    * @snippet pin.cc ipfs::Client::PinRm
@@ -680,7 +664,7 @@ class Client {
   /** List of known addresses of each peer connected.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#addrs.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmaddrs.
    *
    * An example usage:
    * @snippet swarm.cc ipfs::Client::SwarmAddrs
@@ -695,7 +679,7 @@ class Client {
   /** Open a connection to a given address.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#connect.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmconnect.
    *
    * An example usage:
    * @snippet swarm.cc ipfs::Client::SwarmConnect
@@ -712,7 +696,7 @@ class Client {
   /** Close a connection on a given address.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#disconnect.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmdisconnect.
    *
    * An example usage:
    * @snippet swarm.cc ipfs::Client::SwarmDisconnect
@@ -729,7 +713,7 @@ class Client {
   /** List the peers that we have connections with.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/API/swarm#peers.
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmpeers.
    *
    * An example usage:
    * @snippet swarm.cc ipfs::Client::SwarmPeers

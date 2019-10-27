@@ -1,5 +1,4 @@
-/* Copyright (c) 2016-2016, Vasil Dimov
-   Copyright (c) 2019 Linas Vepštas
+/* Copyright (c) 2016-2019, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -31,28 +30,37 @@ int main(int, char**) {
   try {
     ipfs::Client client("localhost", 5001);
 
-    /** [ipfs::Client::KeyNew] */
+    /** [ipfs::Client::KeyGen] */
     std::string key_id;
-    client.KeyNew("foobar-key", &key_id);
+    client.KeyGen("foobar-key", "rsa", 2048, &key_id);
     std::cout << "Generated key: " << key_id << std::endl;
     /* An example output:
     Generated key: "QmQeVW8BKqpHbUV5GcecC3wDLF3iqV6ZJhtFN8q8mUYFUs"
     */
+    /** [ipfs::Client::KeyGen] */
 
     /** [ipfs::Client::KeyList] */
     Json key_list;
     client.KeyList(&key_list);
     std::cout << "A list of all local keys: " << key_list.dump(2) << std::endl;
-
-    client.KeyFind("self", &key_id);
-    std::cout << "My own (self) key is: " << key_id << std::endl;
-
-    client.KeyFind("foobar-key", &key_id);
-    std::cout << "The foobar key is: " << key_id << std::endl;
+    /* An example output:
+    A list of all local keys: [
+      {
+        "Id": "QmQ9KnoHP3iRwXLSrdDb8wdJCbEdjk7hVFYGUGDUsdC41k",
+        "Name": "self"
+      },
+      {
+        "Id": "QmNjm428tzU5P2ik1yDJNZP2F5zG2jb8fHXZ5D2mzvJGLg",
+        "Name": "foobar-key"
+      }
+    ]
+    */
+    /** [ipfs::Client::KeyList] */
 
     /** [ipfs::Client::KeyRm] */
     /* Successful, if no error is thrown. */
     client.KeyRm("foobar-key");
+    /** [ipfs::Client::KeyRm] */
 
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;

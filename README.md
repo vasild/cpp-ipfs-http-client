@@ -1,16 +1,16 @@
-# IPFS C++ API client library
+# IPFS C++ HTTP API client library
 
 [![Build Status](https://api.travis-ci.org/vasild/cpp-ipfs-api.svg?branch=master)](https://travis-ci.org/vasild/cpp-ipfs-api)
 [![Coverage Status](https://coveralls.io/repos/github/vasild/cpp-ipfs-api/badge.svg?branch=master)](https://coveralls.io/github/vasild/cpp-ipfs-api?branch=master)
-[![Documentation](https://img.shields.io/badge/docs-doxygen-blue.svg)](https://vasild.github.io/cpp-ipfs-api)
-[![GitHub Issues](https://img.shields.io/github/issues/vasild/cpp-ipfs-api.svg)](http://github.com/vasild/cpp-ipfs-api/issues)
+[![Documentation](https://img.shields.io/badge/docs-doxygen-blue.svg)](https://vasild.github.io/cpp-ipfs-http-client)
+[![GitHub Issues](https://img.shields.io/github/issues/vasild/cpp-ipfs-http-client.svg)](http://github.com/vasild/cpp-ipfs-http-client/issues)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/465/badge)](https://bestpractices.coreinfrastructure.org/projects/465)
 
 ![](https://ipfs.io/ipfs/QmQJ68PFMDdAsgCZvA1UVzzn18asVcf7HVvCDgpjiSCAse)
 
 Allows C++ applications to communicate with [IPFS](https://ipfs.io).
 It implements [IPFS API bindings](https://github.com/ipfs/interface-js-ipfs-core/blob/master/README.md#api) for C++.
-See [the documentation](https://vasild.github.io/cpp-ipfs-api) or [the source code](https://github.com/vasild/cpp-ipfs-api).
+See [the documentation](https://vasild.github.io/cpp-ipfs-http-client) or [the source code](https://github.com/vasild/cpp-ipfs-http-client).
 
 See also [IPFS on GitHub](https://github.com/ipfs).
 
@@ -36,12 +36,12 @@ Not all methods are implemented.
 # Install
 
 ```sh
-cmake /path/to/cpp-ipfs-api
+cmake /path/to/cpp-ipfs-http-client
 make
 make install
 ```
 
-See the [documentation for details](https://vasild.github.io/cpp-ipfs-api).
+See the [documentation for details](https://vasild.github.io/cpp-ipfs-http-client).
 
 ## Dependencies
 
@@ -72,12 +72,12 @@ int main(int, char**) {
 ```
 
 ```sh
-c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-api myprog.cc -o myprog
+c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-http-client myprog.cc -o myprog
 ```
 
 # Contribute
 
-Feel free to [open issues](https://github.com/vasild/cpp-ipfs-api/issues/new) and [pull requests](https://github.com/vasild/cpp-ipfs-api/compare).
+Feel free to [open issues](https://github.com/vasild/cpp-ipfs-http-client/issues/new) and [pull requests](https://github.com/vasild/cpp-ipfs-http-client/compare).
 Report vulnerabilities publicly, similar to other non-security issues.
 
 The project adheres to the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html). Use [clang-format](http://clang.llvm.org/docs/ClangFormat.html) to properly format the code when you submit patches.

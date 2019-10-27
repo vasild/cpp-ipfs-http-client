@@ -216,7 +216,7 @@ void TransportCurl::HandleSetup() {
   curl_easy_setopt(curl_, CURLOPT_TCP_KEEPINTVL, 10);
 
   /* https://curl.haxx.se/libcurl/c/CURLOPT_USERAGENT.html */
-  curl_easy_setopt(curl_, CURLOPT_USERAGENT, "cpp-ipfs-api");
+  curl_easy_setopt(curl_, CURLOPT_USERAGENT, "cpp-ipfs-http-client");
 
   curl_is_setup_ = true;
 }

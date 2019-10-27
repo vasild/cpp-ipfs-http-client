@@ -6,7 +6,7 @@ The main class the library exports is @link ipfs::Client @endlink. The rest is o
 
 ```sh
 # Fetch the source code from GitHub.
-git clone git@github.com:vasild/cpp-ipfs-api.git
+git clone git@github.com:vasild/cpp-ipfs-http-client.git
 
 # Build out-of-source using cmake in the usual way.
 # These extra options may be of interest in case the dependencies have
@@ -17,13 +17,13 @@ git clone git@github.com:vasild/cpp-ipfs-api.git
 mkdir build
 cd build
 cmake \
-  -DCMAKE_INSTALL_PREFIX:PATH=/home/joe.smith/cpp-ipfs-api-install \
+  -DCMAKE_INSTALL_PREFIX:PATH=/home/joe.smith/cpp-ipfs-http-client-install \
   -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH=/home/joe.smith/include \
   -DCURL_INCLUDE_DIR:PATH=/home/joe.smith/include
   -DCURL_LIBRARY:PATH=/home/joe.smith/lib/libcurl.so
   -DCMAKE_BUILD_TYPE=Debug \
   -DBUILD_SHARED_LIBS:BOOL=ON \
-  ../cpp-ipfs-api
+  ../cpp-ipfs-http-client
 make -j742
 
 # Optionally install it.

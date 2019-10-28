@@ -1,6 +1,6 @@
 # IPFS C++ HTTP API client library
 
-[![Build Status](https://api.travis-ci.org/vasild/cpp-ipfs-api.svg?branch=master)](https://travis-ci.org/vasild/cpp-ipfs-api)
+[![Build Status](https://api.travis-ci.org/vasild/cpp-ipfs-http-client.svg?branch=master)](https://travis-ci.org/vasild/cpp-ipfs-http-client)
 [![Coverage Status](https://coveralls.io/repos/github/vasild/cpp-ipfs-api/badge.svg?branch=master)](https://coveralls.io/github/vasild/cpp-ipfs-api?branch=master)
 [![Documentation](https://img.shields.io/badge/docs-doxygen-blue.svg)](https://vasild.github.io/cpp-ipfs-http-client)
 [![GitHub Issues](https://img.shields.io/github/issues/vasild/cpp-ipfs-http-client.svg)](http://github.com/vasild/cpp-ipfs-http-client/issues)

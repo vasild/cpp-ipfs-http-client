@@ -8,7 +8,7 @@
 
 ![](https://ipfs.io/ipfs/QmQJ68PFMDdAsgCZvA1UVzzn18asVcf7HVvCDgpjiSCAse)
 
-Allows C++ applications to communicate with [IPFS](https://ipfs.io).
+Allows C++ applications to communicate with an [IPFS](https://ipfs.io) node.
 It implements [IPFS API bindings](https://github.com/ipfs/interface-js-ipfs-core/blob/master/README.md#api) for C++.
 See [the documentation](https://vasild.github.io/cpp-ipfs-http-client) or [the source code](https://github.com/vasild/cpp-ipfs-http-client).
 

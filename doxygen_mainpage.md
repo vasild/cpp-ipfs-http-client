@@ -1,4 +1,4 @@
-# IPFS C++ API client library
+# IPFS C++ HTTP API client library
 
 The main class the library exports is @link ipfs::Client @endlink. The rest is only interesting to developers of this library.
 

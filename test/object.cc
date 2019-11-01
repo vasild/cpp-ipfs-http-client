@@ -17,12 +17,12 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <ipfs/client.h>
+#include <ipfs/test/utils.h>
+
 #include <iostream>
 #include <stdexcept>
 #include <string>
-
-#include <ipfs/client.h>
-#include <ipfs/test/utils.h>
 
 int main(int, char**) {
   try {
@@ -151,8 +151,9 @@ int main(int, char**) {
     */
     /** [ipfs::Client::ObjectStat] */
     ipfs::test::check_if_properties_exist(
-        "client.ObjectStat()", stat, {"BlockSize", "CumulativeSize", "DataSize",
-                                      "Hash", "LinksSize", "NumLinks"});
+        "client.ObjectStat()", stat,
+        {"BlockSize", "CumulativeSize", "DataSize", "Hash", "LinksSize",
+         "NumLinks"});
 
     {
       /** [ipfs::Client::ObjectPatchAddLink] */

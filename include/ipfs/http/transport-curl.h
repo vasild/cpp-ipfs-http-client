@@ -21,11 +21,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #define IPFS_HTTP_TRANSPORT_CURL_H
 
 #include <curl/curl.h>
+#include <ipfs/http/transport.h>
+
 #include <iostream>
 #include <string>
 #include <vector>
-
-#include <ipfs/http/transport.h>
 
 namespace ipfs {
 

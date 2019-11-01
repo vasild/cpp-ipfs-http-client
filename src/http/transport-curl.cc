@@ -18,15 +18,15 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <curl/curl.h>
+#include <ipfs/http/transport-curl.h>
+#include <ipfs/test/utils.h>
+
 #include <iostream>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
-
-#include <ipfs/http/transport-curl.h>
-#include <ipfs/test/utils.h>
 
 namespace ipfs {
 

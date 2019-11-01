@@ -20,13 +20,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #ifndef IPFS_CLIENT_H
 #define IPFS_CLIENT_H
 
+#include <ipfs/http/transport.h>
+
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <string>
 #include <utility>
 #include <vector>
-
-#include <ipfs/http/transport.h>
 
 /** IPFS namespace. Everything IPFS related goes inside it. */
 namespace ipfs {

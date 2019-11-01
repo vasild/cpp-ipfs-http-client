@@ -20,14 +20,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #ifndef IPFS_TEST_UTILS_H
 #define IPFS_TEST_UTILS_H
 
+#include <ipfs/client.h>
+
 #include <functional>
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
-
-#include <ipfs/client.h>
 
 namespace ipfs {
 

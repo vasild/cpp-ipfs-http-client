@@ -17,12 +17,12 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <ipfs/client.h>
+#include <ipfs/test/utils.h>
+
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-
-#include <ipfs/client.h>
-#include <ipfs/test/utils.h>
 
 int main(int, char**) {
   try {
@@ -38,11 +38,7 @@ int main(int, char**) {
     std::string object_id = "QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG";
     std::string name;
     ipfs::Json options = {{"lifetime", "4h"}, {"ttl", "60s"}};
-    client.NamePublish(
-        object_id,
-        "foobar-key",
-        options,
-        &name);
+    client.NamePublish(object_id, "foobar-key", options, &name);
     /* An example output: "QmbJ5UzreC86qtHrWC2SwWKLsTiLqTuG4cqHHJVdYPK6s9" */
     std::cout << "Published name: " << name << std::endl;
     /** [ipfs::Client::NamePublish] */
@@ -53,9 +49,7 @@ int main(int, char**) {
     /** [ipfs::Client::NameResolve] */
     // std::string name = "QmTN15ibVzXhNBUZvv4rjHtrsM1xvHe19iy8feGFbUxb3P";
     std::string resolved_object_path;
-    client.NameResolve(
-        name,
-        &resolved_object_path);
+    client.NameResolve(name, &resolved_object_path);
     /* The expected output:
      *   "/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG"; */
     std::cout << "Resolved name: " << resolved_object_path << std::endl;
@@ -63,7 +57,7 @@ int main(int, char**) {
 
     std::string expected = "/ipfs/" + object_id;
     ipfs::test::check_if_string_contains("client.NameResolve()",
-        resolved_object_path, expected);
+                                         resolved_object_path, expected);
 
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;

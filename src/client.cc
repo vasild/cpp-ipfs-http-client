@@ -17,16 +17,16 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
+#include <ipfs/client.h>
+#include <ipfs/http/transport-curl.h>
+#include <ipfs/http/transport.h>
+
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
-
-#include <ipfs/client.h>
-#include <ipfs/http/transport-curl.h>
-#include <ipfs/http/transport.h>
 
 namespace ipfs {
 
@@ -224,23 +224,18 @@ void Client::FilesLs(const std::string& path, Json* json) {
   FetchAndParseJson(MakeUrl("file/ls", {{"arg", path}}), {}, json);
 }
 
-void Client::KeyGen(const std::string& key_name,
-                    const std::string& key_type,
-                    size_t key_size,
-                    std::string* generated_key)
-{
+void Client::KeyGen(const std::string& key_name, const std::string& key_type,
+                    size_t key_size, std::string* generated_key) {
   Json response;
 
-  FetchAndParseJson(
-      MakeUrl("key/gen", {{"arg", key_name},
-                          {"type", key_type},
-                          {"size", std::to_string(key_size)}}),
-      &response);
+  FetchAndParseJson(MakeUrl("key/gen", {{"arg", key_name},
+                                        {"type", key_type},
+                                        {"size", std::to_string(key_size)}}),
+                    &response);
   *generated_key = response["Id"];
 }
 
-void Client::KeyList(Json* key_list)
-{
+void Client::KeyList(Json* key_list) {
   Json response;
   FetchAndParseJson(MakeUrl("key/list", {}), &response);
   *key_list = response["Keys"];
@@ -252,10 +247,8 @@ void Client::KeyRm(const std::string& key_name) {
 }
 
 void Client::NamePublish(const std::string& object_id,
-                         const std::string& key_name,
-                         const ipfs::Json& options,
-                         std::string* name_id)
-{
+                         const std::string& key_name, const ipfs::Json& options,
+                         std::string* name_id) {
   Json response;
 
   std::vector<std::pair<std::string, std::string>> args;

@@ -364,7 +364,7 @@ class Client {
   /** Publish an IPNS name attached to a given value.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#namepublish
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#namepublish.
    *
    * An example usage:
    * @snippet name.cc ipfs::Client::NamePublish
@@ -396,7 +396,7 @@ class Client {
   /** Resolve an IPNS name.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#nameresolve
+   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#nameresolve.
    *
    * An example usage:
    * @snippet name.cc ipfs::Client::NameResolve

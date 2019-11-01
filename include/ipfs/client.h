@@ -57,8 +57,9 @@ class Client {
       /** [in] Port to connect to. */
       long port);
 
+  /** Copy-constructor. */
   Client(
-      /** [in] Other client connection to be copied */
+      /** [in] Other client connection to be copied. */
       const Client&);
 
   /** Destructor.

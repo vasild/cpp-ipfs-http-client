@@ -144,6 +144,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8c8c8703f4be0e4eb5053301b3577ed8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a8c8c8703f4be0e4eb5053301b3577ed8">KeyRm</a> (const std::string &amp;key_name)</td></tr>
 <tr class="memdesc:a8c8c8703f4be0e4eb5053301b3577ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a key.  <a href="#a8c8c8703f4be0e4eb5053301b3577ed8">More...</a><br /></td></tr>
 <tr class="separator:a8c8c8703f4be0e4eb5053301b3577ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93d0ec05a38a4094b3e0dc33c0cc7efe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a93d0ec05a38a4094b3e0dc33c0cc7efe">NamePublish</a> (const std::string &amp;object_id, const std::string &amp;key_name, const <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> &amp;options, std::string *name_id)</td></tr>
+<tr class="memdesc:a93d0ec05a38a4094b3e0dc33c0cc7efe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Publish an IPNS name attached to a given value.  <a href="#a93d0ec05a38a4094b3e0dc33c0cc7efe">More...</a><br /></td></tr>
+<tr class="separator:a93d0ec05a38a4094b3e0dc33c0cc7efe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61596ec86896753addebc2acac01d011"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a61596ec86896753addebc2acac01d011">NameResolve</a> (const std::string &amp;name_id, std::string *path_string)</td></tr>
+<tr class="memdesc:a61596ec86896753addebc2acac01d011"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolve an IPNS name.  <a href="#a61596ec86896753addebc2acac01d011">More...</a><br /></td></tr>
+<tr class="separator:a61596ec86896753addebc2acac01d011"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65d8e5b1ac53f2f54bc9860dea015c6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a65d8e5b1ac53f2f54bc9860dea015c6d">ObjectNew</a> (std::string *object_id)</td></tr>
 <tr class="memdesc:a65d8e5b1ac53f2f54bc9860dea015c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new MerkleDAG node.  <a href="#a65d8e5b1ac53f2f54bc9860dea015c6d">More...</a><br /></td></tr>
 <tr class="separator:a65d8e5b1ac53f2f54bc9860dea015c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -933,6 +939,110 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">key_name</td><td>Key name (local, user-friendly name for the key). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a93d0ec05a38a4094b3e0dc33c0cc7efe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93d0ec05a38a4094b3e0dc33c0cc7efe">&#9670;&nbsp;</a></span>NamePublish()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::NamePublish </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>object_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string *&#160;</td>
+          <td class="paramname"><em>name_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Publish an IPNS name attached to a given value. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#namepublish">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#namepublish</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">// The object here is well-known.</span></div><div class="line">    std::string object_id = <span class="stringliteral">&quot;QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG&quot;</span>;</div><div class="line">    std::string name;</div><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> options = {{<span class="stringliteral">&quot;lifetime&quot;</span>, <span class="stringliteral">&quot;4h&quot;</span>}, {<span class="stringliteral">&quot;ttl&quot;</span>, <span class="stringliteral">&quot;60s&quot;</span>}};</div><div class="line">    client.NamePublish(</div><div class="line">        object_id,</div><div class="line">        <span class="stringliteral">&quot;foobar-key&quot;</span>,</div><div class="line">        options,</div><div class="line">        &amp;name);</div><div class="line">    <span class="comment">/* An example output: &quot;QmbJ5UzreC86qtHrWC2SwWKLsTiLqTuG4cqHHJVdYPK6s9&quot; */</span></div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Published name: &quot;</span> &lt;&lt; name &lt;&lt; std::endl;</div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.4.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">object_id</td><td>Id (multihash) of the object to publish. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">key_name</td><td>Name of the key to use. This is the local, human-friendly keyname </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">options</td><td>Optional JSON parameter providing options. If specified, these will be used to determine how the name is published: { resolve: // bool - Resolve given path before publishing. // Default: true lifetime: // string - Lifetime duration of the record. // Default: 24h ttl: // string - Duration in client's cache. } </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">name_id</td><td>IPNS name id (multihash) of the named object. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a61596ec86896753addebc2acac01d011"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61596ec86896753addebc2acac01d011">&#9670;&nbsp;</a></span>NameResolve()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::NameResolve </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string *&#160;</td>
+          <td class="paramname"><em>path_string</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Resolve an IPNS name. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#nameresolve">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#nameresolve</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">// std::string name = &quot;QmTN15ibVzXhNBUZvv4rjHtrsM1xvHe19iy8feGFbUxb3P&quot;;</span></div><div class="line">    std::string resolved_object_path;</div><div class="line">    client.NameResolve(</div><div class="line">        name,</div><div class="line">        &amp;resolved_object_path);</div><div class="line">    <span class="comment">/* The expected output:</span></div><div class="line"><span class="comment">     *   &quot;/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG&quot;; */</span></div><div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Resolved name: &quot;</span> &lt;&lt; resolved_object_path &lt;&lt; std::endl;</div></div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.4.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">name_id</td><td>Id (multihash) of the name to resolve. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">path_string</td><td>IPFS path string to the resolving object. For example: "/ipfs/QmRrVRGx5xAXX52BYuScmJk1KWPny86BtexP8YNJ8jz76U" </td></tr>
   </table>
   </dd>
 </dl>

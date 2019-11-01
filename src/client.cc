@@ -260,8 +260,9 @@ void Client::NamePublish(const std::string& object_id,
 
   std::vector<std::pair<std::string, std::string>> args;
   args = {{"arg", object_id}, {"key", key_name}};
-  for (auto& elt : options.items())
+  for (auto& elt : options.items()) {
     args.push_back({elt.key(), elt.value()});
+  }
 
   FetchAndParseJson(MakeUrl("name/publish", args), &response);
 

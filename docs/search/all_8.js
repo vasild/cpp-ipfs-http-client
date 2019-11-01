@@ -9,5 +9,6 @@ var searchData=
   ['objectpatchrmlink',['ObjectPatchRmLink',['../classipfs_1_1Client.html#a149b21207f70215ad0097764e6ae2e65',1,'ipfs::Client']]],
   ['objectpatchsetdata',['ObjectPatchSetData',['../classipfs_1_1Client.html#a949a35293f16868980ab013606264b24',1,'ipfs::Client']]],
   ['objectput',['ObjectPut',['../classipfs_1_1Client.html#a783ddccb9559315599b07343b153ffc2',1,'ipfs::Client']]],
-  ['objectstat',['ObjectStat',['../classipfs_1_1Client.html#a2fcb017f9de04c221b78e47cf062039d',1,'ipfs::Client']]]
+  ['objectstat',['ObjectStat',['../classipfs_1_1Client.html#a2fcb017f9de04c221b78e47cf062039d',1,'ipfs::Client']]],
+  ['operator_3d',['operator=',['../classipfs_1_1Client.html#ab3ff2cc70ec6a65761d2d088a9ba9323',1,'ipfs::Client::operator=(const Client &amp;)'],['../classipfs_1_1Client.html#a4e1c788e681b778a6b6eb7bd94160d74',1,'ipfs::Client::operator=(Client &amp;&amp;)']]]
 ];

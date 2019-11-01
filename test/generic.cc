@@ -22,12 +22,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 #include <iostream>
 #include <stdexcept>
+#include <utility>
 
 int main(int, char**) {
   try {
     /** [ipfs::Client::Client] */
     ipfs::Client client("localhost", 5001);
     /** [ipfs::Client::Client] */
+
+    ipfs::Client clientA(client);
+    clientA = client;
+    ipfs::Client clientB(std::move(clientA));
+    ipfs::Client clientC("localhost", 5001);
+    clientC = std::move(clientB);
 
     /** [ipfs::Client::Id] */
     ipfs::Json id;

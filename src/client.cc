@@ -26,6 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace ipfs {
@@ -37,6 +38,39 @@ Client::Client(const std::string& host, long port)
 
 Client::Client(const Client& other) : url_prefix_(other.url_prefix_) {
   http_ = new http::TransportCurl();
+}
+
+Client::Client(Client&& other)
+    : url_prefix_(std::move(other.url_prefix_)), http_(other.http_) {
+  other.http_ = nullptr;
+}
+
+Client& Client::operator=(const Client& other) {
+  if (this == &other) {
+    return *this;
+  }
+
+  url_prefix_ = other.url_prefix_;
+
+  http::Transport* old_http_ = http_;
+  http_ = new http::TransportCurl();
+  delete old_http_;
+
+  return *this;
+}
+
+Client& Client::operator=(Client&& other) {
+  if (this == &other) {
+    return *this;
+  }
+
+  std::move(other.url_prefix_);
+
+  delete http_;
+  http_ = other.http_;
+  other.http_ = nullptr;
+
+  return *this;
 }
 
 Client::~Client() { delete http_; }

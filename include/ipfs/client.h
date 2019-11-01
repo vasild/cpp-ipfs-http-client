@@ -62,6 +62,23 @@ class Client {
       /** [in] Other client connection to be copied. */
       const Client&);
 
+  /** Move-constructor. */
+  Client(
+      /** [in,out] Other client connection to be moved. */
+      Client&&);
+
+  /** Copy assignment operator.
+   * @return *this */
+  Client& operator=(
+      /** [in] Other client connection to be copied. */
+      const Client&);
+
+  /** Move assignment operator.
+   * @return *this */
+  Client& operator=(
+      /** [in,out] Other client connection to be moved. */
+      Client&&);
+
   /** Destructor.
    * @since version 0.1.0 */
   ~Client();

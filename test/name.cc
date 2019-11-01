@@ -51,6 +51,7 @@ int main(int, char**) {
     client.KeyRm("foobar-key");
 
     /** [ipfs::Client::NameResolve] */
+    // std::string name = "QmTN15ibVzXhNBUZvv4rjHtrsM1xvHe19iy8feGFbUxb3P";
     std::string resolved_object_path;
     client.NameResolve(
         name,

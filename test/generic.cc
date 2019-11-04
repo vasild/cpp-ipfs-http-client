@@ -36,6 +36,16 @@ int main(int, char**) {
     ipfs::Client clientC("localhost", 5001);
     clientC = std::move(clientB);
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+    clientA = clientA;
+#pragma GCC diagnostic pop
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+    clientA = std::move(clientA);
+#pragma GCC diagnostic pop
+
     /** [ipfs::Client::Id] */
     ipfs::Json id;
     client.Id(&id);

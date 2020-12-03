@@ -16,15 +16,15 @@ See also [IPFS on GitHub](https://github.com/ipfs).
 
 Currently implemented methods:
 
-- [block](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/BLOCK.md): get(), put(), stat()
-- [config](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/CONFIG.md): get(), set(), replace()
-- [dht](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/DHT.md): findpeer(), findprovs()
-- [files](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/FILES.md): get(), add()
-- [miscellaneous](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/MISCELLANEOUS.md): id(), version()
-- [object](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/OBJECT.md): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()
-- [pin](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/PIN.md): add(), ls(), rm()
-- [swarm](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/SWARM.md): addrs(), connect(), disconnect(), peers()
-- [key](https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md): gen(), list(), rm()
+- [block](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md): get(), put(), stat()
+- [config](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/CONFIG.md): get(), set(), replace()
+- [dht](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//DHT.md): findpeer(), findprovs()
+- [files](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//FILES.md): get(), add()
+- [miscellaneous](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//MISCELLANEOUS.md): id(), version()
+- [object](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//OBJECT.md): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()
+- [pin](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//PIN.md): add(), ls(), rm()
+- [swarm](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//SWARM.md): addrs(), connect(), disconnect(), peers()
+- [key](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//KEY.md): gen(), list(), rm()
 
 Not all methods are implemented.
 

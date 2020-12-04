@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.11.0)
 
 # Adhere the version number to http://semver.org/
 project(cpp-ipfs-http-client VERSION 0.4.0 LANGUAGES CXX)
@@ -20,30 +20,37 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIRS})
 
-# Find "JSON for Modern C++" (nlohmann/json.hpp)
-find_path(JSON_FOR_MODERN_CXX_INCLUDE_DIR NAMES nlohmann/json.hpp)
-mark_as_advanced(JSON_FOR_MODERN_CXX_INCLUDE_DIR)
-if(NOT JSON_FOR_MODERN_CXX_INCLUDE_DIR)
-  message(FATAL_ERROR "JSON for Modern C++ (nlohmann/json.hpp) not found. Go fetch it from https://github.com/nlohmann/json/blob/develop/src/json.hpp and tell CMake where it is: 'cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH=/path/to/include' (assuming the file is in /path/to/include/nlohmann/json.hpp)")
-endif()
-include_directories(${JSON_FOR_MODERN_CXX_INCLUDE_DIR})
-
 include_directories("include")
 
 # Targets
-
 set(IPFS_API_LIBNAME ipfs-http-client)
+
+include_directories("include")
 
 # To build and install a shared library: "cmake -DBUILD_SHARED_LIBS:BOOL=ON ..."
 add_library(${IPFS_API_LIBNAME}
   src/client.cc
   src/http/transport-curl.cc
 )
+
+# Fetch "JSON for Modern C++"
+include(FetchContent)
+
+FetchContent_Declare(json
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_TAG v3.9.1)
+
+FetchContent_GetProperties(json)
+if(NOT json_POPULATED)
+  FetchContent_Populate(json)
+  add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
+endif()
+
 set_target_properties(${IPFS_API_LIBNAME} PROPERTIES
   SOVERSION ${PROJECT_VERSION_MAJOR}
   VERSION ${PROJECT_VERSION}
 )
-target_link_libraries(${IPFS_API_LIBNAME} ${CURL_LIBRARIES})
+target_link_libraries(${IPFS_API_LIBNAME} ${CURL_LIBRARIES} nlohmann_json::nlohmann_json)
 if(NOT DISABLE_INSTALL)
   install(TARGETS ${IPFS_API_LIBNAME} DESTINATION lib)
   install(FILES include/ipfs/client.h DESTINATION include/ipfs)

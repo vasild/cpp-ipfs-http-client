@@ -126,9 +126,9 @@ matrix:
           fi
         - test "${OK}" = "yes"
     - os: osx
-      osx_image: xcode8
+      osx_image: xcode10
       env:
-        - TAG="OSX xcode 8"
+        - TAG="OSX xcode 10"
 
 script:
   - cmake --version

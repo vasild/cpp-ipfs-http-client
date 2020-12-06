@@ -116,7 +116,7 @@ matrix:
         - |
           if [ "${OK}" = "yes" ] ; then
             echo "Tests passed, gathering coverage statistics"
-            coveralls --verbose --exclude "`find ./ -name CMakeCXXCompilerId.cpp`" --exclude "`find ./ -name feature_tests.cxx`" --exclude "_deps" --exclude "include/ipfs/test/utils.h" --gcov gcov-6 --gcov-options '\-lp' --repo-token hfT2FIRhKeMMqAVnEmUxGSu36wUwnpa0V
+            coveralls --verbose --exclude "`find ./ -name CMakeCXXCompilerId.cpp`" --exclude "`find ./ -name feature_tests.cxx`" --exclude "test" --exclude "_deps" --exclude "include/ipfs/test/utils.h" --gcov gcov-6 --gcov-options '\-lp' --repo-token hfT2FIRhKeMMqAVnEmUxGSu36wUwnpa0V
           else
             echo "Tests failed, not gathering coverage statistics"
           fi

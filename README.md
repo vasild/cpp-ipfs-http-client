@@ -48,7 +48,6 @@ See the [documentation for details](https://vasild.github.io/cpp-ipfs-http-clien
 - [C++11 compiler](https://github.com/nlohmann/json#supported-compilers)
 - [CMake](http://cmake.org)
 - [libcurl](https://curl.haxx.se/libcurl)
-- [JSON for Modern C++](https://github.com/nlohmann/json)
 
 # Usage
 

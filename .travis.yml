@@ -27,6 +27,7 @@ install:
     else
       echo "${GO_IPFS_CMD} is not present, extracting"
       tar -C "${GO_IPFS_DIR}" -vzxf "${GO_IPFS_ARCHIVE_FULLPATH}"
+      rm -rf "${GO_IPFS_ARCHIVE_FULLPATH}"
     fi
 
 cache:

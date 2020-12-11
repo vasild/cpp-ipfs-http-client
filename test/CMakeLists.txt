@@ -1,21 +1,21 @@
 set(TESTS
-  block
-  config
-  dht
-  files
-  key
-  generic
-  name
-  object
-  pin
-  swarm
+  test_block
+  test_config
+  test_dht
+  test_files
+  test_key
+  test_generic
+  test_name
+  test_object
+  test_pin
+  test_swarm
 )
 
 string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)
 if(CMAKE_BUILD_TYPE_LOWER MATCHES "debug")
   set(TESTS
     ${TESTS}
-    error
+    test_error
   )
 endif()
 

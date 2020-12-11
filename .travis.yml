@@ -15,6 +15,8 @@ install:
   - GO_IPFS_ARCHIVE_FULLPATH="${GO_IPFS_DIR}/go-ipfs.tar.gz"
   - GO_IPFS_CMD_BASENAME="ipfs"
   - GO_IPFS_CMD="${GO_IPFS_DIR}/go-ipfs/${GO_IPFS_CMD_BASENAME}"
+  # Remove explicit now
+  - rm -rf "${GO_IPFS_DIR}"
   - |
     if [ -e "${GO_IPFS_ARCHIVE_FULLPATH}" ] ; then
       echo "${GO_IPFS_ARCHIVE_FULLPATH} exists, not downloading"

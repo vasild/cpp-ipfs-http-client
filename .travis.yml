@@ -6,10 +6,6 @@ sudo: required
 install:
   # TRAVIS_BUILD_DIR is set to where the source code is checked
   # out (ie it assumes in-source build)
-  - JSON_INSTALL_DIR="${TRAVIS_BUILD_DIR}/../include/nlohmann"
-  - mkdir -p "${JSON_INSTALL_DIR}"
-  - travis_retry wget --quiet -O "${JSON_INSTALL_DIR}/json.hpp" https://raw.githubusercontent.com/nlohmann/json/v3.7.0/single_include/nlohmann/json.hpp
-
   - GO_IPFS_DIR="${TRAVIS_BUILD_DIR}/../go-ipfs"
   - GO_IPFS_ARCHIVE_BASENAME="go-ipfs_v0.4.22_linux-amd64.tar.gz"
   - GO_IPFS_ARCHIVE_FULLPATH="${GO_IPFS_DIR}/${GO_IPFS_ARCHIVE_BASENAME}"
@@ -61,7 +57,7 @@ matrix:
       after_success:
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_start.sh"
         - OK="no"
-        - CTEST_OUTPUT_ON_FAILURE=1 travis_wait 30 make test && OK="yes"
+        - travis_wait 30 make test ARGS="--output-on-failure -R '^test_'" && OK="yes"
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_stop.sh"
         - test "${OK}" = "yes"
     - os: linux
@@ -79,7 +75,7 @@ matrix:
         - BUILD_DIR="${TRAVIS_BUILD_DIR}/../build"
         - mkdir -p "${BUILD_DIR}"
         - cd "${BUILD_DIR}"
-        - CCC_CXX=clang++-9 scan-build-9 --status-bugs cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
+        - CCC_CXX=clang++-9 scan-build-9 --status-bugs cmake -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
         - CCC_CXX=clang++-9 scan-build-9 --status-bugs make VERBOSE=1
     - os: linux
       before_install:
@@ -111,24 +107,24 @@ matrix:
         - mkdir -p "${BUILD_DIR}"
         - cd "${BUILD_DIR}"
         - echo "CXXFLAGS='${CXXFLAGS}' LDFLAGS='${LDFLAGS}'"
-        - cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug "${SOURCE_DIR}"
+        - cmake -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug "${SOURCE_DIR}"
         - make VERBOSE=1
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_start.sh"
         - OK="no"
-        - CTEST_OUTPUT_ON_FAILURE=1 travis_wait 30 make test && OK="yes"
+        - travis_wait 30 make test ARGS="--output-on-failure -R '^test_'" && OK="yes"
         - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_stop.sh"
         - |
           if [ "${OK}" = "yes" ] ; then
             echo "Tests passed, gathering coverage statistics"
-            coveralls --verbose --exclude "`find ./ -name CMakeCXXCompilerId.cpp`" --exclude "`find ./ -name feature_tests.cxx`" --exclude test --exclude include/ipfs/test/utils.h --gcov gcov-6 --gcov-options '\-lp' --repo-token hfT2FIRhKeMMqAVnEmUxGSu36wUwnpa0V
+            coveralls --verbose --exclude "`find ./ -name CMakeCXXCompilerId.cpp`" --exclude "`find ./ -name feature_tests.cxx`" --exclude "test" --exclude "_deps" --exclude "include/ipfs/test/utils.h" --gcov gcov-6 --gcov-options '\-lp' --repo-token hfT2FIRhKeMMqAVnEmUxGSu36wUwnpa0V
           else
             echo "Tests failed, not gathering coverage statistics"
           fi
         - test "${OK}" = "yes"
     - os: osx
-      osx_image: xcode8
+      osx_image: xcode10
       env:
-        - TAG="OSX xcode 8"
+        - TAG="OSX xcode 10"
 
 script:
   - cmake --version
@@ -139,5 +135,5 @@ script:
   - mkdir -p "${BUILD_DIR}"
   - cd "${BUILD_DIR}"
   - echo "CXXFLAGS='${CXXFLAGS}' LDFLAGS='${LDFLAGS}'"
-  - cmake -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH="${TRAVIS_BUILD_DIR}/../include" -DBUILD_SHARED_LIBS:BOOL=ON "${CMAKE_EXTRA_ARGS_}" "${SOURCE_DIR}"
+  - cmake -DBUILD_SHARED_LIBS:BOOL=ON "${CMAKE_EXTRA_ARGS_}" "${SOURCE_DIR}"
   - make VERBOSE=1

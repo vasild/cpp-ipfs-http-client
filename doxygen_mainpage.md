@@ -18,7 +18,6 @@ mkdir build
 cd build
 cmake \
   -DCMAKE_INSTALL_PREFIX:PATH=/home/joe.smith/cpp-ipfs-http-client-install \
-  -DJSON_FOR_MODERN_CXX_INCLUDE_DIR:PATH=/home/joe.smith/include \
   -DCURL_INCLUDE_DIR:PATH=/home/joe.smith/include
   -DCURL_LIBRARY:PATH=/home/joe.smith/lib/libcurl.so
   -DCMAKE_BUILD_TYPE=Debug \
@@ -35,7 +34,6 @@ make install
 - [C++11 compiler](https://github.com/nlohmann/json#supported-compilers)
 - [CMake](http://cmake.org), version 3.1.0 or higher
 - [libcurl](https://curl.haxx.se/libcurl), version 7.25.0 or higher
-- [JSON for Modern C++](https://github.com/nlohmann/json), version 2.x.x
 
 # License
 

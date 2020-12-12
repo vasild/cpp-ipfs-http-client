@@ -6,25 +6,29 @@ sudo: required
 install:
   # TRAVIS_BUILD_DIR is set to where the source code is checked
   # out (ie it assumes in-source build)
+  - GO_IPFS_DOWNLOAD_URL="https://dist.ipfs.io/go-ipfs/v0.7.0/go-ipfs_v0.7.0_linux-amd64.tar.gz"
   - GO_IPFS_DIR="${TRAVIS_BUILD_DIR}/../go-ipfs"
-  - GO_IPFS_ARCHIVE_BASENAME="go-ipfs_v0.4.22_linux-amd64.tar.gz"
-  - GO_IPFS_ARCHIVE_FULLPATH="${GO_IPFS_DIR}/${GO_IPFS_ARCHIVE_BASENAME}"
+  - GO_IPFS_ARCHIVE_FULLPATH="${GO_IPFS_DIR}/go-ipfs.tar.gz"
   - GO_IPFS_CMD_BASENAME="ipfs"
   - GO_IPFS_CMD="${GO_IPFS_DIR}/go-ipfs/${GO_IPFS_CMD_BASENAME}"
+  # Remove explicit now
+  - rm -rf "${GO_IPFS_DIR}"
   - |
     if [ -e "${GO_IPFS_ARCHIVE_FULLPATH}" ] ; then
       echo "${GO_IPFS_ARCHIVE_FULLPATH} exists, not downloading"
     else
       echo "${GO_IPFS_ARCHIVE_FULLPATH} does not exist, downloading"
       mkdir -p "${GO_IPFS_DIR}"
-      travis_retry wget --quiet -O "${GO_IPFS_ARCHIVE_FULLPATH}" "https://ipfs.io/ipns/dist.ipfs.io/go-ipfs/v0.4.22/${GO_IPFS_ARCHIVE_BASENAME}"
+      travis_retry wget --quiet -O "${GO_IPFS_ARCHIVE_FULLPATH}" "${GO_IPFS_DOWNLOAD_URL}"
     fi
+  # TODO: Check on IPFS version, and determ if we want to keep it or download the newer version instead on the runner
   - |
     if [ -x "${GO_IPFS_CMD}" ] ; then
       echo "${GO_IPFS_CMD} is present, not extracting"
     else
       echo "${GO_IPFS_CMD} is not present, extracting"
       tar -C "${GO_IPFS_DIR}" -vzxf "${GO_IPFS_ARCHIVE_FULLPATH}"
+      rm -rf "${GO_IPFS_ARCHIVE_FULLPATH}"
     fi
 
 cache:

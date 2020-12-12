@@ -10,7 +10,7 @@ on:
 
 jobs:
   ci:
-    name: "Build (and test) on ${{ matrix.os }}-${{ matrix.compiler }}}"
+    name: "Build (and test) on ${{ matrix.os }}-${{ matrix.compiler }}"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

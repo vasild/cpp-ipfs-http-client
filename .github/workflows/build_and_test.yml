@@ -36,8 +36,7 @@ jobs:
               compiler: clang++-10
               build_type: Release
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       - name: Install (Ubuntu)
         if: runner.os == 'Linux'
         run: |

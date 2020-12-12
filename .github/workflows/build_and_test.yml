@@ -1,11 +1,16 @@
 name: build_and_test
 
-on: [push, pull_request]
-
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
-  build:
-    name: "Build (and test) on ${{ matrix.os }}"
+  ci:
+    name: "Build (and test) on ${{ matrix.os }}-${{ matrix.compiler }}}"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -14,15 +19,18 @@ jobs:
               os: ubuntu-20.04
               compiler: "clang++-10"
               build_type: Release
+
             - build: "Ubuntu Focal gcc-10 and testcases"
               os: ubuntu-20.04
               compiler: g++-10
               compiler_flags: "-g -O0 --coverage"
               build_type: Debug
+
             - build: "Ubuntu Focal gcc-9"
               os: ubuntu-20.04
               compiler: g++-9
               build_type: Release
+
             - build: "Mac OSX clang-10"
               os: macos-10.15
               compiler: clang++-10
@@ -30,13 +38,31 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: Configure build with ${{ matrix.compiler }}
-        shell: bash
+       - name: Install (Ubuntu)
+        if: runner.os == 'Linux'
         run: |
-          export COMPILER="${{ matrix.compiler }}"
-          export BUILD_TYPE="${{ matrix.build_type }}"
-          export CXX="${{ matrix.config.compiler }}"
-          export CXXFLAGS="${{ matrix.config.compiler_flags }}"
-          export LDFLAGS="${{ matrix.config.compiler_flags }}"
+          sudo apt-get install -y --no-install-recommends ninja-build clang-tidy-10
+          sudo ln -s /usr/bin/clang-tidy-10 /usr/local/bin/clang-tidy
+      - name: Install (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install ninja
+          sudo ln -s /usr/local/opt/llvm/bin/clang-tidy /usr/local/bin/clang-tidy
+      - name: Set environment variables
+        run: |
+          echo BUILD_TYPE="${{ matrix.build_type }}" >> $GITHUB_ENV
+          echo CXX="${{ matrix.config.compiler }}" >> $GITHUB_ENV
+          echo CXXFLAGS="${{ matrix.config.compiler_flags }}" >> $GITHUB_ENV
+          echo LDFLAGS="${{ matrix.config.compiler_flags }}" >> $GITHUB_ENV
+        # '>' converts newlines into spaces
+        run: >
+          cmake
+          -B build
+          -G Ninja
+          -DBUILD_SHARED_LIBS=ON
       - name: Build
-        run: cmake ...
+        run: cmake --build build
+      #- name: Test
+      #  run: cmake --build build --target test
+      #  env:
+      #    CTEST_OUTPUT_ON_FAILURE: ON

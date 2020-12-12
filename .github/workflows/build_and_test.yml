@@ -68,7 +68,7 @@ jobs:
         if: ${{ matrix.run_tests }}
         run: |
           GO_IPFS_DOWNLOAD_URL="https://dist.ipfs.io/go-ipfs/v0.7.0/go-ipfs_v0.7.0_linux-amd64.tar.gz"
-          GO_IPFS_DIR="./go-ipfs"
+          GO_IPFS_DIR="${GITHUB_WORKSPACE}/go-ipfs"
           GO_IPFS_ARCHIVE_FULLPATH="${GO_IPFS_DIR}/go-ipfs.tar.gz"
           echo GO_IPFS_CMD="${GO_IPFS_DIR}/go-ipfs/ipfs" >> $GITHUB_ENV
           mkdir -p "${GO_IPFS_DIR}"
@@ -77,7 +77,7 @@ jobs:
           rm -rf "${GO_IPFS_ARCHIVE_FULLPATH}"
       - name: Test
         if: ${{ matrix.run_tests }}
-        run: 
+        run: |
           cd build          
           ./../scripts/ipfs_daemon_start.sh
           ctest -R '^test_'

@@ -40,7 +40,8 @@ jobs:
       - name: Install (Ubuntu)
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get install -y --no-install-recommends ninja-build clang-tidy-10 libcurl4-openssl-dev
+          sudo apt update
+          sudo apt install -y --no-install-recommends ninja-build clang-tidy-10 libcurl4-openssl-dev
           sudo ln -s /usr/bin/clang-tidy-10 /usr/local/bin/clang-tidy
       - name: Install (macOS)
         if: runner.os == 'macOS'

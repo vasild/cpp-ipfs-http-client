@@ -10,28 +10,29 @@ on:
 
 jobs:
   build_and_test:
-    name: "Build (and test) on ${{ matrix.os }}-${{ matrix.compiler }}"
+    name: "${{ matrix.name }}"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
-            - build: "Ubuntu Focal clang-10"
+            - name: "Ubuntu Focal clang-10 build"
               os: ubuntu-20.04
               compiler: "clang++-10"
               build_type: Release
 
-            - build: "Ubuntu Focal gcc-10 and testcases"
+            - name: "Ubuntu Focal gcc-10 build and testcases"
               os: ubuntu-20.04
               compiler: g++-10              
               compiler_flags: "-g -O0 --coverage"
               build_type: Debug
               run_tests: true
-            - build: "Ubuntu Focal gcc-9"
+
+            - name: "Ubuntu Focal gcc-9 build"
               os: ubuntu-20.04
               compiler: g++-9
               build_type: Release
 
-            - build: "Mac OSX clang-10"
+            - name: "Mac OSX clang-10 build"
               os: macos-10.15
               compiler: clang++-10
               build_type: Release

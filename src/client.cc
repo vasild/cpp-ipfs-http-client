@@ -31,8 +31,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace ipfs {
 
-Client::Client(const std::string& host, long port)
-    : url_prefix_("http://" + host + ":" + std::to_string(port) + "/api/v0") {
+Client::Client(const std::string& host, long port, const std::string& timeout, const std::string& protocol, const std::string& apiPath)
+    : url_prefix_(protocol + host + ":" + std::to_string(port) + apiPath),
+      timeout_value_(timeout) {
   http_ = new http::TransportCurl();
 }
 
@@ -491,6 +492,13 @@ std::string Client::MakeUrl(
     const std::vector<std::pair<std::string, std::string>>& parameters) {
   std::string url = url_prefix_ + "/" + path +
                     "?stream-channels=true&json=true&encoding=json";
+
+  if (!timeout_value_.empty()) {
+    // Make mutable copy of the parameters if needed (it's const by default)
+    std::vector<std::pair<std::string, std::string>> parameters = parameters;
+    // Set time-out at server-side
+    parameters.push_back(std::make_pair(std::string("timeout"), timeout_value_));
+  }
 
   for (auto& parameter : parameters) {
     std::string name_url_encoded;

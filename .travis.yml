@@ -59,10 +59,10 @@ matrix:
         - TAG="Compile with clang 9 and run tests"
         - CXX_=clang++-9
       after_success:
-        - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_start.sh"
+        - "${TRAVIS_BUILD_DIR}/scripts/ipfs_daemon_start.sh"
         - OK="no"
-        - travis_wait 30 make test ARGS="--output-on-failure -R '^test_'" && OK="yes"
-        - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_stop.sh"
+        - travis_wait 30 ctest -R '^test_' --output-on-failure && OK="yes"
+        - "${TRAVIS_BUILD_DIR}/scripts/ipfs_daemon_stop.sh"
         - test "${OK}" = "yes"
     - os: linux
       before_install:
@@ -113,10 +113,10 @@ matrix:
         - echo "CXXFLAGS='${CXXFLAGS}' LDFLAGS='${LDFLAGS}'"
         - cmake -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug "${SOURCE_DIR}"
         - make VERBOSE=1
-        - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_start.sh"
+        - "${TRAVIS_BUILD_DIR}/scripts/ipfs_daemon_start.sh"
         - OK="no"
-        - travis_wait 30 make test ARGS="--output-on-failure -R '^test_'" && OK="yes"
-        - "${TRAVIS_BUILD_DIR}/.travis/ipfs_daemon_stop.sh"
+        - travis_wait 30 ctest -R '^test_' --output-on-failure && OK="yes"
+        - "${TRAVIS_BUILD_DIR}/scripts/ipfs_daemon_stop.sh"
         - |
           if [ "${OK}" = "yes" ] ; then
             echo "Tests passed, gathering coverage statistics"

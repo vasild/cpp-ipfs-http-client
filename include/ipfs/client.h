@@ -55,7 +55,13 @@ class Client {
       /** [in] Hostname or IP address of the server to connect to. */
       const std::string& host,
       /** [in] Port to connect to. */
-      long port);
+      long port,
+      /** [in] [Optional] set server-side time-out, which should be string (eg. "6s") */
+      const std::string& timeout = "",
+      /** [in] [Optional] protocol (default: http://) */
+      const std::string& protocol = "http://",
+      /** [in] [Optional] API Path (default: /api/v0) */
+      const std::string& apiPath = "/api/v0");
 
   /** Copy-constructor. */
   Client(
@@ -86,7 +92,7 @@ class Client {
   /** Return the identity of the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/MISCELLANEOUS.md#id.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/MISCELLANEOUS.md#id.
    *
    * An example usage:
    * @snippet generic.cc ipfs::Client::Id
@@ -102,7 +108,7 @@ class Client {
   /** Return the implementation version of the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/MISCELLANEOUS.md#version.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/MISCELLANEOUS.md#version.
    *
    * An example usage:
    * @snippet generic.cc ipfs::Client::Version
@@ -118,7 +124,7 @@ class Client {
   /** Query the current config of the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/CONFIG.md#configget.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/CONFIG.md#configget.
    *
    * An example usage:
    * @snippet config.cc ipfs::Client::ConfigGet
@@ -136,7 +142,7 @@ class Client {
   /** Add or replace a config knob at the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/CONFIG.md#configset.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/CONFIG.md#configset.
    *
    * An example usage:
    * @snippet config.cc ipfs::Client::ConfigSet
@@ -153,7 +159,7 @@ class Client {
   /** Replace the entire config at the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/CONFIG.md#configreplace.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/CONFIG.md#configreplace.
    *
    * An example usage:
    * @snippet config.cc ipfs::Client::ConfigReplace
@@ -254,7 +260,7 @@ class Client {
   /** Get a file from IPFS.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/FILES.md#get.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/FILES.md#get.
    *
    * An example usage:
    * @snippet files.cc ipfs::Client::FilesGet
@@ -273,7 +279,7 @@ class Client {
   /** Add files to IPFS.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/FILES.md#add.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/FILES.md#add.
    *
    * An example usage:
    * @snippet files.cc ipfs::Client::FilesAdd
@@ -436,7 +442,7 @@ class Client {
   /** Create a new MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectnew.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectnew.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectNew
@@ -451,7 +457,7 @@ class Client {
   /** Store a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectput.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectput.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectPut
@@ -469,7 +475,7 @@ class Client {
   /** Get a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectget.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectget.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectGet
@@ -488,7 +494,7 @@ class Client {
   /** Get the data field of a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectdata.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectdata.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectData
@@ -505,7 +511,7 @@ class Client {
   /** Get links of a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectlinks.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectlinks.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectLinks
@@ -523,7 +529,7 @@ class Client {
   /** Get stats about a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectstat.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectstat.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectStat
@@ -541,7 +547,7 @@ class Client {
   /** Create a new object from an existing MerkleDAG node and add to its links.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectpatchaddlink.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectpatchaddlink.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectPatchAddLink
@@ -563,7 +569,7 @@ class Client {
    * links.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectpatchrmlink.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectpatchrmlink.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectPatchRmLink
@@ -582,7 +588,7 @@ class Client {
   /** Create a new object from an existing MerkleDAG node and append data to it.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectpatchappenddata.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectpatchappenddata.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectPatchAppendData
@@ -601,7 +607,7 @@ class Client {
   /** Create a new object from an existing MerkleDAG node and set its data.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectpatchsetdata.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectpatchsetdata.
    *
    * An example usage:
    * @snippet object.cc ipfs::Client::ObjectPatchSetData
@@ -818,6 +824,9 @@ class Client {
 
   /** The underlying transport. */
   http::Transport* http_;
+
+  /** Server-side time-out setting */
+  std::string timeout_value_;
 };
 } /* namespace ipfs */
 

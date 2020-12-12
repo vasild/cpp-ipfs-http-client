@@ -404,7 +404,7 @@ void Client::PinAdd(const std::string& object_id) {
   Json pins_array;
   GetProperty(response, "Pins", 0, &pins_array);
 
-  for (const std::string& pin : pins_array) {
+  for (const std::string pin : pins_array) {
     if (pin == object_id) {
       return;
     }
@@ -492,15 +492,14 @@ std::string Client::MakeUrl(
     const std::vector<std::pair<std::string, std::string>>& parameters) {
   std::string url = url_prefix_ + "/" + path +
                     "?stream-channels=true&json=true&encoding=json";
+  std::vector<std::pair<std::string, std::string>> params = parameters;
 
   if (!timeout_value_.empty()) {
-    // Make mutable copy of the parameters if needed (it's const by default)
-    std::vector<std::pair<std::string, std::string>> parameters = parameters;
     // Set time-out at server-side
-    parameters.push_back(std::make_pair(std::string("timeout"), timeout_value_));
+    params.push_back(std::make_pair(std::string("timeout"), timeout_value_));
   }
 
-  for (auto& parameter : parameters) {
+  for (auto& parameter : params) {
     std::string name_url_encoded;
     http_->UrlEncode(parameter.first, &name_url_encoded);
 

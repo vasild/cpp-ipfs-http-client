@@ -75,7 +75,7 @@ int main(int, char**) {
     for (ipfs::Json::iterator it = addresses["Addrs"].begin();
          it != addresses["Addrs"].end(); ++it) {
       const ipfs::Json& addresses = it.value();
-      for (const std::string& address : addresses) {
+      for (const std::string address : addresses) {
         if (address.substr(0, 5) == "/ip4/") {
           peer = address + "/ipfs/" + it.key();
           break;

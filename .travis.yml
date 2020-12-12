@@ -1,6 +1,6 @@
 language: cpp
 
-dist: bionic
+dist: focal
 sudo: required
 
 install:
@@ -40,24 +40,24 @@ matrix:
     - os: linux
       before_install:
         - curl https://apt.llvm.org/llvm-snapshot.gpg.key |sudo apt-key add -
-        - sudo add-apt-repository -y "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main"
+        - sudo add-apt-repository -y "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y clang-9
+        - sudo apt-get install -y clang-tools-10
       compiler: clang
       env:
-        - TAG="Compile with clang 9 in Release mode"
-        - CXX_=clang++-9
+        - TAG="Compile with clang 10 in Release mode"
+        - CXX_=clang++-10
         - CMAKE_EXTRA_ARGS_="-DCMAKE_BUILD_TYPE=Release"
     - os: linux
       before_install:
         - curl https://apt.llvm.org/llvm-snapshot.gpg.key |sudo apt-key add -
-        - sudo add-apt-repository -y "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main"
+        - sudo add-apt-repository -y "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y clang-9
+        - sudo apt-get install -y clang-tools-10
       compiler: clang
       env:
-        - TAG="Compile with clang 9 and run tests"
-        - CXX_=clang++-9
+        - TAG="Compile with clang 10 and run tests"
+        - CXX_=clang++-10
       after_success:
         - "${TRAVIS_BUILD_DIR}/scripts/ipfs_daemon_start.sh"
         - OK="no"
@@ -67,20 +67,29 @@ matrix:
     - os: linux
       before_install:
         - curl https://apt.llvm.org/llvm-snapshot.gpg.key |sudo apt-key add -
-        - sudo add-apt-repository -y "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main"
+        - sudo add-apt-repository -y "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main"
         - sudo apt-get update -qq
-        - sudo apt-get install -y clang-9 clang-tools-9
+        - sudo apt-get install -y clang-tools-10
       compiler: clang
       env:
-        - TAG="Static analysis with scan-build 9"
+        - TAG="Static analysis with scan-build 10"
       script:
         - cmake --version
         - SOURCE_DIR="${TRAVIS_BUILD_DIR}"
         - BUILD_DIR="${TRAVIS_BUILD_DIR}/../build"
         - mkdir -p "${BUILD_DIR}"
         - cd "${BUILD_DIR}"
-        - CCC_CXX=clang++-9 scan-build-9 --status-bugs cmake -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
-        - CCC_CXX=clang++-9 scan-build-9 --status-bugs make VERBOSE=1
+        - CCC_CXX=clang++-10 scan-build-10 --status-bugs cmake -DBUILD_SHARED_LIBS:BOOL=ON "${SOURCE_DIR}"
+        - CCC_CXX=clang++-10 scan-build-10 --status-bugs make VERBOSE=1
+    - os: linux
+      before_install:
+        - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+        - sudo apt-get update -qq
+        - sudo apt-get install -y g++-10
+      compiler: gcc
+      env:
+        - TAG="Compile with gcc 10"
+        - CXX_=g++-10
     - os: linux
       before_install:
         - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test

@@ -52,9 +52,9 @@ jobs:
       - name: Set environment variables
         run: |
           echo BUILD_TYPE="${{ matrix.build_type }}" >> $GITHUB_ENV
-          echo CXX="${{ matrix.config.compiler }}" >> $GITHUB_ENV
-          echo CXXFLAGS="${{ matrix.config.compiler_flags }}" >> $GITHUB_ENV
-          echo LDFLAGS="${{ matrix.config.compiler_flags }}" >> $GITHUB_ENV
+          echo CXX="${{ matrix.compiler }}" >> $GITHUB_ENV
+          echo CXXFLAGS="${{ matrix.compiler_flags }}" >> $GITHUB_ENV
+          echo LDFLAGS="${{ matrix.compiler_flags }}" >> $GITHUB_ENV
         # '>' converts newlines into spaces
       - name: Configure
         run: >
@@ -64,7 +64,7 @@ jobs:
           -DBUILD_SHARED_LIBS=ON
       - name: Build
         run: cmake --build build
-      - name: Install & start IPFS (for test)
+      - name: Install IPFS (for Test)
         if: ${{ matrix.run_tests }}
         run: |
           GO_IPFS_DOWNLOAD_URL="https://dist.ipfs.io/go-ipfs/v0.7.0/go-ipfs_v0.7.0_linux-amd64.tar.gz"

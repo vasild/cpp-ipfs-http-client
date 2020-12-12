@@ -1,0 +1,42 @@
+name: build_and_test
+
+on: [push, pull_request]
+
+
+jobs:
+  build:
+    name: "Build (and test) on ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+            - build: "Ubuntu Focal clang-10"
+              os: ubuntu-20.04
+              compiler: "clang++-10"
+              build_type: Release
+            - build: "Ubuntu Focal gcc-10 and testcases"
+              os: ubuntu-20.04
+              compiler: g++-10
+              compiler_flags: "-g -O0 --coverage"
+              build_type: Debug
+            - build: "Ubuntu Focal gcc-9"
+              os: ubuntu-20.04
+              compiler: g++-9
+              build_type: Release
+            - build: "Mac OSX clang-10"
+              os: macos-10.15
+              compiler: clang++-10
+              build_type: Release
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Configure build with ${{ matrix.compiler }}
+        shell: bash
+        run: |
+          export COMPILER="${{ matrix.compiler }}"
+          export BUILD_TYPE="${{ matrix.build_type }}"
+          export CXX="${{ matrix.config.compiler }}"
+          export CXXFLAGS="${{ matrix.config.compiler_flags }}"
+          export LDFLAGS="${{ matrix.config.compiler_flags }}"
+      - name: Build
+        run: cmake ...

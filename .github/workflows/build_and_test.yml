@@ -54,6 +54,7 @@ jobs:
           echo CXXFLAGS="${{ matrix.config.compiler_flags }}" >> $GITHUB_ENV
           echo LDFLAGS="${{ matrix.config.compiler_flags }}" >> $GITHUB_ENV
         # '>' converts newlines into spaces
+      - name: Configure
         run: >
           cmake
           -B build

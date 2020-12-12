@@ -32,9 +32,9 @@ jobs:
               compiler: g++-9
               build_type: Release
 
-            - name: "Mac OSX clang-10 build"
+            - name: "Mac OSX clang-11 build"
               os: macos-10.15
-              compiler: clang++-10
+              compiler: clang++-11
               build_type: Release
     steps:
       - uses: actions/checkout@v2

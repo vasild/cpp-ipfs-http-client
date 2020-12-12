@@ -17,24 +17,24 @@ jobs:
         include:
             - name: "Ubuntu Focal clang-10 build"
               os: ubuntu-20.04
-              compiler: "clang++-10"
+              compiler: clang
               build_type: Release
 
             - name: "Ubuntu Focal gcc-10 build and testcases"
               os: ubuntu-20.04
-              compiler: g++-10              
+              compiler: gcc-10              
               compiler_flags: "-g -O0 --coverage"
               build_type: Debug
               run_tests: true
 
             - name: "Ubuntu Focal gcc-9 build"
               os: ubuntu-20.04
-              compiler: g++-9
+              compiler: gcc-9
               build_type: Release
 
-            - name: "Mac OSX clang-11 build"
+            - name: "Mac OS clang-11 build"
               os: macos-10.15
-              compiler: clang++-11
+              compiler: clang
               build_type: Release
     steps:
       - uses: actions/checkout@v2

@@ -39,7 +39,6 @@ int main(int, char**) {
     /* An example output:
     Retrieved contents: Hello an...
     */
-
    
     /** [ipfs::Client::FilesGet] */
     ipfs::test::check_if_string_contains("client.FilesGet()", contents.str(),

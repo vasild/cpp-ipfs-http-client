@@ -20,7 +20,7 @@ jobs:
               cpp_compiler: clang++
               build_type: Release
 
-            - name: "Ubuntu Focal gcc-10 build and testcases"
+            - name: "Ubuntu Focal gcc-10 debug-build and testcases"
               os: ubuntu-20.04
               cpp_compiler: g++-10              
               compiler_flags: "-g -O0 --coverage"
@@ -78,9 +78,9 @@ jobs:
       - name: Test
         if: ${{ matrix.run_tests }}
         run: |
-          cd build          
+          cd build
           ./../scripts/ipfs_daemon_start.sh
-          ctest -R '^test_'
+          make test ARGS="--output-on-failure -R '^test_'" 
           ./../scripts/ipfs_daemon_stop.sh
           ls -lha
           ls -lha ./test

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.11.0)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
 # Adhere the version number to http://semver.org/
 project(cpp-ipfs-http-client VERSION 0.4.0 LANGUAGES CXX)
 

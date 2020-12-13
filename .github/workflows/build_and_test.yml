@@ -77,15 +77,18 @@ jobs:
           rm -rf "${GO_IPFS_ARCHIVE_FULLPATH}"
       - name: Test
         if: ${{ matrix.run_tests }}
+        working-directory: ./build
         run: |
-          cd build
           ./../scripts/ipfs_daemon_start.sh
-          make test ARGS="--output-on-failure -R '^test_'" 
+          make ctest_coverage_xml
           ./../scripts/ipfs_daemon_stop.sh
-          ls -lha
-          ls -lha ./test
         env:
           CTEST_OUTPUT_ON_FAILURE: ON
+      - uses: codecov/codecov-action@v1
+        if: ${{ matrix.run_tests }}
+        with:
+          file: ./build/ctest_coverage_xml.xml
+          #token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
 
   static_analytics:
     name: "Static code analysis"

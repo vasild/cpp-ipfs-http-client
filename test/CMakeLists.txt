@@ -33,19 +33,21 @@ foreach (T ${TESTS})
   add_test(NAME ${T} COMMAND ./${T})
 endforeach()
 
+# Instead of running  'make test' in the ctest_coverage_*, only run our testcases
 add_custom_target(our_tests
-  COMMAND ctest -R '^test_block'
-  DEPENDS ${TESTS}
+  COMMAND ctest -R '^test_'
 )
 
 setup_target_for_coverage_gcovr_xml(
   NAME ctest_coverage_xml
-  EXECUTABLE our_tests
+  EXECUTABLE make our_tests
+  DEPENDENCIES ${TESTS}
   EXCLUDE "build/_deps" "include/*" "build/CMakeFiles/*"
 )
 
 setup_target_for_coverage_gcovr_html(
   NAME ctest_coverage_html
   EXECUTABLE make our_tests
+  DEPENDENCIES ${TESTS}
   EXCLUDE "build/_deps" "include/*" "build/CMakeFiles/*"
 )

@@ -1,0 +1,103 @@
+name: build_and_test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build_and_test:
+    name: "${{ matrix.name }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+            - name: "Ubuntu Focal clang-10 build"
+              os: ubuntu-20.04
+              cpp_compiler: clang++
+              build_type: Release
+
+            - name: "Ubuntu Focal gcc-10 debug-build and testcases"
+              os: ubuntu-20.04
+              cpp_compiler: g++-10              
+              compiler_flags: "-g -O0 --coverage"
+              build_type: Debug
+              run_tests: true
+
+            - name: "Ubuntu Focal gcc-9 build"
+              os: ubuntu-20.04
+              cpp_compiler: g++-9
+              build_type: Release
+
+            - name: "Mac OS clang-12 build"
+              os: macos-10.15
+              cpp_compiler: clang++
+              build_type: Release
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt update
+          sudo apt install -y --no-install-recommends ninja-build clang-tidy-10 libcurl4-openssl-dev
+          sudo ln -s /usr/bin/clang-tidy-10 /usr/local/bin/clang-tidy
+      - name: Install (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install ninja
+          sudo ln -s /usr/local/opt/llvm/bin/clang-tidy /usr/local/bin/clang-tidy
+      - name: Set environment variables
+        run: |
+          echo CMAKE_BUILD_TYPE="${{ matrix.build_type }}" >> $GITHUB_ENV
+          echo CXX="${{ matrix.cpp_compiler }}" >> $GITHUB_ENV
+          echo CXXFLAGS="${{ matrix.compiler_flags }}" >> $GITHUB_ENV
+          echo LDFLAGS="${{ matrix.compiler_flags }}" >> $GITHUB_ENV
+        # '>' converts newlines into spaces
+      - name: Configure
+        run: >
+          cmake
+          -B build
+          -G Ninja
+          -DBUILD_SHARED_LIBS=ON
+      - name: Build
+        run: cmake --build build
+      - name: Install IPFS (for Test)
+        if: ${{ matrix.run_tests }}
+        run: |
+          GO_IPFS_DOWNLOAD_URL="https://dist.ipfs.io/go-ipfs/v0.7.0/go-ipfs_v0.7.0_linux-amd64.tar.gz"
+          GO_IPFS_DIR="${GITHUB_WORKSPACE}/go-ipfs"
+          GO_IPFS_ARCHIVE_FULLPATH="${GO_IPFS_DIR}/go-ipfs.tar.gz"
+          echo GO_IPFS_CMD="${GO_IPFS_DIR}/go-ipfs/ipfs" >> $GITHUB_ENV
+          mkdir -p "${GO_IPFS_DIR}"
+          wget --quiet -O "${GO_IPFS_ARCHIVE_FULLPATH}" "${GO_IPFS_DOWNLOAD_URL}"
+          tar -C "${GO_IPFS_DIR}" -vzxf "${GO_IPFS_ARCHIVE_FULLPATH}"
+          rm -rf "${GO_IPFS_ARCHIVE_FULLPATH}"
+      - name: Test
+        if: ${{ matrix.run_tests }}
+        run: |
+          cd build
+          ./../scripts/ipfs_daemon_start.sh
+          make test ARGS="--output-on-failure -R '^test_'" 
+          ./../scripts/ipfs_daemon_stop.sh
+          ls -lha
+          ls -lha ./test
+        env:
+          CTEST_OUTPUT_ON_FAILURE: ON
+
+  static_analytics:
+    name: "Static code analysis"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: |
+          sudo apt update
+          sudo apt install -y --no-install-recommends clang-tidy-10 libcurl4-openssl-dev
+          sudo ln -s /usr/bin/clang-tidy-10 /usr/local/bin/clang-tidy
+      - name: Analysis
+        run: |
+          CCC_CXX=clang++-10 scan-build-10 --status-bugs cmake -DBUILD_SHARED_LIBS=ON "${SOURCE_DIR}"
+          CCC_CXX=clang++-10 scan-build-10 --status-bugs make VERBOSE=1

@@ -1,3 +1,7 @@
+
+include(CodeCoverage)
+append_coverage_compiler_flags()
+
 set(TESTS
   test_block
   test_config
@@ -19,9 +23,29 @@ if(CMAKE_BUILD_TYPE_LOWER MATCHES "debug")
   )
 endif()
 
+# we need to turn off optimization for non-skewed coverage reports
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
+
 foreach (T ${TESTS})
   add_executable(${T} ${T}.cc)
   target_link_libraries(${T} ${IPFS_API_LIBNAME})
 
   add_test(NAME ${T} COMMAND ./${T})
 endforeach()
+
+add_custom_target(our_tests
+  COMMAND ctest -R '^test_block'
+  DEPENDS ${TESTS}
+)
+
+setup_target_for_coverage_gcovr_xml(
+  NAME ctest_coverage_xml
+  EXECUTABLE our_tests
+  EXCLUDE "build/_deps" "include/*" "build/CMakeFiles/*"
+)
+
+setup_target_for_coverage_gcovr_html(
+  NAME ctest_coverage_html
+  EXECUTABLE make our_tests
+  EXCLUDE "build/_deps" "include/*" "build/CMakeFiles/*"
+)

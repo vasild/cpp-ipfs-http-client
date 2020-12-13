@@ -25,7 +25,6 @@ endif()
 
 # we need to turn off optimization for non-skewed coverage reports
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
 
 foreach (T ${TESTS})
   add_executable(${T} ${T}.cc)
@@ -34,18 +33,19 @@ foreach (T ${TESTS})
   add_test(NAME ${T} COMMAND ./${T})
 endforeach()
 
-# ctest -R '^test_block'
+add_custom_target(our_tests
+  COMMAND ctest -R '^test_block'
+  DEPENDS ${TESTS}
+)
 
 setup_target_for_coverage_gcovr_xml(
   NAME ctest_coverage_xml
-  EXECUTABLE test_block
-  DEPENDENCIES ${TESTS}
-  EXCLUDE "build/_deps" "include/*"
+  EXECUTABLE our_tests
+  EXCLUDE "build/_deps" "include/*" "build/CMakeFiles/*"
 )
 
 setup_target_for_coverage_gcovr_html(
   NAME ctest_coverage_html
-  EXECUTABLE test_files 
-  DEPENDENCIES ${TESTS}
-  EXCLUDE "build/_deps" "include/*" "build/CMakeFiles/3.16.3/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+  EXECUTABLE make our_tests
+  EXCLUDE "build/_deps" "include/*" "build/CMakeFiles/*"
 )

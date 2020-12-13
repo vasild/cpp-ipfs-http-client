@@ -1,4 +1,4 @@
-name: build_and_test
+name: ci
 
 on:
   push:
@@ -75,7 +75,6 @@ jobs:
           -DRUN_COVERAGE=ON
           -DBUILD_SHARED_LIBS=ON
       - name: Install IPFS
-        if: ${{ matrix.run_tests }}
         run: |
           GO_IPFS_DOWNLOAD_URL="https://dist.ipfs.io/go-ipfs/v0.7.0/go-ipfs_v0.7.0_linux-amd64.tar.gz"
           GO_IPFS_DIR="${GITHUB_WORKSPACE}/go-ipfs"
@@ -86,7 +85,6 @@ jobs:
           tar -C "${GO_IPFS_DIR}" -vzxf "${GO_IPFS_ARCHIVE_FULLPATH}"
           rm -rf "${GO_IPFS_ARCHIVE_FULLPATH}"
       - name: Test
-        if: ${{ matrix.run_tests }}
         working-directory: ./build
         run: |
           ./../scripts/ipfs_daemon_start.sh
@@ -95,7 +93,6 @@ jobs:
         env:
           CTEST_OUTPUT_ON_FAILURE: ON
       - uses: codecov/codecov-action@v1
-        if: ${{ matrix.run_tests }}
         with:
           file: ./build/ctest_coverage_xml.xml
           #token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos

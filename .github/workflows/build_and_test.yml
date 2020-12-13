@@ -51,7 +51,7 @@ jobs:
           sudo ln -s /usr/local/opt/llvm/bin/clang-tidy /usr/local/bin/clang-tidy
       - name: Set environment variables
         run: |
-          echo BUILD_TYPE="${{ matrix.build_type }}" >> $GITHUB_ENV
+          echo CMAKE_BUILD_TYPE="${{ matrix.build_type }}" >> $GITHUB_ENV
           echo CXX="${{ matrix.cpp_compiler }}" >> $GITHUB_ENV
           echo CXXFLAGS="${{ matrix.compiler_flags }}" >> $GITHUB_ENV
           echo LDFLAGS="${{ matrix.compiler_flags }}" >> $GITHUB_ENV
@@ -83,6 +83,7 @@ jobs:
           ctest -R '^test_'
           ./../scripts/ipfs_daemon_stop.sh
           ls -lha
+          ls -lha ./test
         env:
           CTEST_OUTPUT_ON_FAILURE: ON
 

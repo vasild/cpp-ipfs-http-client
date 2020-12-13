@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  build_and_test:
+  builds:
     name: "${{ matrix.name }}"
     runs-on: ${{ matrix.os }}
     strategy:
@@ -18,24 +18,18 @@ jobs:
             - name: "Ubuntu Focal clang-10 build"
               os: ubuntu-20.04
               cpp_compiler: clang++
-              build_type: Release
 
-            - name: "Ubuntu Focal gcc-10 debug-build and testcases"
+            - name: "Ubuntu Focal gcc-10 build"
               os: ubuntu-20.04
-              cpp_compiler: g++-10              
-              compiler_flags: "-g -O0 --coverage"
-              build_type: Debug
-              run_tests: true
+              cpp_compiler: g++-10
 
             - name: "Ubuntu Focal gcc-9 build"
               os: ubuntu-20.04
               cpp_compiler: g++-9
-              build_type: Release
 
             - name: "Mac OS clang-12 build"
               os: macos-10.15
               cpp_compiler: clang++
-              build_type: Release
     steps:
       - uses: actions/checkout@v2
       - name: Install (Ubuntu)
@@ -51,20 +45,37 @@ jobs:
           sudo ln -s /usr/local/opt/llvm/bin/clang-tidy /usr/local/bin/clang-tidy
       - name: Set environment variables
         run: |
-          echo CMAKE_BUILD_TYPE="${{ matrix.build_type }}" >> $GITHUB_ENV
           echo CXX="${{ matrix.cpp_compiler }}" >> $GITHUB_ENV
-          echo CXXFLAGS="${{ matrix.compiler_flags }}" >> $GITHUB_ENV
-          echo LDFLAGS="${{ matrix.compiler_flags }}" >> $GITHUB_ENV
         # '>' converts newlines into spaces
       - name: Configure
         run: >
           cmake
           -B build
           -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
           -DBUILD_SHARED_LIBS=ON
       - name: Build
         run: cmake --build build
-      - name: Install IPFS (for Test)
+
+  code_coverage:
+    name: "Run testcases with code coverage"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: |
+          sudo apt update
+          sudo apt install -y --no-install-recommends libcurl4-openssl-dev gcovr
+        # '>' converts newlines into spaces
+      - name: Configure
+        run: >
+          cmake
+          -B build
+          -G Ninja
+          -DCMAKE_BUILD_TYPE=Debug
+          -DRUN_COVERAGE=ON
+          -DBUILD_SHARED_LIBS=ON
+      - name: Install IPFS
         if: ${{ matrix.run_tests }}
         run: |
           GO_IPFS_DOWNLOAD_URL="https://dist.ipfs.io/go-ipfs/v0.7.0/go-ipfs_v0.7.0_linux-amd64.tar.gz"

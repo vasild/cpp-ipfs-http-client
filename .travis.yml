@@ -120,7 +120,7 @@ matrix:
         - make VERBOSE=1
         - "${TRAVIS_BUILD_DIR}/scripts/ipfs_daemon_start.sh"
         - OK="no"
-        - travis_wait 30 ctest -R '^test_' --output-on-failure && OK="yes"
+        - travis_wait 30 make test ARGS="--output-on-failure -R '^test_'" && OK="yes"
         - "${TRAVIS_BUILD_DIR}/scripts/ipfs_daemon_stop.sh"
         - |
           if [ "${OK}" = "yes" ] ; then

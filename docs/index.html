@@ -74,7 +74,6 @@ $(function() {
 <div class="line"># Build out-of-source using cmake in the usual way.</div>
 <div class="line"># These extra options may be of interest in case the dependencies have</div>
 <div class="line"># been installed in non-standard locations:</div>
-<div class="line"># JSON_FOR_MODERN_CXX_INCLUDE_DIR</div>
 <div class="line"># CURL_INCLUDE_DIR</div>
 <div class="line"># CURL_LIBRARY</div>
 <div class="line">mkdir build</div>
@@ -86,14 +85,15 @@ $(function() {
 <div class="line">  -DCMAKE_BUILD_TYPE=Debug \</div>
 <div class="line">  -DBUILD_SHARED_LIBS:BOOL=ON \</div>
 <div class="line">  ../cpp-ipfs-http-client</div>
-<div class="line">make -j742</div>
+<div class="line">make -j 8</div>
 <div class="line"> </div>
 <div class="line"># Optionally install it.</div>
 <div class="line">make install</div>
-</div><!-- fragment --><h2>Dependencies</h2>
+</div><!-- fragment --><p><em>Note:</em> Omitting <code>DBUILD_SHARED_LIBS</code> above is fine as well, if you want to statically link this library into your project.</p>
+<h2>Dependencies</h2>
 <ul>
 <li><a href="https://github.com/nlohmann/json#supported-compilers">C++11 compiler</a></li>
-<li><a href="http://cmake.org">CMake</a>, version 3.1.0 or higher</li>
+<li><a href="http://cmake.org">CMake</a>, version 3.11.0 or higher</li>
 <li><a href="https://curl.haxx.se/libcurl">libcurl</a>, version 7.25.0 or higher</li>
 </ul>
 <h1>License</h1>

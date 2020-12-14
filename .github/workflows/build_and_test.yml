@@ -58,7 +58,7 @@ jobs:
         run: cmake --build build
 
   code_coverage:
-    name: "Run testcases with code coverage"
+    name: "Run testcases with Code Coverage"
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -95,7 +95,24 @@ jobs:
       - uses: codecov/codecov-action@v1
         with:
           file: ./build/ctest_coverage_xml.xml
-          #token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+
+  doxygen:
+    name: "Generate Doxygen"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: |
+          sudo apt update
+          sudo apt install -y --no-install-recommends doxygen
+      - name: Configure
+        run: >
+          cmake
+          -B build
+          -DDOC=ON
+      - name: Build Doxygen
+        working-directory: ./build
+        run: make doc
 
   static_analytics:
     name: "Static code analysis"

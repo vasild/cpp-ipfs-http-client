@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/vasild/cpp-ipfs-http-client/branch/master/graph/badge.svg?token=4k5pulEnHE)](https://codecov.io/gh/vasild/cpp-ipfs-http-client)
 [![Documentation](https://img.shields.io/badge/docs-doxygen-blue)](https://vasild.github.io/cpp-ipfs-http-client)
 [![GitHub Issues](https://img.shields.io/github/issues/vasild/cpp-ipfs-http-client)](http://github.com/vasild/cpp-ipfs-http-client/issues)
-[![GitHub pull requests]https://img.shields.io/github/issues-pr/vasild/cpp-ipfs-http-client)](https://github.com/vasild/cpp-ipfs-http-client/pulls)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/vasild/cpp-ipfs-http-client)](https://github.com/vasild/cpp-ipfs-http-client/pulls)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/465/badge)](https://bestpractices.coreinfrastructure.org/projects/465)
 
 ![](https://ipfs.io/ipfs/QmQJ68PFMDdAsgCZvA1UVzzn18asVcf7HVvCDgpjiSCAse)

@@ -38,7 +38,7 @@ using Json = nlohmann::json;
 /** IPFS client.
  *
  * It implements the interface described in
- * https://github.com/ipfs/interface-ipfs-core.
+ * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api
  * The methods of this class may throw some variant of `std::exception` if a
  * connectivity error occurs or if the response cannot be parsed. Be prepared!
  *
@@ -174,7 +174,7 @@ class Client {
   /** Retrieve the peer info of a reachable node in the network.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DHT.md#dhtfindpeer.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/DHT.md#dhtfindpeer.
    *
    * An example usage:
    * @snippet test_dht.cc ipfs::Client::DhtFindPeer
@@ -191,7 +191,7 @@ class Client {
   /** Retrieve the providers for a content that is addressed by a hash.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DHT.md#dhtfindprovs.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/DHT.md#dhtfindprovs.
    *
    * An example usage:
    * @snippet test_dht.cc ipfs::Client::DhtFindProvs
@@ -208,7 +208,7 @@ class Client {
   /** Get a raw IPFS block.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockget.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md#blockget.
    *
    * An example usage:
    * @snippet test_block.cc ipfs::Client::BlockGet
@@ -226,7 +226,7 @@ class Client {
   /** Store a raw block in IPFS.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockput.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md#blockput.
    *
    * An example usage:
    * @snippet test_block.cc ipfs::Client::BlockPut
@@ -243,7 +243,7 @@ class Client {
   /** Get information for a raw IPFS block.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockstat.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md#blockstat.
    *
    * An example usage:
    * @snippet test_block.cc ipfs::Client::BlockStat
@@ -298,7 +298,7 @@ class Client {
   /** List directory contents for Unix filesystem objects.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#ls.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/FILES.md#ls.
    *
    * An example usage:
    * @snippet test_files.cc ipfs::Client::FilesLs
@@ -392,7 +392,7 @@ class Client {
   /** Publish an IPNS name attached to a given value.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#namepublish.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/NAME.md#namepublish.
    *
    * An example usage:
    * @snippet test_name.cc ipfs::Client::NamePublish
@@ -424,7 +424,7 @@ class Client {
   /** Resolve an IPNS name.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#nameresolve.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/NAME.md#nameresolve.
    *
    * An example usage:
    * @snippet test_name.cc ipfs::Client::NameResolve
@@ -626,7 +626,7 @@ class Client {
   /** Pin a given IPFS object.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinadd.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md#pinadd.
    *
    * An example usage:
    * @snippet test_pin.cc ipfs::Client::PinAdd
@@ -641,7 +641,7 @@ class Client {
   /** List all the objects pinned to local storage.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinls.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md#pinls.
    *
    * An example usage:
    * @snippet test_pin.cc ipfs::Client::PinLs__a
@@ -656,7 +656,7 @@ class Client {
   /** List the objects pinned under a specific hash.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinls.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md#pinls.
    *
    * An example usage:
    * @snippet test_pin.cc ipfs::Client::PinLs__b
@@ -681,7 +681,7 @@ class Client {
   /** Unpin an object.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinrm.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md#pinrm.
    *
    * An example usage:
    * @snippet test_pin.cc ipfs::Client::PinRm
@@ -700,7 +700,7 @@ class Client {
   /** List of known addresses of each peer connected.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmaddrs.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md#swarmaddrs.
    *
    * An example usage:
    * @snippet test_swarm.cc ipfs::Client::SwarmAddrs
@@ -715,7 +715,7 @@ class Client {
   /** Open a connection to a given address.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmconnect.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md#swarmconnect.
    *
    * An example usage:
    * @snippet test_swarm.cc ipfs::Client::SwarmConnect
@@ -732,7 +732,7 @@ class Client {
   /** Close a connection on a given address.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmdisconnect.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md#swarmdisconnect.
    *
    * An example usage:
    * @snippet test_swarm.cc ipfs::Client::SwarmDisconnect
@@ -749,7 +749,7 @@ class Client {
   /** List the peers that we have connections with.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmpeers.
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md#swarmpeers.
    *
    * An example usage:
    * @snippet test_swarm.cc ipfs::Client::SwarmPeers

@@ -219,7 +219,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IPFS client. </p>
-<p>It implements the interface described in <a href="https://github.com/ipfs/interface-ipfs-core">https://github.com/ipfs/interface-ipfs-core</a>. The methods of this class may throw some variant of <code>std::exception</code> if a connectivity error occurs or if the response cannot be parsed. Be prepared!</p>
+<p>It implements the interface described in <a href="https://github.com/ipfs/js-ipfs/tree/master/docs/core-api">https://github.com/ipfs/js-ipfs/tree/master/docs/core-api</a> The methods of this class may throw some variant of <code>std::exception</code> if a connectivity error occurs or if the response cannot be parsed. Be prepared!</p>
 <dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="adc5716aa4272ff2bedcae954339c77d0"></a>
@@ -413,7 +413,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get a raw IPFS block. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockget">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockget</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md#blockget">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md#blockget</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    std::stringstream block_contents;</div>
 <div class="line">    <span class="comment">/* E.g. block[&quot;Key&quot;] is &quot;QmQpWo5TL9nivqvL18Bq8bS34eewAA6jcgdVsUu4tGeVHo&quot;. */</span></div>
 <div class="line">    client.BlockGet(block[<span class="stringliteral">&quot;Key&quot;</span>], &amp;block_contents);</div>
@@ -466,7 +466,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Store a raw block in IPFS. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockput">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockput</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md#blockput">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md#blockput</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> block;</div>
 <div class="line">    client.BlockPut(</div>
 <div class="line">        {<span class="stringliteral">&quot;&quot;</span> <span class="comment">/* no file name */</span>, <a class="code" href="structipfs_1_1http_1_1FileUpload.html#a76d8546add495d01fd1dcd82ea8170adafc941c889c1d94c918bfd225c22aed65">ipfs::http::FileUpload::Type::kFileContents</a>,</div>
@@ -520,7 +520,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get information for a raw IPFS block. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockstat">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockstat</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md#blockstat">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md#blockstat</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> stat_result;</div>
 <div class="line">    client.BlockStat(block[<span class="stringliteral">&quot;Key&quot;</span>], &amp;stat_result);</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Stat: &quot;</span> &lt;&lt; stat_result &lt;&lt; std::endl;</div>
@@ -734,7 +734,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Retrieve the peer info of a reachable node in the network. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DHT.md#dhtfindpeer">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DHT.md#dhtfindpeer</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/DHT.md#dhtfindpeer">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/DHT.md#dhtfindpeer</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* std::string peer_id = &quot;QmcZrBqWBYV3RGsPuhQX11Qzp...maDYF&quot; for example. */</span></div>
 <div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> peer_addresses;</div>
 <div class="line"> </div>
@@ -794,7 +794,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Retrieve the providers for a content that is addressed by a hash. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DHT.md#dhtfindprovs">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DHT.md#dhtfindprovs</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/DHT.md#dhtfindprovs">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/DHT.md#dhtfindprovs</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* std::string hash = &quot;QmWPyMW2u7J2Zyzut7TcBMT8pG6F...Bt1nP&quot; for example. */</span></div>
 <div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> providers;</div>
 <div class="line"> </div>
@@ -994,7 +994,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>List directory contents for Unix filesystem objects. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#ls">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#ls</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/FILES.md#ls">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/FILES.md#ls</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> ls_result;</div>
 <div class="line">    client.FilesLs(<span class="stringliteral">&quot;/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG&quot;</span>,</div>
 <div class="line">                   &amp;ls_result);</div>
@@ -1277,7 +1277,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Publish an IPNS name attached to a given value. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#namepublish">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#namepublish</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/NAME.md#namepublish">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/NAME.md#namepublish</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">// The object here is well-known.</span></div>
 <div class="line">    std::string object_id = <span class="stringliteral">&quot;QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG&quot;</span>;</div>
 <div class="line">    std::string name;</div>
@@ -1331,7 +1331,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Resolve an IPNS name. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#nameresolve">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#nameresolve</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/NAME.md#nameresolve">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/NAME.md#nameresolve</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">// std::string name = &quot;QmTN15ibVzXhNBUZvv4rjHtrsM1xvHe19iy8feGFbUxb3P&quot;;</span></div>
 <div class="line">    std::string resolved_object_path;</div>
 <div class="line">    client.NameResolve(name, &amp;resolved_object_path);</div>
@@ -2167,7 +2167,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Pin a given IPFS object. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinadd">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinadd</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md#pinadd">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md#pinadd</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* std::string object_id = &quot;QmdfTbBqBPQ7VNxZEYEj14V...1zR1n&quot; for example. */</span></div>
 <div class="line">    client.PinAdd(object_id);</div>
 <div class="line"> </div>
@@ -2218,7 +2218,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>List the objects pinned under a specific hash. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinls">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinls</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md#pinls">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md#pinls</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* std::string object_id = &quot;QmdfTbBqBPQ7VNxZEYEj14V...1zR1n&quot; for example. */</span></div>
 <div class="line">    client.PinLs(object_id, &amp;pinned);</div>
 <div class="line"> </div>
@@ -2268,7 +2268,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>List all the objects pinned to local storage. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinls">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinls</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md#pinls">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md#pinls</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> pinned;</div>
 <div class="line"> </div>
 <div class="line">    client.PinLs(&amp;pinned);</div>
@@ -2334,7 +2334,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Unpin an object. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinrm">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinrm</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md#pinrm">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md#pinrm</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <span class="comment">/* std::string object_id = &quot;QmdfTbBqBPQ7VNxZEYEj14V...1zR1n&quot; for example. */</span></div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordtype">bool</span> unpinned;</div>
@@ -2387,7 +2387,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>List of known addresses of each peer connected. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmaddrs">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmaddrs</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md#swarmaddrs">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md#swarmaddrs</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> addresses;</div>
 <div class="line"> </div>
 <div class="line">    client.SwarmAddrs(&amp;addresses);</div>
@@ -2448,7 +2448,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Open a connection to a given address. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmconnect">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmconnect</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md#swarmconnect">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md#swarmconnect</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">      <span class="comment">/* std::string peer =</span></div>
 <div class="line"><span class="comment">       * &quot;/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ&quot;</span></div>
 <div class="line"><span class="comment">       * for example */</span></div>
@@ -2486,7 +2486,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Close a connection on a given address. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmdisconnect">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmdisconnect</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md#swarmdisconnect">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md#swarmdisconnect</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">      <span class="comment">/* std::string peer =</span></div>
 <div class="line"><span class="comment">       * &quot;/ip4/104.131.131.81/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ&quot;</span></div>
 <div class="line"><span class="comment">       * for example */</span></div>
@@ -2524,7 +2524,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>List the peers that we have connections with. </p>
-<p>Implements <a href="https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmpeers">https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmpeers</a>.</p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md#swarmpeers">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md#swarmpeers</a>.</p>
 <p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> peers;</div>
 <div class="line"> </div>
 <div class="line">    client.SwarmPeers(&amp;peers);</div>

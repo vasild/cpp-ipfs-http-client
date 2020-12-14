@@ -57,7 +57,7 @@ Test cases are build by default, but if you want to build with coverage:
 ```sh
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Debug -DRUN_COVERAGE=ON -DBUILD_SHARED_LIBS=ON
+cmake -DCMAKE_BUILD_TYPE=Debug -DRUN_COVERAGE=ON -DBUILD_SHARED_LIBS=ON ..
 # Run tests & Build the HTML report
 make ctest_coverage_html -j 6
 
@@ -97,8 +97,33 @@ int main(int, char**) {
 }
 ```
 
+## Build via c++ compiler
+
 ```sh
 c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-http-client myprog.cc -o myprog
+```
+
+## Build via CMake
+
+An example using the CPP-IPFS project within *another* CMake project. For example via `git submodule` (but just `git clone` also works):
+
+```sh
+git submodule add https://github.com/vasild/cpp-ipfs-http-client.git lib/ipfs-http-client
+```
+
+Edit your `CMakeLists.txt` file to include CPP-IPFS-HTTP-client in the build:
+
+```cmake
+add_subdirectory (lib/ipfs-http-client)
+```
+
+Finally, add the CPP-IPFS static library to your target (in this example `${PROJECT_TARGET}` variable is used):
+
+```cmake
+target_include_directories(${PROJECT_TARGET} PRIVATE
+    ${PROJECT_SOURCE_DIR}/lib/ipfs-http-client/include
+)
+target_link_libraries(${PROJECT_TARGET} PRIVATE ipfs-http-client)
 ```
 
 ## Contribute

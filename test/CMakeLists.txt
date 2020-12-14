@@ -26,15 +26,15 @@ foreach (T ${TESTS})
   add_test(NAME ${T} COMMAND ./${T})
 endforeach()
 
-
-if(RUN_COVERAGE)
+# Additional targets
+if(COVERAGE)
   include(CodeCoverage)
 
   # Instead of running  'make test' in the ctest_coverage_*, only run our testcases
   add_custom_target(our_tests
     COMMAND ctest -R '^test_'
   )
-  
+
   # Create a new target 'ctest_coverage_xml' that generates an XML coverage file
   setup_target_for_coverage_gcovr_xml(
     NAME ctest_coverage_xml

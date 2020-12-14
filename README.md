@@ -57,7 +57,7 @@ Test cases are build by default, but if you want to build with coverage:
 ```sh
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Debug -DRUN_COVERAGE=ON -DBUILD_SHARED_LIBS=ON ..
+cmake -DCMAKE_BUILD_TYPE=Debug -DCOVERAGE=ON -DBUILD_SHARED_LIBS=ON ..
 # Run tests & Build the HTML report
 make ctest_coverage_html -j 6
 

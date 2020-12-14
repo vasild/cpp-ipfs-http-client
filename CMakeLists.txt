@@ -18,6 +18,11 @@ endif()
 # Generate compile_commands.json, to be used by YouCompleteMe.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+
+# Set the available options 
+option(DOC "Build Doxygen" OFF)
+option(COVERAGE "Enable generation of coverage info" OFF)
+
 # Find curl
 find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIRS})

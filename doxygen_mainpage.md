@@ -28,6 +28,8 @@ make -j 8
 make install
 ```
 
+*Hint:* Use `cmake -LAH` to list all available options.
+
 *Note:* Omitting `DBUILD_SHARED_LIBS` above is fine as well, if you want to statically link this library into your project.
 
 ## Dependencies

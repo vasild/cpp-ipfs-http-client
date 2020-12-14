@@ -73,7 +73,7 @@ Build Doxygen files locally. From the root directory of this project:
 mkdir build
 cd build
 cmake -DDOC=ON ..
-make -j 
+make doc
 ```
 
 ## Usage

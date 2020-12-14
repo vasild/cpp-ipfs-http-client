@@ -34,7 +34,7 @@ if(COVERAGE)
 
   include(CodeCoverage)
   append_coverage_compiler_flags()
-  # set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
+  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
 endif()
 
 # Targets

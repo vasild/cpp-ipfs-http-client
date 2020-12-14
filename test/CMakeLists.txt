@@ -1,8 +1,3 @@
-if(COVERAGE)
-  include(CodeCoverage)
-  append_coverage_compiler_flags()
-endif()
-
 set(TESTS
   test_block
   test_config
@@ -33,6 +28,8 @@ endforeach()
 
 # Additional targets
 if(COVERAGE)
+  include(CodeCoverage)
+
   # Instead of running  'make test' in the ctest_coverage_*, only run our testcases
   add_custom_target(our_tests
     COMMAND ctest -R '^test_'

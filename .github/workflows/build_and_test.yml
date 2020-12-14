@@ -104,7 +104,7 @@ jobs:
       - name: Install
         run: |
           sudo apt update
-          sudo apt install -y --no-install-recommends doxygen
+          sudo apt install -y --no-install-recommends doxygen libcurl4-openssl-dev
       - name: Configure
         run: >
           cmake

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['change_20log',['Change Log',['../md_ChangeLog.html',1,'']]]
+  ['ipfs_20c_2b_2b_20http_20api_20client_20library_123',['IPFS C++ HTTP API client library',['../index.html',1,'']]]
 ];

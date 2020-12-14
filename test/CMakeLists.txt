@@ -25,3 +25,29 @@ foreach (T ${TESTS})
 
   add_test(NAME ${T} COMMAND ./${T})
 endforeach()
+
+
+if(RUN_COVERAGE)
+  include(CodeCoverage)
+
+  # Instead of running  'make test' in the ctest_coverage_*, only run our testcases
+  add_custom_target(our_tests
+    COMMAND ctest -R '^test_'
+  )
+  
+  # Create a new target 'ctest_coverage_xml' that generates an XML coverage file
+  setup_target_for_coverage_gcovr_xml(
+    NAME ctest_coverage_xml
+    EXECUTABLE make our_tests
+    DEPENDENCIES ${TESTS}
+    EXCLUDE "test/*" "build/_deps" "include/*" "build/CMakeFiles/*"
+  )
+
+  # Create a new target 'ctest_coverage_html' that generates a HTML page
+  setup_target_for_coverage_gcovr_html(
+    NAME ctest_coverage_html
+    EXECUTABLE make our_tests
+    DEPENDENCIES ${TESTS}
+    EXCLUDE "test/*" "build/_deps" "include/*" "build/CMakeFiles/*"
+  )
+endif()

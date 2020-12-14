@@ -48,14 +48,20 @@ class Client {
   /** Constructor.
    *
    * An example usage:
-   * @snippet generic.cc ipfs::Client::Client
+   * @snippet test_generic.cc ipfs::Client::Client
    *
    * @since version 0.1.0 */
   Client(
       /** [in] Hostname or IP address of the server to connect to. */
       const std::string& host,
       /** [in] Port to connect to. */
-      long port);
+      long port,
+      /** [in] [Optional] set server-side time-out, which should be string (eg. "6s") */
+      const std::string& timeout = "",
+      /** [in] [Optional] protocol (default: http://) */
+      const std::string& protocol = "http://",
+      /** [in] [Optional] API Path (default: /api/v0) */
+      const std::string& apiPath = "/api/v0");
 
   /** Copy-constructor. */
   Client(
@@ -86,10 +92,10 @@ class Client {
   /** Return the identity of the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/MISCELLANEOUS.md#id.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/MISCELLANEOUS.md#id.
    *
    * An example usage:
-   * @snippet generic.cc ipfs::Client::Id
+   * @snippet test_generic.cc ipfs::Client::Id
    *
    * @throw std::exception if any error occurs
    *
@@ -102,10 +108,10 @@ class Client {
   /** Return the implementation version of the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/MISCELLANEOUS.md#version.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/MISCELLANEOUS.md#version.
    *
    * An example usage:
-   * @snippet generic.cc ipfs::Client::Version
+   * @snippet test_generic.cc ipfs::Client::Version
    *
    * @throw std::exception if any error occurs
    *
@@ -118,10 +124,10 @@ class Client {
   /** Query the current config of the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/CONFIG.md#configget.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/CONFIG.md#configget.
    *
    * An example usage:
-   * @snippet config.cc ipfs::Client::ConfigGet
+   * @snippet test_config.cc ipfs::Client::ConfigGet
    *
    * @throw std::exception if any error occurs
    *
@@ -136,10 +142,10 @@ class Client {
   /** Add or replace a config knob at the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/CONFIG.md#configset.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/CONFIG.md#configset.
    *
    * An example usage:
-   * @snippet config.cc ipfs::Client::ConfigSet
+   * @snippet test_config.cc ipfs::Client::ConfigSet
    *
    * @throw std::exception if any error occurs
    *
@@ -153,10 +159,10 @@ class Client {
   /** Replace the entire config at the peer.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/CONFIG.md#configreplace.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/CONFIG.md#configreplace.
    *
    * An example usage:
-   * @snippet config.cc ipfs::Client::ConfigReplace
+   * @snippet test_config.cc ipfs::Client::ConfigReplace
    *
    * @throw std::exception if any error occurs
    *
@@ -171,7 +177,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DHT.md#dhtfindpeer.
    *
    * An example usage:
-   * @snippet dht.cc ipfs::Client::DhtFindPeer
+   * @snippet test_dht.cc ipfs::Client::DhtFindPeer
    *
    * @throw std::exception if any error occurs
    *
@@ -188,7 +194,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DHT.md#dhtfindprovs.
    *
    * An example usage:
-   * @snippet dht.cc ipfs::Client::DhtFindProvs
+   * @snippet test_dht.cc ipfs::Client::DhtFindProvs
    *
    * @throw std::exception if any error occurs
    *
@@ -205,7 +211,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockget.
    *
    * An example usage:
-   * @snippet block.cc ipfs::Client::BlockGet
+   * @snippet test_block.cc ipfs::Client::BlockGet
    *
    * @throw std::exception if any error occurs
    *
@@ -223,7 +229,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockput.
    *
    * An example usage:
-   * @snippet block.cc ipfs::Client::BlockPut
+   * @snippet test_block.cc ipfs::Client::BlockPut
    *
    * @throw std::exception if any error occurs
    *
@@ -240,7 +246,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/BLOCK.md#blockstat.
    *
    * An example usage:
-   * @snippet block.cc ipfs::Client::BlockStat
+   * @snippet test_block.cc ipfs::Client::BlockStat
    *
    * @throw std::exception if any error occurs
    *
@@ -254,10 +260,10 @@ class Client {
   /** Get a file from IPFS.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/FILES.md#get.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/FILES.md#get.
    *
    * An example usage:
-   * @snippet files.cc ipfs::Client::FilesGet
+   * @snippet test_files.cc ipfs::Client::FilesGet
    *
    * @throw std::exception if any error occurs
    *
@@ -273,10 +279,10 @@ class Client {
   /** Add files to IPFS.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/FILES.md#add.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/FILES.md#add.
    *
    * An example usage:
-   * @snippet files.cc ipfs::Client::FilesAdd
+   * @snippet test_files.cc ipfs::Client::FilesAdd
    *
    * @throw std::exception if any error occurs
    *
@@ -295,7 +301,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#ls.
    *
    * An example usage:
-   * @snippet files.cc ipfs::Client::FilesLs
+   * @snippet test_files.cc ipfs::Client::FilesLs
    *
    * @throw std::exception if any error occurs
    *
@@ -338,7 +344,7 @@ class Client {
    * https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keygen.
    *
    * An example usage:
-   * @snippet key.cc ipfs::Client::KeyGen
+   * @snippet test_key.cc ipfs::Client::KeyGen
    *
    * @throw std::exception if any error occurs
    *
@@ -359,7 +365,7 @@ class Client {
    * https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keylist.
    *
    * An example usage:
-   * @snippet key.cc ipfs::Client::KeyList
+   * @snippet test_key.cc ipfs::Client::KeyList
    *
    * @throw std::exception if any error occurs
    *
@@ -374,7 +380,7 @@ class Client {
    * https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keyrm.
    *
    * An example usage:
-   * @snippet key.cc ipfs::Client::KeyRm
+   * @snippet test_key.cc ipfs::Client::KeyRm
    *
    * @throw std::exception if any error occurs
    *
@@ -389,7 +395,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#namepublish.
    *
    * An example usage:
-   * @snippet name.cc ipfs::Client::NamePublish
+   * @snippet test_name.cc ipfs::Client::NamePublish
    *
    * @throw std::exception if any error occurs
    *
@@ -421,7 +427,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/NAME.md#nameresolve.
    *
    * An example usage:
-   * @snippet name.cc ipfs::Client::NameResolve
+   * @snippet test_name.cc ipfs::Client::NameResolve
    *
    * @throw std::exception if any error occurs
    *
@@ -436,10 +442,10 @@ class Client {
   /** Create a new MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectnew.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectnew.
    *
    * An example usage:
-   * @snippet object.cc ipfs::Client::ObjectNew
+   * @snippet test_object.cc ipfs::Client::ObjectNew
    *
    * @throw std::exception if any error occurs
    *
@@ -451,10 +457,10 @@ class Client {
   /** Store a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectput.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectput.
    *
    * An example usage:
-   * @snippet object.cc ipfs::Client::ObjectPut
+   * @snippet test_object.cc ipfs::Client::ObjectPut
    *
    * @throw std::exception if any error occurs
    *
@@ -469,10 +475,10 @@ class Client {
   /** Get a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectget.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectget.
    *
    * An example usage:
-   * @snippet object.cc ipfs::Client::ObjectGet
+   * @snippet test_object.cc ipfs::Client::ObjectGet
    *
    * @throw std::exception if any error occurs
    *
@@ -488,10 +494,10 @@ class Client {
   /** Get the data field of a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectdata.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectdata.
    *
    * An example usage:
-   * @snippet object.cc ipfs::Client::ObjectData
+   * @snippet test_object.cc ipfs::Client::ObjectData
    *
    * @throw std::exception if any error occurs
    *
@@ -505,10 +511,10 @@ class Client {
   /** Get links of a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectlinks.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectlinks.
    *
    * An example usage:
-   * @snippet object.cc ipfs::Client::ObjectLinks
+   * @snippet test_object.cc ipfs::Client::ObjectLinks
    *
    * @throw std::exception if any error occurs
    *
@@ -523,10 +529,10 @@ class Client {
   /** Get stats about a MerkleDAG node.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectstat.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectstat.
    *
    * An example usage:
-   * @snippet object.cc ipfs::Client::ObjectStat
+   * @snippet test_object.cc ipfs::Client::ObjectStat
    *
    * @throw std::exception if any error occurs
    *
@@ -541,10 +547,10 @@ class Client {
   /** Create a new object from an existing MerkleDAG node and add to its links.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectpatchaddlink.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectpatchaddlink.
    *
    * An example usage:
-   * @snippet object.cc ipfs::Client::ObjectPatchAddLink
+   * @snippet test_object.cc ipfs::Client::ObjectPatchAddLink
    *
    * @throw std::exception if any error occurs
    *
@@ -563,10 +569,10 @@ class Client {
    * links.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectpatchrmlink.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectpatchrmlink.
    *
    * An example usage:
-   * @snippet object.cc ipfs::Client::ObjectPatchRmLink
+   * @snippet test_object.cc ipfs::Client::ObjectPatchRmLink
    *
    * @throw std::exception if any error occurs
    *
@@ -582,10 +588,10 @@ class Client {
   /** Create a new object from an existing MerkleDAG node and append data to it.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectpatchappenddata.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectpatchappenddata.
    *
    * An example usage:
-   * @snippet object.cc ipfs::Client::ObjectPatchAppendData
+   * @snippet test_object.cc ipfs::Client::ObjectPatchAppendData
    *
    * @throw std::exception if any error occurs
    *
@@ -601,10 +607,10 @@ class Client {
   /** Create a new object from an existing MerkleDAG node and set its data.
    *
    * Implements
-   * https://github.com/ipfs/interface-ipfs-core/tree/master/SPEC/OBJECT.md#objectpatchsetdata.
+   * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api/OBJECT.md#objectpatchsetdata.
    *
    * An example usage:
-   * @snippet object.cc ipfs::Client::ObjectPatchSetData
+   * @snippet test_object.cc ipfs::Client::ObjectPatchSetData
    *
    * @throw std::exception if any error occurs
    *
@@ -623,7 +629,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinadd.
    *
    * An example usage:
-   * @snippet pin.cc ipfs::Client::PinAdd
+   * @snippet test_pin.cc ipfs::Client::PinAdd
    *
    * @throw std::exception if any error occurs
    *
@@ -638,7 +644,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinls.
    *
    * An example usage:
-   * @snippet pin.cc ipfs::Client::PinLs__a
+   * @snippet test_pin.cc ipfs::Client::PinLs__a
    *
    * @throw std::exception if any error occurs
    *
@@ -653,7 +659,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinls.
    *
    * An example usage:
-   * @snippet pin.cc ipfs::Client::PinLs__b
+   * @snippet test_pin.cc ipfs::Client::PinLs__b
    *
    * @throw std::exception if any error occurs
    *
@@ -678,7 +684,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/PIN.md#pinrm.
    *
    * An example usage:
-   * @snippet pin.cc ipfs::Client::PinRm
+   * @snippet test_pin.cc ipfs::Client::PinRm
    *
    * @throw std::exception if any error occurs
    *
@@ -697,7 +703,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmaddrs.
    *
    * An example usage:
-   * @snippet swarm.cc ipfs::Client::SwarmAddrs
+   * @snippet test_swarm.cc ipfs::Client::SwarmAddrs
    *
    * @throw std::exception if any error occurs
    *
@@ -712,7 +718,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmconnect.
    *
    * An example usage:
-   * @snippet swarm.cc ipfs::Client::SwarmConnect
+   * @snippet test_swarm.cc ipfs::Client::SwarmConnect
    *
    * @throw std::exception if any error occurs
    *
@@ -729,7 +735,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmdisconnect.
    *
    * An example usage:
-   * @snippet swarm.cc ipfs::Client::SwarmDisconnect
+   * @snippet test_swarm.cc ipfs::Client::SwarmDisconnect
    *
    * @throw std::exception if any error occurs
    *
@@ -746,7 +752,7 @@ class Client {
    * https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/SWARM.md#swarmpeers.
    *
    * An example usage:
-   * @snippet swarm.cc ipfs::Client::SwarmPeers
+   * @snippet test_swarm.cc ipfs::Client::SwarmPeers
    *
    * @throw std::exception if any error occurs
    *
@@ -818,6 +824,9 @@ class Client {
 
   /** The underlying transport. */
   http::Transport* http_;
+
+  /** Server-side time-out setting */
+  std::string timeout_value_;
 };
 } /* namespace ipfs */
 

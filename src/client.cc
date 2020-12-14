@@ -31,8 +31,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace ipfs {
 
-Client::Client(const std::string& host, long port)
-    : url_prefix_("http://" + host + ":" + std::to_string(port) + "/api/v0") {
+Client::Client(const std::string& host, long port, const std::string& timeout, const std::string& protocol, const std::string& apiPath)
+    : url_prefix_(protocol + host + ":" + std::to_string(port) + apiPath),
+      timeout_value_(timeout) {
   http_ = new http::TransportCurl();
 }
 
@@ -403,7 +404,7 @@ void Client::PinAdd(const std::string& object_id) {
   Json pins_array;
   GetProperty(response, "Pins", 0, &pins_array);
 
-  for (const std::string& pin : pins_array) {
+  for (const std::string pin : pins_array) {
     if (pin == object_id) {
       return;
     }
@@ -491,8 +492,14 @@ std::string Client::MakeUrl(
     const std::vector<std::pair<std::string, std::string>>& parameters) {
   std::string url = url_prefix_ + "/" + path +
                     "?stream-channels=true&json=true&encoding=json";
+  std::vector<std::pair<std::string, std::string>> params = parameters;
 
-  for (auto& parameter : parameters) {
+  if (!timeout_value_.empty()) {
+    // Set time-out at server-side
+    params.push_back(std::make_pair(std::string("timeout"), timeout_value_));
+  }
+
+  for (auto& parameter : params) {
     std::string name_url_encoded;
     http_->UrlEncode(parameter.first, &name_url_encoded);
 

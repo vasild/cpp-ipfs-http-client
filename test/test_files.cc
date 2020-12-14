@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2019, The C++ IPFS client library developers
+/* Copyright (c) 2016-2020, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -26,7 +26,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 int main(int, char**) {
   try {
-    ipfs::Client client("localhost", 5001);
+    // Try Files API tests with time-out setting of 20 seconds
+    ipfs::Client client("localhost", 5001, "20s");
 
     /** [ipfs::Client::FilesGet] */
     std::stringstream contents;
@@ -38,6 +39,7 @@ int main(int, char**) {
     /* An example output:
     Retrieved contents: Hello an...
     */
+   
     /** [ipfs::Client::FilesGet] */
     ipfs::test::check_if_string_contains("client.FilesGet()", contents.str(),
                                          "Hello and Welcome to IPFS!");

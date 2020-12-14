@@ -59,7 +59,8 @@ class Transport {
    * they are submitted using "Content-Type: multipart/form-data".
    *
    * @throw std::exception if any error occurs including erroneous HTTP status
-   * code */
+   * code 
+   * @return void */
   virtual void Fetch(
       /** [in] URL to get. */
       const std::string& url,
@@ -68,7 +69,9 @@ class Transport {
       /** [out] Output to save the response body to. */
       std::iostream* response) = 0;
 
-  /** URL encode a string. */
+  /** URL encode a string.
+   * @return void
+   */
   virtual void UrlEncode(
       /** [in] Input string to encode. */
       const std::string& raw,

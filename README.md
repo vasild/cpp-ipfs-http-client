@@ -1,7 +1,7 @@
 # IPFS C++ HTTP API client library
 
-[![Build Status](https://api.travis-ci.org/vasild/cpp-ipfs-http-client.svg?branch=master)](https://travis-ci.org/vasild/cpp-ipfs-http-client)
-[![Coverage Status](https://coveralls.io/repos/github/vasild/cpp-ipfs-http-client/badge.svg?branch=master)](https://coveralls.io/github/vasild/cpp-ipfs-http-client?branch=master)
+[![Build Status](https://github.com/vasild/cpp-ipfs-http-client/workflows/ci/badge.svg)](https://github.com/vasild/cpp-ipfs-http-client/actions?query=workflow%3Aci)
+[![codecov](https://codecov.io/gh/vasild/cpp-ipfs-http-client/branch/master/graph/badge.svg?token=4k5pulEnHE)](https://codecov.io/gh/vasild/cpp-ipfs-http-client)
 [![Documentation](https://img.shields.io/badge/docs-doxygen-blue.svg)](https://vasild.github.io/cpp-ipfs-http-client)
 [![GitHub Issues](https://img.shields.io/github/issues/vasild/cpp-ipfs-http-client.svg)](http://github.com/vasild/cpp-ipfs-http-client/issues)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/465/badge)](https://bestpractices.coreinfrastructure.org/projects/465)
@@ -28,16 +28,16 @@ Currently implemented methods:
 
 Not all methods are implemented.
 
-# TODO
+## TODO
 
 - Implement the missing methods
 - Contributors are welcome!
 
-# Install
+## Install
 
 ```sh
 cmake /path/to/cpp-ipfs-http-client
-make
+make -j 6
 make install
 ```
 
@@ -49,7 +49,33 @@ See the [documentation for details](https://vasild.github.io/cpp-ipfs-http-clien
 - [CMake](http://cmake.org)
 - [libcurl](https://curl.haxx.se/libcurl)
 
-# Usage
+## Build Test cases + Code Coverage
+
+Test cases are build by default, but if you want to build with coverage:
+
+```sh
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Debug -DRUN_COVERAGE=ON -DBUILD_SHARED_LIBS=ON
+# Run tests & Build the HTML report
+make ctest_coverage_html -j 6
+
+# Or run tests & create a Cobertura XML file
+make ctest_coverage_xml -j 6
+```
+
+## Build Doxygen
+
+Build Doxygen files locally. From the root directory of this project:
+
+```sh
+mkdir build
+cd build
+cmake -DDOC=ON ..
+make -j 
+```
+
+## Usage
 
 ```cpp
 #include <iostream>
@@ -74,15 +100,15 @@ int main(int, char**) {
 c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-http-client myprog.cc -o myprog
 ```
 
-# Contribute
+## Contribute
 
 Feel free to [open issues](https://github.com/vasild/cpp-ipfs-http-client/issues/new) and [pull requests](https://github.com/vasild/cpp-ipfs-http-client/compare).
 Report vulnerabilities publicly, similar to other non-security issues.
 
 The project adheres to the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html). Use [clang-format](http://clang.llvm.org/docs/ClangFormat.html) to properly format the code when you submit patches.
 
-Write tests for new code. Changes should not cause the code coverage to go down.
+Write tests for new code. Changes should not cause the code coverage to go down (ideally up).
 
-# License
+## License
 
 The code is distributed under the [MIT License](http://opensource.org/licenses/MIT).

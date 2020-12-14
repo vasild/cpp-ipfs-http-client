@@ -1,0 +1,130 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  builds:
+    name: "${{ matrix.name }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+            - name: "Ubuntu Focal clang-10 build"
+              os: ubuntu-20.04
+              cpp_compiler: clang++
+
+            - name: "Ubuntu Focal gcc-10 build"
+              os: ubuntu-20.04
+              cpp_compiler: g++-10
+
+            - name: "Ubuntu Focal gcc-9 build"
+              os: ubuntu-20.04
+              cpp_compiler: g++-9
+
+            - name: "Mac OS clang-12 build"
+              os: macos-10.15
+              cpp_compiler: clang++
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt update
+          sudo apt install -y --no-install-recommends ninja-build clang-tidy-10 libcurl4-openssl-dev
+          sudo ln -s /usr/bin/clang-tidy-10 /usr/local/bin/clang-tidy
+      - name: Install (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install ninja
+          sudo ln -s /usr/local/opt/llvm/bin/clang-tidy /usr/local/bin/clang-tidy
+      - name: Set environment variables
+        run: |
+          echo CXX="${{ matrix.cpp_compiler }}" >> $GITHUB_ENV
+        # '>' converts newlines into spaces
+      - name: Configure
+        run: >
+          cmake
+          -B build
+          -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
+          -DBUILD_SHARED_LIBS=ON
+      - name: Build
+        run: cmake --build build
+
+  code_coverage:
+    name: "Run testcases with Code Coverage"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install packages
+        run: |
+          sudo apt update
+          sudo apt install -y --no-install-recommends libcurl4-openssl-dev gcovr
+        # '>' converts newlines into spaces
+      - name: Configure
+        run: >
+          cmake
+          -B build
+          -DCMAKE_BUILD_TYPE=Debug
+          -DRUN_COVERAGE=ON
+          -DBUILD_SHARED_LIBS=ON
+      - name: Install IPFS
+        run: |
+          GO_IPFS_DOWNLOAD_URL="https://dist.ipfs.io/go-ipfs/v0.7.0/go-ipfs_v0.7.0_linux-amd64.tar.gz"
+          GO_IPFS_DIR="${GITHUB_WORKSPACE}/go-ipfs"
+          GO_IPFS_ARCHIVE_FULLPATH="${GO_IPFS_DIR}/go-ipfs.tar.gz"
+          echo GO_IPFS_CMD="${GO_IPFS_DIR}/go-ipfs/ipfs" >> $GITHUB_ENV
+          mkdir -p "${GO_IPFS_DIR}"
+          wget --quiet -O "${GO_IPFS_ARCHIVE_FULLPATH}" "${GO_IPFS_DOWNLOAD_URL}"
+          tar -C "${GO_IPFS_DIR}" -vzxf "${GO_IPFS_ARCHIVE_FULLPATH}"
+          rm -rf "${GO_IPFS_ARCHIVE_FULLPATH}"
+      - name: Test
+        working-directory: ./build
+        run: |
+          ./../scripts/ipfs_daemon_start.sh
+          make ctest_coverage_xml -j 6
+          ./../scripts/ipfs_daemon_stop.sh
+        env:
+          CTEST_OUTPUT_ON_FAILURE: ON
+      - uses: codecov/codecov-action@v1
+        with:
+          file: ./build/ctest_coverage_xml.xml
+
+  doxygen:
+    name: "Generate Doxygen"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: |
+          sudo apt update
+          sudo apt install -y --no-install-recommends doxygen libcurl4-openssl-dev
+      - name: Configure
+        run: >
+          cmake
+          -B build
+          -DDOC=ON
+      - name: Build Doxygen
+        working-directory: ./build
+        run: make doc
+
+  static_analytics:
+    name: "Static code analysis"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: |
+          sudo apt update
+          sudo apt install -y --no-install-recommends clang-tidy-10 libcurl4-openssl-dev
+          sudo ln -s /usr/bin/clang-tidy-10 /usr/local/bin/clang-tidy
+      - name: Analysis
+        run: |
+          CCC_CXX=clang++-10 scan-build-10 --status-bugs cmake -DBUILD_SHARED_LIBS=ON "${SOURCE_DIR}"
+          CCC_CXX=clang++-10 scan-build-10 --status-bugs make VERBOSE=1

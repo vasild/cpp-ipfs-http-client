@@ -102,7 +102,7 @@ void TransportCurl::Fetch(const std::string& url,
                           std::iostream* response) {
   HandleSetup();
 
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_POST.html */
+  /* https://curl.se/libcurl/c/CURLOPT_POST.html */
   curl_easy_setopt(curl_, CURLOPT_POST, 1);
 
   curl_httppost* form_parts = NULL;
@@ -115,7 +115,7 @@ void TransportCurl::Fetch(const std::string& url,
 
     switch (file.type) {
       case FileUpload::Type::kFileContents:
-        /* https://curl.haxx.se/libcurl/c/curl_formadd.html */
+        /* https://curl.se/libcurl/c/curl_formadd.html */
         curl_formadd(&form_parts, &form_parts_end,
                      /* name="..."; */
                      CURLFORM_COPYNAME, name.c_str(),
@@ -129,7 +129,7 @@ void TransportCurl::Fetch(const std::string& url,
                      CURLFORM_CONTENTTYPE, content_type, CURLFORM_END);
         break;
       case FileUpload::Type::kFileName:
-        /* https://curl.haxx.se/libcurl/c/curl_formadd.html */
+        /* https://curl.se/libcurl/c/curl_formadd.html */
         curl_formadd(&form_parts, &form_parts_end,
                      /* name="..."; */
                      CURLFORM_COPYNAME, name.c_str(),
@@ -146,25 +146,25 @@ void TransportCurl::Fetch(const std::string& url,
   /* Auto free the resources occupied by `form_parts`. */
   std::unique_ptr<curl_httppost, void (*)(curl_httppost*)> form_parts_deleter(
       form_parts, [](curl_httppost* d) {
-        /* https://curl.haxx.se/libcurl/c/curl_formfree.html */
+        /* https://curl.se/libcurl/c/curl_formfree.html */
         curl_formfree(d);
       });
 
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPPOST.html */
+  /* https://curl.se/libcurl/c/CURLOPT_HTTPPOST.html */
   curl_easy_setopt(curl_, CURLOPT_HTTPPOST, form_parts);
 
   curl_slist* headers = NULL;
-  /* https://curl.haxx.se/libcurl/c/curl_slist_append.html */
+  /* https://curl.se/libcurl/c/curl_slist_append.html */
   headers = curl_slist_append(headers, "Expect:");
 
   /* Auto free the resources occupied by `headers`. */
   std::unique_ptr<curl_slist, void (*)(curl_slist*)> headers_deleter(
       headers, [](curl_slist* d) {
-        /* https://curl.haxx.se/libcurl/c/curl_slist_free_all.html */
+        /* https://curl.se/libcurl/c/curl_slist_free_all.html */
         curl_slist_free_all(d);
       });
 
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_HTTPHEADER.html */
+  /* https://curl.se/libcurl/c/CURLOPT_HTTPHEADER.html */
   curl_easy_setopt(curl_, CURLOPT_HTTPHEADER, headers);
 
 #ifndef NDEBUG
@@ -200,39 +200,40 @@ void TransportCurl::HandleSetup() {
     throw std::runtime_error("curl_easy_init() failed");
   }
 
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_ERRORBUFFER.html */
+  /* https://curl.se/libcurl/c/CURLOPT_ERRORBUFFER.html */
   curl_easy_setopt(curl_, CURLOPT_ERRORBUFFER, curl_error_);
 
   /* Enable TCP keepalive.
-   * https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPALIVE.html */
+   * https://curl.se/libcurl/c/CURLOPT_TCP_KEEPALIVE.html */
   curl_easy_setopt(curl_, CURLOPT_TCP_KEEPALIVE, 1);
 
   /* Seconds to wait before sending keep-alive packets.
-   * https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPIDLE.html */
+   * https://curl.se/libcurl/c/CURLOPT_TCP_KEEPIDLE.html */
   curl_easy_setopt(curl_, CURLOPT_TCP_KEEPIDLE, 30);
 
   /* Seconds between keep-alive probes.
-   * https://curl.haxx.se/libcurl/c/CURLOPT_TCP_KEEPINTVL.html */
+   * https://curl.se/libcurl/c/CURLOPT_TCP_KEEPINTVL.html */
   curl_easy_setopt(curl_, CURLOPT_TCP_KEEPINTVL, 10);
 
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_USERAGENT.html */
+  /* https://curl.se/libcurl/c/CURLOPT_USERAGENT.html */
   curl_easy_setopt(curl_, CURLOPT_USERAGENT, "cpp-ipfs-http-client");
 
   curl_is_setup_ = true;
 }
 
 void TransportCurl::Perform(const std::string& url, std::iostream* response) {
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_URL.html */
+  /* https://curl.se/libcurl/c/CURLOPT_URL.html */
   curl_easy_setopt(curl_, CURLOPT_URL, url.c_str());
 
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
+  /* https://curl.se/libcurl/c/CURLOPT_WRITEFUNCTION.html */
   curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curl_cb_stream);
 
-  /* https://curl.haxx.se/libcurl/c/CURLOPT_WRITEDATA.html */
+  /* https://curl.se/libcurl/c/CURLOPT_WRITEDATA.html */
   curl_easy_setopt(curl_, CURLOPT_WRITEDATA, response);
 
   curl_error_[0] = '\0';
 
+  /* https://curl.se/libcurl/c/curl_easy_perform.html */
   CURLcode res = curl_easy_perform(curl_);
   if (res != CURLE_OK) {
     const std::string generic_error(curl_easy_strerror(res));

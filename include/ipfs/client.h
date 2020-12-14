@@ -38,7 +38,8 @@ using Json = nlohmann::json;
 /** IPFS client.
  *
  * It implements the interface described in
- * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api
+ * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api.
+ * 
  * The methods of this class may throw some variant of `std::exception` if a
  * connectivity error occurs or if the response cannot be parsed. Be prepared!
  *

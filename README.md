@@ -1,9 +1,7 @@
 # IPFS C++ HTTP API client library
 
-![Build Status](https://github.com/vasild/cpp-ipfs-http-client/workflows/ci/badge.svg)
-[![codecov.io](https://codecov.io/gh/vasild/cpp-ipfs-http-client/branch/master/graphs/badge.svg?branch=master)]
-(https://codecov.io/gh/vasild/cpp-ipfs-http-client?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/vasild/cpp-ipfs-http-client/badge.svg?branch=master)](https://coveralls.io/github/vasild/cpp-ipfs-http-client?branch=master)
+[![Build Status](https://github.com/vasild/cpp-ipfs-http-client/workflows/ci/badge.svg)](https://github.com/vasild/cpp-ipfs-http-client/actions?query=workflow%3Aci)
+[![codecov](https://codecov.io/gh/vasild/cpp-ipfs-http-client/branch/master/graph/badge.svg?token=4k5pulEnHE)](https://codecov.io/gh/vasild/cpp-ipfs-http-client)
 [![Documentation](https://img.shields.io/badge/docs-doxygen-blue.svg)](https://vasild.github.io/cpp-ipfs-http-client)
 [![GitHub Issues](https://img.shields.io/github/issues/vasild/cpp-ipfs-http-client.svg)](http://github.com/vasild/cpp-ipfs-http-client/issues)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/465/badge)](https://bestpractices.coreinfrastructure.org/projects/465)

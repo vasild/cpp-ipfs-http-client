@@ -127,5 +127,5 @@ jobs:
       - name: Analysis
         run: |
           CCC_CXX=clang++-10 scan-build-10 --status-bugs cmake -DBUILD_SHARED_LIBS=ON "${SOURCE_DIR}"
-          CCC_CXX=clang++-10 scan-build-10 --status-bugs make VERBOSE=1git push
-          
+          CCC_CXX=clang++-10 scan-build-10 --status-bugs make VERBOSE=1
+

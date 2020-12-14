@@ -26,10 +26,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 int main(int, char**) {
   try {
-    /** [ipfs::Client::Client] */
-
     // Test client constructor
+    /** [ipfs::Client::Client] */
     ipfs::Client client("localhost", 5001);
+    /** [ipfs::Client::Client] */
 
     // Test client constructor with additional parameters
     ipfs::Client client2("localhost", 5001, "6s", "http://", "/api/v0");
@@ -40,7 +40,6 @@ int main(int, char**) {
     ipfs::Client clientB(std::move(clientA));
     ipfs::Client clientC("localhost", 5001);
     clientC = std::move(clientB);
-    /** [ipfs::Client::Client] */
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wall"

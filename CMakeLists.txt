@@ -72,3 +72,7 @@ if(BUILD_TESTING)
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
   endif()
 endif()
+
+if(DOC)
+  include(doxygen)
+endif()

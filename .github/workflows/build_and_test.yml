@@ -72,7 +72,7 @@ jobs:
           cmake
           -B build
           -DCMAKE_BUILD_TYPE=Debug
-          -DRUN_COVERAGE=ON
+          -DCOVERAGE=ON
           -DBUILD_SHARED_LIBS=ON
       - name: Install IPFS
         run: |

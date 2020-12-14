@@ -24,6 +24,15 @@ include_directories(${CURL_INCLUDE_DIRS})
 
 include_directories("include")
 
+# When build with coverage, set the correct compiler flags before the targets are defined
+if(COVERAGE)
+  set(CMAKE_BUILD_TYPE Debug)
+
+  include(CodeCoverage)
+  append_coverage_compiler_flags()
+  # set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
+endif()
+
 # Targets
 set(IPFS_API_LIBNAME ipfs-http-client)
 
@@ -60,17 +69,8 @@ endif()
 
 # https://cmake.org/cmake/help/v3.0/module/CTest.html
 include(CTest)
-
 if(BUILD_TESTING)
   add_subdirectory(test)
- 
-  # Only when running also a coverage build
-  if(RUN_COVERAGE)
-    # Set the correct flags on the source code (like turning off optimization)
-    include(CodeCoverage)
-    append_coverage_compiler_flags()
-    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
-  endif()
 endif()
 
 if(DOC)

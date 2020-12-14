@@ -65,8 +65,7 @@ jobs:
       - name: Install packages
         run: |
           sudo apt update
-          sudo apt install -y --no-install-recommends libcurl4-openssl-dev
-          pip install gcovr
+          sudo apt install -y --no-install-recommends libcurl4-openssl-dev gcovr
         # '>' converts newlines into spaces
       - name: Configure
         run: >

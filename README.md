@@ -39,7 +39,7 @@ Not all methods are implemented.
 
 ```sh
 git clone https://github.com/vasild/cpp-ipfs-http-client.git
-cd cpp-ipfs-http-client.
+cd cpp-ipfs-http-client
 cmake .
 make -j 6
 sudo make install

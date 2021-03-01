@@ -47,7 +47,7 @@ jobs:
     - name: Install packages
       run: |
         sudo apt update
-        sudo apt install -y --no-install-recommends libcurl4-openssl-dev
+        sudo apt install -y --no-install-recommends ninja-build libcurl4-openssl-dev
 
     - name: Configure
       run: >

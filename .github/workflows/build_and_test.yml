@@ -78,7 +78,7 @@ jobs:
         env:
           GO_IPFS_VERSION: "v0.8.0"
         run: |
-          GO_IPFS_DOWNLOAD_URL="https://dist.ipfs.io/go-ipfs/$GO_IPFS_VERSION/go-ipfs_$GO_IPFS_VERSION_linux-amd64.tar.gz"
+          GO_IPFS_DOWNLOAD_URL="https://dist.ipfs.io/go-ipfs/${GO_IPFS_VERSION}/go-ipfs_${GO_IPFS_VERSION}_linux-amd64.tar.gz"
           GO_IPFS_DIR="${GITHUB_WORKSPACE}/go-ipfs"
           GO_IPFS_ARCHIVE_FULLPATH="${GO_IPFS_DIR}/go-ipfs.tar.gz"
           echo GO_IPFS_CMD="${GO_IPFS_DIR}/go-ipfs/ipfs" >> $GITHUB_ENV

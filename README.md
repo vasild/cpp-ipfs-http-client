@@ -1,6 +1,7 @@
 # IPFS C++ HTTP API client library
 
-[![Build Status](https://github.com/vasild/cpp-ipfs-http-client/workflows/ci/badge.svg?branch=master)](https://github.com/vasild/cpp-ipfs-http-client/actions?query=workflow%3Aci+branch%3Amaster)
+[![Build CI Status](https://github.com/vasild/cpp-ipfs-http-client/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/vasild/cpp-ipfs-http-client/actions/workflows/build_and_test.yml)
+[![CodeQL](https://github.com/vasild/cpp-ipfs-http-client/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/vasild/cpp-ipfs-http-client/actions/workflows/codeql-analysis.yml)
 [![codecov](https://codecov.io/gh/vasild/cpp-ipfs-http-client/branch/master/graph/badge.svg?token=4k5pulEnHE)](https://codecov.io/gh/vasild/cpp-ipfs-http-client)
 [![Documentation](https://img.shields.io/badge/docs-doxygen-blue)](https://vasild.github.io/cpp-ipfs-http-client)
 [![GitHub Issues](https://img.shields.io/github/issues/vasild/cpp-ipfs-http-client)](http://github.com/vasild/cpp-ipfs-http-client/issues)

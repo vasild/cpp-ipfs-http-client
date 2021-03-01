@@ -7,7 +7,7 @@
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/vasild/cpp-ipfs-http-client)](https://github.com/vasild/cpp-ipfs-http-client/pulls)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/465/badge)](https://bestpractices.coreinfrastructure.org/projects/465)
 
-![](https://ipfs.io/ipfs/QmQJ68PFMDdAsgCZvA1UVzzn18asVcf7HVvCDgpjiSCAse)
+![IPFS C++ HTTP Client Library](https://ipfs.io/ipfs/QmQJ68PFMDdAsgCZvA1UVzzn18asVcf7HVvCDgpjiSCAse)
 
 Allows C++ applications to communicate with an [IPFS](https://ipfs.io) node.
 It implements [IPFS API bindings](https://github.com/ipfs/interface-js-ipfs-core/blob/master/README.md#api) for C++.
@@ -37,9 +37,11 @@ Not all methods are implemented.
 ## Install
 
 ```sh
-cmake /path/to/cpp-ipfs-http-client
+git clone https://github.com/vasild/cpp-ipfs-http-client.git
+cd cpp-ipfs-http-client.
+cmake .
 make -j 6
-make install
+sudo make install
 ```
 
 See the [documentation for details](https://vasild.github.io/cpp-ipfs-http-client).

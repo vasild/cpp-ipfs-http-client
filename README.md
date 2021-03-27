@@ -16,19 +16,26 @@ See [the documentation](https://vasild.github.io/cpp-ipfs-http-client) and in pa
 
 See also [IPFS on GitHub](https://github.com/ipfs).
 
-Currently implemented methods:
+The C++ API is broken up ito the following sections (Note: links below go to the `js-ipfs` project). The following calls are implemented in `cpp-ipfs-http-client`:
 
-- [block](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md): get(), put(), stat()
-- [config](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/CONFIG.md): get(), set(), replace()
-- [dht](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//DHT.md): findpeer(), findprovs()
-- [files](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//FILES.md): get(), add()
-- [miscellaneous](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//MISCELLANEOUS.md): id(), version()
-- [object](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//OBJECT.md): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()
-- [pin](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//PIN.md): add(), ls(), rm()
-- [swarm](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//SWARM.md): addrs(), connect(), disconnect(), peers()
-- [key](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api//KEY.md): gen(), list(), rm()
+- [Bitswap](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BITSWAP.md): *all methods are still to-do*
+- [Block](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md): get(), put(), stat()
+- [Bootstrap](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BOOTSTRAP.md): *all methods are still to-do*
+- [Config](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/CONFIG.md): get(), set(), replace()
+- [DAG](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/DAG.md): *all methods are still to-do*
+- [DHT](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/DHT.md): findpeer(), findprovs()
+- [Files](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/FILES.md): get(), add()
+- [Key](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/KEY.md): gen(), list(), rm()
+- [Miscellaneous](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/MISCELLANEOUS.md): id(), version()
+- [Name](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/NAME.md): *all methods are still to-do*
+- [Object](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/OBJECT.md): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()
+- [Pin](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md): add(), ls(), rm()
+- [PubSub](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PUBSUB.md): *all methods are still to-do*
+- [Refs](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/REFS.md): *all methods are still to-do*
+- [Stats](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/STATS.md): bw()
+- [Swarm](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md): addrs(), connect(), disconnect(), peers()
 
-Not all methods are implemented.
+As you can see, not all methods are yet implemented.
 
 ## TODO
 

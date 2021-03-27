@@ -8,6 +8,7 @@ set(TESTS
   test_name
   test_object
   test_pin
+  test_stats
   test_swarm
 )
 

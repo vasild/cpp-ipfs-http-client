@@ -434,6 +434,10 @@ void Client::PinRm(const std::string& object_id, PinRmOptions options) {
       &response);
 }
 
+void Client::StatsBw(Json* bandwidth_info) {
+  FetchAndParseJson(MakeUrl("stats/bw"), bandwidth_info);
+}
+
 void Client::SwarmAddrs(Json* addresses) {
   FetchAndParseJson(MakeUrl("swarm/addrs"), addresses);
 }

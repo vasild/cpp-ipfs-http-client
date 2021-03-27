@@ -831,7 +831,7 @@ class Client {
   /** Construct a full URL. The URL is constructed from url_prefix_, path and
    * the provided parameters (if any). For example:
    * http://localhost:5001/api/v0 / block/get ?stream-channels=true& foo = bar &...
-   * ^ `url_prefix_`        ^ `path`                         ^ [1] ^ [2]
+   * ^ `url_prefix_`                ^ `path`                         ^ [1] ^ [2]
    * [1] parameters[0].first
    * [2] parameters[0].second.
    * @return The full URL. */

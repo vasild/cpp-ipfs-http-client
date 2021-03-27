@@ -16,7 +16,7 @@ See [the documentation](https://vasild.github.io/cpp-ipfs-http-client) and in pa
 
 See also [IPFS on GitHub](https://github.com/ipfs).
 
-The C++ API is broken up ito the following sections (Note: links below go to the `js-ipfs` project). The following calls are implemented in `cpp-ipfs-http-client`:
+The C++ API is broken up into the following sections (Note: links below go to the `js-ipfs` project). The following calls are implemented in `cpp-ipfs-http-client`:
 
 - [Bitswap](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BITSWAP.md): *all methods are still to-do*
 - [Block](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/BLOCK.md): get(), put(), stat()

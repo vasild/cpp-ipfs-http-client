@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pinrmoptions_117',['PinRmOptions',['../classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0',1,'ipfs::Client']]]
+  ['pinrmoptions_119',['PinRmOptions',['../classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0',1,'ipfs::Client']]]
 ];

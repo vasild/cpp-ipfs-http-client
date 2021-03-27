@@ -698,6 +698,28 @@ class Client {
       /** [in] Unpin options. */
       PinRmOptions options);
 
+  /** Get IPFS bandwidth (bw) information.
+   *
+   * Implements
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/STATS.md#ipfsstatsbwoptions.
+   *
+   * An example usage:
+   * @snippet test_stats.cc ipfs::Client::StatsBw
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.1.0 */
+  void StatsBw(
+      /** [out] Structure that contains IPFS bandwidth information. For example:
+       * {
+       *  "RateIn": 4541.421091935148,
+       *  "RateOut": 677.3253862633403,
+       *  "TotalIn": 15994960,
+       *  "TotalOut": 6696092
+       * }
+       */
+      Json* bandwidth_info);
+
   /** List of known addresses of each peer connected.
    *
    * Implements
@@ -808,7 +830,7 @@ class Client {
 
   /** Construct a full URL. The URL is constructed from url_prefix_, path and
    * the provided parameters (if any). For example:
-   * http://l:5001/api/v0 / block/get ?stream-channels=true& foo = bar &...
+   * http://localhost:5001/api/v0 / block/get ?stream-channels=true& foo = bar &...
    * ^ `url_prefix_`        ^ `path`                         ^ [1] ^ [2]
    * [1] parameters[0].first
    * [2] parameters[0].second.

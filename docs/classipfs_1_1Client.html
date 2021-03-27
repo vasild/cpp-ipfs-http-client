@@ -204,6 +204,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1f5d4bfb19f0f739ce8f888c7cbbcc44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a1f5d4bfb19f0f739ce8f888c7cbbcc44">PinRm</a> (const std::string &amp;object_id, <a class="el" href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0">PinRmOptions</a> options)</td></tr>
 <tr class="memdesc:a1f5d4bfb19f0f739ce8f888c7cbbcc44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unpin an object.  <a href="classipfs_1_1Client.html#a1f5d4bfb19f0f739ce8f888c7cbbcc44">More...</a><br /></td></tr>
 <tr class="separator:a1f5d4bfb19f0f739ce8f888c7cbbcc44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad944a5a304c799b314b3b9ab7765d314"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#ad944a5a304c799b314b3b9ab7765d314">StatsBw</a> (<a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *bandwidth_info)</td></tr>
+<tr class="memdesc:ad944a5a304c799b314b3b9ab7765d314"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get IPFS bandwidth (bw) information.  <a href="classipfs_1_1Client.html#ad944a5a304c799b314b3b9ab7765d314">More...</a><br /></td></tr>
+<tr class="separator:ad944a5a304c799b314b3b9ab7765d314"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa45a95118ec539863c12da953ab1988c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#aa45a95118ec539863c12da953ab1988c">SwarmAddrs</a> (<a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *addresses)</td></tr>
 <tr class="memdesc:aa45a95118ec539863c12da953ab1988c"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of known addresses of each peer connected.  <a href="classipfs_1_1Client.html#aa45a95118ec539863c12da953ab1988c">More...</a><br /></td></tr>
 <tr class="separator:aa45a95118ec539863c12da953ab1988c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -219,7 +222,8 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>IPFS client. </p>
-<p>It implements the interface described in <a href="https://github.com/ipfs/js-ipfs/tree/master/docs/core-api">https://github.com/ipfs/js-ipfs/tree/master/docs/core-api</a> The methods of this class may throw some variant of <code>std::exception</code> if a connectivity error occurs or if the response cannot be parsed. Be prepared!</p>
+<p>It implements the interface described in <a href="https://github.com/ipfs/js-ipfs/tree/master/docs/core-api">https://github.com/ipfs/js-ipfs/tree/master/docs/core-api</a>.</p>
+<p>The methods of this class may throw some variant of <code>std::exception</code> if a connectivity error occurs or if the response cannot be parsed. Be prepared!</p>
 <dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="adc5716aa4272ff2bedcae954339c77d0"></a>
@@ -2370,6 +2374,51 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ad944a5a304c799b314b3b9ab7765d314"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad944a5a304c799b314b3b9ab7765d314">&#9670;&nbsp;</a></span>StatsBw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::StatsBw </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *&#160;</td>
+          <td class="paramname"><em>bandwidth_info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get IPFS bandwidth (bw) information. </p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/STATS.md#ipfsstatsbwoptions">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/STATS.md#ipfsstatsbwoptions</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> bandwidth_info;</div>
+<div class="line"> </div>
+<div class="line">    client.StatsBw(&amp;bandwidth_info);</div>
+<div class="line"> </div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Bandwidth:&quot;</span> &lt;&lt; std::endl &lt;&lt; bandwidth_info.dump(2) &lt;&lt; std::endl;</div>
+<div class="line">    <span class="comment">/* An example output:</span></div>
+<div class="line"><span class="comment">    Bandwidth:</span></div>
+<div class="line"><span class="comment">    {</span></div>
+<div class="line"><span class="comment">      ..</span></div>
+<div class="line"><span class="comment">    }</span></div>
+<div class="line"><span class="comment">    */</span></div>
+</div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">bandwidth_info</td><td>[out] Structure that contains IPFS bandwidth information. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aa45a95118ec539863c12da953ab1988c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa45a95118ec539863c12da953ab1988c">&#9670;&nbsp;</a></span>SwarmAddrs()</h2>
 
@@ -2604,7 +2653,7 @@ Public Member Functions</h2></td></tr>
 </ul>
 </div><!-- contents -->
 <div class="ttc" id="astructipfs_1_1http_1_1FileUpload_html_a76d8546add495d01fd1dcd82ea8170ada5bfe73daee1615146c6c4fa093c7d9ef"><div class="ttname"><a href="structipfs_1_1http_1_1FileUpload.html#a76d8546add495d01fd1dcd82ea8170ada5bfe73daee1615146c6c4fa093c7d9ef">ipfs::http::FileUpload::Type::kFileName</a></div><div class="ttdeci">@ kFileName</div><div class="ttdoc">File whose contents is streamed to the web server.</div></div>
-<div class="ttc" id="aclassipfs_1_1Client_html"><div class="ttname"><a href="classipfs_1_1Client.html">ipfs::Client</a></div><div class="ttdoc">IPFS client.</div><div class="ttdef"><b>Definition:</b> client.h:46</div></div>
+<div class="ttc" id="aclassipfs_1_1Client_html"><div class="ttname"><a href="classipfs_1_1Client.html">ipfs::Client</a></div><div class="ttdoc">IPFS client.</div><div class="ttdef"><b>Definition:</b> client.h:47</div></div>
 <div class="ttc" id="aclassipfs_1_1Client_html_adc5716aa4272ff2bedcae954339c77d0a1c1aa83dfe54dfc3528f9e40131cf638"><div class="ttname"><a href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0a1c1aa83dfe54dfc3528f9e40131cf638">ipfs::Client::PinRmOptions::RECURSIVE</a></div><div class="ttdeci">@ RECURSIVE</div><div class="ttdoc">Recursively unpin the objects.</div></div>
 <div class="ttc" id="anamespaceipfs_html_a92ea49891c9d47378b920b41704a29ec"><div class="ttname"><a href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a></div><div class="ttdeci">nlohmann::json Json</div><div class="ttdoc">Type of the output of some methods, aliased for convenience.</div><div class="ttdef"><b>Definition:</b> client.h:36</div></div>
 <div class="ttc" id="aclassipfs_1_1Client_html_adc5716aa4272ff2bedcae954339c77d0a254f9369d66a06a09f3ac854e72f6825"><div class="ttname"><a href="classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0a254f9369d66a06a09f3ac854e72f6825">ipfs::Client::PinRmOptions::NON_RECURSIVE</a></div><div class="ttdeci">@ NON_RECURSIVE</div><div class="ttdoc">Just unpin the specified object.</div></div>

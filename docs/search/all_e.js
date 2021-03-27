@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['version_55',['Version',['../classipfs_1_1Client.html#adaabe1a027399cbcabe291f3471e87f4',1,'ipfs::Client']]]
+  ['version_56',['Version',['../classipfs_1_1Client.html#adaabe1a027399cbcabe291f3471e87f4',1,'ipfs::Client']]]
 ];

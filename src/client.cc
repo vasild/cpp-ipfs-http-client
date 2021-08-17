@@ -438,6 +438,10 @@ void Client::StatsBw(Json* bandwidth_info) {
   FetchAndParseJson(MakeUrl("stats/bw"), bandwidth_info);
 }
 
+void Client::StatsRepo(Json* repo_stats) {
+  FetchAndParseJson(MakeUrl("stats/repo"), repo_stats);
+}
+
 void Client::SwarmAddrs(Json* addresses) {
   FetchAndParseJson(MakeUrl("swarm/addrs"), addresses);
 }

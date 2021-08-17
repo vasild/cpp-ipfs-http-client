@@ -720,6 +720,29 @@ class Client {
        */
       Json* bandwidth_info);
 
+  /** Get IPFS Repo Stats.
+   *
+   * Implements
+   * https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/REPO.md#ipfsrepostatoptions.
+   *
+   * An example usage:
+   * @snippet test_stats.cc ipfs::Client::StatsRepo
+   *
+   * @throw std::exception if any error occurs
+   *
+   * @since version 0.5.0 */
+   void StatsRepo(
+      /** [out] Structure that contains IPFS repo stats. For example:
+       * {
+       *  "RepoSize":256893470,
+       *  "StorageMax":20000000000,
+       *  "NumObjects":24935,
+       *  "RepoPath":"/home/melroy/.ipfs",
+       *  "Version":"fs-repo@11"
+       * }
+       */
+      Json* repo_stats);
+
   /** List of known addresses of each peer connected.
    *
    * Implements

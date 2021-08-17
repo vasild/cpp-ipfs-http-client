@@ -207,6 +207,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad944a5a304c799b314b3b9ab7765d314"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#ad944a5a304c799b314b3b9ab7765d314">StatsBw</a> (<a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *bandwidth_info)</td></tr>
 <tr class="memdesc:ad944a5a304c799b314b3b9ab7765d314"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get IPFS bandwidth (bw) information.  <a href="classipfs_1_1Client.html#ad944a5a304c799b314b3b9ab7765d314">More...</a><br /></td></tr>
 <tr class="separator:ad944a5a304c799b314b3b9ab7765d314"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec756626c42caf55728dad5b6cb7d0f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#aec756626c42caf55728dad5b6cb7d0f3">StatsRepo</a> (<a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *repo_stats)</td></tr>
+<tr class="memdesc:aec756626c42caf55728dad5b6cb7d0f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get IPFS Repo Stats.  <a href="classipfs_1_1Client.html#aec756626c42caf55728dad5b6cb7d0f3">More...</a><br /></td></tr>
+<tr class="separator:aec756626c42caf55728dad5b6cb7d0f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa45a95118ec539863c12da953ab1988c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#aa45a95118ec539863c12da953ab1988c">SwarmAddrs</a> (<a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *addresses)</td></tr>
 <tr class="memdesc:aa45a95118ec539863c12da953ab1988c"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of known addresses of each peer connected.  <a href="classipfs_1_1Client.html#aa45a95118ec539863c12da953ab1988c">More...</a><br /></td></tr>
 <tr class="separator:aa45a95118ec539863c12da953ab1988c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2400,7 +2403,10 @@ Public Member Functions</h2></td></tr>
 <div class="line">    <span class="comment">/* An example output:</span></div>
 <div class="line"><span class="comment">    Bandwidth:</span></div>
 <div class="line"><span class="comment">    {</span></div>
-<div class="line"><span class="comment">      ..</span></div>
+<div class="line"><span class="comment">    &quot;RateIn&quot;: 4541.421091935148,</span></div>
+<div class="line"><span class="comment">    &quot;RateOut&quot;: 677.3253862633403,</span></div>
+<div class="line"><span class="comment">    &quot;TotalIn&quot;: 15994960,</span></div>
+<div class="line"><span class="comment">    &quot;TotalOut&quot;: 6696092</span></div>
 <div class="line"><span class="comment">    }</span></div>
 <div class="line"><span class="comment">    */</span></div>
 </div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
@@ -2412,7 +2418,56 @@ Public Member Functions</h2></td></tr>
 <dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">bandwidth_info</td><td>[out] Structure that contains IPFS bandwidth information. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">bandwidth_info</td><td>[out] Structure that contains IPFS bandwidth information. For example: { "RateIn": 4541.421091935148, "RateOut": 677.3253862633403, "TotalIn": 15994960, "TotalOut": 6696092 } </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aec756626c42caf55728dad5b6cb7d0f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec756626c42caf55728dad5b6cb7d0f3">&#9670;&nbsp;</a></span>StatsRepo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::StatsRepo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> *&#160;</td>
+          <td class="paramname"><em>repo_stats</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get IPFS Repo Stats. </p>
+<p>Implements <a href="https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/REPO.md#ipfsrepostatoptions">https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/REPO.md#ipfsrepostatoptions</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    <a class="code" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">ipfs::Json</a> repo_stats;</div>
+<div class="line"> </div>
+<div class="line">    client.StatsRepo(&amp;repo_stats);</div>
+<div class="line"> </div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Repo:&quot;</span> &lt;&lt; std::endl &lt;&lt; repo_stats.dump(2) &lt;&lt; std::endl;</div>
+<div class="line">    <span class="comment">/* An example output:</span></div>
+<div class="line"><span class="comment">    Repo:</span></div>
+<div class="line"><span class="comment">    {</span></div>
+<div class="line"><span class="comment">      &quot;RepoSize&quot;:256893470,</span></div>
+<div class="line"><span class="comment">      &quot;StorageMax&quot;:20000000000,</span></div>
+<div class="line"><span class="comment">      &quot;NumObjects&quot;:24935,</span></div>
+<div class="line"><span class="comment">      &quot;RepoPath&quot;:&quot;/home/melroy/.ipfs&quot;,</span></div>
+<div class="line"><span class="comment">      &quot;Version&quot;:&quot;fs-repo@11&quot;</span></div>
+<div class="line"><span class="comment">    }</span></div>
+<div class="line"><span class="comment">    */</span></div>
+</div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error occurs</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.5.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">repo_stats</td><td>[out] Structure that contains IPFS repo stats. For example: { "RepoSize":256893470, "StorageMax":20000000000, "NumObjects":24935, "RepoPath":"/home/melroy/.ipfs", "Version":"fs-repo@11" } </td></tr>
   </table>
   </dd>
 </dl>

@@ -43,10 +43,31 @@ int main(int, char**) {
     }
     */
     /** [ipfs::Client::StatsBw] */
+
+    /** [ipfs::Client::StatsRepo] */
+    ipfs::Json repo_stats;
+
+    client.StatsRepo(&repo_stats);
+
+    std::cout << "Repo:" << std::endl << repo_stats.dump(2) << std::endl;
+    /* An example output:
+    Repo:
+    {
+      "RepoSize":256893470,
+      "StorageMax":20000000000,
+      "NumObjects":24935,
+      "RepoPath":"/home/melroy/.ipfs",
+      "Version":"fs-repo@11"
+    }
+    */
+    /** [ipfs::Client::StatsRepo] */
+
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;
   }
+
+
 
   return 0;
 }

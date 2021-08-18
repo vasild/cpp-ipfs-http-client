@@ -32,7 +32,8 @@ The C++ API is broken up into the following sections (Note: links below go to th
 - [Pin](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PIN.md): add(), ls(), rm()
 - [PubSub](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/PUBSUB.md): *all methods are still to-do*
 - [Refs](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/REFS.md): *all methods are still to-do*
-- [Stats](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/STATS.md): bw()
+- [Repo](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/REPO.md): stat()
+- [Stats](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/STATS.md): bw(), repo() see Repo above
 - [Swarm](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/SWARM.md): addrs(), connect(), disconnect(), peers()
 
 As you can see, not all methods are yet implemented.

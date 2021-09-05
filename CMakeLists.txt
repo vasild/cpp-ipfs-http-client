@@ -46,7 +46,7 @@ add_library(${IPFS_API_LIBNAME}
   src/http/transport-curl.cc
 )
 
-# Be able to find to find client.h header file 
+# Be able to find the client.h header file 
 #  (eg. when static linked, outside this project folder)
 target_include_directories(${IPFS_API_LIBNAME}
   INTERFACE

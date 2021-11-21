@@ -75,6 +75,8 @@ if(NOT DISABLE_INSTALL)
   install(TARGETS ${IPFS_API_LIBNAME} DESTINATION lib)
   install(FILES include/ipfs/client.h DESTINATION include/ipfs)
   install(FILES include/ipfs/http/transport.h DESTINATION include/ipfs/http)
+  install(FILES ${json_SOURCE_DIR}/include/nlohmann/json.hpp DESTINATION include/nlohmann)
+  install(FILES ${json_SOURCE_DIR}/include/nlohmann/json_fwd.hpp DESTINATION include/nlohmann)
 endif()
 # Tests, use "CTEST_OUTPUT_ON_FAILURE=1 make test" to see output from failed tests
 

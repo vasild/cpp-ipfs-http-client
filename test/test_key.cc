@@ -34,6 +34,8 @@ int main(int, char**) {
     std::string key_id;
     client.KeyGen("foobar-key", "rsa", 2048, &key_id);
     std::cout << "Generated key: " << key_id << std::endl;
+    client.KeyGen("foobar-key2", "rsa", 2048, &key_id);
+    std::cout << "Generated key2: " << key_id << std::endl;
     /* An example output:
     Generated key: "QmQeVW8BKqpHbUV5GcecC3wDLF3iqV6ZJhtFN8q8mUYFUs"
     */
@@ -61,6 +63,10 @@ int main(int, char**) {
     /* Successful, if no error is thrown. */
     client.KeyRm("foobar-key");
     /** [ipfs::Client::KeyRm] */
+
+    client.KeyRename("foobar-key2", "foobar-new-key2");
+    client.KeyList(&key_list);
+    std::cout << "A list of new local keys: " << key_list.dump(2) << std::endl;
 
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;

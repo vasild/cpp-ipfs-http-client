@@ -285,6 +285,11 @@ void Client::KeyRm(const std::string& key_name) {
   http_->Fetch(MakeUrl("key/rm", {{"arg", key_name}}), {}, &body);
 }
 
+void Client::KeyRename(const std::string& old_key, const std::string& new_key) {
+  std::stringstream body;
+  http_->Fetch(MakeUrl("key/rename", {{"arg", old_key}, {"arg", new_key}}), {}, &body);
+}
+
 void Client::NamePublish(const std::string& object_id,
                          const std::string& key_name, const ipfs::Json& options,
                          std::string* name_id) {

@@ -23,6 +23,10 @@ option(DOC "Build Doxygen" OFF)
 option(COVERAGE "Enable generation of coverage info" OFF)
 
 # Find curl
+# Look for static import symbols for Windows builds
+if(WIN32)
+    add_definitions("-DCURL_STATICLIB")
+endif()
 find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIRS})
 
@@ -66,11 +70,16 @@ if(NOT json_POPULATED)
   add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 
+# libcurl requires additional libs only for static Windows builds
+if(WIN32)
+   set(WINDOWS_CURL_LIBS idn2 unistring iconv charset ssh2 gcrypt gpg-error ws2_32 advapi32 crypt32 wldap32)
+endif()
+
 set_target_properties(${IPFS_API_LIBNAME} PROPERTIES
   SOVERSION ${PROJECT_VERSION_MAJOR}
   VERSION ${PROJECT_VERSION}
 )
-target_link_libraries(${IPFS_API_LIBNAME} ${CURL_LIBRARIES} nlohmann_json::nlohmann_json)
+target_link_libraries(${IPFS_API_LIBNAME} ${CURL_LIBRARIES} ${WINDOWS_CURL_LIBS} nlohmann_json::nlohmann_json)
 if(NOT DISABLE_INSTALL)
   install(TARGETS ${IPFS_API_LIBNAME} DESTINATION lib)
   install(FILES include/ipfs/client.h DESTINATION include/ipfs)

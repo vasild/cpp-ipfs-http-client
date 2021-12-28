@@ -35,7 +35,9 @@ namespace http {
 class TransportCurl : public Transport {
  public:
   /** Constructor. */
-  TransportCurl();
+  TransportCurl(
+      /** [in] Enable cURL verbose mode, useful for debugging. */
+      bool curlVerbose);
 
   /** Destructor. */
   ~TransportCurl();
@@ -82,6 +84,9 @@ class TransportCurl : public Transport {
 
   /** CURL handle. */
   CURL* curl_;
+
+  /** Flag for enabling CURL verbose mode, useful for debugging */
+  bool curl_verbose;
 
   /** Designates whether the CURL handle `curl_` has been set up. */
   bool curl_is_setup_;

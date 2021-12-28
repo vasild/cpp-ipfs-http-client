@@ -25,9 +25,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <stdexcept>
 #include <string>
 
-#ifdef NDEBUG
-#error This file only makes sense in debug mode, dont try to compile it in non-debug.
-#endif /* NDEBUG */
+/**
+ * This file only makes sense in debug mode, dont try to compile it in
+ * non-debug. Melroy: I do not agree, I think this file can be compiled an run
+ * even without debug mode.
+ */
 
 namespace ipfs {
 namespace http {
@@ -65,7 +67,7 @@ int main(int, char**) {
       client.Id(&id);
     });
 
-    ipfs::http::TransportCurl transport_curl;
+    ipfs::http::TransportCurl transport_curl(false);
     transport_curl.Test();
 
   } catch (const std::exception& e) {

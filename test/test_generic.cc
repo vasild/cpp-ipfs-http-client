@@ -29,11 +29,14 @@ int main(int, char**) {
     // Test client constructor
     /** [ipfs::Client::Client] */
     ipfs::Client client("localhost", 5001);
-    /** [ipfs::Client::Client] */
 
-    // Test client constructor with additional parameters
+    // Client constructor with additional parameters
     ipfs::Client client2("localhost", 5001, "6s", "http://", "/api/v0");
    
+    // Client constructor with CURL debug mode enabled
+    ipfs::Client client3("localhost", 5001, "6s", "http://", "/api/v0", true);
+    /** [ipfs::Client::Client] */
+
     // Test copy/move of client objects
     ipfs::Client clientA(client);
     clientA = client;

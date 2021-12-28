@@ -87,7 +87,8 @@ static size_t curl_cb_stream(
   return n;
 }
 
-TransportCurl::TransportCurl() : curl_is_setup_(false) {
+TransportCurl::TransportCurl(bool curlVerbose)
+    : curl_verbose(curlVerbose), curl_is_setup_(false) {
   if (curl_global.result_ != CURLE_OK || curl_global_injected_failure) {
     throw std::runtime_error("curl_global_init() failed");
   }
@@ -200,6 +201,10 @@ void TransportCurl::HandleSetup() {
     throw std::runtime_error("curl_easy_init() failed");
   }
 
+  if (curl_verbose) {
+    curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1L);
+  }
+
   /* https://curl.se/libcurl/c/CURLOPT_ERRORBUFFER.html */
   curl_easy_setopt(curl_, CURLOPT_ERRORBUFFER, curl_error_);
 
@@ -277,25 +282,25 @@ void TransportCurl::HandleDestroy() {
 void TransportCurl::Test() {
   curl_global_injected_failure = true;
   test::must_fail("TransportCurl::TransportCurl()",
-                  []() { TransportCurl transport_curl; });
+                  []() { TransportCurl transport_curl(false); });
   curl_global_injected_failure = false;
 
   test::must_fail("TransportCurl::UrlEncode()", []() {
-    TransportCurl c;
+    TransportCurl c(false);
     std::string encoded;
     c.url_encode_injected_failure = true;
     c.UrlEncode("nobody can encode me", &encoded);
   });
 
   test::must_fail("TransportCurl::HandleSetup()", []() {
-    TransportCurl c;
+    TransportCurl c(false);
     c.handle_setup_injected_failure = true;
     c.Fetch("http://localhost:1234", {}, nullptr);
   });
 
 #ifndef NDEBUG
   test::must_fail("TransportCurl::Perform()", []() {
-    TransportCurl c;
+    TransportCurl c(false);
     replace_body = "";
     c.perform_injected_failure = true;
     std::stringstream response;
@@ -303,9 +308,12 @@ void TransportCurl::Test() {
   });
 #endif /* NDEBUG */
 
-  TransportCurl c;
+  TransportCurl c(false);
   c.HandleSetup();
   c.HandleSetup();
+
+  TransportCurl c2(true);
+  c2.HandleSetup();
 }
 
 } /* namespace http */

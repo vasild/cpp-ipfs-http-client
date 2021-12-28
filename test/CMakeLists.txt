@@ -10,15 +10,8 @@ set(TESTS
   test_pin
   test_stats
   test_swarm
+  test_error
 )
-
-string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)
-if(CMAKE_BUILD_TYPE_LOWER MATCHES "debug")
-  set(TESTS
-    ${TESTS}
-    test_error
-  )
-endif()
 
 foreach (T ${TESTS})
   add_executable(${T} ${T}.cc)
@@ -27,14 +20,14 @@ foreach (T ${TESTS})
   add_test(NAME ${T} COMMAND ./${T})
 endforeach()
 
+# Instead of running 'make test', this will only run our testcases. Used the ctest_coverage_* targets as well.
+add_custom_target(our_tests
+  COMMAND ctest -R '^test_'
+)
+
 # Additional targets
 if(COVERAGE)
   include(CodeCoverage)
-
-  # Instead of running  'make test' in the ctest_coverage_*, only run our testcases
-  add_custom_target(our_tests
-    COMMAND ctest -R '^test_'
-  )
 
   # Create a new target 'ctest_coverage_xml' that generates an XML coverage file
   setup_target_for_coverage_gcovr_xml(

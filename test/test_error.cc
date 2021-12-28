@@ -25,11 +25,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <stdexcept>
 #include <string>
 
-/**
- * This file only makes sense in debug mode, dont try to compile it in
- * non-debug. Melroy: I do not agree, I think this file can be compiled an run
- * even without debug mode.
- */
+#ifdef NDEBUG
+#error This file only makes sense in debug mode, dont try to compile it in non-debug.
+#endif /* NDEBUG */
 
 namespace ipfs {
 namespace http {

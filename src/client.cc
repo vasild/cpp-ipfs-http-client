@@ -31,14 +31,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 namespace ipfs {
 
-Client::Client(const std::string& host, long port, const std::string& timeout, const std::string& protocol, const std::string& apiPath)
+Client::Client(const std::string& host, long port, const std::string& timeout,
+               const std::string& protocol, const std::string& apiPath,
+               bool verbose)
     : url_prefix_(protocol + host + ":" + std::to_string(port) + apiPath),
-      timeout_value_(timeout) {
-  http_ = new http::TransportCurl();
+      timeout_value_(timeout),
+      curl_verbose_(verbose) {
+  http_ = new http::TransportCurl(verbose);
 }
 
-Client::Client(const Client& other) : url_prefix_(other.url_prefix_) {
-  http_ = new http::TransportCurl();
+Client::Client(const Client& other)
+    : url_prefix_(other.url_prefix_),
+      timeout_value_(other.timeout_value_),
+      curl_verbose_(other.curl_verbose_) {
+  http_ = new http::TransportCurl(other.curl_verbose_);
 }
 
 Client::Client(Client&& other)
@@ -52,9 +58,11 @@ Client& Client::operator=(const Client& other) {
   }
 
   url_prefix_ = other.url_prefix_;
+  timeout_value_ = other.timeout_value_;
+  curl_verbose_ = other.curl_verbose_;
 
   http::Transport* old_http_ = http_;
-  http_ = new http::TransportCurl();
+  http_ = new http::TransportCurl(other.curl_verbose_);
   delete old_http_;
 
   return *this;
@@ -66,6 +74,8 @@ Client& Client::operator=(Client&& other) {
   }
 
   std::move(other.url_prefix_);
+  std::move(other.timeout_value_);
+  std::move(other.curl_verbose_);
 
   delete http_;
   http_ = other.http_;

@@ -43,37 +43,49 @@ As you can see, not all methods are yet implemented.
 - Implement the missing methods
 - Contributors are welcome!
 
-## Install
-
-```sh
-git clone https://github.com/vasild/cpp-ipfs-http-client.git
-cd cpp-ipfs-http-client
-cmake .
-make -j 6
-sudo make install
-```
-
-See the [documentation for details](https://vasild.github.io/cpp-ipfs-http-client).
-
 ## Dependencies
 
 - [C++11 compiler](https://github.com/nlohmann/json#supported-compilers)
 - [CMake](http://cmake.org)
 - [libcurl](https://curl.haxx.se/libcurl)
 
-## Build Test cases + Code Coverage
+## Install
+
+```sh
+git clone https://github.com/vasild/cpp-ipfs-http-client.git
+cd cpp-ipfs-http-client
+cmake .
+make -j 8
+sudo make install
+```
+
+See the [documentation for details](https://vasild.github.io/cpp-ipfs-http-client).
+
+## Run Test cases
+
+Only build & run the test cases, *without* code coverage:
+
+```sh
+mkdir build && cd build
+cmake ..
+make -j 8
+# Run our test-cases
+make our_tests
+```
+
+## Build & run Test cases + Code Coverage
 
 Test cases are build by default, but if you want to build with coverage:
 
 ```sh
-mkdir build
-cd build
+mkdir build && cd build
+
 cmake -DCMAKE_BUILD_TYPE=Debug -DCOVERAGE=ON -DBUILD_SHARED_LIBS=ON ..
 # Run tests & Build the HTML report
-make ctest_coverage_html -j 6
+make ctest_coverage_html -j 8
 
 # Or run tests & create a Cobertura XML file
-make ctest_coverage_xml -j 6
+make ctest_coverage_xml -j 8
 ```
 
 ## Build Doxygen
@@ -81,8 +93,7 @@ make ctest_coverage_xml -j 6
 Build Doxygen files locally. From the root directory of this project:
 
 ```sh
-mkdir build
-cd build
+mkdir build && cd build
 cmake -DDOC=ON ..
 make doc
 ```
@@ -107,6 +118,8 @@ int main(int, char**) {
   return 0;
 }
 ```
+
+More info see: [Doxygen Docs - Client Class](https://vasild.github.io/cpp-ipfs-http-client/classipfs_1_1Client.html),
 
 ## Build via c++ compiler
 

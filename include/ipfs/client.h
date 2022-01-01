@@ -39,7 +39,7 @@ using Json = nlohmann::json;
  *
  * It implements the interface described in
  * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api.
- * 
+ *
  * The methods of this class may throw some variant of `std::exception` if a
  * connectivity error occurs or if the response cannot be parsed. Be prepared!
  *
@@ -57,12 +57,15 @@ class Client {
       const std::string& host,
       /** [in] Port to connect to. */
       long port,
-      /** [in] [Optional] set server-side time-out, which should be string (eg. "6s") */
+      /** [in] [Optional] set server-side time-out, which should be string (eg.
+         "6s") */
       const std::string& timeout = "",
       /** [in] [Optional] protocol (default: http://) */
       const std::string& protocol = "http://",
       /** [in] [Optional] API Path (default: /api/v0) */
-      const std::string& apiPath = "/api/v0");
+      const std::string& apiPath = "/api/v0",
+      /** [in] [Optional] Enable cURL Verbose Mode (default: false) */
+      bool verbose = false);
 
   /** Copy-constructor. */
   Client(
@@ -742,7 +745,7 @@ class Client {
    * @throw std::exception if any error occurs
    *
    * @since version 0.5.0 */
-   void StatsRepo(
+  void StatsRepo(
       /** [out] Structure that contains IPFS repo stats. For example:
        * {
        *  "RepoSize":256893470,
@@ -864,10 +867,9 @@ class Client {
 
   /** Construct a full URL. The URL is constructed from url_prefix_, path and
    * the provided parameters (if any). For example:
-   * http://localhost:5001/api/v0 / block/get ?stream-channels=true& foo = bar &...
-   * ^ `url_prefix_`                ^ `path`                         ^ [1] ^ [2]
-   * [1] parameters[0].first
-   * [2] parameters[0].second.
+   * http://localhost:5001/api/v0 / block/get ?stream-channels=true& foo = bar
+   * &... ^ `url_prefix_`                ^ `path`                         ^ [1]
+   * ^ [2] [1] parameters[0].first [2] parameters[0].second.
    * @return The full URL. */
   std::string MakeUrl(
       /** Path to use after `url_prefix_`. For example "block/get". */
@@ -884,6 +886,10 @@ class Client {
 
   /** Server-side time-out setting */
   std::string timeout_value_;
+
+  /** cURL debug mode, stored so this flag can be used in the copy
+   * constructor/assign operator */
+  bool curl_verbose_;
 };
 } /* namespace ipfs */
 

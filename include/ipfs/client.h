@@ -393,13 +393,17 @@ class Client {
       /** [in] Key name (local, user-friendly name for the key). */
       const std::string& key_name);
 
-  /**
+  /** Rename an existing key.
    *
    * Implements
    * https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keyrename.
+   * 
+   * An example usage:
+   * @snippet test_key.cc ipfs::Client::KeyRename
    *
    * @throw std::exception if any error
-   * @since version 0.3.0 */
+   * 
+   * @since version 0.4.0 */
   void KeyRename(
       const std::string& old_key,
       const std::string& new_key);

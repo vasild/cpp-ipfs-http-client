@@ -64,9 +64,13 @@ int main(int, char**) {
     client.KeyRm("foobar-key");
     /** [ipfs::Client::KeyRm] */
 
+    /** [ipfs::Client::KeyRename] */
+    Json key_list_rename;
+    /* Renaming foobar-key2 to foobar-new-key2 */
     client.KeyRename("foobar-key2", "foobar-new-key2");
-    client.KeyList(&key_list);
-    std::cout << "A list of new local keys: " << key_list.dump(2) << std::endl;
+    client.KeyList(&key_list_rename);
+    std::cout << "A list of new local keys: " << key_list_rename.dump(2) << std::endl;
+    /** [ipfs::Client::KeyRename] */
 
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;

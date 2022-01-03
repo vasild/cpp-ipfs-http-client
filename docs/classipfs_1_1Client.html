@@ -156,6 +156,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8c8c8703f4be0e4eb5053301b3577ed8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a8c8c8703f4be0e4eb5053301b3577ed8">KeyRm</a> (const std::string &amp;key_name)</td></tr>
 <tr class="memdesc:a8c8c8703f4be0e4eb5053301b3577ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a key.  <a href="classipfs_1_1Client.html#a8c8c8703f4be0e4eb5053301b3577ed8">More...</a><br /></td></tr>
 <tr class="separator:a8c8c8703f4be0e4eb5053301b3577ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a599d2585c57dd3abbc1b497454f3c541"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a599d2585c57dd3abbc1b497454f3c541">KeyRename</a> (const std::string &amp;old_key, const std::string &amp;new_key)</td></tr>
+<tr class="memdesc:a599d2585c57dd3abbc1b497454f3c541"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rename an existing key.  <a href="classipfs_1_1Client.html#a599d2585c57dd3abbc1b497454f3c541">More...</a><br /></td></tr>
+<tr class="separator:a599d2585c57dd3abbc1b497454f3c541"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93d0ec05a38a4094b3e0dc33c0cc7efe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a93d0ec05a38a4094b3e0dc33c0cc7efe">NamePublish</a> (const std::string &amp;object_id, const std::string &amp;key_name, const <a class="el" href="namespaceipfs.html#a92ea49891c9d47378b920b41704a29ec">Json</a> &amp;options, std::string *name_id)</td></tr>
 <tr class="memdesc:a93d0ec05a38a4094b3e0dc33c0cc7efe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Publish an IPNS name attached to a given value.  <a href="classipfs_1_1Client.html#a93d0ec05a38a4094b3e0dc33c0cc7efe">More...</a><br /></td></tr>
 <tr class="separator:a93d0ec05a38a4094b3e0dc33c0cc7efe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -326,7 +329,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">timeout</td><td>[in] [Optional] set server-side time-out, which should be string (eg. "6s") </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">protocol</td><td>[in] [Optional] protocol (default: <a href="http://">http://</a>) </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">apiPath</td><td>[in] [Optional] API Path (default: /api/v0) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">verbose</td><td>[in] [Optional] Curl Verbose Mode (default: false) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">verbose</td><td>[in] [Optional] Enable cURL Verbose Mode (default: false) </td></tr>
   </table>
   </dd>
 </dl>
@@ -1151,6 +1154,8 @@ Public Member Functions</h2></td></tr>
 <p>An example usage: </p><div class="fragment"><div class="line">    std::string key_id;</div>
 <div class="line">    client.KeyGen(<span class="stringliteral">&quot;foobar-key&quot;</span>, <span class="stringliteral">&quot;rsa&quot;</span>, 2048, &amp;key_id);</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Generated key: &quot;</span> &lt;&lt; key_id &lt;&lt; std::endl;</div>
+<div class="line">    client.KeyGen(<span class="stringliteral">&quot;foobar-key2&quot;</span>, <span class="stringliteral">&quot;rsa&quot;</span>, 2048, &amp;key_id);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Generated key2: &quot;</span> &lt;&lt; key_id &lt;&lt; std::endl;</div>
 <div class="line">    <span class="comment">/* An example output:</span></div>
 <div class="line"><span class="comment">    Generated key: &quot;QmQeVW8BKqpHbUV5GcecC3wDLF3iqV6ZJhtFN8q8mUYFUs&quot;</span></div>
 <div class="line"><span class="comment">    */</span></div>
@@ -1216,6 +1221,56 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">key_list</td><td>[out] List of all local keys. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a599d2585c57dd3abbc1b497454f3c541"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a599d2585c57dd3abbc1b497454f3c541">&#9670;&nbsp;</a></span>KeyRename()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::KeyRename </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>old_key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>new_key</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rename an existing key. </p>
+<p>Implements <a href="https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keyrename">https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keyrename</a>.</p>
+<p>An example usage: </p><div class="fragment"><div class="line">    Json key_list_rename;</div>
+<div class="line">    <span class="comment">/* Renaming foobar-key2 to foobar-new-key2 */</span></div>
+<div class="line">    client.KeyRename(<span class="stringliteral">&quot;foobar-key2&quot;</span>, <span class="stringliteral">&quot;foobar-new-key2&quot;</span>);</div>
+<div class="line">    client.KeyList(&amp;key_list_rename);</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;A list of new local keys: &quot;</span> &lt;&lt; key_list_rename.dump(2) &lt;&lt; std::endl;</div>
+</div><!-- fragment --> <dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::exception</td><td>if any error</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.4.0 </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">old_key</td><td>[in] The current key name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">new_key</td><td>[in] The desired key name. </td></tr>
   </table>
   </dd>
 </dl>
@@ -2716,8 +2771,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/media/melroy/Data/Projects/cpp-ipfs-http-client/include/ipfs/<a class="el" href="client_8h_source.html">client.h</a></li>
-<li>/media/melroy/Data/Projects/cpp-ipfs-http-client/src/client.cc</li>
+<li>/media/melroy/Data/Projects/ipfs2/include/ipfs/<a class="el" href="client_8h_source.html">client.h</a></li>
+<li>/media/melroy/Data/Projects/ipfs2/src/client.cc</li>
 </ul>
 </div><!-- contents -->
 <div class="ttc" id="astructipfs_1_1http_1_1FileUpload_html_a76d8546add495d01fd1dcd82ea8170ada5bfe73daee1615146c6c4fa093c7d9ef"><div class="ttname"><a href="structipfs_1_1http_1_1FileUpload.html#a76d8546add495d01fd1dcd82ea8170ada5bfe73daee1615146c6c4fa093c7d9ef">ipfs::http::FileUpload::Type::kFileName</a></div><div class="ttdeci">@ kFileName</div><div class="ttdoc">File whose contents is streamed to the web server.</div></div>

@@ -25,7 +25,7 @@ The C++ API is broken up into the following sections (Note: links below go to th
 - [DAG](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/DAG.md): *all methods are still to-do*
 - [DHT](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/DHT.md): findpeer(), findprovs()
 - [Files](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/FILES.md): cat(), add(), ls()
-- [Key](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/KEY.md): gen(), list(), rm()
+- [Key](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/KEY.md): gen(), list(), rm(), rename()
 - [Miscellaneous](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/MISCELLANEOUS.md): id(), version()
 - [Name](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/NAME.md): *all methods are still to-do*
 - [Object](https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/OBJECT.md): new(), put(), get(), data(), links(), stat(), patch.addLink(), patch.rmLink(), patch.appendData(), patch.setData()

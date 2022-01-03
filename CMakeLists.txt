@@ -28,9 +28,6 @@ if(WIN32)
     add_definitions("-DCURL_STATICLIB")
 endif()
 find_package(CURL REQUIRED)
-include_directories(${CURL_INCLUDE_DIRS})
-
-include_directories("include")
 
 # When build with coverage, set the correct compiler flags before the targets are defined
 if(COVERAGE)
@@ -50,11 +47,11 @@ add_library(${IPFS_API_LIBNAME}
   src/http/transport-curl.cc
 )
 
-# Be able to find the client.h header file 
-#  (eg. when static linked, outside this project folder)
+# Add include directories
 target_include_directories(${IPFS_API_LIBNAME}
-  INTERFACE
+  PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
+  ${CURL_INCLUDE_DIRS}
 )
 
 # Fetch "JSON for Modern C++"

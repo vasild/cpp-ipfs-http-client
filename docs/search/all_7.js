@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['namepublish_26',['NamePublish',['../classipfs_1_1Client.html#a93d0ec05a38a4094b3e0dc33c0cc7efe',1,'ipfs::Client']]],
-  ['nameresolve_27',['NameResolve',['../classipfs_1_1Client.html#a61596ec86896753addebc2acac01d011',1,'ipfs::Client']]],
-  ['non_5frecursive_28',['NON_RECURSIVE',['../classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0a254f9369d66a06a09f3ac854e72f6825',1,'ipfs::Client']]]
+  ['keygen_0',['KeyGen',['../classipfs_1_1Client.html#ada01369adfda81c869a7095d98197961',1,'ipfs::Client']]],
+  ['keylist_1',['KeyList',['../classipfs_1_1Client.html#a49d9bb4e44e66170c8e32134300ccfb1',1,'ipfs::Client']]],
+  ['keyrename_2',['KeyRename',['../classipfs_1_1Client.html#a599d2585c57dd3abbc1b497454f3c541',1,'ipfs::Client']]],
+  ['keyrm_3',['KeyRm',['../classipfs_1_1Client.html#a8c8c8703f4be0e4eb5053301b3577ed8',1,'ipfs::Client']]],
+  ['kfilecontents_4',['kFileContents',['../structipfs_1_1http_1_1FileUpload.html#a76d8546add495d01fd1dcd82ea8170adafc941c889c1d94c918bfd225c22aed65',1,'ipfs::http::FileUpload']]],
+  ['kfilename_5',['kFileName',['../structipfs_1_1http_1_1FileUpload.html#a76d8546add495d01fd1dcd82ea8170ada5bfe73daee1615146c6c4fa093c7d9ef',1,'ipfs::http::FileUpload']]]
 ];

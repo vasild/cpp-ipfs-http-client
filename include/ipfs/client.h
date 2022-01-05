@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2021, The C++ IPFS client library developers
+/* Copyright (c) 2016-2022, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -826,6 +826,20 @@ class Client {
   void SwarmPeers(
       /** [out] The retrieved list. */
       Json* peers);
+
+  /** Abort any current running IPFS API request.
+   *
+   * Very useful if you were using the IPFS client API calls inside seperate
+   * thread, but which to abort the request and stop the running thread
+   * (without using pthread_cancel).
+   *
+   * Call this method out-side of the running thread, eg. the main thread.
+   *
+   * See example: https://vasild.github.io/cpp-ipfs-http-client/examples.html
+   * 
+   * @since version 0.6.0 */
+  void Abort();
+
 
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */

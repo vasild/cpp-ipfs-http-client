@@ -2,11 +2,10 @@
 
 [![Build CI Status](https://github.com/vasild/cpp-ipfs-http-client/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/vasild/cpp-ipfs-http-client/actions/workflows/build_and_test.yml)
 [![CodeQL](https://github.com/vasild/cpp-ipfs-http-client/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/vasild/cpp-ipfs-http-client/actions/workflows/codeql-analysis.yml)
-[![codecov](https://codecov.io/gh/vasild/cpp-ipfs-http-client/branch/master/graph/badge.svg?token=4k5pulEnHE)](https://codecov.io/gh/vasild/cpp-ipfs-http-client)
 [![Documentation](https://img.shields.io/badge/docs-doxygen-blue)](https://vasild.github.io/cpp-ipfs-http-client)
+[![codecov](https://codecov.io/gh/vasild/cpp-ipfs-http-client/branch/master/graph/badge.svg?token=4k5pulEnHE)](https://codecov.io/gh/vasild/cpp-ipfs-http-client)
 [![GitHub Issues](https://img.shields.io/github/issues/vasild/cpp-ipfs-http-client)](http://github.com/vasild/cpp-ipfs-http-client/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/vasild/cpp-ipfs-http-client)](https://github.com/vasild/cpp-ipfs-http-client/pulls)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/465/badge)](https://bestpractices.coreinfrastructure.org/projects/465)
 
 ![IPFS C++ HTTP Client Library](https://ipfs.io/ipfs/QmQJ68PFMDdAsgCZvA1UVzzn18asVcf7HVvCDgpjiSCAse)
 
@@ -45,9 +44,13 @@ As you can see, not all methods are yet implemented.
 
 ## Dependencies
 
-- [C++11 compiler](https://github.com/nlohmann/json#supported-compilers)
+- [C++11 compiler](https://github.com/nlohmann/json#supported-compilers) (nlohmann json project is fetched automatically by CMake)
 - [CMake](http://cmake.org)
 - [libcurl](https://curl.haxx.se/libcurl)
+
+When building documention, you also need: 
+
+- [Doxygen](https://www.doxygen.nl/download.html) (>= v1.9.0)
 
 ## Install
 
@@ -119,9 +122,19 @@ int main(int, char**) {
 }
 ```
 
-More info see: [Doxygen Docs - Client Class](https://vasild.github.io/cpp-ipfs-http-client/classipfs_1_1Client.html),
+More info see: [Doxygen Docs - Client Class](https://vasild.github.io/cpp-ipfs-http-client/classipfs_1_1Client.html).
 
-## Build via c++ compiler
+### Multi-threading example
+
+The client constructor and destructor are not thread safe. However, all the API IPFS calls are **thread safe**!
+
+```cpp
+// TODO
+```
+
+See also: [Doxygen - Examples](https://vasild.github.io/cpp-ipfs-http-client/examples.html).
+
+## Build via C++ compiler
 
 ```sh
 c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-http-client myprog.cc -o myprog
@@ -129,24 +142,26 @@ c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-http-client myprog.cc -o 
 
 ## Build via CMake
 
-An example using the CPP-IPFS project within *another* CMake project. For example via `git submodule` (but just `git clone` also works):
+Use the C++ IPFS Client inside an existing CMake project. We add the IPFS client inside the `lib` folder.
+For example via `git submodule` (but `git clone` should also work):
 
 ```sh
+cd your-cmake-project
 git submodule add https://github.com/vasild/cpp-ipfs-http-client.git lib/ipfs-http-client
 ```
 
-Edit your `CMakeLists.txt` file to include CPP-IPFS-HTTP-client in the build:
+Edit your `CMakeLists.txt` file to include the C++ IPFS HTTP Client in your build:
 
 ```cmake
 add_subdirectory (lib/ipfs-http-client)
 ```
 
-Finally, add the CPP-IPFS static library to your target (in this example `${PROJECT_TARGET}` variable is used):
+Finally, add the C++ IPFS HTTP static library to your target using `target_link_libraries()`  
+(in this example `${PROJECT_TARGET}` variable is used as target name):
 
 ```cmake
-target_include_directories(${PROJECT_TARGET} PRIVATE
-    ${PROJECT_SOURCE_DIR}/lib/ipfs-http-client/include
-)
+set(PROJECT_TARGET my-app)
+
 target_link_libraries(${PROJECT_TARGET} PRIVATE ipfs-http-client)
 ```
 

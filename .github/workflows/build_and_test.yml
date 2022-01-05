@@ -75,7 +75,7 @@ jobs:
           -DBUILD_SHARED_LIBS=ON
       - name: Install IPFS
         env:
-          GO_IPFS_VERSION: "v0.9.1"
+          GO_IPFS_VERSION: "v0.11.0"
         run: |
           GO_IPFS_DOWNLOAD_URL="https://dist.ipfs.io/go-ipfs/${GO_IPFS_VERSION}/go-ipfs_${GO_IPFS_VERSION}_linux-amd64.tar.gz"
           GO_IPFS_DIR="${GITHUB_WORKSPACE}/go-ipfs"
@@ -105,7 +105,13 @@ jobs:
       - name: Install
         run: |
           sudo apt update
-          sudo apt install -y --no-install-recommends doxygen libcurl4-openssl-dev
+          sudo apt install -y --no-install-recommends libcurl4-openssl-dev
+      - name: Install latest Doxygen (v1.9.3)
+        run: |
+          wget https://www.doxygen.nl/files/doxygen-1.9.3.linux.bin.tar.gz
+          tar -xf doxygen-1.9.3.linux.bin.tar.gz
+          cd doxygen-1.9.3
+          sudo make install
       - name: Configure
         run: >
           cmake

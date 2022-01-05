@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['fetch_11',['Fetch',['../classipfs_1_1http_1_1TransportCurl.html#a81bbb85b1a3feda8c5aa44b9c1769a6d',1,'ipfs::http::TransportCurl::Fetch()'],['../classipfs_1_1http_1_1Transport.html#a1b9139c6d768df23da1893ff54a8d75a',1,'ipfs::http::Transport::Fetch()']]],
-  ['filesadd_12',['FilesAdd',['../classipfs_1_1Client.html#abe2e1d9f5479fa5007f93a0dee053d12',1,'ipfs::Client']]],
-  ['filesget_13',['FilesGet',['../classipfs_1_1Client.html#a7598eaecec5293f29f84e2fc7ca7bc5b',1,'ipfs::Client']]],
-  ['filesls_14',['FilesLs',['../classipfs_1_1Client.html#a0c0a73fa1a284cd4a12c1395a0eb356c',1,'ipfs::Client']]],
-  ['fileupload_15',['FileUpload',['../structipfs_1_1http_1_1FileUpload.html',1,'ipfs::http']]]
+  ['data_0',['data',['../structipfs_1_1http_1_1FileUpload.html#a7920e334ad3eee5830e99c818b8f456b',1,'ipfs::http::FileUpload']]],
+  ['dhtfindpeer_1',['DhtFindPeer',['../classipfs_1_1Client.html#af34ac771242a66294ff60d820712a99d',1,'ipfs::Client']]],
+  ['dhtfindprovs_2',['DhtFindProvs',['../classipfs_1_1Client.html#a9c93643d0567793925daea95ece432eb',1,'ipfs::Client']]]
 ];

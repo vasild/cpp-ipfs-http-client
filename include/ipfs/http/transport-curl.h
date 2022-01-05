@@ -109,9 +109,6 @@ class TransportCurl : public Transport {
   /** Flag for enabling CURL verbose mode, useful for debugging */
   bool curl_verbose;
 
-  /** Designates whether the CURL handle `curl_` has been set up. */
-  bool curl_is_setup_;
-
   /** Flag to cause `UrlEncode()` to fail miserably. */
   bool url_encode_injected_failure = false;
 

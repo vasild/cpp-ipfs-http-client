@@ -27,7 +27,7 @@ jobs:
               cpp_compiler: g++-9
 
             - name: "Mac OS clang-12 build"
-              os: macos-10.15
+              os: macos-11
               cpp_compiler: clang++
     steps:
       - uses: actions/checkout@v2

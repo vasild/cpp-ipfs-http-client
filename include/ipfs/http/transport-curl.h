@@ -65,7 +65,7 @@ class TransportCurl : public Transport {
    *
    * Call this method out-side of the running thread, eg. the main thread.
    */
-  void StopFetch();
+  void StopFetch() override;
 
   /** URL encode a string.
    *
@@ -114,9 +114,6 @@ class TransportCurl : public Transport {
 
   /** Flag to cause `UrlEncode()` to fail miserably. */
   bool url_encode_injected_failure = false;
-
-  /** Flag to cause `HandleSetup()` to fail miserably. */
-  bool handle_setup_injected_failure = false;
 
   /** Flag to cause `Perform()` to fail miserably. */
   bool perform_injected_failure = false;

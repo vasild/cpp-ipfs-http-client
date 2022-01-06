@@ -70,8 +70,10 @@ $(function() {
 <h1>Build &amp; Install</h1>
 <div class="fragment"><div class="line"># Fetch the source code from GitHub.</div>
 <div class="line">git clone git@github.com:vasild/cpp-ipfs-http-client.git</div>
+<div class="line">cd cpp-ipfs-http-client</div>
 <div class="line"> </div>
-<div class="line"># Build out-of-source using cmake in the usual way.</div>
+<div class="line"># Build the library inside a seperate build directory.</div>
+<div class="line"># Note: This is a shared build, you can Omit BUILD_SHARED_LIBS for static builds.</div>
 <div class="line">#</div>
 <div class="line"># These extra options may be of interest in case the dependencies have</div>
 <div class="line"># been installed in non-standard locations:</div>
@@ -85,7 +87,8 @@ $(function() {
 <div class="line">  -DCURL_LIBRARY:PATH=/home/joe.smith/lib/libcurl.so</div>
 <div class="line">  -DCMAKE_BUILD_TYPE=Debug \</div>
 <div class="line">  -DBUILD_SHARED_LIBS:BOOL=ON \</div>
-<div class="line">  ../cpp-ipfs-http-client</div>
+<div class="line">  -DBUILD_TESTING:BOOL=OFF \</div>
+<div class="line">  ..</div>
 <div class="line">make -j 8</div>
 <div class="line"> </div>
 <div class="line"># Optionally install it.</div>
@@ -93,7 +96,7 @@ $(function() {
 </div><!-- fragment --><p ><em>Hint:</em> Use <code>cmake -LAH</code> to list all available options.</p>
 <p ><em>Note:</em> Omitting <code>DBUILD_SHARED_LIBS</code> above is fine as well, if you want to statically link this library into your project.</p>
 <h1>Build via C++ compiler</h1>
-<div class="fragment"><div class="line">c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-http-client myprog.cc -o myprog</div>
+<div class="fragment"><div class="line">g++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-http-client myprog.cc -o myprog</div>
 </div><!-- fragment --><h1>Install &amp; Build using existing CMake project</h1>
 <p >Use the C++ IPFS Client inside an existing CMake project. We add the IPFS client inside the <code>lib</code> folder. <br  />
  For example via <code>git submodule</code> (but <code>git clone</code> should also work):</p>

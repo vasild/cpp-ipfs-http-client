@@ -836,10 +836,24 @@ class Client {
    * Call this method out-side of the running thread, eg. the main thread.
    *
    * See example: https://vasild.github.io/cpp-ipfs-http-client/examples.html
-   * 
+   *
    * @since version 0.6.0 */
   void Abort();
 
+  /** Resets the abort call, allowing to execute new API requests again.
+   * Used in combintation with the Abort() method.
+   *
+   * Once you executed the Abort() method and thread.join() call. Which wait
+   * until the thread is completly finished. You need to call the Reset() method
+   * in order to reset the internal state. Allow you to execute new API requests
+   * again.
+   *
+   * Call this method out-side of the running thread, eg. the main thread.
+   *
+   * See example: https://vasild.github.io/cpp-ipfs-http-client/examples.html
+   *
+   * @since version 0.6.0 */
+  void Reset();
 
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */

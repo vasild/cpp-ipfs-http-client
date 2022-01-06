@@ -110,6 +110,7 @@ TransportCurl::TransportCurl(bool curlVerbose)
 
 TransportCurl::~TransportCurl() {
   curl_multi_remove_handle(multi_handle_, curl_);
+  curl_multi_cleanup(multi_handle_);
   curl_easy_cleanup(curl_);
   curl_global_cleanup();
 }
@@ -194,6 +195,8 @@ void TransportCurl::Fetch(const std::string& url,
 
 void TransportCurl::StopFetch() { keep_perform_running_ = false; }
 
+void TransportCurl::ResetFetch() { keep_perform_running_ = true; }
+
 void TransportCurl::UrlEncode(const std::string& raw, std::string* encoded) {
   char* encoded_c = curl_easy_escape(curl_, raw.c_str(), 0);
   if (encoded_c == NULL || url_encode_injected_failure) {
@@ -206,10 +209,9 @@ void TransportCurl::UrlEncode(const std::string& raw, std::string* encoded) {
 }
 
 void TransportCurl::Perform(const std::string& url, std::iostream* response) {
-  keep_perform_running_ = true; /* Set atomic bool to true by default */
-  int still_running = 0;        /* keep number of running handles */
-  CURLMsg* msg;  /* for picking up messages with the transfer status */
-  int msgs_left; /* how many messages are left */
+  int still_running = 0; /* keep number of running handles */
+  CURLMsg* msg;          /* for picking up messages with the transfer status */
+  int msgs_left;         /* how many messages are left */
   char curl_error[CURL_ERROR_SIZE]; /* cURL error message buffer */
   std::string generic_error;
   std::vector<std::string> get_info_errors;

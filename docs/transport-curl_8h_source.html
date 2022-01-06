@@ -116,49 +116,48 @@ $(function() {
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>      <span class="keyword">const</span> std::vector&lt;FileUpload&gt;&amp; files,</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>      std::iostream* response) <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classipfs_1_1http_1_1TransportCurl.html#a6c58172f5247648b0adfc81ac22b0895">StopFetch</a>();</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classipfs_1_1http_1_1TransportCurl.html#ac53142bf9e4604695bd7414eda516bc6">UrlEncode</a>(</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>      <span class="keyword">const</span> std::string&amp; raw,</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>      std::string* encoded) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classipfs_1_1http_1_1TransportCurl.html#a7d2cdcea0358186ed520efce18dcf4ef">Test</a>();</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>  <span class="keywordtype">void</span> Perform(</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>      <span class="keyword">const</span> std::string&amp; url,</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>      std::iostream* response);</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  std::atomic&lt;bool&gt; keep_perform_running_;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  CURLcode global_init_result_;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>  CURL* curl_;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classipfs_1_1http_1_1TransportCurl.html#a527370641262a53f2c54bf2b75451454">StopFetch</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classipfs_1_1http_1_1TransportCurl.html#a40a132f83bb069f463cab41249f4da74">ResetFetch</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classipfs_1_1http_1_1TransportCurl.html#ac53142bf9e4604695bd7414eda516bc6">UrlEncode</a>(</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>      <span class="keyword">const</span> std::string&amp; raw,</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>      std::string* encoded) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classipfs_1_1http_1_1TransportCurl.html#a7d2cdcea0358186ed520efce18dcf4ef">Test</a>();</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  <span class="keywordtype">void</span> Perform(</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>      <span class="keyword">const</span> std::string&amp; url,</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>      std::iostream* response);</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  CURLM* multi_handle_;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  std::atomic&lt;bool&gt; keep_perform_running_;</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  <span class="keywordtype">bool</span> curl_verbose;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  CURLcode global_init_result_;</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  <span class="keywordtype">bool</span> curl_is_setup_;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  CURL* curl_;</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  <span class="keywordtype">bool</span> url_encode_injected_failure = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  CURLM* multi_handle_;</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>  <span class="keywordtype">bool</span> handle_setup_injected_failure = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>  <span class="keywordtype">bool</span> curl_verbose;</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  <span class="keywordtype">bool</span> perform_injected_failure = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>};</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>} <span class="comment">/* namespace http */</span></div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>} <span class="comment">/* namespace ipfs */</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  <span class="keywordtype">bool</span> url_encode_injected_failure = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>  <span class="keywordtype">bool</span> perform_injected_failure = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>};</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="preprocessor">#endif </span><span class="comment">/* IPFS_HTTP_TRANSPORT_CURL_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>} <span class="comment">/* namespace http */</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>} <span class="comment">/* namespace ipfs */</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="preprocessor">#endif </span><span class="comment">/* IPFS_HTTP_TRANSPORT_CURL_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="aclassipfs_1_1http_1_1TransportCurl_html"><div class="ttname"><a href="classipfs_1_1http_1_1TransportCurl.html">ipfs::http::TransportCurl</a></div><div class="ttdoc">Convenience class for talking basic HTTP, implemented using CURL.</div><div class="ttdef"><b>Definition:</b> transport-curl.h:36</div></div>
 <div class="ttc" id="aclassipfs_1_1http_1_1TransportCurl_html_a23c103c9d7cbf40fa867b1db602a4361"><div class="ttname"><a href="classipfs_1_1http_1_1TransportCurl.html#a23c103c9d7cbf40fa867b1db602a4361">ipfs::http::TransportCurl::TransportCurl</a></div><div class="ttdeci">TransportCurl(bool curlVerbose)</div><div class="ttdoc">Constructor.</div><div class="ttdef"><b>Definition:</b> transport-curl.cc:66</div></div>
 <div class="ttc" id="aclassipfs_1_1http_1_1TransportCurl_html_a3315f1f9af3a7659ed1166dbc81913f4"><div class="ttname"><a href="classipfs_1_1http_1_1TransportCurl.html#a3315f1f9af3a7659ed1166dbc81913f4">ipfs::http::TransportCurl::~TransportCurl</a></div><div class="ttdeci">~TransportCurl()</div><div class="ttdoc">Destructor.</div><div class="ttdef"><b>Definition:</b> transport-curl.cc:111</div></div>
-<div class="ttc" id="aclassipfs_1_1http_1_1TransportCurl_html_a6c58172f5247648b0adfc81ac22b0895"><div class="ttname"><a href="classipfs_1_1http_1_1TransportCurl.html#a6c58172f5247648b0adfc81ac22b0895">ipfs::http::TransportCurl::StopFetch</a></div><div class="ttdeci">void StopFetch()</div><div class="ttdoc">Stop the fetch method abruptly, useful whenever the Fetch method is used within a thead,...</div><div class="ttdef"><b>Definition:</b> transport-curl.cc:195</div></div>
-<div class="ttc" id="aclassipfs_1_1http_1_1TransportCurl_html_a7d2cdcea0358186ed520efce18dcf4ef"><div class="ttname"><a href="classipfs_1_1http_1_1TransportCurl.html#a7d2cdcea0358186ed520efce18dcf4ef">ipfs::http::TransportCurl::Test</a></div><div class="ttdeci">void Test()</div><div class="ttdoc">Test the internals that are hard to execute from the public API, like error handling of some exceptio...</div><div class="ttdef"><b>Definition:</b> transport-curl.cc:313</div></div>
-<div class="ttc" id="aclassipfs_1_1http_1_1TransportCurl_html_a81bbb85b1a3feda8c5aa44b9c1769a6d"><div class="ttname"><a href="classipfs_1_1http_1_1TransportCurl.html#a81bbb85b1a3feda8c5aa44b9c1769a6d">ipfs::http::TransportCurl::Fetch</a></div><div class="ttdeci">void Fetch(const std::string &amp;url, const std::vector&lt; FileUpload &gt; &amp;files, std::iostream *response) override</div><div class="ttdoc">Fetch the contents of a given URL.</div><div class="ttdef"><b>Definition:</b> transport-curl.cc:117</div></div>
-<div class="ttc" id="aclassipfs_1_1http_1_1TransportCurl_html_ac53142bf9e4604695bd7414eda516bc6"><div class="ttname"><a href="classipfs_1_1http_1_1TransportCurl.html#ac53142bf9e4604695bd7414eda516bc6">ipfs::http::TransportCurl::UrlEncode</a></div><div class="ttdeci">void UrlEncode(const std::string &amp;raw, std::string *encoded) override</div><div class="ttdoc">URL encode a string.</div><div class="ttdef"><b>Definition:</b> transport-curl.cc:197</div></div>
+<div class="ttc" id="aclassipfs_1_1http_1_1TransportCurl_html_a40a132f83bb069f463cab41249f4da74"><div class="ttname"><a href="classipfs_1_1http_1_1TransportCurl.html#a40a132f83bb069f463cab41249f4da74">ipfs::http::TransportCurl::ResetFetch</a></div><div class="ttdeci">void ResetFetch() override</div><div class="ttdoc">Reset the internal state, after StopFetch() is called.</div><div class="ttdef"><b>Definition:</b> transport-curl.cc:198</div></div>
+<div class="ttc" id="aclassipfs_1_1http_1_1TransportCurl_html_a527370641262a53f2c54bf2b75451454"><div class="ttname"><a href="classipfs_1_1http_1_1TransportCurl.html#a527370641262a53f2c54bf2b75451454">ipfs::http::TransportCurl::StopFetch</a></div><div class="ttdeci">void StopFetch() override</div><div class="ttdoc">Stop the fetch method abruptly, useful whenever the Fetch method is used within a thead,...</div><div class="ttdef"><b>Definition:</b> transport-curl.cc:196</div></div>
+<div class="ttc" id="aclassipfs_1_1http_1_1TransportCurl_html_a7d2cdcea0358186ed520efce18dcf4ef"><div class="ttname"><a href="classipfs_1_1http_1_1TransportCurl.html#a7d2cdcea0358186ed520efce18dcf4ef">ipfs::http::TransportCurl::Test</a></div><div class="ttdeci">void Test()</div><div class="ttdoc">Test the internals that are hard to execute from the public API, like error handling of some exceptio...</div><div class="ttdef"><b>Definition:</b> transport-curl.cc:315</div></div>
+<div class="ttc" id="aclassipfs_1_1http_1_1TransportCurl_html_a81bbb85b1a3feda8c5aa44b9c1769a6d"><div class="ttname"><a href="classipfs_1_1http_1_1TransportCurl.html#a81bbb85b1a3feda8c5aa44b9c1769a6d">ipfs::http::TransportCurl::Fetch</a></div><div class="ttdeci">void Fetch(const std::string &amp;url, const std::vector&lt; FileUpload &gt; &amp;files, std::iostream *response) override</div><div class="ttdoc">Fetch the contents of a given URL.</div><div class="ttdef"><b>Definition:</b> transport-curl.cc:118</div></div>
+<div class="ttc" id="aclassipfs_1_1http_1_1TransportCurl_html_ac53142bf9e4604695bd7414eda516bc6"><div class="ttname"><a href="classipfs_1_1http_1_1TransportCurl.html#ac53142bf9e4604695bd7414eda516bc6">ipfs::http::TransportCurl::UrlEncode</a></div><div class="ttdeci">void UrlEncode(const std::string &amp;raw, std::string *encoded) override</div><div class="ttdoc">URL encode a string.</div><div class="ttdef"><b>Definition:</b> transport-curl.cc:200</div></div>
 <div class="ttc" id="aclassipfs_1_1http_1_1Transport_html"><div class="ttname"><a href="classipfs_1_1http_1_1Transport.html">ipfs::http::Transport</a></div><div class="ttdoc">Convenience interface for talking basic HTTP.</div><div class="ttdef"><b>Definition:</b> transport.h:53</div></div>
 <div class="ttc" id="anamespaceipfs_html"><div class="ttname"><a href="namespaceipfs.html">ipfs</a></div><div class="ttdoc">IPFS namespace.</div><div class="ttdef"><b>Definition:</b> client.h:32</div></div>
 </div><!-- fragment --></div><!-- contents -->

@@ -72,12 +72,21 @@ class Transport {
 
   /**
    * Stop the Fetch method abruptly.
-   * 
-   * When the Fetch method is used within a thead, but you want to stop the thread
-   * (without using pthread_cancel).
+   *
+   * When the Fetch method is used within a thead, but you want to stop the
+   * thread (without using pthread_cancel).
    *
    * Call this method out-side of the running thread, eg. the main thread. */
   virtual void StopFetch() = 0;
+
+  /**
+   * Reset the internal state, after StopFetch() is called.
+   *
+   * This method needs to be called once the thread is fully finished. Ideally
+   * after client.abort() and thread.join() methods.
+   *
+   * Call this method out-side of the running thread, eg. the main thread. */
+  virtual void ResetFetch() = 0;
 
   /** URL encode a string.
    *

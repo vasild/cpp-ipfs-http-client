@@ -7,8 +7,10 @@ The main class the library exports is @link ipfs::Client @endlink. The rest is o
 ```sh
 # Fetch the source code from GitHub.
 git clone git@github.com:vasild/cpp-ipfs-http-client.git
+cd cpp-ipfs-http-client
 
-# Build out-of-source using cmake in the usual way.
+# Build the library inside a seperate build directory.
+# Note: This is a shared build, you can Omit BUILD_SHARED_LIBS for static builds.
 #
 # These extra options may be of interest in case the dependencies have
 # been installed in non-standard locations:
@@ -22,21 +24,22 @@ cmake \
   -DCURL_LIBRARY:PATH=/home/joe.smith/lib/libcurl.so
   -DCMAKE_BUILD_TYPE=Debug \
   -DBUILD_SHARED_LIBS:BOOL=ON \
-  ../cpp-ipfs-http-client
+  -DBUILD_TESTING:BOOL=OFF \
+  ..
 make -j 8
 
 # Optionally install it.
 make install
 ```
 
-*Hint:* Use `cmake -LAH` to list all available options.
+_Hint:_ Use `cmake -LAH` to list all available options.
 
-*Note:* Omitting `DBUILD_SHARED_LIBS` above is fine as well, if you want to statically link this library into your project.
+_Note:_ Omitting `DBUILD_SHARED_LIBS` above is fine as well, if you want to statically link this library into your project.
 
 ## Build via C++ compiler
 
 ```sh
-c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-http-client myprog.cc -o myprog
+g++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-http-client myprog.cc -o myprog
 ```
 
 ## Install & Build using existing CMake project

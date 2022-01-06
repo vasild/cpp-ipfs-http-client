@@ -228,12 +228,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaa862322e6ec703b91ed356d968fbc49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#aaa862322e6ec703b91ed356d968fbc49">Abort</a> ()</td></tr>
 <tr class="memdesc:aaa862322e6ec703b91ed356d968fbc49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abort any current running IPFS API request.  <a href="classipfs_1_1Client.html#aaa862322e6ec703b91ed356d968fbc49">More...</a><br /></td></tr>
 <tr class="separator:aaa862322e6ec703b91ed356d968fbc49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60b2274e7ee70ed9392870cd2c5a8559"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1Client.html#a60b2274e7ee70ed9392870cd2c5a8559">Reset</a> ()</td></tr>
+<tr class="memdesc:a60b2274e7ee70ed9392870cd2c5a8559"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the abort call, allowing to execute new API requests again.  <a href="classipfs_1_1Client.html#a60b2274e7ee70ed9392870cd2c5a8559">More...</a><br /></td></tr>
+<tr class="separator:a60b2274e7ee70ed9392870cd2c5a8559"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >IPFS client. </p>
 <p >It implements the interface described in <a href="https://github.com/ipfs/js-ipfs/tree/master/docs/core-api">https://github.com/ipfs/js-ipfs/tree/master/docs/core-api</a>.</p>
 <p >The methods of this class may throw some variant of <code>std::exception</code> if a connectivity error occurs or if the response cannot be parsed. Be prepared!</p>
 <dl class="section since"><dt>Since</dt><dd>version 0.1.0 </dd></dl>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="threading_example_8cc-example.html#_a0">threading_example.cc</a>.</dd>
+</dl>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="adc5716aa4272ff2bedcae954339c77d0" name="adc5716aa4272ff2bedcae954339c77d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adc5716aa4272ff2bedcae954339c77d0">&#9670;&nbsp;</a></span>PinRmOptions</h2>
@@ -433,6 +438,8 @@ Public Member Functions</h2></td></tr>
 <p >Call this method out-side of the running thread, eg. the main thread.</p>
 <p >See example: <a href="https://vasild.github.io/cpp-ipfs-http-client/examples.html">https://vasild.github.io/cpp-ipfs-http-client/examples.html</a></p>
 <dl class="section since"><dt>Since</dt><dd>version 0.6.0 </dd></dl>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="threading_example_8cc-example.html#a2">threading_example.cc</a>.</dd>
+</dl>
 
 </div>
 </div>
@@ -1016,6 +1023,8 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">response</td><td>The file's contents is written to this stream as it is retrieved from IPFS. </td></tr>
   </table>
   </dd>
+</dl>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="threading_example_8cc-example.html#a1">threading_example.cc</a>.</dd>
 </dl>
 
 </div>
@@ -2474,6 +2483,32 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">options</td><td>Unpin options. </td></tr>
   </table>
   </dd>
+</dl>
+
+</div>
+</div>
+<a id="a60b2274e7ee70ed9392870cd2c5a8559" name="a60b2274e7ee70ed9392870cd2c5a8559"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60b2274e7ee70ed9392870cd2c5a8559">&#9670;&nbsp;</a></span>Reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ipfs::Client::Reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Resets the abort call, allowing to execute new API requests again. </p>
+<p >Used in combintation with the <a class="el" href="classipfs_1_1Client.html#aaa862322e6ec703b91ed356d968fbc49" title="Abort any current running IPFS API request.">Abort()</a> method.</p>
+<p >Once you executed the <a class="el" href="classipfs_1_1Client.html#aaa862322e6ec703b91ed356d968fbc49" title="Abort any current running IPFS API request.">Abort()</a> method and thread.join() call. Which wait until the thread is completly finished. You need to call the <a class="el" href="classipfs_1_1Client.html#a60b2274e7ee70ed9392870cd2c5a8559" title="Resets the abort call, allowing to execute new API requests again.">Reset()</a> method in order to reset the internal state. Allow you to execute new API requests again.</p>
+<p >Call this method out-side of the running thread, eg. the main thread.</p>
+<p >See example: <a href="https://vasild.github.io/cpp-ipfs-http-client/examples.html">https://vasild.github.io/cpp-ipfs-http-client/examples.html</a></p>
+<dl class="section since"><dt>Since</dt><dd>version 0.6.0 </dd></dl>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="threading_example_8cc-example.html#a3">threading_example.cc</a>.</dd>
 </dl>
 
 </div>

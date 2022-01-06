@@ -57,10 +57,14 @@ When building documention, you also need:
 ```sh
 git clone https://github.com/vasild/cpp-ipfs-http-client.git
 cd cpp-ipfs-http-client
-cmake .
+mkdir build
+cd build
+cmake ..
 make -j 8
 sudo make install
 ```
+
+*Hint:* Only build the library without tests, use: `cmake -DBUILD_TESTING=OFF ..`
 
 See the [documentation for details](https://vasild.github.io/cpp-ipfs-http-client).
 
@@ -83,7 +87,7 @@ Test cases are build by default, but if you want to build with coverage:
 ```sh
 mkdir build && cd build
 
-cmake -DCMAKE_BUILD_TYPE=Debug -DCOVERAGE=ON -DBUILD_SHARED_LIBS=ON ..
+cmake -DCMAKE_BUILD_TYPE=Debug -DCOVERAGE:BOOL=ON -DBUILD_SHARED_LIBS:BOOL=ON..
 # Run tests & Build the HTML report
 make ctest_coverage_html -j 8
 
@@ -137,7 +141,7 @@ See also: [Doxygen - Examples](https://vasild.github.io/cpp-ipfs-http-client/exa
 ## Build via C++ compiler
 
 ```sh
-c++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-http-client myprog.cc -o myprog
+g++ -std=c++11 -I/path/to/header -L/path/to/lib -lipfs-http-client myprog.cc -o myprog
 ```
 
 ## Build via CMake

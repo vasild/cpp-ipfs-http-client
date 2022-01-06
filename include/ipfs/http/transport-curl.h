@@ -66,6 +66,15 @@ class TransportCurl : public Transport {
    * Call this method out-side of the running thread, eg. the main thread.
    */
   void StopFetch() override;
+  
+  /**
+   * Reset the internal state, after StopFetch() is called.
+   *
+   * This method needs to be called once the thread is fully finished. Ideally
+   * after client.abort() and thread.join() methods.
+   *
+   * Call this method out-side of the running thread, eg. the main thread. */
+  void ResetFetch() override;
 
   /** URL encode a string.
    *

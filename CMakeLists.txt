@@ -21,6 +21,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Set the available options 
 option(DOC "Build Doxygen" OFF)
 option(COVERAGE "Enable generation of coverage info" OFF)
+option(BUILD_TESTING "Enable building test cases" ON)
 
 # Find curl
 # Look for static import symbols for Windows builds

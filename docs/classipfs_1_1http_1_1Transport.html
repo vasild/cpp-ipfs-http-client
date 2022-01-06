@@ -100,6 +100,9 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Transport</b> ()<
 <tr class="memitem:a4da291ea9be5e9bcf4faccd7cbfe87fc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1http_1_1Transport.html#a4da291ea9be5e9bcf4faccd7cbfe87fc">StopFetch</a> ()=0</td></tr>
 <tr class="memdesc:a4da291ea9be5e9bcf4faccd7cbfe87fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the Fetch method abruptly.  <a href="classipfs_1_1http_1_1Transport.html#a4da291ea9be5e9bcf4faccd7cbfe87fc">More...</a><br /></td></tr>
 <tr class="separator:a4da291ea9be5e9bcf4faccd7cbfe87fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31f96b6c63538c26c81ab5f8d806d1a5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1http_1_1Transport.html#a31f96b6c63538c26c81ab5f8d806d1a5">ResetFetch</a> ()=0</td></tr>
+<tr class="memdesc:a31f96b6c63538c26c81ab5f8d806d1a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the internal state, after <a class="el" href="classipfs_1_1http_1_1Transport.html#a4da291ea9be5e9bcf4faccd7cbfe87fc" title="Stop the Fetch method abruptly.">StopFetch()</a> is called.  <a href="classipfs_1_1http_1_1Transport.html#a31f96b6c63538c26c81ab5f8d806d1a5">More...</a><br /></td></tr>
+<tr class="separator:a31f96b6c63538c26c81ab5f8d806d1a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab06599853f7f2b11ad323a3d67df4cad"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classipfs_1_1http_1_1Transport.html#ab06599853f7f2b11ad323a3d67df4cad">UrlEncode</a> (const std::string &amp;raw, std::string *encoded)=0</td></tr>
 <tr class="memdesc:ab06599853f7f2b11ad323a3d67df4cad"><td class="mdescLeft">&#160;</td><td class="mdescRight">URL encode a string.  <a href="classipfs_1_1http_1_1Transport.html#ab06599853f7f2b11ad323a3d67df4cad">More...</a><br /></td></tr>
 <tr class="separator:ab06599853f7f2b11ad323a3d67df4cad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -169,6 +172,37 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Transport</b> ()<
 
 </div>
 </div>
+<a id="a31f96b6c63538c26c81ab5f8d806d1a5" name="a31f96b6c63538c26c81ab5f8d806d1a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31f96b6c63538c26c81ab5f8d806d1a5">&#9670;&nbsp;</a></span>ResetFetch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void ipfs::http::Transport::ResetFetch </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reset the internal state, after <a class="el" href="classipfs_1_1http_1_1Transport.html#a4da291ea9be5e9bcf4faccd7cbfe87fc" title="Stop the Fetch method abruptly.">StopFetch()</a> is called. </p>
+<p >This method needs to be called once the thread is fully finished. Ideally after client.abort() and thread.join() methods.</p>
+<p >Call this method out-side of the running thread, eg. the main thread. </p>
+
+<p>Implemented in <a class="el" href="classipfs_1_1http_1_1TransportCurl.html#a40a132f83bb069f463cab41249f4da74">ipfs::http::TransportCurl</a>.</p>
+
+</div>
+</div>
 <a id="a4da291ea9be5e9bcf4faccd7cbfe87fc" name="a4da291ea9be5e9bcf4faccd7cbfe87fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4da291ea9be5e9bcf4faccd7cbfe87fc">&#9670;&nbsp;</a></span>StopFetch()</h2>
 
@@ -196,7 +230,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Transport</b> ()<
 <p >When the Fetch method is used within a thead, but you want to stop the thread (without using pthread_cancel).</p>
 <p >Call this method out-side of the running thread, eg. the main thread. </p>
 
-<p>Implemented in <a class="el" href="classipfs_1_1http_1_1TransportCurl.html#a6c58172f5247648b0adfc81ac22b0895">ipfs::http::TransportCurl</a>.</p>
+<p>Implemented in <a class="el" href="classipfs_1_1http_1_1TransportCurl.html#a527370641262a53f2c54bf2b75451454">ipfs::http::TransportCurl</a>.</p>
 
 </div>
 </div>

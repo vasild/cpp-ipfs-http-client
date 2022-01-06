@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['statsbw_0',['StatsBw',['../classipfs_1_1Client.html#ad944a5a304c799b314b3b9ab7765d314',1,'ipfs::Client']]],
-  ['statsrepo_1',['StatsRepo',['../classipfs_1_1Client.html#aec756626c42caf55728dad5b6cb7d0f3',1,'ipfs::Client']]],
-  ['stopfetch_2',['StopFetch',['../classipfs_1_1http_1_1TransportCurl.html#a6c58172f5247648b0adfc81ac22b0895',1,'ipfs::http::TransportCurl::StopFetch()'],['../classipfs_1_1http_1_1Transport.html#a4da291ea9be5e9bcf4faccd7cbfe87fc',1,'ipfs::http::Transport::StopFetch()']]],
-  ['swarmaddrs_3',['SwarmAddrs',['../classipfs_1_1Client.html#aa45a95118ec539863c12da953ab1988c',1,'ipfs::Client']]],
-  ['swarmconnect_4',['SwarmConnect',['../classipfs_1_1Client.html#a2dc1372e2c7505e541115c97c7b497a7',1,'ipfs::Client']]],
-  ['swarmdisconnect_5',['SwarmDisconnect',['../classipfs_1_1Client.html#afd550da40c4517c59750327784707923',1,'ipfs::Client']]],
-  ['swarmpeers_6',['SwarmPeers',['../classipfs_1_1Client.html#a3c1f5392892d51152e45221ce1a026da',1,'ipfs::Client']]]
+  ['reset_0',['Reset',['../classipfs_1_1Client.html#a60b2274e7ee70ed9392870cd2c5a8559',1,'ipfs::Client']]],
+  ['resetfetch_1',['ResetFetch',['../classipfs_1_1http_1_1TransportCurl.html#a40a132f83bb069f463cab41249f4da74',1,'ipfs::http::TransportCurl::ResetFetch()'],['../classipfs_1_1http_1_1Transport.html#a31f96b6c63538c26c81ab5f8d806d1a5',1,'ipfs::http::Transport::ResetFetch()']]]
 ];

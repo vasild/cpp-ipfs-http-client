@@ -2,21 +2,24 @@
  * Example use-case of using IPFS HTTP Client with threading.
  * By: Melroy van den Berg <melroy@melroy.org>
  *
- * Important note: Never create multiple threads! This is NOT needed to do
- * parallel requests, since cURL multi API supports multiple simultaneous
- * requests out-of-the-box (it's called multi API for a reason). However, the
- * IPFS Client did not yet implement multiple requests in parallel.
+ * Important note: Never create multiple threads! That should NOT be needed
+ * in order to have parallel requests, since cURL multi API supports multiple
+ * simultaneous requests out-of-the-box (it's called multi API for a reason).
+ * However, the IPFS Client does not yet implement multiple requests in
+ * parallel.
  *
- * First be sure you build & installed IPFS client locally (as a static lib),
- using:
+ * This single thread example is useful in application with a GUI as its main
+ * thread. For example with apps that are using Qt or GTK GUI toolkits.
+ *
+ * First be sure you install the IPFS client locally (as a static lib), using:
  *
  * mkdir build && cd build && cmake .. && make -j10 && sudo make install
  *
- * You can build the example, first go to the example folder:
+ * Then go to the example folder:
  *
  * cd examples
  *
- * Build the example as follows:
+ * Finally, build the example as follows:
  *
  * g++ -std=c++17 threading_example.cc -o threading_app \
    /usr/local/lib/libipfs-http-client.a \
@@ -50,12 +53,12 @@ void startThread() {
     });
 
     if (thread.joinable()) {
-      std::cout << "Directly try to stop the thread, aborting the request."
+      std::cout << "Directly try to abort the request and stop the thread."
                 << std::endl;
       // Try to remove the Abort() and Reset() calls,
       // and see the difference yourself :)
       client.Abort();
-      thread.join();
+      thread.join(); // Should not be blocking now
       client.Reset();
     }
 

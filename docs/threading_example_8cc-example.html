@@ -96,12 +96,12 @@ $(function() {
 <div class="line">    });</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">if</span> (thread.joinable()) {</div>
-<div class="line">      std::cout &lt;&lt; <span class="stringliteral">&quot;Directly try to stop the thread, aborting the request.&quot;</span></div>
+<div class="line">      std::cout &lt;&lt; <span class="stringliteral">&quot;Directly try to abort the request and stop the thread.&quot;</span></div>
 <div class="line">                &lt;&lt; std::endl;</div>
 <div class="line">      <span class="comment">// Try to remove the Abort() and Reset() calls,</span></div>
 <div class="line">      <span class="comment">// and see the difference yourself :)</span></div>
 <div class="line">      client.<a id="a2" name="a2"></a><a class="code hl_function" href="classipfs_1_1Client.html#aaa862322e6ec703b91ed356d968fbc49">Abort</a>();</div>
-<div class="line">      thread.join();</div>
+<div class="line">      thread.join(); <span class="comment">// Should not be blocking now</span></div>
 <div class="line">      client.<a id="a3" name="a3"></a><a class="code hl_function" href="classipfs_1_1Client.html#a60b2274e7ee70ed9392870cd2c5a8559">Reset</a>();</div>
 <div class="line">    }</div>
 <div class="line"> </div>

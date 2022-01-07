@@ -437,7 +437,10 @@ Public Member Functions</h2></td></tr>
 <p >Very useful if you were using the IPFS client API calls inside seperate thread, but which to abort the request and stop the running thread (without using pthread_cancel).</p>
 <p >Call this method out-side of the running thread, eg. the main thread.</p>
 <p >See example: <a href="https://vasild.github.io/cpp-ipfs-http-client/examples.html">https://vasild.github.io/cpp-ipfs-http-client/examples.html</a></p>
-<dl class="section since"><dt>Since</dt><dd>version 0.6.0 </dd></dl>
+<div class="fragment"><div class="line">      client.Abort();</div>
+<div class="line">      thread.join();</div>
+<div class="line">      client.Reset();</div>
+</div><!-- fragment --><dl class="section since"><dt>Since</dt><dd>version 0.6.0 </dd></dl>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="threading_example_8cc-example.html#a2">threading_example.cc</a>.</dd>
 </dl>
 

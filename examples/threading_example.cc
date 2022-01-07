@@ -30,7 +30,6 @@
 // Or when you use IPFS locally:
 //#include "ipfs/client.h"
 
-#include <atomic>
 #include <iostream>
 #include <sstream>
 #include <thread>

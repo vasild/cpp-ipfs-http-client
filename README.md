@@ -108,17 +108,18 @@ make doc
 ## Usage
 
 ```cpp
+#include <ipfs/client.h>
+
 #include <iostream>
 #include <sstream>
-
-#include <ipfs/client.h>
 
 int main(int, char**) {
   std::stringstream contents;
 
   ipfs::Client client("localhost", 5001);
 
-  client.FilesGet("/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme", &contents);
+  client.FilesGet("/ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme",
+                  &contents);
 
   std::cout << contents.str() << std::endl;
 
@@ -132,11 +133,39 @@ More info see: [Doxygen Docs - Client Class](https://vasild.github.io/cpp-ipfs-h
 
 The client constructor and destructor are not thread safe. However, all the API IPFS calls are **thread safe**!
 
+An example of using a thread together with the IPFS Client:
+
 ```cpp
-// TODO
+#include <ipfs/client.h>
+
+#include <sstream>
+#include <thread>
+
+int main(int, char**) {
+  ipfs::Client client("localhost", 5001, "2m");
+
+  // Only start one thread
+  std::thread thread([&client]() {
+    std::stringstream contents;
+    try {
+      // File should not exists, takes forever (until time-out)
+      client.FilesGet("QmZp1rrtGTictR2rpNcx4673R7qU9Jdr9DQ6Z7F6Wgo2bQ",
+                      &contents);
+    } catch (const std::runtime_error& e) {
+      std::cerr << "Error: " << e.what() << std::endl;
+    }
+  });
+
+  if (thread.joinable()) {
+    client.Abort();  // Abort request
+    thread.join();   // Should not be blocking now
+    client.Reset();  // Reset internal state
+  }
+  return 0;
+}
 ```
 
-See also: [Doxygen - Examples](https://vasild.github.io/cpp-ipfs-http-client/examples.html).
+See the full multi-threading example on: [Doxygen - Examples](https://vasild.github.io/cpp-ipfs-http-client/examples.html).
 
 ## Build via C++ compiler
 

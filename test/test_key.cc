@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2021, The C++ IPFS client library developers
+/* Copyright (c) 2016-2022, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -27,6 +27,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 using Json = nlohmann::json;
 
 int main(int, char**) {
+  /* Clean-up keys, just in case */
+  try {
+    ipfs::Client client("localhost", 5001);
+    client.KeyRm("foobar-key");
+    client.KeyRm("foobar-key2");
+    client.KeyRm("foobar-new-key2");
+  } catch (const std::exception& e) {
+    // Ignore errors
+  }
+
   try {
     ipfs::Client client("localhost", 5001);
 
@@ -69,9 +79,12 @@ int main(int, char**) {
     /* Renaming foobar-key2 to foobar-new-key2 */
     client.KeyRename("foobar-key2", "foobar-new-key2");
     client.KeyList(&key_list_rename);
-    std::cout << "A list of new local keys: " << key_list_rename.dump(2) << std::endl;
+    std::cout << "A list of new local keys: " << key_list_rename.dump(2)
+              << std::endl;
     /** [ipfs::Client::KeyRename] */
 
+    /* Clean-up key */
+    client.KeyRm("foobar-new-key2");
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

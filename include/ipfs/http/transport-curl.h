@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2021, The C++ IPFS client library developers
+/* Copyright (c) 2016-2022, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -23,6 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <curl/curl.h>
 #include <ipfs/http/transport.h>
 
+#include <atomic>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -45,6 +46,8 @@ class TransportCurl : public Transport {
   /** Fetch the contents of a given URL. If any files are provided in `files`,
    * they are submitted using "Content-Type: multipart/form-data".
    *
+   * Fetch method is thread-safe. Therefor, can be used within a thread.
+   *
    * @throw std::exception if any error occurs including erroneous HTTP status
    * code */
   void Fetch(
@@ -55,7 +58,28 @@ class TransportCurl : public Transport {
       /** [out] Output to save the response body to. */
       std::iostream* response) override;
 
-  /** URL encode a string. */
+  /**
+   * Stop the fetch method abruptly, useful whenever the
+   * Fetch method is used within a thead, but you want to stop the thread
+   * (without using pthread_cancel).
+   *
+   * Call this method out-side of the running thread, eg. the main thread.
+   */
+  void StopFetch() override;
+  
+  /**
+   * Reset the internal state, after StopFetch() is called.
+   *
+   * This method needs to be called once the thread is fully finished. Ideally
+   * after client.abort() and thread.join() methods.
+   *
+   * Call this method out-side of the running thread, eg. the main thread. */
+  void ResetFetch() override;
+
+  /** URL encode a string.
+   *
+   * URLEcode method is thread-safe.
+   */
   void UrlEncode(
       /** [in] Input string to encode. */
       const std::string& raw,
@@ -67,38 +91,35 @@ class TransportCurl : public Transport {
   void Test();
 
  private:
-  /** Setup the CURL handle `curl_`. */
-  void HandleSetup();
-
   /** Do the actual HTTP request. The CURL handle must have been configured when
    * this method is called. The method will also check for successful HTTP
-   * status code and throw an exception if something goes wrong. */
+   * status code and throw an exception if something goes wrong.
+   *
+   * This method is thread-safe. However, you need to be sure your response
+   * object is also thread safe. */
   void Perform(
       /** [in] URL to retrieve. */
       const std::string& url,
       /** [in,out] Response from the web server. */
       std::iostream* response);
 
-  /** Destroy the CURL handle `curl_`. */
-  void HandleDestroy();
+  /** Atomic boolean for stopping a running fetch/perform, thread-safe */
+  std::atomic<bool> keep_perform_running_;
 
-  /** CURL handle. */
+  /** Result code of the cURL global init */
+  CURLcode global_init_result_;
+
+  /** cURL easy handle. */
   CURL* curl_;
+
+  /** cURL multi handle. */
+  CURLM* multi_handle_;
 
   /** Flag for enabling CURL verbose mode, useful for debugging */
   bool curl_verbose;
 
-  /** Designates whether the CURL handle `curl_` has been set up. */
-  bool curl_is_setup_;
-
-  /** The CURL error buffer. */
-  char curl_error_[CURL_ERROR_SIZE];
-
   /** Flag to cause `UrlEncode()` to fail miserably. */
   bool url_encode_injected_failure = false;
-
-  /** Flag to cause `HandleSetup()` to fail miserably. */
-  bool handle_setup_injected_failure = false;
 
   /** Flag to cause `Perform()` to fail miserably. */
   bool perform_injected_failure = false;

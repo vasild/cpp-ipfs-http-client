@@ -1,15 +1,21 @@
+
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+
+find_package(Threads REQUIRED)
+
 set(TESTS
   test_block
   test_config
   test_dht
   test_files
-  test_key
   test_generic
+  test_key
   test_name
   test_object
   test_pin
   test_stats
   test_swarm
+  test_threading
 )
 
 string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)
@@ -22,7 +28,7 @@ endif()
 
 foreach (T ${TESTS})
   add_executable(${T} ${T}.cc)
-  target_link_libraries(${T} ${IPFS_API_LIBNAME})
+  target_link_libraries(${T} ${IPFS_API_LIBNAME} Threads::Threads)
 
   add_test(NAME ${T} COMMAND ./${T})
 endforeach()

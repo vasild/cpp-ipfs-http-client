@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2021, The C++ IPFS client library developers
+/* Copyright (c) 2016-2022, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -297,7 +297,8 @@ void Client::KeyRm(const std::string& key_name) {
 
 void Client::KeyRename(const std::string& old_key, const std::string& new_key) {
   std::stringstream body;
-  http_->Fetch(MakeUrl("key/rename", {{"arg", old_key}, {"arg", new_key}}), {}, &body);
+  http_->Fetch(MakeUrl("key/rename", {{"arg", old_key}, {"arg", new_key}}), {},
+               &body);
 }
 
 void Client::NamePublish(const std::string& object_id,
@@ -474,6 +475,15 @@ void Client::SwarmDisconnect(const std::string& peer) {
 void Client::SwarmPeers(Json* peers) {
   FetchAndParseJson(MakeUrl("swarm/peers"), peers);
 }
+
+void Client::Abort() { http_->StopFetch(); }
+
+void Client::Reset() { http_->ResetFetch(); }
+
+/**
+ * @example threading_example.cc
+ * An example of how to use IPFS Client with threads, using the Abort() method.
+ */
 
 void Client::FetchAndParseJson(const std::string& url, Json* response) {
   FetchAndParseJson(url, {}, response);

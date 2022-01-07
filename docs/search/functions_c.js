@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['version_113',['Version',['../classipfs_1_1Client.html#adaabe1a027399cbcabe291f3471e87f4',1,'ipfs::Client']]]
+  ['test_0',['Test',['../classipfs_1_1http_1_1TransportCurl.html#a7d2cdcea0358186ed520efce18dcf4ef',1,'ipfs::http::TransportCurl']]],
+  ['transportcurl_1',['TransportCurl',['../classipfs_1_1http_1_1TransportCurl.html#a23c103c9d7cbf40fa867b1db602a4361',1,'ipfs::http::TransportCurl']]]
 ];

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.11.0)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # Adhere the version number to http://semver.org/
-project(cpp-ipfs-http-client VERSION 0.5.0 LANGUAGES CXX)
+project(cpp-ipfs-http-client VERSION 0.6.0 LANGUAGES CXX)
 
 # Compile in C++11 mode
 set(CMAKE_CXX_STANDARD 11)
@@ -21,6 +21,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Set the available options 
 option(DOC "Build Doxygen" OFF)
 option(COVERAGE "Enable generation of coverage info" OFF)
+option(BUILD_TESTING "Enable building test cases" ON)
 
 # Find curl
 # Look for static import symbols for Windows builds
@@ -81,6 +82,7 @@ if(NOT DISABLE_INSTALL)
   install(TARGETS ${IPFS_API_LIBNAME} DESTINATION lib)
   install(FILES include/ipfs/client.h DESTINATION include/ipfs)
   install(FILES include/ipfs/http/transport.h DESTINATION include/ipfs/http)
+  install(FILES ${json_SOURCE_DIR}/include/nlohmann/json.hpp DESTINATION include/nlohmann)
 endif()
 # Tests, use "CTEST_OUTPUT_ON_FAILURE=1 make test" to see output from failed tests
 

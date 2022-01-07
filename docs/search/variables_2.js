@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['result_5f_120',['result_',['../classipfs_1_1http_1_1CurlGlobal.html#ac4a037f68fc0ad99e1d8dfd557050485',1,'ipfs::http::CurlGlobal']]]
+  ['type_0',['type',['../structipfs_1_1http_1_1FileUpload.html#ab2b53f7ba47384f2b11b59c216449283',1,'ipfs::http::FileUpload']]]
 ];

@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['id_16',['Id',['../classipfs_1_1Client.html#ae2ab8a0186ec89f1644a3b1d1a0d20fb',1,'ipfs::Client']]],
-  ['ipfs_20c_2b_2b_20http_20api_20client_20library_17',['IPFS C++ HTTP API client library',['../index.html',1,'']]],
-  ['ipfs_18',['ipfs',['../namespaceipfs.html',1,'']]]
+  ['fetch_0',['Fetch',['../classipfs_1_1http_1_1TransportCurl.html#a81bbb85b1a3feda8c5aa44b9c1769a6d',1,'ipfs::http::TransportCurl::Fetch()'],['../classipfs_1_1http_1_1Transport.html#a1b9139c6d768df23da1893ff54a8d75a',1,'ipfs::http::Transport::Fetch()']]],
+  ['filesadd_1',['FilesAdd',['../classipfs_1_1Client.html#abe2e1d9f5479fa5007f93a0dee053d12',1,'ipfs::Client']]],
+  ['filesget_2',['FilesGet',['../classipfs_1_1Client.html#a7598eaecec5293f29f84e2fc7ca7bc5b',1,'ipfs::Client']]],
+  ['filesls_3',['FilesLs',['../classipfs_1_1Client.html#a0c0a73fa1a284cd4a12c1395a0eb356c',1,'ipfs::Client']]],
+  ['fileupload_4',['FileUpload',['../structipfs_1_1http_1_1FileUpload.html',1,'ipfs::http']]]
 ];

@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['namepublish_88',['NamePublish',['../classipfs_1_1Client.html#a93d0ec05a38a4094b3e0dc33c0cc7efe',1,'ipfs::Client']]],
-  ['nameresolve_89',['NameResolve',['../classipfs_1_1Client.html#a61596ec86896753addebc2acac01d011',1,'ipfs::Client']]]
+  ['keygen_0',['KeyGen',['../classipfs_1_1Client.html#ada01369adfda81c869a7095d98197961',1,'ipfs::Client']]],
+  ['keylist_1',['KeyList',['../classipfs_1_1Client.html#a49d9bb4e44e66170c8e32134300ccfb1',1,'ipfs::Client']]],
+  ['keyrename_2',['KeyRename',['../classipfs_1_1Client.html#a599d2585c57dd3abbc1b497454f3c541',1,'ipfs::Client']]],
+  ['keyrm_3',['KeyRm',['../classipfs_1_1Client.html#a8c8c8703f4be0e4eb5053301b3577ed8',1,'ipfs::Client']]]
 ];

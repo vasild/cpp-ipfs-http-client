@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['statsbw_104',['StatsBw',['../classipfs_1_1Client.html#ad944a5a304c799b314b3b9ab7765d314',1,'ipfs::Client']]],
-  ['statsrepo_105',['StatsRepo',['../classipfs_1_1Client.html#aec756626c42caf55728dad5b6cb7d0f3',1,'ipfs::Client']]],
-  ['swarmaddrs_106',['SwarmAddrs',['../classipfs_1_1Client.html#aa45a95118ec539863c12da953ab1988c',1,'ipfs::Client']]],
-  ['swarmconnect_107',['SwarmConnect',['../classipfs_1_1Client.html#a2dc1372e2c7505e541115c97c7b497a7',1,'ipfs::Client']]],
-  ['swarmdisconnect_108',['SwarmDisconnect',['../classipfs_1_1Client.html#afd550da40c4517c59750327784707923',1,'ipfs::Client']]],
-  ['swarmpeers_109',['SwarmPeers',['../classipfs_1_1Client.html#a3c1f5392892d51152e45221ce1a026da',1,'ipfs::Client']]]
+  ['pinadd_0',['PinAdd',['../classipfs_1_1Client.html#a18e6d6a299748d3ba3a681bac7c5bd5d',1,'ipfs::Client']]],
+  ['pinls_1',['PinLs',['../classipfs_1_1Client.html#a5c6f313e1d361f4d21a7a67915e6b19f',1,'ipfs::Client::PinLs(Json *pinned)'],['../classipfs_1_1Client.html#a1d775b25a4d80ba95c040694e9c9d877',1,'ipfs::Client::PinLs(const std::string &amp;object_id, Json *pinned)']]],
+  ['pinrm_2',['PinRm',['../classipfs_1_1Client.html#a1f5d4bfb19f0f739ce8f888c7cbbcc44',1,'ipfs::Client']]]
 ];

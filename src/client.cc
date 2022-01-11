@@ -479,7 +479,8 @@ void Client::SwarmPeers(Json* peers) {
 void Client::Abort() { http_->StopFetch(); }
 /**
  * @example threading_example.cc
- * An example of how to use IPFS Client with threads, using the Abort() and Reset() methods.
+ * An example of how to use IPFS Client with threads, using the Abort() and
+ * Reset() methods.
  */
 
 void Client::Reset() { http_->ResetFetch(); }

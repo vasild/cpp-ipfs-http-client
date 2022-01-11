@@ -136,3 +136,10 @@ jobs:
           CCC_CXX=clang++-10 scan-build-10 --status-bugs cmake -DBUILD_SHARED_LIBS=ON "${SOURCE_DIR}"
           CCC_CXX=clang++-10 scan-build-10 --status-bugs make VERBOSE=1
 
+  code_style_guidelines:
+    name: "Coding style guidelines"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check style format
+        run: ./scripts/check_format.sh

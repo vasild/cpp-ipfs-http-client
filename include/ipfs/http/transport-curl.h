@@ -66,7 +66,7 @@ class TransportCurl : public Transport {
    * Call this method out-side of the running thread, eg. the main thread.
    */
   void StopFetch() override;
-  
+
   /**
    * Reset the internal state, after StopFetch() is called.
    *

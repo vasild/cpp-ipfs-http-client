@@ -836,7 +836,7 @@ class Client {
    * Call this method out-side of the running thread, eg. the main thread.
    *
    * See example: https://vasild.github.io/cpp-ipfs-http-client/examples.html
-   * 
+   *
    * @snippet test_threading.cc ipfs::Client::Abort
    *
    * @since version 0.6.0 */

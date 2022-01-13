@@ -133,6 +133,8 @@ More info see: [Doxygen Docs - Client Class](https://vasild.github.io/cpp-ipfs-h
 
 The client constructor and destructor are not thread safe. However, all the API IPFS calls are **thread safe**!
 
+*Note:* A runtime error will be thrown on the request call (in this example the `FilesGet()`) when you call the `Abort()` method, allowing you to stop your code execution inside the thread.
+
 An example of using a thread together with the IPFS Client:
 
 ```cpp

@@ -309,6 +309,11 @@ void TransportCurl::Perform(const std::string& url, std::iostream* response) {
         throw std::runtime_error(error);
       }
     }
+  } else {
+    /* Throw runtime error if the request was aborted (atomic bool is false)
+     * This is useful for the client-side in order to
+     * stop executing remaining code when a Abort() was triggered. */
+    throw std::runtime_error("Request was aborted");
   }
 }
 

@@ -73,7 +73,6 @@ $(function() {
 <div class="line"><span class="comment">// Or when you use IPFS locally:</span></div>
 <div class="line"><span class="comment">//#include &quot;ipfs/client.h&quot;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="preprocessor">#include &lt;atomic&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;sstream&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;thread&gt;</span></div>
@@ -90,7 +89,11 @@ $(function() {
 <div class="line">        <span class="comment">// File should not exists, takes forever (until time-out)</span></div>
 <div class="line">        client.<a id="a1" name="a1"></a><a class="code hl_function" href="classipfs_1_1Client.html#a7598eaecec5293f29f84e2fc7ca7bc5b">FilesGet</a>(<span class="stringliteral">&quot;QmZp1rrtGTictR2rpNcx4673R7qU9Jdr9DQ6Z7F6Wgo2bQ&quot;</span>,</div>
 <div class="line">                        &amp;contents);</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// Code below will never be reached, since we abort the request</span></div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Output: &quot;</span> &lt;&lt; contents.str() &lt;&lt; std::endl;</div>
 <div class="line">      } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::runtime_error&amp; e) {</div>
+<div class="line">        <span class="comment">// Run-time error will be thrown because of the aborting request.</span></div>
 <div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;Error: &quot;</span> &lt;&lt; e.what() &lt;&lt; std::endl;</div>
 <div class="line">      }</div>
 <div class="line">    });</div>
@@ -120,7 +123,7 @@ $(function() {
 <div class="line">  <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 <div class="ttc" id="aclassipfs_1_1Client_html"><div class="ttname"><a href="classipfs_1_1Client.html">ipfs::Client</a></div><div class="ttdoc">IPFS client.</div><div class="ttdef"><b>Definition:</b> client.h:47</div></div>
-<div class="ttc" id="aclassipfs_1_1Client_html_a60b2274e7ee70ed9392870cd2c5a8559"><div class="ttname"><a href="classipfs_1_1Client.html#a60b2274e7ee70ed9392870cd2c5a8559">ipfs::Client::Reset</a></div><div class="ttdeci">void Reset()</div><div class="ttdoc">Resets the abort call, allowing to execute new API requests again.</div><div class="ttdef"><b>Definition:</b> client.cc:485</div></div>
+<div class="ttc" id="aclassipfs_1_1Client_html_a60b2274e7ee70ed9392870cd2c5a8559"><div class="ttname"><a href="classipfs_1_1Client.html#a60b2274e7ee70ed9392870cd2c5a8559">ipfs::Client::Reset</a></div><div class="ttdeci">void Reset()</div><div class="ttdoc">Resets the abort call, allowing to execute new API requests again.</div><div class="ttdef"><b>Definition:</b> client.cc:486</div></div>
 <div class="ttc" id="aclassipfs_1_1Client_html_a7598eaecec5293f29f84e2fc7ca7bc5b"><div class="ttname"><a href="classipfs_1_1Client.html#a7598eaecec5293f29f84e2fc7ca7bc5b">ipfs::Client::FilesGet</a></div><div class="ttdeci">void FilesGet(const std::string &amp;path, std::iostream *response)</div><div class="ttdoc">Get a file from IPFS.</div><div class="ttdef"><b>Definition:</b> client.cc:209</div></div>
 <div class="ttc" id="aclassipfs_1_1Client_html_aaa862322e6ec703b91ed356d968fbc49"><div class="ttname"><a href="classipfs_1_1Client.html#aaa862322e6ec703b91ed356d968fbc49">ipfs::Client::Abort</a></div><div class="ttdeci">void Abort()</div><div class="ttdoc">Abort any current running IPFS API request.</div><div class="ttdef"><b>Definition:</b> client.cc:479</div></div>
 </div><!-- fragment --> </div><!-- contents -->

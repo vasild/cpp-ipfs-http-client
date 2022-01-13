@@ -39,7 +39,7 @@ int main(int, char**) {
         client.FilesGet("QmZp1rrtGTictR2rpNcx4673R7qU9Jdr9DQ6Z7F6Wgo2bQ",
                         &contents);
       } catch (const std::runtime_error& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << "Expected error: " << e.what() << std::endl;
       }
     });
 

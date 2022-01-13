@@ -46,7 +46,11 @@ void startThread() {
         // File should not exists, takes forever (until time-out)
         client.FilesGet("QmZp1rrtGTictR2rpNcx4673R7qU9Jdr9DQ6Z7F6Wgo2bQ",
                         &contents);
+
+        // Code below will never be reached, since we abort the request
+        std::cout << "Output: " << contents.str() << std::endl;
       } catch (const std::runtime_error& e) {
+        // Run-time error will be thrown because of the aborting request.
         std::cerr << "Error: " << e.what() << std::endl;
       }
     });

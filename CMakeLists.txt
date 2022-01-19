@@ -57,16 +57,10 @@ target_include_directories(${IPFS_API_LIBNAME}
 
 # Fetch "JSON for Modern C++"
 include(FetchContent)
-
-FetchContent_Declare(json
-  GIT_REPOSITORY https://github.com/ArthurSonzogni/nlohmann_json_cmake_fetchcontent
-  GIT_TAG v3.10.4)
-
-FetchContent_GetProperties(json)
-if(NOT json_POPULATED)
-  FetchContent_Populate(json)
-  add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
+message(STATUS "Fetching nlohmann/JSON")
+# Retrieve Nlohmann JSON
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.10.5/json-3.10.5.tar.xz)
+FetchContent_MakeAvailable(json)
 
 # libcurl requires additional libs only for static Windows builds
 if(WIN32)

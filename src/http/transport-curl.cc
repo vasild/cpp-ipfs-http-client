@@ -57,8 +57,11 @@ static size_t curl_cb_stream(
   std::iostream* response = static_cast<std::iostream*>(response_void);
 
   const size_t n = size * nmemb;
-
-  response->write(ptr, n);
+  if (static_cast<std::streamsize>(n) < 0) {
+    throw std::runtime_error("Buffer Size overflowing");
+  } else {
+    response->write(ptr, static_cast<std::streamsize>(n));
+  }
 
   return n;
 }

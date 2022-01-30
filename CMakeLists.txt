@@ -59,7 +59,7 @@ target_include_directories(${IPFS_API_LIBNAME}
 include(FetchContent)
 message(STATUS "Fetching nlohmann/JSON")
 # Retrieve Nlohmann JSON
-FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.10.5/json-3.10.5.tar.xz)
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.10.5/json.tar.xz)
 FetchContent_MakeAvailable(json)
 
 # libcurl requires additional libs only for static Windows builds

@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2022, The C++ IPFS client library developers
+/* Copyright (c) 2016-2023, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -23,6 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <ipfs/http/transport.h>
 
 #include <iostream>
+#include <memory>
 #include <nlohmann/json.hpp>
 #include <string>
 #include <utility>
@@ -75,7 +76,7 @@ class Client {
   /** Move-constructor. */
   Client(
       /** [in,out] Other client connection to be moved. */
-      Client&&);
+      Client&&) noexcept;
 
   /** Copy assignment operator.
    * @return *this */
@@ -87,7 +88,7 @@ class Client {
    * @return *this */
   Client& operator=(
       /** [in,out] Other client connection to be moved. */
-      Client&&);
+      Client&&) noexcept;
 
   /** Destructor.
    * @since version 0.1.0 */
@@ -918,14 +919,10 @@ class Client {
   std::string url_prefix_;
 
   /** The underlying transport. */
-  http::Transport* http_;
+  std::unique_ptr<http::Transport> http_;
 
   /** Server-side time-out setting */
   std::string timeout_value_;
-
-  /** cURL debug mode, stored so this flag can be used in the copy
-   * constructor/assign operator */
-  bool curl_verbose_;
 };
 } /* namespace ipfs */
 

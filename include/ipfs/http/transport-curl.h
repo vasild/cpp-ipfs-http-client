@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2022, The C++ IPFS client library developers
+/* Copyright (c) 2016-2023, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -39,6 +39,27 @@ class TransportCurl : public Transport {
   TransportCurl(
       /** [in] Enable cURL verbose mode, useful for debugging. */
       bool curlVerbose);
+
+  /** Copy Constructor. */
+  TransportCurl(const TransportCurl& other);
+
+  /** Move-constructor. */
+  TransportCurl(TransportCurl&& other) noexcept;
+
+  /** Copy assignment operator.
+   * @return *this */
+  TransportCurl& operator=(
+      /** [in] Other TransportCurl object to be copied. */
+      const TransportCurl&);
+
+  /** Move assignment operator.
+   * @return *this */
+  TransportCurl& operator=(
+      /** [in,out] Other TransportCurl object to be moved. */
+      TransportCurl&&) noexcept;
+
+  /** Return a deep copy of this object. */
+  std::unique_ptr<Transport> Clone() const override;
 
   /** Destructor. */
   ~TransportCurl();
@@ -103,6 +124,9 @@ class TransportCurl : public Transport {
       /** [in,out] Response from the web server. */
       std::iostream* response);
 
+  /** Initialize cURL. */
+  void InitCurl();
+
   /** Atomic boolean for stopping a running fetch/perform, thread-safe */
   std::atomic<bool> keep_perform_running_;
 
@@ -116,7 +140,7 @@ class TransportCurl : public Transport {
   CURLM* multi_handle_;
 
   /** Flag for enabling CURL verbose mode, useful for debugging */
-  bool curl_verbose;
+  bool curl_verbose_;
 
   /** Flag to cause `UrlEncode()` to fail miserably. */
   bool url_encode_injected_failure = false;

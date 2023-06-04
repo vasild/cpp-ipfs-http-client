@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2022, The C++ IPFS client library developers
+/* Copyright (c) 2016-2023, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -66,8 +66,7 @@ static size_t curl_cb_stream(
   return n;
 }
 
-TransportCurl::TransportCurl(bool curlVerbose)
-    : keep_perform_running_(true), curl_verbose(curlVerbose) {
+void TransportCurl::InitCurl() {
   global_init_result_ = curl_global_init(CURL_GLOBAL_ALL);
   if (global_init_result_ != CURLE_OK || curl_global_injected_failure) {
     throw std::runtime_error("curl_global_init() failed");
@@ -85,7 +84,7 @@ TransportCurl::TransportCurl(bool curlVerbose)
     throw std::runtime_error("curl_easy_init() failed");
   }
 
-  if (curl_verbose) {
+  if (curl_verbose_) {
     /* https://curl.se/libcurl/c/CURLOPT_VERBOSE.html */
     curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1L);
   }
@@ -111,11 +110,61 @@ TransportCurl::TransportCurl(bool curlVerbose)
   curl_easy_setopt(curl_, CURLOPT_NOSIGNAL, 1L);
 }
 
+TransportCurl::TransportCurl(bool curlVerbose)
+    : keep_perform_running_(true), curl_verbose_(curlVerbose) {
+  InitCurl();
+}
+
+TransportCurl::TransportCurl(const TransportCurl& other)
+    : keep_perform_running_(true), curl_verbose_(other.curl_verbose_) {
+  InitCurl();
+}
+
+TransportCurl::TransportCurl(TransportCurl&& other) noexcept
+    : keep_perform_running_(true),
+      global_init_result_(other.global_init_result_),
+      curl_verbose_(other.curl_verbose_) {
+  multi_handle_ = other.multi_handle_;
+  curl_ = other.curl_;
+  other.multi_handle_ = nullptr;
+  other.curl_ = nullptr;
+}
+
+TransportCurl& TransportCurl::operator=(const TransportCurl& other) {
+  if (this == &other) {
+    return *this;
+  }
+  keep_perform_running_ = true;
+  curl_verbose_ = other.curl_verbose_;
+  InitCurl();
+  return *this;
+}
+
+TransportCurl& TransportCurl::operator=(TransportCurl&& other) noexcept {
+  if (this == &other) {
+    return *this;
+  }
+  keep_perform_running_ = true;
+  global_init_result_ = other.global_init_result_;
+  curl_verbose_ = other.curl_verbose_;
+  multi_handle_ = other.multi_handle_;
+  curl_ = other.curl_;
+  other.multi_handle_ = nullptr;
+  other.curl_ = nullptr;
+  return *this;
+}
+
+std::unique_ptr<Transport> TransportCurl::Clone() const {
+  return std::unique_ptr<Transport>(new TransportCurl(*this));
+}
+
 TransportCurl::~TransportCurl() {
-  curl_multi_remove_handle(multi_handle_, curl_);
-  curl_multi_cleanup(multi_handle_);
-  curl_easy_cleanup(curl_);
-  curl_global_cleanup();
+  if (multi_handle_ && curl_) {
+    curl_multi_remove_handle(multi_handle_, curl_);
+    curl_multi_cleanup(multi_handle_);
+    curl_easy_cleanup(curl_);
+    curl_global_cleanup();
+  }
 }
 
 void TransportCurl::Fetch(const std::string& url,

@@ -16,6 +16,7 @@ set(TESTS
   test_stats
   test_swarm
   test_threading
+  test_transport_curl
 )
 
 string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)

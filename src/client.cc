@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2022, The C++ IPFS client library developers
+/* Copyright (c) 2016-2023, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -35,22 +35,22 @@ Client::Client(const std::string& host, long port, const std::string& timeout,
                const std::string& protocol, const std::string& apiPath,
                bool verbose)
     : url_prefix_(protocol + host + ":" + std::to_string(port) + apiPath),
-      timeout_value_(timeout),
-      curl_verbose_(verbose) {
-  http_ = new http::TransportCurl(verbose);
+      timeout_value_(timeout) {
+  http_ =
+      std::unique_ptr<http::TransportCurl>(new http::TransportCurl(verbose));
 }
 
 Client::Client(const Client& other)
-    : url_prefix_(other.url_prefix_),
-      timeout_value_(other.timeout_value_),
-      curl_verbose_(other.curl_verbose_) {
-  http_ = new http::TransportCurl(other.curl_verbose_);
+    : url_prefix_(other.url_prefix_), timeout_value_(other.timeout_value_) {
+  http_ = nullptr;
+  if (other.http_) {
+    http_ = other.http_->Clone();
+  }
 }
 
-Client::Client(Client&& other)
-    : url_prefix_(std::move(other.url_prefix_)), http_(other.http_) {
-  other.http_ = nullptr;
-}
+Client::Client(Client&& other) noexcept
+    : url_prefix_(std::move(other.url_prefix_)),
+      http_(std::move(other.http_)) {}
 
 Client& Client::operator=(const Client& other) {
   if (this == &other) {
@@ -59,32 +59,29 @@ Client& Client::operator=(const Client& other) {
 
   url_prefix_ = other.url_prefix_;
   timeout_value_ = other.timeout_value_;
-  curl_verbose_ = other.curl_verbose_;
 
-  http::Transport* old_http_ = http_;
-  http_ = new http::TransportCurl(other.curl_verbose_);
-  delete old_http_;
+  http_ = nullptr;
+  if (other.http_) {
+    http_ = other.http_->Clone();
+  }
 
   return *this;
 }
 
-Client& Client::operator=(Client&& other) {
+Client& Client::operator=(Client&& other) noexcept {
   if (this == &other) {
     return *this;
   }
 
-  std::move(other.url_prefix_);
-  std::move(other.timeout_value_);
-  std::move(other.curl_verbose_);
+  url_prefix_ = std::move(other.url_prefix_);
+  timeout_value_ = std::move(other.timeout_value_);
 
-  delete http_;
-  http_ = other.http_;
-  other.http_ = nullptr;
+  http_ = std::move(other.http_);
 
   return *this;
 }
 
-Client::~Client() { delete http_; }
+Client::~Client() = default;
 
 void Client::Id(Json* id) { FetchAndParseJson(MakeUrl("id"), id); }
 

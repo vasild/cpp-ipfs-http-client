@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2022, The C++ IPFS client library developers
+/* Copyright (c) 2016-2023, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -21,6 +21,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #define IPFS_HTTP_TRANSPORT_H
 
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -52,6 +53,9 @@ struct FileUpload {
 /** Convenience interface for talking basic HTTP. */
 class Transport {
  public:
+  /** Return a deep copy of this object. */
+  virtual std::unique_ptr<Transport> Clone() const = 0;
+
   /** Destructor. */
   virtual inline ~Transport();
 

@@ -14,23 +14,23 @@ jobs:
     strategy:
       matrix:
         include:
-            - name: "Ubuntu Focal clang-10 build"
-              os: ubuntu-20.04
+            - name: "Ubuntu Jammy clang-10 build"
+              os: ubuntu-22.04
               cpp_compiler: clang++
 
-            - name: "Ubuntu Focal gcc-10 build"
-              os: ubuntu-20.04
+            - name: "Ubuntu Jammy gcc-10 build"
+              os: ubuntu-22.04
               cpp_compiler: g++-10
 
-            - name: "Ubuntu Focal gcc-9 build"
-              os: ubuntu-20.04
+            - name: "Ubuntu Jammy gcc-9 build"
+              os: ubuntu-22.04
               cpp_compiler: g++-9
 
             - name: "Mac OS clang-12 build"
               os: macos-11
               cpp_compiler: clang++
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install (Ubuntu)
         if: runner.os == 'Linux'
         run: |
@@ -58,9 +58,9 @@ jobs:
 
   code_coverage:
     name: "Run testcases with Code Coverage"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install packages
         run: |
           sudo apt update
@@ -99,18 +99,18 @@ jobs:
 
   doxygen:
     name: "Generate Doxygen"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install
         run: |
           sudo apt update
           sudo apt install -y --no-install-recommends libcurl4-openssl-dev
-      - name: Install latest Doxygen (v1.9.3)
+      - name: Install latest Doxygen (v1.9.7)
         run: |
-          wget https://www.doxygen.nl/files/doxygen-1.9.3.linux.bin.tar.gz
-          tar -xf doxygen-1.9.3.linux.bin.tar.gz
-          cd doxygen-1.9.3
+          wget https://www.doxygen.nl/files/doxygen-1.9.7.linux.bin.tar.gz
+          tar -xf doxygen-1.9.7.linux.bin.tar.gz
+          cd doxygen-1.9.7
           sudo make install
       - name: Configure
         run: >
@@ -123,9 +123,9 @@ jobs:
 
   static_analytics:
     name: "Static code analysis"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install
         run: |
           sudo apt update
@@ -138,8 +138,8 @@ jobs:
 
   code_style_guidelines:
     name: "Coding style guidelines"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Check style format
         run: ./scripts/check_format.sh

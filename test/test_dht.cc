@@ -110,7 +110,7 @@ int main(int, char**) {
 
     ipfs::test::must_fail("client.DhtFindPeer()", [&client, &peer_addresses]() {
       const std::string nonexistent =
-          "QmWo9xNSxHAyYV9A2c5kgjyCWTUD17Wk8f7uTFdvJWB6Zb";
+          "QmVMhcCGp3Ckmu41pDkmjDbGoqLT48e3uPXTgXBzuVTQmf";
       client.DhtFindPeer(nonexistent, &peer_addresses);
     });
   } catch (const std::exception& e) {

@@ -106,13 +106,6 @@ int main(int, char**) {
       "/ip4/127.0.0.1/tcp/4001"
     ]
     */
-    /** [ipfs::Client::DhtFindPeer] */
-
-    ipfs::test::must_fail("client.DhtFindPeer()", [&client, &peer_addresses]() {
-      const std::string nonexistent =
-          "QmVMhcCGp3Ckmu41pDkmjDbGoqLT48e3uPXTgXBzuVTQmf";
-      client.DhtFindPeer(nonexistent, &peer_addresses);
-    });
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

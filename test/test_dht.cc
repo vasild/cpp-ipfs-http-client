@@ -106,6 +106,7 @@ int main(int, char**) {
       "/ip4/127.0.0.1/tcp/4001"
     ]
     */
+    /** [ipfs::Client::DhtFindPeer] */
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

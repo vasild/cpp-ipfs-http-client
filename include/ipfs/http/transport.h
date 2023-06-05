@@ -53,7 +53,10 @@ struct FileUpload {
 /** Convenience interface for talking basic HTTP. */
 class Transport {
  public:
-  /** Return a deep copy of this object. */
+  /**
+   * Return a deep copy of this object.
+   * @return unique pointer of Transport object
+   */
   virtual std::unique_ptr<Transport> Clone() const = 0;
 
   /** Destructor. */

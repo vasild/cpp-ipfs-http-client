@@ -41,10 +41,14 @@ class TransportCurl : public Transport {
       bool curlVerbose);
 
   /** Copy Constructor. */
-  TransportCurl(const TransportCurl& other);
+  TransportCurl(
+      /** [in] Other TransportCurl object to be copied. */
+      const TransportCurl& other);
 
   /** Move-constructor. */
-  TransportCurl(TransportCurl&& other) noexcept;
+  TransportCurl(
+      /** [in] TransportCurl object to be moved. */
+      TransportCurl&& other) noexcept;
 
   /** Copy assignment operator.
    * @return *this */
@@ -58,7 +62,10 @@ class TransportCurl : public Transport {
       /** [in,out] Other TransportCurl object to be moved. */
       TransportCurl&&) noexcept;
 
-  /** Return a deep copy of this object. */
+  /**
+   *Return a deep copy of this object.
+   * @return Unique pointer of the Transport object.
+   */
   std::unique_ptr<Transport> Clone() const override;
 
   /** Destructor. */

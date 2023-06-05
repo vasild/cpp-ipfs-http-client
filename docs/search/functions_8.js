@@ -10,5 +10,5 @@ var searchData=
   ['objectpatchsetdata_7',['ObjectPatchSetData',['../classipfs_1_1Client.html#a949a35293f16868980ab013606264b24',1,'ipfs::Client']]],
   ['objectput_8',['ObjectPut',['../classipfs_1_1Client.html#a783ddccb9559315599b07343b153ffc2',1,'ipfs::Client']]],
   ['objectstat_9',['ObjectStat',['../classipfs_1_1Client.html#a2fcb017f9de04c221b78e47cf062039d',1,'ipfs::Client']]],
-  ['operator_3d_10',['operator=',['../classipfs_1_1Client.html#ab3ff2cc70ec6a65761d2d088a9ba9323',1,'ipfs::Client::operator=(const Client &amp;)'],['../classipfs_1_1Client.html#a4e1c788e681b778a6b6eb7bd94160d74',1,'ipfs::Client::operator=(Client &amp;&amp;)']]]
+  ['operator_3d_10',['operator=',['../classipfs_1_1Client.html#ab3ff2cc70ec6a65761d2d088a9ba9323',1,'ipfs::Client::operator=(const Client &amp;)'],['../classipfs_1_1Client.html#a0fdc4ced9fc352a468dac2ec2ae70dcd',1,'ipfs::Client::operator=(Client &amp;&amp;) noexcept'],['../classipfs_1_1http_1_1TransportCurl.html#aae4f2177edac94e2eee400a3e21bdb20',1,'ipfs::http::TransportCurl::operator=(const TransportCurl &amp;)'],['../classipfs_1_1http_1_1TransportCurl.html#a687fd5a5416f6a2d015d1824efa77dc7',1,'ipfs::http::TransportCurl::operator=(TransportCurl &amp;&amp;) noexcept']]]
 ];

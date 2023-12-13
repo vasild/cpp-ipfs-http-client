@@ -3,7 +3,9 @@ cmake_minimum_required(VERSION 3.12.0)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # Adhere the version number to http://semver.org/
-project(cpp-ipfs-http-client VERSION 0.6.0 LANGUAGES CXX)
+project(cpp-ipfs-http-client
+  VERSION 0.7.0
+  LANGUAGES CXX)
 
 # Avoid warning about DOWNLOAD_EXTRACT_TIMESTAMP in CMake 3.24:
 if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")

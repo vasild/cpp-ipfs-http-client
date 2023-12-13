@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11.0)
+cmake_minimum_required(VERSION 3.12.0)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
@@ -10,8 +10,8 @@ if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
   cmake_policy(SET CMP0135 NEW)
 endif()
 
-# Compile in C++11 mode
-set(CMAKE_CXX_STANDARD 11)
+# Compile in C++20 mode
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add compiler warnings
@@ -62,9 +62,8 @@ target_include_directories(${IPFS_API_LIBNAME}
 
 # Fetch "JSON for Modern C++"
 include(FetchContent)
-message(STATUS "Fetching nlohmann/JSON")
 # Retrieve Nlohmann JSON
-FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.10.5/json.tar.xz)
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
 FetchContent_MakeAvailable(json)
 
 # libcurl requires additional libs only for static Windows builds

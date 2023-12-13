@@ -52,19 +52,22 @@ When building documention, you also need:
 
 - [Doxygen](https://www.doxygen.nl/download.html) (>= v1.9.0)
 
-## Install
+## Build & Install
 
 ```sh
 git clone https://github.com/vasild/cpp-ipfs-http-client.git
 cd cpp-ipfs-http-client
-mkdir build
-cd build
-cmake ..
-make -j 8
-sudo make install
+# Configure build
+cmake -B build
+# Build
+cmake --build build -j 8
+# Install
+sudo cmake --install build
 ```
 
-*Hint:* Only build the library without tests, use: `cmake -DBUILD_TESTING=OFF ..`
+*Hint #1:* You can also build using **Ninja** (iso Make), use the following as configure: `cmake -GNinja -B build`, then use: `cmake --build build` which will use Ninja, _no need for `-j` anymore_.  
+*Hint #2:* Build a specific target (eg. ipfs-http-client), use: `cmake --build build --target ipfs-http-client -j 8`  
+*Hint #3:* You could also build the library without tests, use the option: `cmake -DBUILD_TESTING=OFF -B build`
 
 See the [documentation for details](https://vasild.github.io/cpp-ipfs-http-client).
 
@@ -73,11 +76,10 @@ See the [documentation for details](https://vasild.github.io/cpp-ipfs-http-clien
 Only build & run the test cases, *without* code coverage:
 
 ```sh
-mkdir build && cd build
-cmake ..
-make -j 8
-# Run our test-cases
-make our_tests
+# Prepare
+cmake -B build
+# Build & run our tests
+cmake --build build --target our_tests -j 8
 ```
 
 ## Build & run Test cases + Code Coverage
@@ -85,14 +87,12 @@ make our_tests
 Test cases are build by default, but if you want to build with coverage:
 
 ```sh
-mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Debug -DCOVERAGE:BOOL=ON -DBUILD_SHARED_LIBS:BOOL=ON -B build
+# Build & run tests + HTML report
+cmake --build build --target ctest_coverage_html -j 8
 
-cmake -DCMAKE_BUILD_TYPE=Debug -DCOVERAGE:BOOL=ON -DBUILD_SHARED_LIBS:BOOL=ON..
-# Run tests & Build the HTML report
-make ctest_coverage_html -j 8
-
-# Or run tests & create a Cobertura XML file
-make ctest_coverage_xml -j 8
+# Or build & run tests + Cobertura XML file
+cmake --build build --target ctest_coverage_xml -j 8
 ```
 
 ## Build Doxygen
@@ -100,9 +100,8 @@ make ctest_coverage_xml -j 8
 Build Doxygen files locally. From the root directory of this project:
 
 ```sh
-mkdir build && cd build
-cmake -DDOC=ON ..
-make doc
+cmake -DDOC=ON  -B build
+cmake --build build --target doc
 ```
 
 ## Usage

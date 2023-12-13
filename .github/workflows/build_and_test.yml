@@ -18,6 +18,10 @@ jobs:
             os: ubuntu-22.04
             cpp_compiler: clang++
 
+          - name: "Ubuntu Jammy gcc-12 build"
+            os: ubuntu-22.04
+            cpp_compiler: g++-12
+
           - name: "Ubuntu Jammy gcc-11 build"
             os: ubuntu-22.04
             cpp_compiler: g++-11

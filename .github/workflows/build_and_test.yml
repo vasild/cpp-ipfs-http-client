@@ -26,10 +26,6 @@ jobs:
             os: ubuntu-22.04
             cpp_compiler: g++-11
 
-          - name: "Ubuntu Jammy gcc-10 build"
-            os: ubuntu-22.04
-            cpp_compiler: g++-10
-
           - name: "Mac OS clang-14 build"
             os: macos-12
             cpp_compiler: clang++

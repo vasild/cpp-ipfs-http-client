@@ -202,7 +202,7 @@ void TransportCurl::Fetch(const std::string& url,
           curl_mime_data(part, file.data.c_str(), file.data.length());
           curl_mime_filename(part, file.path.c_str());
           curl_mime_type(part,
-                         content_type);  // content type really needed here?
+                         content_type);
           break;
         case FileUpload::Type::kFileName:
           /* https://curl.se/libcurl/c/curl_formadd.html

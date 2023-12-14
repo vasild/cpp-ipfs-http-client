@@ -146,6 +146,9 @@ class TransportCurl : public Transport {
   /** cURL multi handle. */
   CURLM* multi_handle_;
 
+  /** cURL mime structure for post requests */
+  curl_mime* multipart_;
+
   /** Flag for enabling CURL verbose mode, useful for debugging */
   bool curl_verbose_;
 

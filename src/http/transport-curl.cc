@@ -173,9 +173,6 @@ void TransportCurl::Fetch(const std::string& url,
   /* https://curl.se/libcurl/c/CURLOPT_POST.html */
   curl_easy_setopt(curl_, CURLOPT_POST, 1L);
 
-  // curl_httppost* form_parts = NULL;
-  // curl_httppost* form_parts_end = NULL;
-
   multipart_ = curl_mime_init(curl_);
 
   if (multipart_) {
@@ -187,15 +184,8 @@ void TransportCurl::Fetch(const std::string& url,
 
       switch (file.type) {
         case FileUpload::Type::kFileContents:
-          /* https://curl.se/libcurl/c/curl_formadd.html
-          * Deprecated:
-            curl_formadd(&form_parts, &form_parts_end,
-                      CURLFORM_COPYNAME, name.c_str(),
-                      CURLFORM_BUFFER, file.path.c_str(),
-                      CURLFORM_BUFFERPTR, file.data.c_str(),
-                      CURLFORM_BUFFERLENGTH, file.data.length(),
-                      CURLFORM_CONTENTTYPE, content_type, CURLFORM_END);*/
-          /* Add a part */
+          /* Add a part.
+           * https://curl.se/libcurl/c/curl_mime_addpart.html */
           part = curl_mime_addpart(multipart_);
           curl_mime_name(part, name.c_str());
           /* Memory source: */
@@ -204,14 +194,8 @@ void TransportCurl::Fetch(const std::string& url,
           curl_mime_type(part, content_type);
           break;
         case FileUpload::Type::kFileName:
-          /* https://curl.se/libcurl/c/curl_formadd.html
-          * Deprecated:
-            curl_formadd(&form_parts, &form_parts_end,
-                      CURLFORM_COPYNAME, name.c_str(),
-                      CURLFORM_FILENAME, file.path.c_str(),
-                      CURLFORM_FILE, file.data.c_str(),
-                      CURLFORM_CONTENTTYPE, content_type, CURLFORM_END);*/
-          /* Add a part */
+          /* Add a part.
+           * https://curl.se/libcurl/c/curl_mime_addpart.html */
           part = curl_mime_addpart(multipart_);
           curl_mime_name(part, name.c_str());
           /* File source: */
@@ -222,16 +206,6 @@ void TransportCurl::Fetch(const std::string& url,
           break;
       }
     }
-
-    /* Auto free the resources occupied by `form_parts`. */
-    /*std::unique_ptr<curl_httppost, void (*)(curl_httppost*)>
-       form_parts_deleter( form_parts, [](curl_httppost* d) {
-          curl_formfree(d);
-        });*/
-
-    /* https://curl.se/libcurl/c/CURLOPT_HTTPPOST.html
-    * Deprecated:
-    curl_easy_setopt(curl_, CURLOPT_HTTPPOST, form_parts);*/
 
     /* Set the form info
      * https://curl.se/libcurl/c/CURLOPT_MIMEPOST.html */

@@ -160,9 +160,9 @@ std::unique_ptr<Transport> TransportCurl::Clone() const {
 
 TransportCurl::~TransportCurl() {
   if (multi_handle_ && curl_) {
-    curl_multi_remove_handle(multi_handle_, curl_);
-    curl_multi_cleanup(multi_handle_);
-    curl_easy_cleanup(curl_);
+    curl_multi_remove_handle(multi_handle_, curl_);  // Remove easy handle
+    curl_easy_cleanup(curl_);           // Clean up all easy handles
+    curl_multi_cleanup(multi_handle_);  // Finally remove the multi handle
     curl_global_cleanup();
   }
 }
@@ -171,55 +171,73 @@ void TransportCurl::Fetch(const std::string& url,
                           const std::vector<FileUpload>& files,
                           std::iostream* response) {
   /* https://curl.se/libcurl/c/CURLOPT_POST.html */
-  curl_easy_setopt(curl_, CURLOPT_POST, 1);
+  curl_easy_setopt(curl_, CURLOPT_POST, 1L);
 
-  curl_httppost* form_parts = NULL;
-  curl_httppost* form_parts_end = NULL;
+  // curl_httppost* form_parts = NULL;
+  // curl_httppost* form_parts_end = NULL;
 
-  for (size_t i = 0; i < files.size(); ++i) {
-    const FileUpload& file = files[i];
-    const std::string name("file" + std::to_string(i));
-    static const char* content_type = "application/octet-stream";
+  multipart_ = curl_mime_init(curl_);
 
-    switch (file.type) {
-      case FileUpload::Type::kFileContents:
-        /* https://curl.se/libcurl/c/curl_formadd.html */
-        curl_formadd(&form_parts, &form_parts_end,
-                     /* name="..."; */
-                     CURLFORM_COPYNAME, name.c_str(),
-                     /* filename="..."; */
-                     CURLFORM_BUFFER, file.path.c_str(),
-                     /* File contents. */
-                     CURLFORM_BUFFERPTR, file.data.c_str(),
-                     /* File contents length. */
-                     CURLFORM_BUFFERLENGTH, file.data.length(),
-                     /* Content-Type: */
-                     CURLFORM_CONTENTTYPE, content_type, CURLFORM_END);
-        break;
-      case FileUpload::Type::kFileName:
-        /* https://curl.se/libcurl/c/curl_formadd.html */
-        curl_formadd(&form_parts, &form_parts_end,
-                     /* name="..."; */
-                     CURLFORM_COPYNAME, name.c_str(),
-                     /* filename="..."; */
-                     CURLFORM_FILENAME, file.path.c_str(),
-                     /* Read the data from this file. */
-                     CURLFORM_FILE, file.data.c_str(),
-                     /* Content-Type: */
-                     CURLFORM_CONTENTTYPE, content_type, CURLFORM_END);
-        break;
+  if (multipart) {
+    for (size_t i = 0; i < files.size(); ++i) {
+      const FileUpload& file = files[i];
+      const std::string name("file" + std::to_string(i));
+      static const char* content_type = "application/octet-stream";
+
+      switch (file.type) {
+        case FileUpload::Type::kFileContents:
+          /* https://curl.se/libcurl/c/curl_formadd.html
+          * Deprecated:
+            curl_formadd(&form_parts, &form_parts_end,
+                      CURLFORM_COPYNAME, name.c_str(),
+                      CURLFORM_BUFFER, file.path.c_str(),
+                      CURLFORM_BUFFERPTR, file.data.c_str(),
+                      CURLFORM_BUFFERLENGTH, file.data.length(),
+                      CURLFORM_CONTENTTYPE, content_type, CURLFORM_END);*/
+          /* Add a part */
+          curl_mimepart* part = curl_mime_addpart(multipart_);
+          curl_mime_name(part, name.c_str());
+          /* Memory source: */
+          curl_mime_data(part, file.data.c_str(), file.data.length());
+          curl_mime_filename(part, file.path.c_str());
+          curl_mime_type(part,
+                         content_type);  // content type really needed here?
+          break;
+        case FileUpload::Type::kFileName:
+          /* https://curl.se/libcurl/c/curl_formadd.html
+          * Deprecated:
+            curl_formadd(&form_parts, &form_parts_end,
+                      CURLFORM_COPYNAME, name.c_str(),
+                      CURLFORM_FILENAME, file.path.c_str(),
+                      CURLFORM_FILE, file.data.c_str(),
+                      CURLFORM_CONTENTTYPE, content_type, CURLFORM_END);*/
+          /* Add a part */
+          curl_mimepart* part = curl_mime_addpart(multipart_);
+          curl_mime_name(part, name.c_str());
+          /* File source: */
+          curl_mime_filedata(part, file.data.c_str());
+          // Override filename (instead of using the remote file name)
+          curl_mime_filename(part, file.path.c_str());
+          curl_mime_type(part, content_type);
+          break;
+      }
     }
+
+    /* Auto free the resources occupied by `form_parts`. */
+    /*std::unique_ptr<curl_httppost, void (*)(curl_httppost*)>
+       form_parts_deleter( form_parts, [](curl_httppost* d) {
+          /* https://curl.se/libcurl/c/curl_formfree.html *
+          curl_formfree(d);
+        });*/
+
+    /* https://curl.se/libcurl/c/CURLOPT_HTTPPOST.html
+    * Deprecated:
+    curl_easy_setopt(curl_, CURLOPT_HTTPPOST, form_parts);*/
+
+    /* Set the form info
+     * https://curl.se/libcurl/c/CURLOPT_MIMEPOST.html */
+    curl_easy_setopt(curl_, CURLOPT_MIMEPOST, multipart_);
   }
-
-  /* Auto free the resources occupied by `form_parts`. */
-  std::unique_ptr<curl_httppost, void (*)(curl_httppost*)> form_parts_deleter(
-      form_parts, [](curl_httppost* d) {
-        /* https://curl.se/libcurl/c/curl_formfree.html */
-        curl_formfree(d);
-      });
-
-  /* https://curl.se/libcurl/c/CURLOPT_HTTPPOST.html */
-  curl_easy_setopt(curl_, CURLOPT_HTTPPOST, form_parts);
 
   curl_slist* headers = NULL;
   /* https://curl.se/libcurl/c/curl_slist_append.html */
@@ -345,6 +363,20 @@ void TransportCurl::Perform(const std::string& url, std::iostream* response) {
   /* Always execute the curl_multi_remove_handle()!
    * https://curl.se/libcurl/c/curl_multi_remove_handle.html */
   curl_multi_remove_handle(multi_handle_, curl_);
+
+  /*
+   * Note: We re-use easy curl handle and multiple handle, so we don't clean it
+   * up here.
+   */
+
+  /* Reset the easy to default settings, so we can safely reuse the handle */
+  curl_easy_reset(curl_);
+
+  /* If post multi part mime structure was used, free it.
+    https://curl.se/libcurl/c/curl_mime_free.html */
+  if (multipart_) {
+    curl_mime_free(multipart_);
+  }
 
   /* If there were errors, throw them now (if atomic bool is still true) */
   if (keep_perform_running_) {

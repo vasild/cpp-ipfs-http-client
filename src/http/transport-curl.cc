@@ -178,11 +178,12 @@ void TransportCurl::Fetch(const std::string& url,
 
   multipart_ = curl_mime_init(curl_);
 
-  if (multipart) {
+  if (multipart_) {
     for (size_t i = 0; i < files.size(); ++i) {
       const FileUpload& file = files[i];
       const std::string name("file" + std::to_string(i));
       static const char* content_type = "application/octet-stream";
+      curl_mimepart* part;
 
       switch (file.type) {
         case FileUpload::Type::kFileContents:
@@ -195,7 +196,7 @@ void TransportCurl::Fetch(const std::string& url,
                       CURLFORM_BUFFERLENGTH, file.data.length(),
                       CURLFORM_CONTENTTYPE, content_type, CURLFORM_END);*/
           /* Add a part */
-          curl_mimepart* part = curl_mime_addpart(multipart_);
+          part = curl_mime_addpart(multipart_);
           curl_mime_name(part, name.c_str());
           /* Memory source: */
           curl_mime_data(part, file.data.c_str(), file.data.length());
@@ -212,7 +213,7 @@ void TransportCurl::Fetch(const std::string& url,
                       CURLFORM_FILE, file.data.c_str(),
                       CURLFORM_CONTENTTYPE, content_type, CURLFORM_END);*/
           /* Add a part */
-          curl_mimepart* part = curl_mime_addpart(multipart_);
+          part = curl_mime_addpart(multipart_);
           curl_mime_name(part, name.c_str());
           /* File source: */
           curl_mime_filedata(part, file.data.c_str());
@@ -226,7 +227,6 @@ void TransportCurl::Fetch(const std::string& url,
     /* Auto free the resources occupied by `form_parts`. */
     /*std::unique_ptr<curl_httppost, void (*)(curl_httppost*)>
        form_parts_deleter( form_parts, [](curl_httppost* d) {
-          /* https://curl.se/libcurl/c/curl_formfree.html *
           curl_formfree(d);
         });*/
 

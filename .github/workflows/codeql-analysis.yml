@@ -13,51 +13,49 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ master ]
   schedule:
-    - cron: '24 18 * * 2'
+    - cron: "24 18 * * 2"
 
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'cpp' ]
+        language: ["cpp"]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    # Initializes the CodeQL tools for scanning.
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      with:
-        languages: ${{ matrix.language }}
-        # If you wish to specify custom queries, you can do so here or in a config file.
-        # By default, queries listed here will override any specified in a config file.
-        # Prefix the list here with "+" to use these queries and those in the config file.
-        # queries: ./path/to/local/query, your-org/your-repo/queries@main
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+          # If you wish to specify custom queries, you can do so here or in a config file.
+          # By default, queries listed here will override any specified in a config file.
+          # Prefix the list here with "+" to use these queries and those in the config file.
+          # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-    - name: Install packages
-      run: |
-        sudo apt update
-        sudo apt install -y --no-install-recommends ninja-build libcurl4-openssl-dev
+      - name: Install packages
+        run: |
+          sudo apt update
+          sudo apt install -y --no-install-recommends ninja-build libcurl4-openssl-dev
 
-    - name: Configure
-      run: >
-        cmake
-        -B build
-        -G Ninja
-        -DCMAKE_BUILD_TYPE=Release
-        -DBUILD_SHARED_LIBS=ON
-    - name: Build
-      run: cmake --build build
+      - name: Configure
+        run: >
+          cmake
+          -B build
+          -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
+          -DBUILD_SHARED_LIBS=ON
+      - name: Build
+        run: cmake --build build
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2

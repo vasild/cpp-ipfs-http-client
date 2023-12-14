@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2021, The C++ IPFS client library developers
+/* Copyright (c) 2016-2023, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -23,6 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <ipfs/http/transport.h>
 
 #include <iostream>
+#include <memory>
 #include <nlohmann/json.hpp>
 #include <string>
 #include <utility>
@@ -39,7 +40,7 @@ using Json = nlohmann::json;
  *
  * It implements the interface described in
  * https://github.com/ipfs/js-ipfs/tree/master/docs/core-api.
- * 
+ *
  * The methods of this class may throw some variant of `std::exception` if a
  * connectivity error occurs or if the response cannot be parsed. Be prepared!
  *
@@ -57,12 +58,15 @@ class Client {
       const std::string& host,
       /** [in] Port to connect to. */
       long port,
-      /** [in] [Optional] set server-side time-out, which should be string (eg. "6s") */
+      /** [in] [Optional] set server-side time-out, which should be string (eg.
+         "6s") */
       const std::string& timeout = "",
       /** [in] [Optional] protocol (default: http://) */
       const std::string& protocol = "http://",
       /** [in] [Optional] API Path (default: /api/v0) */
-      const std::string& apiPath = "/api/v0");
+      const std::string& apiPath = "/api/v0",
+      /** [in] [Optional] Enable cURL Verbose Mode (default: false) */
+      bool verbose = false);
 
   /** Copy-constructor. */
   Client(
@@ -72,7 +76,7 @@ class Client {
   /** Move-constructor. */
   Client(
       /** [in,out] Other client connection to be moved. */
-      Client&&);
+      Client&&) noexcept;
 
   /** Copy assignment operator.
    * @return *this */
@@ -84,7 +88,7 @@ class Client {
    * @return *this */
   Client& operator=(
       /** [in,out] Other client connection to be moved. */
-      Client&&);
+      Client&&) noexcept;
 
   /** Destructor.
    * @since version 0.1.0 */
@@ -389,6 +393,23 @@ class Client {
   void KeyRm(
       /** [in] Key name (local, user-friendly name for the key). */
       const std::string& key_name);
+
+  /** Rename an existing key.
+   *
+   * Implements
+   * https://github.com/ipfs/interface-js-ipfs-core/blob/master/SPEC/KEY.md#keyrename.
+   *
+   * An example usage:
+   * @snippet test_key.cc ipfs::Client::KeyRename
+   *
+   * @throw std::exception if any error
+   *
+   * @since version 0.4.0 */
+  void KeyRename(
+      /** [in] The current key name. */
+      const std::string& old_key,
+      /** [in] The desired key name. */
+      const std::string& new_key);
 
   /** Publish an IPNS name attached to a given value.
    *
@@ -731,7 +752,7 @@ class Client {
    * @throw std::exception if any error occurs
    *
    * @since version 0.5.0 */
-   void StatsRepo(
+  void StatsRepo(
       /** [out] Structure that contains IPFS repo stats. For example:
        * {
        *  "RepoSize":256893470,
@@ -807,6 +828,36 @@ class Client {
       /** [out] The retrieved list. */
       Json* peers);
 
+  /** Abort any current running IPFS API request.
+   *
+   * Very useful if you were using the IPFS client API calls inside seperate
+   * thread, but which to abort the request and stop the running thread
+   * (without using pthread_cancel).
+   *
+   * Call this method out-side of the running thread, eg. the main thread.
+   *
+   * See example: https://vasild.github.io/cpp-ipfs-http-client/examples.html
+   *
+   * @snippet test_threading.cc ipfs::Client::Abort
+   *
+   * @since version 0.6.0 */
+  void Abort();
+
+  /** Resets the abort call, allowing to execute new API requests again.
+   * Used in combintation with the Abort() method.
+   *
+   * Once you executed the Abort() method and thread.join() call. Which wait
+   * until the thread is completly finished. You need to call the Reset() method
+   * in order to reset the internal state. Allow you to execute new API requests
+   * again.
+   *
+   * Call this method out-side of the running thread, eg. the main thread.
+   *
+   * See example: https://vasild.github.io/cpp-ipfs-http-client/examples.html
+   *
+   * @since version 0.6.0 */
+  void Reset();
+
  private:
   /** Fetch any URL that returns JSON and parse it into `response`. */
   void FetchAndParseJson(
@@ -853,10 +904,9 @@ class Client {
 
   /** Construct a full URL. The URL is constructed from url_prefix_, path and
    * the provided parameters (if any). For example:
-   * http://localhost:5001/api/v0 / block/get ?stream-channels=true& foo = bar &...
-   * ^ `url_prefix_`                ^ `path`                         ^ [1] ^ [2]
-   * [1] parameters[0].first
-   * [2] parameters[0].second.
+   * http://localhost:5001/api/v0 / block/get ?stream-channels=true& foo = bar
+   * &... ^ `url_prefix_`                ^ `path`                         ^ [1]
+   * ^ [2] [1] parameters[0].first [2] parameters[0].second.
    * @return The full URL. */
   std::string MakeUrl(
       /** Path to use after `url_prefix_`. For example "block/get". */
@@ -869,7 +919,7 @@ class Client {
   std::string url_prefix_;
 
   /** The underlying transport. */
-  http::Transport* http_;
+  std::unique_ptr<http::Transport> http_;
 
   /** Server-side time-out setting */
   std::string timeout_value_;

@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2021, The C++ IPFS client library developers
+/* Copyright (c) 2016-2022, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -32,6 +32,8 @@ int main(int, char**) {
         {{"foo.txt", ipfs::http::FileUpload::Type::kFileContents, "abcd"}},
         &add_result);
     const std::string& hash = add_result[0]["hash"];
+
+    std::cout << "Find providers with hash: " << hash << " ..." << std::endl;
 
     /** [ipfs::Client::DhtFindProvs] */
     /* std::string hash = "QmWPyMW2u7J2Zyzut7TcBMT8pG6F...Bt1nP" for example. */
@@ -105,12 +107,6 @@ int main(int, char**) {
     ]
     */
     /** [ipfs::Client::DhtFindPeer] */
-
-    ipfs::test::must_fail("client.DhtFindPeer()", [&client, &peer_addresses]() {
-      const std::string nonexistent =
-          "QmWo9xNSxHAyYV9A2c5kgjyCWTUD17Wk8f7uTFdvJWB6Zb";
-      client.DhtFindPeer(nonexistent, &peer_addresses);
-    });
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

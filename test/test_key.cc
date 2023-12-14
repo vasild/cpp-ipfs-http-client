@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2021, The C++ IPFS client library developers
+/* Copyright (c) 2016-2022, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -27,6 +27,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 using Json = nlohmann::json;
 
 int main(int, char**) {
+  /* Clean-up keys, just in case */
+  try {
+    ipfs::Client client("localhost", 5001);
+    client.KeyRm("foobar-key");
+    client.KeyRm("foobar-key2");
+    client.KeyRm("foobar-new-key2");
+  } catch (const std::exception& e) {
+    // Ignore errors
+  }
+
   try {
     ipfs::Client client("localhost", 5001);
 
@@ -34,6 +44,8 @@ int main(int, char**) {
     std::string key_id;
     client.KeyGen("foobar-key", "rsa", 2048, &key_id);
     std::cout << "Generated key: " << key_id << std::endl;
+    client.KeyGen("foobar-key2", "rsa", 2048, &key_id);
+    std::cout << "Generated key2: " << key_id << std::endl;
     /* An example output:
     Generated key: "QmQeVW8BKqpHbUV5GcecC3wDLF3iqV6ZJhtFN8q8mUYFUs"
     */
@@ -62,6 +74,17 @@ int main(int, char**) {
     client.KeyRm("foobar-key");
     /** [ipfs::Client::KeyRm] */
 
+    /** [ipfs::Client::KeyRename] */
+    Json key_list_rename;
+    /* Renaming foobar-key2 to foobar-new-key2 */
+    client.KeyRename("foobar-key2", "foobar-new-key2");
+    client.KeyList(&key_list_rename);
+    std::cout << "A list of new local keys: " << key_list_rename.dump(2)
+              << std::endl;
+    /** [ipfs::Client::KeyRename] */
+
+    /* Clean-up key */
+    client.KeyRm("foobar-new-key2");
   } catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;

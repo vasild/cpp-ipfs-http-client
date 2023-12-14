@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2021, The C++ IPFS client library developers
+/* Copyright (c) 2016-2023, The C++ IPFS client library developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -21,6 +21,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #define IPFS_HTTP_TRANSPORT_H
 
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -52,15 +53,22 @@ struct FileUpload {
 /** Convenience interface for talking basic HTTP. */
 class Transport {
  public:
+  /**
+   * Return a deep copy of this object.
+   * @return unique pointer of Transport object
+   */
+  virtual std::unique_ptr<Transport> Clone() const = 0;
+
   /** Destructor. */
   virtual inline ~Transport();
 
   /** Fetch the contents of a given URL. If any files are provided in `files`,
    * they are submitted using "Content-Type: multipart/form-data".
    *
+   * Fetch method is thread-safe. Therefor, can be used within a thread.
+   *
    * @throw std::exception if any error occurs including erroneous HTTP status
-   * code 
-   * @return void */
+   * code */
   virtual void Fetch(
       /** [in] URL to get. */
       const std::string& url,
@@ -69,9 +77,27 @@ class Transport {
       /** [out] Output to save the response body to. */
       std::iostream* response) = 0;
 
+  /**
+   * Stop the Fetch method abruptly.
+   *
+   * When the Fetch method is used within a thead, but you want to stop the
+   * thread (without using pthread_cancel).
+   *
+   * Call this method out-side of the running thread, eg. the main thread. */
+  virtual void StopFetch() = 0;
+
+  /**
+   * Reset the internal state, after StopFetch() is called.
+   *
+   * This method needs to be called once the thread is fully finished. Ideally
+   * after client.abort() and thread.join() methods.
+   *
+   * Call this method out-side of the running thread, eg. the main thread. */
+  virtual void ResetFetch() = 0;
+
   /** URL encode a string.
-   * @return void
-   */
+   *
+   * URLEcode method is thread-safe. */
   virtual void UrlEncode(
       /** [in] Input string to encode. */
       const std::string& raw,

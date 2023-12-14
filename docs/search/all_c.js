@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['test_52',['Test',['../classipfs_1_1http_1_1TransportCurl.html#a7d2cdcea0358186ed520efce18dcf4ef',1,'ipfs::http::TransportCurl']]],
-  ['transport_53',['Transport',['../classipfs_1_1http_1_1Transport.html',1,'ipfs::http']]],
-  ['transportcurl_54',['TransportCurl',['../classipfs_1_1http_1_1TransportCurl.html',1,'ipfs::http::TransportCurl'],['../classipfs_1_1http_1_1TransportCurl.html#a7d67d5f7b58564a15005c4cd774d6fea',1,'ipfs::http::TransportCurl::TransportCurl()']]],
-  ['type_55',['type',['../structipfs_1_1http_1_1FileUpload.html#ab2b53f7ba47384f2b11b59c216449283',1,'ipfs::http::FileUpload::type()'],['../structipfs_1_1http_1_1FileUpload.html#a76d8546add495d01fd1dcd82ea8170ad',1,'ipfs::http::FileUpload::Type()']]]
+  ['statsbw_0',['StatsBw',['../classipfs_1_1Client.html#ad944a5a304c799b314b3b9ab7765d314',1,'ipfs::Client']]],
+  ['statsrepo_1',['StatsRepo',['../classipfs_1_1Client.html#aec756626c42caf55728dad5b6cb7d0f3',1,'ipfs::Client']]],
+  ['stopfetch_2',['StopFetch',['../classipfs_1_1http_1_1TransportCurl.html#a527370641262a53f2c54bf2b75451454',1,'ipfs::http::TransportCurl::StopFetch()'],['../classipfs_1_1http_1_1Transport.html#a4da291ea9be5e9bcf4faccd7cbfe87fc',1,'ipfs::http::Transport::StopFetch()']]],
+  ['swarmaddrs_3',['SwarmAddrs',['../classipfs_1_1Client.html#aa45a95118ec539863c12da953ab1988c',1,'ipfs::Client']]],
+  ['swarmconnect_4',['SwarmConnect',['../classipfs_1_1Client.html#a2dc1372e2c7505e541115c97c7b497a7',1,'ipfs::Client']]],
+  ['swarmdisconnect_5',['SwarmDisconnect',['../classipfs_1_1Client.html#afd550da40c4517c59750327784707923',1,'ipfs::Client']]],
+  ['swarmpeers_6',['SwarmPeers',['../classipfs_1_1Client.html#a3c1f5392892d51152e45221ce1a026da',1,'ipfs::Client']]]
 ];

@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['recursive_44',['RECURSIVE',['../classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0a1c1aa83dfe54dfc3528f9e40131cf638',1,'ipfs::Client']]],
-  ['result_5f_45',['result_',['../classipfs_1_1http_1_1CurlGlobal.html#ac4a037f68fc0ad99e1d8dfd557050485',1,'ipfs::http::CurlGlobal']]]
+  ['path_0',['path',['../structipfs_1_1http_1_1FileUpload.html#a778df02055fa7791c1c240dd6d27b3da',1,'ipfs::http::FileUpload']]],
+  ['pinadd_1',['PinAdd',['../classipfs_1_1Client.html#a18e6d6a299748d3ba3a681bac7c5bd5d',1,'ipfs::Client']]],
+  ['pinls_2',['PinLs',['../classipfs_1_1Client.html#a5c6f313e1d361f4d21a7a67915e6b19f',1,'ipfs::Client::PinLs(Json *pinned)'],['../classipfs_1_1Client.html#a1d775b25a4d80ba95c040694e9c9d877',1,'ipfs::Client::PinLs(const std::string &amp;object_id, Json *pinned)']]],
+  ['pinrm_3',['PinRm',['../classipfs_1_1Client.html#a1f5d4bfb19f0f739ce8f888c7cbbcc44',1,'ipfs::Client']]],
+  ['pinrmoptions_4',['PinRmOptions',['../classipfs_1_1Client.html#adc5716aa4272ff2bedcae954339c77d0',1,'ipfs::Client']]]
 ];

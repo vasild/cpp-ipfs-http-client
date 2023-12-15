@@ -106,11 +106,11 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y --no-install-recommends libcurl4-openssl-dev
-      - name: Install latest Doxygen (v1.9.7)
+      - name: Install latest Doxygen (v1.9.8)
         run: |
-          wget https://www.doxygen.nl/files/doxygen-1.9.7.linux.bin.tar.gz
-          tar -xf doxygen-1.9.7.linux.bin.tar.gz
-          cd doxygen-1.9.7
+          wget https://www.doxygen.nl/files/doxygen-1.9.8.linux.bin.tar.gz
+          tar -xf doxygen-1.9.8.linux.bin.tar.gz
+          cd doxygen-1.9.8
           sudo make install
       - name: Configure
         run: >
